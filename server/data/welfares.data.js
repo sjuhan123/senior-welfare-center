@@ -1,6 +1,5 @@
 const welfares = [
   {
-    id: 1,
     district: "종로구",
     name: "서울노인복지센터",
     address: "삼일대로 467",
@@ -8,7 +7,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 2,
     district: "종로구",
     name: "종로노인종합복지관",
     address: "율곡로19길 17-8",
@@ -16,7 +14,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 3,
     district: "종로구",
     name: "종로노인종합복지관 무악센터",
     address: "통일로14길 36",
@@ -24,7 +21,6 @@ const welfares = [
     remarks: "종로노인 분관",
   },
   {
-    id: 4,
     district: "중구",
     name: "약수노인종합복지관",
     address: "다산로6길 11",
@@ -32,7 +28,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 5,
     district: "중구",
     name: "청구노인복지센터",
     address: "청구로3길 69",
@@ -40,7 +35,6 @@ const welfares = [
     remarks: "약수노인 분관",
   },
   {
-    id: 6,
     district: "용산구",
     name: "용산노인종합복지관",
     address: "독서당로11길 16",
@@ -48,7 +42,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 7,
     district: "용산구",
     name: "청파노인복지센터",
     address: "청파로83길 26",
@@ -56,7 +49,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 8,
     district: "성동구",
     name: "성동노인종합복지관",
     address: "마조로 77",
@@ -64,7 +56,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 9,
     district: "성동구",
     name: "왕십리도선노인복지센터",
     address: "마장로 141",
@@ -72,7 +63,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 10,
     district: "성동구",
     name: "사근동노인복지센터",
     address: "사근동길 37, 2층",
@@ -80,16 +70,13 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 11,
     district: "성동구",
     name: "성수동1가2동노인복지센터",
     address: "왕립리로5길 3",
     phone: "02-464-4488",
     remarks: "",
   },
-  { id: 12, district: "성동구", name: "송정동노인복지관", remarks: "" },
   {
-    id: 13,
     district: "광진구",
     name: "광진노인종합복지관",
     address: "군자로 88",
@@ -97,7 +84,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 14,
     district: "동대문",
     name: "동대문노인종합복지관",
     address: "제기로33길 25",
@@ -105,7 +91,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 15,
     district: "중랑구",
     name: "중랑노인종합복지관",
     address: "겸재로9길 45",
@@ -113,7 +98,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 16,
     district: "중랑구",
     name: "신내노인종합복지관",
     address: "신내로15길 175",
@@ -121,7 +105,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 17,
     district: "중랑구",
     name: "중화경로복지관",
     address: "동일로138길 28",
@@ -129,7 +112,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 18,
     district: "중랑구",
     name: "용마경로복지센터",
     address: "용마산로 94길 98",
@@ -137,7 +119,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 19,
     district: "중랑구",
     name: "신내경로복지센터",
     address: "망우로65길20",
@@ -145,7 +126,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 20,
     district: "성북구",
     name: "성북노인종합복지관",
     address: "종암로15길 10",
@@ -153,7 +133,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 21,
     district: "성북구",
     name: "장위실버복지센터",
     address: "장위로46길 57",
@@ -161,7 +140,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 22,
     district: "성북구",
     name: "상월곡실버복지센터",
     address: "화랑로18길 6",
@@ -169,7 +147,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 23,
     district: "성북구",
     name: "석관실버복지센터",
     address: "화랑로32길 88",
@@ -177,7 +154,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 24,
     district: "성북구",
     name: "정릉실버복지센터",
     address: "솔샘로 8",
@@ -185,7 +161,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 25,
     district: "성북구",
     name: "삼선실버복지센터",
     address: "삼선교로18길 41",
@@ -193,7 +168,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 26,
     district: "강북구",
     name: "강북노인종합복지관",
     address: "삼양로92길 40",
@@ -201,7 +175,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 27,
     district: "강북구",
     name: "삼양동종합복지센터",
     address: "삼양로47길 9",
@@ -209,7 +182,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 28,
     district: "도봉구",
     name: "도봉노인종합복지관",
     address: "도당로2길12-13",
@@ -217,7 +189,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 29,
     district: "도봉구",
     name: "쌍문동어르신복지관",
     address: "우이천로 363",
@@ -225,7 +196,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 30,
     district: "도봉구",
     name: "방학동어르신복지관",
     address: "시루봉로15라길 59-9",
@@ -233,7 +203,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 31,
     district: "도봉구",
     name: "창동어르신복지관",
     address: "덕릉로60차길 6",
@@ -241,7 +210,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 32,
     district: "도봉구",
     name: "도봉동어르신복지관",
     address: "도봉로169가길 52",
@@ -249,7 +217,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 33,
     district: "노원구",
     name: "노원노인종합복지관",
     address: "노원로16길 15",
@@ -257,7 +224,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 34,
     district: "노원구",
     name: "공릉어르신복지센터",
     address: "공릉로 129",
@@ -265,7 +231,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 35,
     district: "노원구",
     name: "월계어르신복지센터",
     address: "월계로42길 9",
@@ -273,7 +238,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 36,
     district: "은평구",
     name: "은평노인종합복지관",
     address: "연서로 415",
@@ -281,7 +245,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 37,
     district: "은평구",
     name: "역촌노인복지센터",
     address: "연서로3나길 11-30",
@@ -289,7 +252,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 38,
     district: "은평구",
     name: "갈현노인복지센터",
     address: "통일로89길 12-6",
@@ -297,7 +259,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 39,
     district: "은평구",
     name: "응암노인복지센터",
     address: "응암로21가길 5-1",
@@ -305,7 +266,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 40,
     district: "은평구",
     name: "불광노인복지센터",
     address: "연서로32길 17-11",
@@ -313,7 +273,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 41,
     district: "은평구",
     name: "신사노인복지센터",
     address: "증산로15길 47",
@@ -321,7 +280,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 42,
     district: "은평구",
     name: "대조노인복지센터",
     address: "역말로9길 27",
@@ -329,7 +287,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 43,
     district: "서대문구",
     name: "서대문노인종합복지관",
     address: "독립문로8길 57",
@@ -337,7 +294,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 44,
     district: "서대문구",
     name: "연희노인여가복지시설",
     address: "홍제천로2길 111",
@@ -345,7 +301,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 45,
     district: "서대문구",
     name: "북가좌2동노인복지센터",
     address: "증가로20길 43",
@@ -353,7 +308,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 46,
     district: "서대문구",
     name: "인왕어르신복지센터",
     address: "통일로26길 12-5",
@@ -361,7 +315,6 @@ const welfares = [
     remarks: "금천호암 분관",
   },
   {
-    id: 47,
     district: "마포구",
     name: "마포노인종합복지관",
     address: "서강로 68",
@@ -369,7 +322,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 48,
     district: "마포구",
     name: "우리마포복지관",
     address: "신촌로26길10",
@@ -377,7 +329,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 49,
     district: "마포구",
     name: "아현실버복지관",
     address: "환일길 3",
@@ -385,7 +336,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 50,
     district: "마포구",
     name: "용강노인복지관",
     address: "토정로31길 31",
@@ -393,7 +343,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 51,
     district: "양천구",
     name: "양천어르신종합복지관",
     address: "목동로3길 106",
@@ -401,7 +350,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 52,
     district: "양천구",
     name: "목동실버문화복지센터",
     address: "목동중앙로3길21",
@@ -409,7 +357,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 53,
     district: "양천구",
     name: "서서울어르신복지관",
     address: "가로공원로60가길 16",
@@ -417,7 +364,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 54,
     district: "양천구",
     name: "밝은내어르신복지센터",
     address: "신월로24길 19",
@@ -425,7 +371,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 55,
     district: "강서구",
     name: "강서노인종합복지관",
     address: "화곡로61길 85",
@@ -433,7 +378,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 56,
     district: "강서구",
     name: "화곡어르신복지센터",
     address: "월정로30길 96",
@@ -441,7 +385,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 57,
     district: "강서구",
     name: "연지어르신복지센터",
     address: "화곡로58길 30-7",
@@ -449,7 +392,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 58,
     district: "강서구",
     name: "봉제산어르신복지센터",
     address: "초록마을로15길 12",
@@ -457,7 +399,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 59,
     district: "강서구",
     name: "곰달래어르신복지센터",
     address: "강서로5길 50",
@@ -465,7 +406,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 60,
     district: "구로구",
     name: "구로노인종합복지관",
     address: "새말로 16길 7",
@@ -473,7 +413,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 61,
     district: "구로구",
     name: "온수어르신복지관",
     address: "부일로9길 111",
@@ -481,7 +420,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 62,
     district: "금천구",
     name: "금천노인종합복지관",
     address: "시흥대로51길93-32",
@@ -489,7 +427,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 63,
     district: "금천구",
     name: "금천호암노인종합복지관",
     address: "독산로72길86-5",
@@ -497,7 +434,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 64,
     district: "금천구",
     name: "한내어르신복지센터",
     address: "한내로 69-15",
@@ -505,7 +441,6 @@ const welfares = [
     remarks: "금천호암 분관",
   },
   {
-    id: 65,
     district: "금천구",
     name: "금천어르신복지센터",
     address: "범안로17길 22",
@@ -513,7 +448,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 66,
     district: "영등포구",
     name: "영등포노인종합복지관",
     address: "도림로 482",
@@ -521,7 +455,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 67,
     district: "영등포구",
     name: "영등포어르신복지센터",
     address: "도영로22길 36",
@@ -529,7 +462,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 68,
     district: "영등포구",
     name: "모랫말어르신복지센터",
     address: "도영로41",
@@ -537,7 +469,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 69,
     district: "동작구",
     name: "동작노인종합복지관",
     address: "상도로11길 7",
@@ -545,7 +476,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 70,
     district: "동작구",
     name: "사당어르신종합복지관",
     address: "남부순환로 2081",
@@ -553,7 +483,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 71,
     district: "동작구",
     name: "상도은빛어르신복지관",
     address: "매봉로 36",
@@ -561,7 +490,6 @@ const welfares = [
     remarks: "사당어르신 분관",
   },
   {
-    id: 72,
     district: "관악구",
     name: "관악노인종합복지관",
     address: "보라매로35",
@@ -569,7 +497,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 73,
     district: "서초구",
     name: "양재노인종합복지관",
     address: "강남대로30길73-7",
@@ -577,7 +504,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 74,
     district: "서초구",
     name: "방배노인종합복지관",
     address: "방배천로 48",
@@ -585,7 +511,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 75,
     district: "서초구",
     name: "중앙노인종합복지관",
     address: "서초대로54길 45",
@@ -593,7 +518,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 76,
     district: "서초구",
     name: "방배느티나무쉼터",
     address: "남부순환로287길 17-4",
@@ -601,7 +525,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 77,
     district: "강남구",
     name: "강남노인종합복지관",
     address: "삼성로628",
@@ -609,7 +532,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 78,
     district: "강남구",
     name: "논현노인종합복지관",
     address: "강남대로128길 59",
@@ -617,7 +539,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 79,
     district: "강남구",
     name: "강남시니어플라자",
     address: "봉은사로 332",
@@ -625,7 +546,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 80,
     district: "강남구",
     name: "압구정노인복지센터",
     address: "도산대로53길 5",
@@ -633,7 +553,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 81,
     district: "강남구",
     name: "역삼노인복지센터",
     address: "도곡로27길 27",
@@ -641,7 +560,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 82,
     district: "강남구",
     name: "대치노인복지센터",
     address: "역삼로69길 22",
@@ -649,7 +567,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 83,
     district: "송파구",
     name: "송파노인종합복지관",
     address: "백제고분로32길41",
@@ -657,7 +574,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 84,
     district: "송파구",
     name: "송파복지센터",
     address: "충민로 184",
@@ -665,7 +581,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 85,
     district: "송파구",
     name: "송파실벗뜨락",
     address: "백제고분로42길 5",
@@ -673,7 +588,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 86,
     district: "강동구",
     name: "강동노인종합복지관",
     address: "동암로71길 32-5",
@@ -681,7 +595,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 87,
     district: "강동구",
     name: "성가정노인종합복지관",
     address: "양재대로156길 28",
@@ -689,7 +602,6 @@ const welfares = [
     remarks: "",
   },
   {
-    id: 88,
     district: "강동구",
     name: "해공노인복지관",
     address: "천중로17길 42-16",
