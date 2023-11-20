@@ -24,7 +24,7 @@ app.use(morgan("combined"));
 app.use(express.json());
 // 프론트엔드 정적 파일 제공
 app.use(express.static(path.join(__dirname, "..", "public")));
-app.use(api);
+app.use("/api", api);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
