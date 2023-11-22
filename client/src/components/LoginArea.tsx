@@ -7,6 +7,7 @@ import WelfareBookMarkCard from "./common/Card/WelfareBookMarkCard";
 import BookmarkableCard from "./common/Card/BookmarkableCard";
 import ToButton from "./common/Button/ToButton";
 import { KakaoLogo } from "../assets";
+import BookmarkButton from "./common/Button/BookmarkButton";
 
 const mockData = [
   {
@@ -54,6 +55,7 @@ const LoginArea = () => {
           <>
             <EmployeeLoginButton />
             <LoginButton onLogin={() => setIsLogined(!isLogined)} />
+            <BookmarkButton onClick={() => setIsLogined(!isLogined)} />
           </>
         ) : welfareCenter.length === 0 ? (
           <>
