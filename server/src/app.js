@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
+import helmet from "helmet";
 import { fileURLToPath } from "url"; // URL에서 파일 경로로 변환하는 함수
 import morgan from "morgan";
 
@@ -10,6 +11,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// 보안 미들웨어
+app.use(helmet());
 
 // CORS 설정
 app.use(
