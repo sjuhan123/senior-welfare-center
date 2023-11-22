@@ -1,10 +1,13 @@
 export type WelfareData = {
-  id: number;
-  district: string;
+  _id: number;
+  district: {
+    _id: number;
+    name: string;
+  };
   name: string;
   address: string;
   phone: string;
-  description?: string;
+  remarks?: string;
 };
 
 export type WelfareResponse = {
