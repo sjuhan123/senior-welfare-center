@@ -1,11 +1,12 @@
 import { Button, Text } from "@chakra-ui/react";
 
 interface NavButtonProps {
+  onClick: () => void;
   fLine: string;
   sLine: string;
 }
 
-const NavButton = ({ fLine, sLine }: NavButtonProps) => {
+const NavButton = ({ onClick, fLine, sLine }: NavButtonProps) => {
   return (
     <Button
       height="100%"
@@ -17,11 +18,12 @@ const NavButton = ({ fLine, sLine }: NavButtonProps) => {
       alignItems="center"
       gap="10px"
       variant="solid"
+      onClick={onClick}
     >
-      <Text fontSize="24px" fontWeight="900">
+      <Text fontSize="21px" fontWeight="900">
         {fLine}
       </Text>
-      <Text fontSize="18px" fontWeight="900">
+      <Text fontSize="13px" fontWeight="900">
         {sLine}
       </Text>
     </Button>

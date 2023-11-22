@@ -1,7 +1,11 @@
 import { Button, Text } from "@chakra-ui/react";
-import { KakaoLogo } from "../assets";
+import { KakaoLogo } from "../../../assets";
 
-const LoginButton = () => {
+interface LoginButtonProps {
+  onLogin: () => void;
+}
+
+const LoginButton = ({ onLogin }: LoginButtonProps) => {
   return (
     <Button
       leftIcon={<KakaoLogo />}
@@ -9,7 +13,7 @@ const LoginButton = () => {
       w="100%"
       bg="#FEE500"
       variant="solid"
-      mt="20px"
+      onClick={() => onLogin()}
     >
       <Text ml="10px">카카오톡 로그인</Text>
     </Button>
