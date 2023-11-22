@@ -22,7 +22,7 @@ async function saveDistrict(districtName) {
 }
 
 async function getAllDistricts() {
-  return await District.find({}, { _id: 0, __v: 0 });
+  return await District.find({}, { __v: 0 });
 }
 
 export { getAllDistricts, saveDistrict };
