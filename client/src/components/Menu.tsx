@@ -6,7 +6,7 @@ import QualificationCheckSection from "./QualificationCheckSection";
 import QualificationCheckCard from "./common/Card/QualificationCheckCard";
 import SearchSection from "./SearchSection";
 
-const Contents = () => {
+const Menu = () => {
   const [isQualificationCheckerClicked, setIsQualificationCheckerClicked] =
     useState(false);
   const [isQualificationChecked, setIsQualificationChecked] = useState(false);
@@ -82,4 +82,4 @@ const Contents = () => {
   );
 };
 
-export default Contents;
+export default Menu;

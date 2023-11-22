@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import Header from "../components/Header";
-import Contents from "../components/Contents";
+import Menu from "../components/Menu";
 import Footer from "../components/Footer";
 import LoginArea from "../components/LoginArea";
 import { Box } from "@chakra-ui/react";
@@ -17,7 +17,7 @@ const Main = () => {
         gap="30px"
         p="10px 0px"
       >
-        <Contents />
+        <Menu />
         <LoginArea />
       </Box>
       <Footer />
