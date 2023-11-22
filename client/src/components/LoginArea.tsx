@@ -25,8 +25,8 @@ const mockData = [
 
 const LoginArea = () => {
   const [isLogined, setIsLogined] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [welfareCenter, setWelfareCenter] = useState(mockData);
+
+  const [welfareCenter] = useState(mockData);
 
   return (
     <Box as="div">

@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { DistrictData } from "../../types/district";
 
 const fetchDistricts = async () => {
-  const res = await fetch("http://localhost:8000/api/districts");
+  const res = await fetch("https://localhost:8000/api/districts");
   return await res.json();
 };
 

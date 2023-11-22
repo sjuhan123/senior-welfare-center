@@ -7,7 +7,7 @@ import { Fragment } from "react";
 
 const fetchWelfaresByDistrict = async (districtId: string) => {
   const res = await fetch(
-    `http://localhost:8000/api/welfares?districtId=${districtId}`
+    `https://localhost:8000/api/welfares?districtId=${districtId}`
   );
   return await res.json();
 };
