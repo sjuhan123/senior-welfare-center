@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import { saveUser } from "./user.model.js";
 
 async function postAuthKakao(code) {
   try {
@@ -18,20 +19,25 @@ async function postAuthKakao(code) {
       }
     );
 
+    const accessToken = kakaoAccessTokenRes.data.access_token;
+
     const userInfo = await axios.get("https://kapi.kakao.com/v2/user/me", {
       headers: {
-        Authorization: `Bearer ${kakaoAccessTokenRes.data.access_token}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
       },
     });
 
     const { id, kakao_account } = userInfo.data;
 
+    await saveUser(id, kakao_account);
+
     const JWTTOKEN = jwt.sign(
       {
+        accessToken,
         id,
-        nickname: kakao_account.profile.nickname,
-        picture: kakao_account.profile.thumbnail_image_url,
+        userName: kakao_account.profile.nickname,
+        userAvatar: kakao_account.profile.thumbnail_image_url,
       },
       process.env.JWT_SECRET_KEY
     );
@@ -42,4 +48,21 @@ async function postAuthKakao(code) {
   }
 }
 
-export { postAuthKakao };
+async function postAuthKakaoLogout(accessToken) {
+  try {
+    const logoutRes = await axios.post(
+      "https://kapi.kakao.com/v1/user/logout",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return logoutRes;
+  } catch (error) {
+    console.error("로그아웃 실패:", error);
+  }
+}
+
+export { postAuthKakao, postAuthKakaoLogout };
