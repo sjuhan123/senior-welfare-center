@@ -2,7 +2,7 @@ import Layout from "../components/Layout";
 import Header from "../components/Header";
 import Menu from "../components/Menu";
 import Footer from "../components/Footer";
-import LoginArea from "../components/LoginArea";
+import BookmarkArea from "../components/BookmarkArea";
 import { Box } from "@chakra-ui/react";
 
 const Main = () => {
@@ -18,7 +18,7 @@ const Main = () => {
         p="10px 0px"
       >
         <Menu />
-        <LoginArea />
+        <BookmarkArea />
       </Box>
       <Footer />
     </Layout>
