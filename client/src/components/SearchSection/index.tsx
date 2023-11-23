@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Divider } from "@chakra-ui/react";
 import { useState } from "react";
 
 import WelfareList from "./WelfareList";
@@ -36,6 +36,7 @@ const SearchSection = () => {
           breadCrumbList={breadCrumbList}
           onBreadCrumbClick={handleBreadCrumbClick}
         />
+        <Divider />
       </Box>
       <Box overflowY="auto" h="100%">
         {!selectedDistrictId && (

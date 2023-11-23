@@ -52,7 +52,7 @@ const TabBar = ({
             />
             {!isAtHome && (
               <Text fontSize="md" fontWeight="bold">
-                복지관 저장소
+                복지관 보관소
               </Text>
             )}
           </Box>

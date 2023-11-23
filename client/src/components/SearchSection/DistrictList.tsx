@@ -19,7 +19,7 @@ const DistrictList = ({ onDistrictClick }: DistrictListProps) => {
       {data?.data.map((district: DistrictData) => (
         <Button
           key={district._id}
-          colorScheme="whatsapp"
+          bg="#7bde94"
           w="100%"
           onClick={() => onDistrictClick(district.name, district._id)}
         >
