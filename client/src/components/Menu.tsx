@@ -21,7 +21,9 @@ const Menu = () => {
 
   return (
     <Box as="section">
-      <Icon as={FaHouseUser} w={6} h={6} onClick={handleHomeButtonClick} />
+      <Box p="0px 0px 5px 0px">
+        <Icon as={FaHouseUser} w={6} h={6} onClick={handleHomeButtonClick} />
+      </Box>
       {isQualificationCheckerClicked && (
         <QualificationCheckSection
           onQualificationCheck={(isChecked) =>
