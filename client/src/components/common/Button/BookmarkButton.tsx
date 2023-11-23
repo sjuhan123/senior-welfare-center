@@ -15,7 +15,7 @@ const BookmarkButton = ({ onClick }: BookmarkButtonProps) => {
       variant="solid"
       onClick={() => onClick()}
     >
-      <Text ml="10px">북마크 기능 이용하기</Text>
+      <Text ml="10px">복지관 저장소</Text>
     </Button>
   );
 };

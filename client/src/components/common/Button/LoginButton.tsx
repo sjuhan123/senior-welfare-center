@@ -15,7 +15,7 @@ const LoginButton = ({ onLogin }: LoginButtonProps) => {
       variant="solid"
       onClick={() => onLogin()}
     >
-      <Text ml="10px">카카오톡 로그인</Text>
+      <Text ml="10px">카카오 로그인</Text>
     </Button>
   );
 };

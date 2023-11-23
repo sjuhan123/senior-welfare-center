@@ -10,7 +10,7 @@ const EmployeeLoginButton = () => {
       bg="#7bde94"
       variant="solid"
     >
-      <Text ml="10px">복지관 직원 로그인</Text>
+      <Text ml="10px">복지관 로그인</Text>
     </Button>
   );
 };
