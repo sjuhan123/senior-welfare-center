@@ -19,7 +19,7 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
       boxShadow="lg"
       p="3"
     >
-      <Flex justify="flex-between" align="center" w="100%">
+      <Flex justify="space-between" align="center" w="100%">
         <Text fontSize="l" fontWeight="bold">
           {name}
         </Text>

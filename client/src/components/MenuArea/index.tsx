@@ -1,12 +1,12 @@
-import { Box, Grid, GridItem, Icon } from "@chakra-ui/react";
-import NavButton from "./common/Button/NavButton";
-import { FaHouseUser } from "react-icons/fa";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
+import NavButton from "../common/Button/NavButton";
 import { useState } from "react";
-import QualificationCheckSection from "./QualificationCheckSection";
-import QualificationCheckCard from "./common/Card/QualificationCheckCard";
-import SearchSection from "./SearchSection";
+import QualificationCheckSection from "../QualificationCheckSection";
+import QualificationCheckCard from "../common/Card/QualificationCheckCard";
+import SearchSection from "../SearchSection";
+import TabBar from "./TabBar";
 
-const Menu = () => {
+const MenuArea = () => {
   const [isQualificationCheckerClicked, setIsQualificationCheckerClicked] =
     useState(false);
   const [isQualificationChecked, setIsQualificationChecked] = useState(false);
@@ -21,9 +21,11 @@ const Menu = () => {
 
   return (
     <Box as="section">
-      <Box p="0px 0px 5px 0px">
-        <Icon as={FaHouseUser} w={6} h={6} onClick={handleHomeButtonClick} />
-      </Box>
+      <TabBar
+        onClick={handleHomeButtonClick}
+        isQualificationCheckerClicked={isQualificationCheckerClicked}
+        isCenterListClicked={isCenterListClicked}
+      />
       {isQualificationCheckerClicked && (
         <QualificationCheckSection
           onQualificationCheck={(isChecked) =>
@@ -32,9 +34,7 @@ const Menu = () => {
           onCancel={() => setIsQualificationCheckerClicked(false)}
         />
       )}
-      {isCenterListClicked && (
-        <SearchSection onBack={() => setIsCenterListClicked(false)} />
-      )}
+      {isCenterListClicked && <SearchSection />}
       {!isContentClicked && (
         <Grid
           templateRows="repeat(2, 1fr)"
@@ -84,4 +84,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default MenuArea;

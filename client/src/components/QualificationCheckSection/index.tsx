@@ -8,6 +8,7 @@ import {
   Radio,
   HStack,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 
 interface QualificationCheckerProps {
@@ -40,7 +41,11 @@ const QualificationCheckSection = ({
       h="208px"
     >
       <FormControl mb="4">
-        <FormLabel htmlFor="seoulResident">서울시 거주민이신가요?</FormLabel>
+        <FormLabel htmlFor="seoulResident">
+          <Text fontSize="md" fontWeight="bold">
+            1. 서울시 거주민이신가요?
+          </Text>
+        </FormLabel>
         <RadioGroup
           onChange={(value) => setIsSeoulResident(value)}
           value={isSeoulResident}
@@ -56,7 +61,11 @@ const QualificationCheckSection = ({
         </RadioGroup>
       </FormControl>
       <FormControl mb="4">
-        <FormLabel htmlFor="above60">만 60세 이상이신가요?</FormLabel>
+        <FormLabel htmlFor="above60">
+          <Text fontSize="md" fontWeight="bold">
+            2. 만 60세 이상이신가요?
+          </Text>
+        </FormLabel>
         <RadioGroup onChange={(value) => setIsAbove60(value)} value={isAbove60}>
           <HStack spacing="24px">
             <Radio id="above60Yes" value="yes">

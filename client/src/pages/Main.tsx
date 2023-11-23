@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import Header from "../components/Header";
-import Menu from "../components/Menu";
+import MenuArea from "../components/MenuArea";
 import Footer from "../components/Footer";
 import BookmarkArea from "../components/BookmarkArea";
 import { Box } from "@chakra-ui/react";
@@ -17,7 +17,7 @@ const Main = () => {
         gap="30px"
         p="10px 0px"
       >
-        <Menu />
+        <MenuArea />
         <BookmarkArea />
       </Box>
       <Footer />

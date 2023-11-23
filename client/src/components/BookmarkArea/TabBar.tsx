@@ -18,8 +18,24 @@ const TabBar = ({
   handleBookmarkArea,
 }: TabBarProps) => {
   return (
-    <>
-      {isAtHome && <Icon as={RiAccountPinCircleFill} w={6} h={6} />}
+    <Box
+      as="div"
+      display="flex"
+      flexDir="row"
+      gap={2}
+      alignItems="center"
+      p="0px 0px 10px 0px"
+      align-items="flex-end"
+    >
+      {isAtHome && (
+        <>
+          <Icon as={RiAccountPinCircleFill} w={6} h={6} />
+          <Text fontSize="md" fontWeight="bold">
+            로그인
+          </Text>
+        </>
+      )}
+
       {isOnBookmark && (
         <Box
           display="flex"
@@ -34,9 +50,11 @@ const TabBar = ({
               h={6}
               onClick={handleBookmarkArea}
             />
-            <Text fontSize="md" fontWeight="bold">
-              복지관 저장소
-            </Text>
+            {!isAtHome && (
+              <Text fontSize="md" fontWeight="bold">
+                복지관 저장소
+              </Text>
+            )}
           </Box>
           {!isOnLogin && (
             <Box display="flex" alignItems="center">
@@ -45,7 +63,7 @@ const TabBar = ({
           )}
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 

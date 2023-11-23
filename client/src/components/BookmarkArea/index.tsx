@@ -58,22 +58,12 @@ const BookmarkArea = () => {
 
   return (
     <Box as="div">
-      <Box
-        as="div"
-        display="flex"
-        flexDir="row"
-        gap={2}
-        alignItems="center"
-        p="0px 0px 10px 0px"
-        align-items="flex-end"
-      >
-        <TabBar
-          isAtHome={isAtHome}
-          isOnBookmark={isOnBookmark}
-          isOnLogin={isOnLogin}
-          handleBookmarkArea={handleBookmarkCard}
-        />
-      </Box>
+      <TabBar
+        isAtHome={isAtHome}
+        isOnBookmark={isOnBookmark}
+        isOnLogin={isOnLogin}
+        handleBookmarkArea={handleBookmarkCard}
+      />
       <Box as="section" display="flex" flexDir="column" gap={4}>
         {isAtHome && (
           <>

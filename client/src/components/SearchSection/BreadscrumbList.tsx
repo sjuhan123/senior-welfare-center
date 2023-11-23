@@ -1,5 +1,10 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Text,
+} from "@chakra-ui/react";
 
 interface BreadscrumbListProps {
   breadCrumbList: string[];
@@ -23,13 +28,21 @@ const BreadscrumbList = ({
               key={breadCrumb}
               onClick={() => onBreadCrumbClick()}
             >
-              <BreadcrumbLink>{breadCrumb}</BreadcrumbLink>
+              <BreadcrumbLink>
+                <Text fontSize="sm" fontWeight="900">
+                  {breadCrumb}
+                </Text>
+              </BreadcrumbLink>
             </BreadcrumbItem>
           );
         }
         return (
           <BreadcrumbItem key={breadCrumb}>
-            <BreadcrumbLink>{breadCrumb}</BreadcrumbLink>
+            <BreadcrumbLink>
+              <Text fontSize="sm" fontWeight="900">
+                {breadCrumb}
+              </Text>
+            </BreadcrumbLink>
           </BreadcrumbItem>
         );
       })}

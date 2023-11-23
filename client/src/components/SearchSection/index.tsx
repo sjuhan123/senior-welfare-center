@@ -1,16 +1,11 @@
-import { Box, Flex, Icon } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { CgCloseO } from "react-icons/cg";
 import WelfareList from "./WelfareList";
 import BreadscrumbList from "./BreadscrumbList";
 import DistrictList from "./DistrictList";
 
-interface DistrictListProps {
-  onBack: () => void;
-}
-
-const SearchSection = ({ onBack }: DistrictListProps) => {
+const SearchSection = () => {
   const [breadCrumbList, setBreadCrumbList] = useState<string[]>(["서울시"]);
   const [selectedDistrictId, setSelectedDistrictId] = useState<string | null>(
     null
@@ -37,13 +32,10 @@ const SearchSection = ({ onBack }: DistrictListProps) => {
       h="208px"
     >
       <Box mb="2">
-        <Flex justify="space-between" align="center">
-          <BreadscrumbList
-            breadCrumbList={breadCrumbList}
-            onBreadCrumbClick={handleBreadCrumbClick}
-          />
-          <Icon as={CgCloseO} w={4} h={4} onClick={() => onBack()} />
-        </Flex>
+        <BreadscrumbList
+          breadCrumbList={breadCrumbList}
+          onBreadCrumbClick={handleBreadCrumbClick}
+        />
       </Box>
       <Box overflowY="auto" h="100%">
         {!selectedDistrictId && (
