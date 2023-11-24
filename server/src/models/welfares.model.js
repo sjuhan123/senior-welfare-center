@@ -71,7 +71,14 @@ async function saveWelfare(welfare) {
   }
 }
 
-async function getWelfaresBy(districtId) {
+async function getWelfareByWelfareId(welfareId) {
+  return await Welfare.findOne({ _id: welfareId }, "-__v").populate(
+    "district",
+    "name -_id"
+  );
+}
+
+async function getWelfaresByDistrictId(districtId) {
   return await Welfare.find({ district: districtId }, "-__v").populate(
     "district",
     "name -_id"
@@ -84,4 +91,9 @@ async function getAllWelfares() {
   });
 }
 
-export { loadWelfareData, getWelfaresBy, getAllWelfares };
+export {
+  loadWelfareData,
+  getWelfareByWelfareId,
+  getWelfaresByDistrictId,
+  getAllWelfares,
+};

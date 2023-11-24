@@ -1,11 +1,14 @@
-import { getAllWelfares, getWelfaresBy } from "../../models/welfares.model.js";
+import {
+  getAllWelfares,
+  getWelfaresByDistrictId,
+} from "../../models/welfares.model.js";
 
 async function httpGetAllWelfares(req, res) {
   try {
     const { districtId } = req.query;
 
     if (districtId) {
-      const welfaresData = await getWelfaresBy(districtId);
+      const welfaresData = await getWelfaresByDistrictId(districtId);
       const jsonResponse = {
         statusCode: 200,
         message: "복지관 목록 조회 성공",

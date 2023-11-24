@@ -17,10 +17,12 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  bookmarkWelfares: {
-    type: Array,
-    default: [],
-  },
+  bookmarkWelfares: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Welfare",
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema);
