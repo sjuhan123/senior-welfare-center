@@ -1,8 +1,10 @@
+import { WelfareData } from "./welfare";
+
 export type User = {
   userName: string;
   userAvatar: string;
   qualificationChecked: boolean;
-  bookmarkWelfares: string[];
+  bookmarkWelfares: WelfareData[];
 };
 
 export type UserResponse = {

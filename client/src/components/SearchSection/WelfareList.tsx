@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import WelfareCard from "../common/Card/WelfareCard";
 import { WelfareData } from "../../types/welfare";
 import { Fragment } from "react";
+import useBookmarkList from "../../hooks/useBookmarkList";
 
 const fetchWelfaresByDistrict = async (districtId: string) => {
   const res = await fetch(
@@ -17,17 +18,22 @@ interface DistrictListProps {
 }
 
 const WelfareList = ({ districtId }: DistrictListProps) => {
-  const { data } = useQuery(["welfares", districtId], () =>
+  const { bookmarkList, handleBookmark } = useBookmarkList();
+  const { data: welfares } = useQuery(["welfares", districtId], () =>
     fetchWelfaresByDistrict(districtId)
   );
 
   return (
     <VStack spacing={3} align="start">
-      {data?.data.map((welfare: WelfareData) => (
+      {welfares?.data.map((welfare: WelfareData) => (
         <Fragment key={welfare._id}>
           <WelfareCard
             center={welfare}
-            onBookmark={() => console.log("북마크")}
+            isBookmarked={
+              bookmarkList.some((bookmark) => bookmark._id === welfare._id) ||
+              false
+            }
+            onBookmark={() => handleBookmark(welfare)}
           />
           <Divider />
         </Fragment>

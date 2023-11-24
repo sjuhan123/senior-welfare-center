@@ -1,13 +1,19 @@
 import { Box, Text, Flex, IconButton, Icon } from "@chakra-ui/react";
 import { WelfareData } from "../../../types/welfare";
-import { FaRegBookmark } from "react-icons/fa";
+import { MdBookmarkAdded } from "react-icons/md";
+import { FcBookmark } from "react-icons/fc";
 
 interface WelfareCardProps {
   center: WelfareData;
+  isBookmarked: boolean;
   onBookmark: () => void;
 }
 
-const WelfareCard = ({ center, onBookmark }: WelfareCardProps) => {
+const WelfareCard = ({
+  center,
+  isBookmarked,
+  onBookmark,
+}: WelfareCardProps) => {
   const { district, name, address, phone, remarks } = center;
 
   return (
@@ -17,9 +23,15 @@ const WelfareCard = ({ center, onBookmark }: WelfareCardProps) => {
           {name}
         </Text>
         <IconButton
-          icon={<Icon as={FaRegBookmark} w={4} h={4} />}
+          icon={
+            isBookmarked ? (
+              <Icon as={FcBookmark} w={4} h={4} />
+            ) : (
+              <Icon as={MdBookmarkAdded} w={4} h={4} />
+            )
+          }
           size="sm"
-          onClick={() => onBookmark()}
+          onClick={onBookmark}
           aria-label="Bookmark"
         />
       </Flex>

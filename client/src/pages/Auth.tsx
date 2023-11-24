@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { useBookmarkListContext } from "../contexts/bookmarkContext";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { updateBookmarkList } = useBookmarkListContext();
 
   const url = new URL(window.location.href);
   const queryCode = url.searchParams.get("code") || "";
@@ -13,9 +15,10 @@ const Auth = () => {
 
   useEffect(() => {
     if (userInfo && userInfo.message === "유저 정보 조회 성공") {
+      updateBookmarkList(userInfo.data.bookmarkWelfares);
       navigate("/");
     }
-  }, [navigate, userInfo]);
+  }, [navigate, updateBookmarkList, userInfo]);
 
   return (
     <Flex

@@ -13,26 +13,11 @@ import TabBar from "./TabBar";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-const mockData = [
-  {
-    _id: 1,
-    district: {
-      _id: 1,
-      name: "마포구",
-    },
-    name: "우리마포복지관",
-    address: "신촌로26길10",
-    phone: "02-358-1000",
-    remarks: "",
-  },
-];
-
 const BookmarkArea = () => {
   const navigate = useNavigate();
   const { data: userInfo } = useQuery<UserResponse>("userInfo");
   const { logout } = useAuth();
 
-  const [welfareCenter] = useState(mockData);
   const [isBookmarkCardOn, setIsBookmarkCardOn] = useState(false);
 
   const isAtHome = !userInfo && !isBookmarkCardOn;
@@ -72,7 +57,7 @@ const BookmarkArea = () => {
             <BookmarkButton onClick={handleBookmarkCard} />
           </>
         )}
-        {isOnBookmark && <BookmarkList bookmarkList={welfareCenter} />}
+        {isOnBookmark && <BookmarkList />}
         {userInfo && (
           <AccountBar userInfo={userInfo.data} onLogout={handleLogout} />
         )}

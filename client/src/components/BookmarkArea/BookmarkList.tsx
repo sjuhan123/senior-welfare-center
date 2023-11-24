@@ -1,15 +1,13 @@
-import { WelfareData } from "../../types/welfare";
 import BookmarkableCard from "../common/Card/BookmarkableCard";
 import WelfareBookMarkCard from "../common/Card/WelfareBookMarkCard";
+import useBookmarkList from "../../hooks/useBookmarkList";
 
-interface BookmarkListProps {
-  bookmarkList: WelfareData[];
-}
+const BookmarkList = () => {
+  const { bookmarkList, handleBookmark } = useBookmarkList();
 
-const BookmarkList = ({ bookmarkList }: BookmarkListProps) => {
   return (
     <>
-      {bookmarkList.length === 0 ? (
+      {bookmarkList && bookmarkList.length === 0 ? (
         <>
           <BookmarkableCard />
           <BookmarkableCard />
@@ -20,7 +18,7 @@ const BookmarkList = ({ bookmarkList }: BookmarkListProps) => {
             <WelfareBookMarkCard
               key={center._id}
               center={center}
-              onDelete={() => {}}
+              onDelete={() => handleBookmark(center)}
             />
           ))}
           {bookmarkList.length === 1 && <BookmarkableCard />}

@@ -1,7 +1,7 @@
 export type WelfareData = {
-  _id: number;
+  _id: string;
   district: {
-    _id: number;
+    _id: string;
     name: string;
   };
   name: string;
