@@ -23,7 +23,7 @@ const Header = () => {
           </Box>
         </Box>
         <Text fontSize="11px" fontWeight="600">
-          서울특별시 공식 홈페이지 기반 데이터입니다.
+          서울특별시 공식 홈페이지 데이터를 기반으로 합니다.
         </Text>
       </Flex>
     </Box>
