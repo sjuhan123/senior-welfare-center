@@ -11,7 +11,7 @@ const NavButton = ({ onClick, fLine, sLine }: NavButtonProps) => {
     <Button
       height="100%"
       width="100%"
-      bg="gray.300"
+      bg="#8fd4ff"
       display="flex"
       flexDirection="column"
       justifyContent="center"
