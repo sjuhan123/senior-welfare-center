@@ -5,14 +5,19 @@ import QualificationCheckSection from "../QualificationCheckSection";
 import QualificationCheckCard from "../common/Card/QualificationCheckCard";
 import SearchSection from "../SearchSection";
 import TabBar from "./TabBar";
+import NearByCenterSection from "../NearByCenterSection";
 
 const MenuArea = () => {
   const [isQualificationCheckerClicked, setIsQualificationCheckerClicked] =
     useState(false);
   const [isQualificationChecked, setIsQualificationChecked] = useState(false);
   const [isCenterListClicked, setIsCenterListClicked] = useState(false);
+  const [isNearbyCenterClicked, setIsNearbyCenterClicked] = useState(false);
 
-  const isContentClicked = isQualificationCheckerClicked || isCenterListClicked;
+  const isContentClicked =
+    isQualificationCheckerClicked ||
+    isCenterListClicked ||
+    isNearbyCenterClicked;
 
   const handleHomeButtonClick = () => {
     setIsQualificationCheckerClicked(false);
@@ -35,6 +40,7 @@ const MenuArea = () => {
         />
       )}
       {isCenterListClicked && <SearchSection />}
+      {isNearbyCenterClicked && <NearByCenterSection />}
       {!isContentClicked && (
         <Grid
           templateRows="repeat(2, 1fr)"
@@ -68,7 +74,7 @@ const MenuArea = () => {
             <NavButton
               fLine="내 근처"
               sLine="복지관 찾기"
-              onClick={() => setIsQualificationCheckerClicked(true)}
+              onClick={() => setIsNearbyCenterClicked(true)}
             />
           </GridItem>
           <GridItem rowSpan={7} colSpan={1}>
