@@ -8,6 +8,8 @@ const WelfareSchema = new mongoose.Schema({
   },
   name: String,
   address: String,
+  latitude: Number,
+  longitude: Number,
   phone: String,
   remarks: String,
 });

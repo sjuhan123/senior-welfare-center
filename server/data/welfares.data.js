@@ -5,6 +5,8 @@ const welfares = [
     address: "삼일대로 467",
     phone: "02-6220-8500",
     remarks: "",
+    latitude: "37.5759657913407",
+    longitude: "126.985853298403",
   },
   {
     district: "종로구",
@@ -12,6 +14,8 @@ const welfares = [
     address: "율곡로19길 17-8",
     phone: "02-742-9500",
     remarks: "",
+    latitude: "37.5766679096376",
+    longitude: "127.006020606379",
   },
   {
     district: "종로구",
@@ -19,6 +23,8 @@ const welfares = [
     address: "통일로14길 36",
     phone: "02-6247-9901",
     remarks: "종로노인 분관",
+    latitude: "37.5760002195294",
+    longitude: "126.958159633734",
   },
   {
     district: "중구",
@@ -26,6 +32,8 @@ const welfares = [
     address: "다산로6길 11",
     phone: "02-2234-3515",
     remarks: "",
+    latitude: "37.552470629334",
+    longitude: "127.009330432792",
   },
   {
     district: "중구",
@@ -33,6 +41,8 @@ const welfares = [
     address: "청구로3길 69",
     phone: "02-2234-3517",
     remarks: "약수노인 분관",
+    latitude: "37.5565593967405",
+    longitude: "127.014331694895",
   },
   {
     district: "용산구",
@@ -40,6 +50,8 @@ const welfares = [
     address: "독서당로11길 16",
     phone: "02-794-6100",
     remarks: "",
+    latitude: "37.5313386817535",
+    longitude: "127.006498019073",
   },
   {
     district: "용산구",
@@ -47,6 +59,8 @@ const welfares = [
     address: "청파로83길 26",
     phone: "02-703-6011",
     remarks: "",
+    latitude: "37.5520062592713",
+    longitude: "126.967696716313",
   },
   {
     district: "성동구",
@@ -54,6 +68,8 @@ const welfares = [
     address: "마조로 77",
     phone: "02-2298-5117",
     remarks: "",
+    latitude: "37.5647846611665",
+    longitude: "127.041239858501",
   },
   {
     district: "성동구",
@@ -61,6 +77,8 @@ const welfares = [
     address: "마장로 141",
     phone: "02-6925-0456",
     remarks: "",
+    latitude: "37.5678747444912",
+    longitude: "127.025529359237",
   },
   {
     district: "성동구",
@@ -68,13 +86,8 @@ const welfares = [
     address: "사근동길 37, 2층",
     phone: "02-6956-0707",
     remarks: "",
-  },
-  {
-    district: "성동구",
-    name: "성수동1가2동노인복지센터",
-    address: "왕립리로5길 3",
-    phone: "02-464-4488",
-    remarks: "",
+    latitude: "37.5614995718917",
+    longitude: "127.045325973415",
   },
   {
     district: "광진구",
@@ -82,6 +95,8 @@ const welfares = [
     address: "군자로 88",
     phone: "02-466-6242",
     remarks: "",
+    latitude: "37.5510982450362",
+    longitude: "127.071596091794",
   },
   {
     district: "동대문",
@@ -89,6 +104,8 @@ const welfares = [
     address: "제기로33길 25",
     phone: "02-963-0565",
     remarks: "",
+    latitude: "37.5872413382227",
+    longitude: "127.049826506747",
   },
   {
     district: "중랑구",
@@ -96,6 +113,8 @@ const welfares = [
     address: "겸재로9길 45",
     phone: "02-93-9966",
     remarks: "",
+    latitude: "37.5884349591944",
+    longitude: "127.077841909247",
   },
   {
     district: "중랑구",
@@ -103,6 +122,8 @@ const welfares = [
     address: "신내로15길 175",
     phone: "02-3421-4800",
     remarks: "",
+    latitude: "37.6148125057942",
+    longitude: "127.087889229646",
   },
   {
     district: "중랑구",
@@ -110,6 +131,8 @@ const welfares = [
     address: "동일로138길 28",
     phone: "02-436-1390",
     remarks: "",
+    latitude: "37.6033043095786",
+    longitude: "127.081153871882",
   },
   {
     district: "중랑구",
@@ -117,6 +140,8 @@ const welfares = [
     address: "용마산로 94길 98",
     phone: "02-435-0842",
     remarks: "",
+    latitude: "37.5873998509971",
+    longitude: "127.101819938244",
   },
   {
     district: "중랑구",
@@ -124,6 +149,8 @@ const welfares = [
     address: "망우로65길20",
     phone: "02-2088-7903",
     remarks: "",
+    latitude: "37.601254103731",
+    longitude: "127.099946757985",
   },
   {
     district: "성북구",
@@ -131,13 +158,8 @@ const welfares = [
     address: "종암로15길 10",
     phone: "02-929-7950",
     remarks: "",
-  },
-  {
-    district: "성북구",
-    name: "장위실버복지센터",
-    address: "장위로46길 57",
-    phone: "02-913-3369",
-    remarks: "",
+    latitude: "37.597790246658",
+    longitude: "127.034410146217",
   },
   {
     district: "성북구",
@@ -145,6 +167,8 @@ const welfares = [
     address: "화랑로18길 6",
     phone: "02-963-1082",
     remarks: "",
+    latitude: "37.6058502678493",
+    longitude: "127.048221145332",
   },
   {
     district: "성북구",
@@ -152,6 +176,8 @@ const welfares = [
     address: "화랑로32길 88",
     phone: "02-957-9923",
     remarks: "",
+    latitude: "37.606710875307",
+    longitude: "127.058248149071",
   },
   {
     district: "성북구",
@@ -159,6 +185,8 @@ const welfares = [
     address: "솔샘로 8",
     phone: "02-916-0204",
     remarks: "",
+    latitude: "37.6082419738668",
+    longitude: "127.004658448177",
   },
   {
     district: "성북구",
@@ -166,6 +194,8 @@ const welfares = [
     address: "삼선교로18길 41",
     phone: "02-6925-4112",
     remarks: "",
+    latitude: "37.5891539114181",
+    longitude: "127.014079224649",
   },
   {
     district: "강북구",
@@ -173,6 +203,8 @@ const welfares = [
     address: "삼양로92길 40",
     phone: "02-999-9179",
     remarks: "",
+    latitude: "37.6356868161336",
+    longitude: "127.018752579451",
   },
   {
     district: "강북구",
@@ -180,6 +212,8 @@ const welfares = [
     address: "삼양로47길 9",
     phone: "02-945-1306",
     remarks: "",
+    latitude: "37.6229347396397",
+    longitude: "127.018540495512",
   },
   {
     district: "도봉구",
@@ -187,6 +221,8 @@ const welfares = [
     address: "도당로2길12-13",
     phone: "02-993-9900",
     remarks: "",
+    latitude: "37.6589281126683",
+    longitude: "127.035956742612",
   },
   {
     district: "도봉구",
@@ -194,6 +230,8 @@ const welfares = [
     address: "우이천로 363",
     phone: "02-900-4641",
     remarks: "",
+    latitude: "37.6482563494009",
+    longitude: "127.023802746447",
   },
   {
     district: "도봉구",
@@ -201,13 +239,8 @@ const welfares = [
     address: "시루봉로15라길 59-9",
     phone: "02-3491-4651",
     remarks: "",
-  },
-  {
-    district: "도봉구",
-    name: "창동어르신복지관",
-    address: "덕릉로60차길 6",
-    phone: "02-906-2968",
-    remarks: "",
+    latitude: "37.6705737445496",
+    longitude: "127.03220215558",
   },
   {
     district: "도봉구",
@@ -215,6 +248,8 @@ const welfares = [
     address: "도봉로169가길 52",
     phone: "02-3491-3356",
     remarks: "",
+    latitude: "37.6821454234398",
+    longitude: "127.043565366073",
   },
   {
     district: "노원구",
@@ -222,6 +257,8 @@ const welfares = [
     address: "노원로16길 15",
     phone: "02-948-8540",
     remarks: "",
+    latitude: "37.6434450655049",
+    longitude: "127.073337208198",
   },
   {
     district: "노원구",
@@ -229,6 +266,8 @@ const welfares = [
     address: "공릉로 129",
     phone: "02-948-6274",
     remarks: "",
+    latitude: "37.6217031786006",
+    longitude: "127.078956082273",
   },
   {
     district: "노원구",
@@ -236,6 +275,8 @@ const welfares = [
     address: "월계로42길 9",
     phone: "02-909-3273",
     remarks: "",
+    latitude: "37.6242647622428",
+    longitude: "127.050792092263",
   },
   {
     district: "은평구",
@@ -243,6 +284,8 @@ const welfares = [
     address: "연서로 415",
     phone: "02-385-1351",
     remarks: "",
+    latitude: "37.6322508137652",
+    longitude: "126.929982419795",
   },
   {
     district: "은평구",
@@ -250,6 +293,8 @@ const welfares = [
     address: "연서로3나길 11-30",
     phone: "02-385-9500",
     remarks: "",
+    latitude: "37.6033427209461",
+    longitude: "126.911371067909",
   },
   {
     district: "은평구",
@@ -257,6 +302,8 @@ const welfares = [
     address: "통일로89길 12-6",
     phone: "02-357-2640",
     remarks: "",
+    latitude: "37.6248874568841",
+    longitude: "126.918670649747",
   },
   {
     district: "은평구",
@@ -264,6 +311,8 @@ const welfares = [
     address: "응암로21가길 5-1",
     phone: "02-355-2997",
     remarks: "",
+    latitude: "37.5945815458294",
+    longitude: "126.91677314154",
   },
   {
     district: "은평구",
@@ -271,6 +320,8 @@ const welfares = [
     address: "연서로32길 17-11",
     phone: "02-385-3222",
     remarks: "",
+    latitude: "37.6194805035861",
+    longitude: "126.924863251654",
   },
   {
     district: "은평구",
@@ -278,6 +329,8 @@ const welfares = [
     address: "증산로15길 47",
     phone: "02-302-0303",
     remarks: "",
+    latitude: "37.5902570763213",
+    longitude: "126.908058308755",
   },
   {
     district: "은평구",
@@ -285,6 +338,8 @@ const welfares = [
     address: "역말로9길 27",
     phone: "02-6951-1172",
     remarks: "",
+    latitude: "37.6134375895929",
+    longitude: "126.921968147525",
   },
   {
     district: "서대문구",
@@ -292,6 +347,8 @@ const welfares = [
     address: "독립문로8길 57",
     phone: "02-363-9988",
     remarks: "",
+    latitude: "37.5680044944284",
+    longitude: "126.959117752095",
   },
   {
     district: "서대문구",
@@ -299,6 +356,8 @@ const welfares = [
     address: "홍제천로2길 111",
     phone: "02-3143-7778",
     remarks: "",
+    latitude: "37.5722420290996",
+    longitude: "126.923532992889",
   },
   {
     district: "서대문구",
@@ -306,6 +365,8 @@ const welfares = [
     address: "증가로20길 43",
     phone: "02-376-5040",
     remarks: "",
+    latitude: "37.5812019724097",
+    longitude: "126.917908386488",
   },
   {
     district: "서대문구",
@@ -313,6 +374,8 @@ const welfares = [
     address: "통일로26길 12-5",
     phone: "02-733-9225",
     remarks: "금천호암 분관",
+    latitude: "37.5827863162011",
+    longitude: "126.950669512667",
   },
   {
     district: "마포구",
@@ -320,6 +383,8 @@ const welfares = [
     address: "서강로 68",
     phone: "02-333-1040",
     remarks: "",
+    latitude: "37.5489410696863",
+    longitude: "126.932211433726",
   },
   {
     district: "마포구",
@@ -327,6 +392,8 @@ const welfares = [
     address: "신촌로26길10",
     phone: "02-358-1000",
     remarks: "",
+    latitude: "37.5558509937606",
+    longitude: "126.942372609531",
   },
   {
     district: "마포구",
@@ -334,6 +401,8 @@ const welfares = [
     address: "환일길 3",
     phone: "02-312-2161",
     remarks: "",
+    latitude: "37.5574505388934",
+    longitude: "126.960311304902",
   },
   {
     district: "마포구",
@@ -341,6 +410,8 @@ const welfares = [
     address: "토정로31길 31",
     phone: "02-707-1006",
     remarks: "",
+    latitude: "37.5423255190515",
+    longitude: "126.942834843492",
   },
   {
     district: "양천구",
@@ -348,6 +419,8 @@ const welfares = [
     address: "목동로3길 106",
     phone: "02-2649-4848",
     remarks: "",
+    latitude: "37.5104425347921",
+    longitude: "126.858627933542",
   },
   {
     district: "양천구",
@@ -355,6 +428,8 @@ const welfares = [
     address: "목동중앙로3길21",
     phone: "02-2643-3352",
     remarks: "",
+    latitude: "37.5364645531731",
+    longitude: "126.869267931653",
   },
   {
     district: "양천구",
@@ -362,6 +437,8 @@ const welfares = [
     address: "가로공원로60가길 16",
     phone: "02-2608-4042",
     remarks: "",
+    latitude: "37.5342610593105",
+    longitude: "126.826765522574",
   },
   {
     district: "양천구",
@@ -369,6 +446,8 @@ const welfares = [
     address: "신월로24길 19",
     phone: "02-2605-8728",
     remarks: "",
+    latitude: "37.5200327613989",
+    longitude: "126.847366869693",
   },
   {
     district: "강서구",
@@ -376,6 +455,8 @@ const welfares = [
     address: "화곡로61길 85",
     phone: "02-3664-0322",
     remarks: "",
+    latitude: "37.5581231966538",
+    longitude: "126.847551552263",
   },
   {
     district: "강서구",
@@ -383,6 +464,8 @@ const welfares = [
     address: "월정로30길 96",
     phone: "02-2605-6900",
     remarks: "",
+    latitude: "37.535468012042",
+    longitude: "126.841098745284",
   },
   {
     district: "강서구",
@@ -390,6 +473,8 @@ const welfares = [
     address: "화곡로58길 30-7",
     phone: "02-2605-7501",
     remarks: "",
+    latitude: "37.5524146622014",
+    longitude: "126.85266278742",
   },
   {
     district: "강서구",
@@ -397,6 +482,8 @@ const welfares = [
     address: "초록마을로15길 12",
     phone: "02-2605-1553",
     remarks: "",
+    latitude: "37.5415228150151",
+    longitude: "126.851407866411",
   },
   {
     district: "강서구",
@@ -404,6 +491,8 @@ const welfares = [
     address: "강서로5길 50",
     phone: "02-2699-8264",
     remarks: "",
+    latitude: "37.5290599728442",
+    longitude: "126.848898178399",
   },
   {
     district: "구로구",
@@ -411,6 +500,8 @@ const welfares = [
     address: "새말로 16길 7",
     phone: "02-838-4600",
     remarks: "",
+    latitude: "37.5052407516115",
+    longitude: "126.890616727001",
   },
   {
     district: "구로구",
@@ -418,6 +509,8 @@ const welfares = [
     address: "부일로9길 111",
     phone: "02-3666-8750",
     remarks: "",
+    latitude: "37.4966896444676",
+    longitude: "126.823262254767",
   },
   {
     district: "금천구",
@@ -425,6 +518,8 @@ const welfares = [
     address: "시흥대로51길93-32",
     phone: "02-804-4058",
     remarks: "",
+    latitude: "37.4501343152384",
+    longitude: "126.897763811332",
   },
   {
     district: "금천구",
@@ -432,6 +527,8 @@ const welfares = [
     address: "독산로72길86-5",
     phone: "02-853-7203",
     remarks: "",
+    latitude: "37.4695129058618",
+    longitude: "126.906449246226",
   },
   {
     district: "금천구",
@@ -439,6 +536,8 @@ const welfares = [
     address: "한내로 69-15",
     phone: "02-897-5104",
     remarks: "금천호암 분관",
+    latitude: "37.4573874173337",
+    longitude: "126.886550524689",
   },
   {
     district: "금천구",
@@ -446,6 +545,8 @@ const welfares = [
     address: "범안로17길 22",
     phone: "02-807-5070",
     remarks: "",
+    latitude: "37.4674676028705",
+    longitude: "126.894459548804",
   },
   {
     district: "영등포구",
@@ -453,6 +554,8 @@ const welfares = [
     address: "도림로 482",
     phone: "02-2068-5326",
     remarks: "",
+    latitude: "37.5168563355065",
+    longitude: "126.890541520829",
   },
   {
     district: "영등포구",
@@ -460,6 +563,8 @@ const welfares = [
     address: "도영로22길 36",
     phone: "02-2038-8846",
     remarks: "",
+    latitude: "37.5101566080895",
+    longitude: "126.903292797536",
   },
   {
     district: "영등포구",
@@ -467,6 +572,8 @@ const welfares = [
     address: "도영로41",
     phone: "02-6297-9988",
     remarks: "",
+    latitude: "37.5097128385321",
+    longitude: "126.897493385214",
   },
   {
     district: "동작구",
@@ -474,6 +581,8 @@ const welfares = [
     address: "상도로11길 7",
     phone: "02-823-0064",
     remarks: "",
+    latitude: "37.5003904580472",
+    longitude: "126.929109745694",
   },
   {
     district: "동작구",
@@ -481,6 +590,8 @@ const welfares = [
     address: "남부순환로 2081",
     phone: "02-580-2404",
     remarks: "",
+    latitude: "37.4770171436896",
+    longitude: "126.979851680787",
   },
   {
     district: "동작구",
@@ -488,6 +599,8 @@ const welfares = [
     address: "매봉로 36",
     phone: "02-826-9723",
     remarks: "사당어르신 분관",
+    latitude: "37.5064589161246",
+    longitude: "126.951387972222",
   },
   {
     district: "관악구",
@@ -495,6 +608,8 @@ const welfares = [
     address: "보라매로35",
     phone: "02-888-6144",
     remarks: "",
+    latitude: "37.4930406894254",
+    longitude: "126.926330084488",
   },
   {
     district: "서초구",
@@ -502,6 +617,8 @@ const welfares = [
     address: "강남대로30길73-7",
     phone: "02-578-1515",
     remarks: "",
+    latitude: "37.4830200110045",
+    longitude: "127.040815998673",
   },
   {
     district: "서초구",
@@ -509,6 +626,8 @@ const welfares = [
     address: "방배천로 48",
     phone: "02-581-7992",
     remarks: "",
+    latitude: "37.4807674284213",
+    longitude: "126.982786858367",
   },
   {
     district: "서초구",
@@ -516,6 +635,8 @@ const welfares = [
     address: "서초대로54길 45",
     phone: "02-3474-6080",
     remarks: "",
+    latitude: "37.4923242676548",
+    longitude: "127.016810974025",
   },
   {
     district: "서초구",
@@ -523,6 +644,8 @@ const welfares = [
     address: "남부순환로287길 17-4",
     phone: "02-581-1210",
     remarks: "",
+    latitude: "37.4765239004037",
+    longitude: "126.987443065956",
   },
   {
     district: "강남구",
@@ -530,6 +653,8 @@ const welfares = [
     address: "삼성로628",
     phone: "02-549-7070",
     remarks: "",
+    latitude: "37.5159106576619",
+    longitude: "127.05214255205",
   },
   {
     district: "강남구",
@@ -537,6 +662,8 @@ const welfares = [
     address: "강남대로128길 59",
     phone: "02-541-0226",
     remarks: "",
+    latitude: "37.5120654214586",
+    longitude: "127.026088997835",
   },
   {
     district: "강남구",
@@ -544,6 +671,8 @@ const welfares = [
     address: "봉은사로 332",
     phone: "02-3467-9900",
     remarks: "",
+    latitude: "37.5097871620279",
+    longitude: "127.043218315638",
   },
   {
     district: "강남구",
@@ -551,6 +680,8 @@ const welfares = [
     address: "도산대로53길 5",
     phone: "02-548-9898",
     remarks: "",
+    latitude: "37.5235393856249",
+    longitude: "127.038172155595",
   },
   {
     district: "강남구",
@@ -558,6 +689,8 @@ const welfares = [
     address: "도곡로27길 27",
     phone: "02-501-5684",
     remarks: "",
+    latitude: "37.4945376886831",
+    longitude: "127.041831743296",
   },
   {
     district: "강남구",
@@ -565,6 +698,8 @@ const welfares = [
     address: "역삼로69길 22",
     phone: "02-564-0108",
     remarks: "",
+    latitude: "37.5030425172595",
+    longitude: "127.054130053578",
   },
   {
     district: "송파구",
@@ -572,6 +707,8 @@ const welfares = [
     address: "백제고분로32길41",
     phone: "02-2203-9400",
     remarks: "",
+    latitude: "37.4986684599392",
+    longitude: "127.094895649961",
   },
   {
     district: "송파구",
@@ -579,6 +716,8 @@ const welfares = [
     address: "충민로 184",
     phone: "02-409-1616",
     remarks: "",
+    latitude: "37.4857949194391",
+    longitude: "127.134322169385",
   },
   {
     district: "송파구",
@@ -586,13 +725,8 @@ const welfares = [
     address: "백제고분로42길 5",
     phone: "02-413-9999",
     remarks: "",
-  },
-  {
-    district: "강동구",
-    name: "강동노인종합복지관",
-    address: "동암로71길 32-5",
-    phone: "02-442-1026",
-    remarks: "",
+    latitude: "37.505929427057",
+    longitude: "127.109731490219",
   },
   {
     district: "강동구",
@@ -600,6 +734,8 @@ const welfares = [
     address: "양재대로156길 28",
     phone: "02-481-2217",
     remarks: "",
+    latitude: "37.556107327057",
+    longitude: "127.146525893208",
   },
   {
     district: "강동구",
@@ -607,6 +743,44 @@ const welfares = [
     address: "천중로17길 42-16",
     phone: "02-478-0601",
     remarks: "",
+    latitude: "37.5462098401742",
+    longitude: "127.13171433403",
+  },
+  {
+    district: "성동구",
+    name: "성수동1가2동노인복지센터",
+    address: "왕립리로5길 3",
+    phone: "02-464-4488",
+    remarks: "",
+    latitude: "37.569212036556934",
+    longitude: "127.02023911968907",
+  },
+  {
+    district: "성북구",
+    name: "장위실버복지센터",
+    address: "장위로46길 57",
+    phone: "02-913-3369",
+    remarks: "",
+    latitude: "37.569212036556934",
+    longitude: "127.02023911968907",
+  },
+  {
+    district: "도봉구",
+    name: "창동어르신복지관",
+    address: "덕릉로60차길 6",
+    phone: "02-906-2968",
+    remarks: "",
+    latitude: "37.669212036556934",
+    longitude: "127.02023911968907",
+  },
+  {
+    district: "강동구",
+    name: "강동노인종합복지관",
+    address: "동암로71길 32-5",
+    phone: "02-442-1026",
+    remarks: "",
+    latitude: "37.569212036556934",
+    longitude: "127.02023911968907",
   },
 ];
 

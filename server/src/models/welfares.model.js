@@ -26,6 +26,8 @@ async function saveWelfare(welfare) {
         district: existingDistrict._id,
         name: welfare.name,
         address: welfare.address,
+        latitude: welfare.latitude,
+        longitude: welfare.longitude,
         phone: welfare.phone,
         remarks: welfare.remarks,
       });
@@ -36,6 +38,8 @@ async function saveWelfare(welfare) {
           district: welfareInstance.district,
           name: welfareInstance.name,
           address: welfareInstance.address,
+          latitude: welfare.latitude,
+          longitude: welfare.longitude,
           phone: welfareInstance.phone,
           remarks: welfareInstance.remarks,
         },
@@ -49,6 +53,8 @@ async function saveWelfare(welfare) {
         district: districtId,
         name: welfare.name,
         address: welfare.address,
+        latitude: welfare.latitude,
+        longitude: welfare.longitude,
         phone: welfare.phone,
         remarks: welfare.remarks,
       });
@@ -59,6 +65,8 @@ async function saveWelfare(welfare) {
           district: welfareInstance.district,
           name: welfareInstance.name,
           address: welfareInstance.address,
+          latitude: welfare.latitude,
+          longitude: welfare.longitude,
           phone: welfareInstance.phone,
           remarks: welfareInstance.remarks,
         },
@@ -86,9 +94,11 @@ async function getWelfaresByDistrictId(districtId) {
 }
 
 async function getAllWelfares() {
-  return await Welfare.find({}, { _id: 0, __v: 0 }).populate("district", {
-    __v: 0,
-  });
+  return await Welfare.find({}, { _id: 0, __v: 0 })
+    .populate("district", {
+      __v: 0,
+    })
+    .lean();
 }
 
 export {
