@@ -1,6 +1,6 @@
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import ClosestCenterList from "./closestCenterList";
+import ClosestCenterList from "./CenterList";
 
 type CurrentLocation = {
   latitude: number;
