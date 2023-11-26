@@ -3,7 +3,7 @@ import { Button, Text } from "@chakra-ui/react";
 interface NavButtonProps {
   onClick: () => void;
   fLine: string;
-  sLine: string;
+  sLine?: string;
 }
 
 const NavButton = ({ onClick, fLine, sLine }: NavButtonProps) => {

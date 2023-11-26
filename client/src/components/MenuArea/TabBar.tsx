@@ -29,7 +29,7 @@ const TabBar = ({
       <Box display="flex" flexDir="row" justifyContent="space-between" w="100%">
         {isAtHome && (
           <Text fontSize="md" fontWeight="bold">
-            메뉴
+            복지관 메뉴
           </Text>
         )}
         {isQualificationCheckerClicked && (

@@ -18,7 +18,7 @@ const BookmarkableCard = () => {
     >
       <Icon as={FaRegBookmark} w={4} h={4} />
       <Text fontSize="sm" fontWeight="bold">
-        복지관 보관자리
+        복지관 보관함
       </Text>
     </Box>
   );

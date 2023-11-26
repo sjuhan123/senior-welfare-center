@@ -24,9 +24,7 @@ const QualificationCheckCard = ({ onClick }: QualificationCheckCardProps) => {
         이용이 가능하십니다.
       </Text>
       <Button variant="solid" colorScheme="teal" size="xs" onClick={onClick}>
-        <Text fontSize="4px" fontWeight="600">
-          자격 확인 다시하기
-        </Text>
+        자격 확인 다시하기
       </Button>
     </Box>
   );
