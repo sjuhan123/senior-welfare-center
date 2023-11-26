@@ -2,7 +2,6 @@ import { Box, Grid, GridItem } from "@chakra-ui/react";
 import NavButton from "../common/Button/NavButton";
 import { useState } from "react";
 import QualificationCheckSection from "../QualificationCheckSection";
-import QualificationCheckCard from "../common/Card/QualificationCheckCard";
 import SearchSection from "../SearchSection";
 import TabBar from "./TabBar";
 import NearByCenterSection from "../NearByCenterSection";
@@ -10,14 +9,7 @@ import NearByCenterSection from "../NearByCenterSection";
 const MenuArea = () => {
   const [isQualificationCheckerClicked, setIsQualificationCheckerClicked] =
     useState(false);
-  const [isQualificationChecked, setIsQualificationChecked] = useState(false);
   const [isCenterListClicked, setIsCenterListClicked] = useState(false);
-  const [isNearbyCenterClicked, setIsNearbyCenterClicked] = useState(false);
-
-  const isContentClicked =
-    isQualificationCheckerClicked ||
-    isCenterListClicked ||
-    isNearbyCenterClicked;
 
   const handleHomeButtonClick = () => {
     setIsQualificationCheckerClicked(false);
@@ -31,61 +23,28 @@ const MenuArea = () => {
         isQualificationCheckerClicked={isQualificationCheckerClicked}
         isCenterListClicked={isCenterListClicked}
       />
-      {isQualificationCheckerClicked && (
-        <QualificationCheckSection
-          onQualificationCheck={(isChecked) =>
-            setIsQualificationChecked(isChecked)
-          }
-          onCancel={() => setIsQualificationCheckerClicked(false)}
-        />
-      )}
-      {isCenterListClicked && <SearchSection />}
-      {isNearbyCenterClicked && <NearByCenterSection />}
-      {!isContentClicked && (
-        <Grid
-          templateRows="repeat(2, 1fr)"
-          templateColumns="repeat(2, 1fr)"
-          gap={4}
-        >
-          <GridItem rowSpan={7} colSpan={1}>
-            {!isQualificationChecked ? (
-              <NavButton
-                fLine="복지관"
-                sLine="자격 확인"
-                onClick={() => setIsQualificationCheckerClicked(true)}
-              />
-            ) : (
-              <QualificationCheckCard
-                onClick={() => {
-                  setIsQualificationChecked(false);
-                  setIsQualificationCheckerClicked(true);
-                }}
-              />
-            )}
-          </GridItem>
-          <GridItem rowSpan={7} colSpan={1}>
-            <NavButton
-              fLine="복지관"
-              sLine="목록 보기"
-              onClick={() => setIsCenterListClicked(true)}
-            />
-          </GridItem>
-          <GridItem rowSpan={7} colSpan={1}>
-            <NavButton
-              fLine="내 근처"
-              sLine="복지관 찾기"
-              onClick={() => setIsNearbyCenterClicked(true)}
-            />
-          </GridItem>
-          <GridItem rowSpan={7} colSpan={1}>
-            <NavButton
-              fLine="집 근처"
-              sLine="복지관 찾기"
-              onClick={() => setIsQualificationCheckerClicked(true)}
-            />
-          </GridItem>
-        </Grid>
-      )}
+      <Grid
+        templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(2, 1fr)"
+        gap={4}
+      >
+        <GridItem rowSpan={7} colSpan={1}>
+          <QualificationCheckSection />
+        </GridItem>
+        <GridItem rowSpan={7} colSpan={1}>
+          <SearchSection />
+        </GridItem>
+        <GridItem rowSpan={7} colSpan={1}>
+          <NearByCenterSection />
+        </GridItem>
+        <GridItem rowSpan={7} colSpan={1}>
+          <NavButton
+            fLine="집 근처"
+            sLine="복지관 찾기"
+            onClick={() => setIsQualificationCheckerClicked(true)}
+          />
+        </GridItem>
+      </Grid>
     </Box>
   );
 };

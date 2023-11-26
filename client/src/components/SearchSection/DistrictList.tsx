@@ -12,7 +12,9 @@ interface DistrictListProps {
 }
 
 const DistrictList = ({ onDistrictClick }: DistrictListProps) => {
-  const { data } = useQuery("districts", () => fetchDistricts());
+  const { data } = useQuery("districts", fetchDistricts, {
+    suspense: true,
+  });
 
   return (
     <SimpleGrid columns={3} spacing={3} bottom="0">

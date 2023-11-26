@@ -1,6 +1,18 @@
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import ClosestCenterList from "./CenterList";
+import ClosestCenterList from "./ClosestCenterList";
+import LoadingIndicator from "../common/LoadingIndicator";
+import NavButton from "../common/Button/NavButton";
+import { Suspense } from "react";
 
 type CurrentLocation = {
   latitude: number;
@@ -29,36 +41,47 @@ const getCurrentLocation: () => Promise<CurrentLocation> = () => {
 };
 
 const NearByCenterSection = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: currentLocation, isLoading } = useQuery<CurrentLocation>(
     "currentLocation",
     getCurrentLocation
   );
 
   return (
-    <Box
-      maxW="md"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow="lg"
-      p="5"
-      h="208px"
-    >
-      {isLoading && (
-        <Flex
-          align="center"
-          justify="center"
-          position="fixed"
-          top="0"
-          left="0"
-          height="100%"
-          width="100%"
-        >
-          <Spinner size="xl" color="blue.500" />
-        </Flex>
-      )}
-      {currentLocation && <ClosestCenterList location={currentLocation} />}
-    </Box>
+    <>
+      <NavButton fLine="내 근처" sLine="복지관 찾기" onClick={onOpen} />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>가까운 노인복지관 목록</ModalHeader>
+          <ModalBody>
+            {isLoading && (
+              <LoadingIndicator
+                fLine="가까운 복지관을 찾는 중입니다"
+                sLine="잠시만 기다려주세요."
+              />
+            )}
+            {currentLocation && (
+              <Suspense
+                fallback={
+                  <LoadingIndicator
+                    fLine="가까운 복지관을 불러오고 있습니다."
+                    sLine="잠시만 기다려주세요."
+                  />
+                }
+              >
+                <ClosestCenterList location={currentLocation} />
+              </Suspense>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" onClick={onClose}>
+              닫기
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

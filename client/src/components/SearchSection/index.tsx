@@ -1,11 +1,27 @@
-import { Box, Divider, Stack } from "@chakra-ui/react";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Suspense, useState } from "react";
 
 import WelfareList from "./WelfareList";
 import BreadscrumbList from "./BreadscrumbList";
 import DistrictList from "./DistrictList";
+import NavButton from "../common/Button/NavButton";
+import LoadingIndicator from "../common/LoadingIndicator";
 
 const SearchSection = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [breadCrumbList, setBreadCrumbList] = useState<string[]>(["서울시"]);
   const [selectedDistrictId, setSelectedDistrictId] = useState<string | null>(
     null
@@ -21,30 +37,68 @@ const SearchSection = () => {
     setSelectedDistrictId(districtId);
   };
 
+  const handleClose = () => {
+    setBreadCrumbList(["서울시"]);
+    setSelectedDistrictId(null);
+    onClose();
+  };
+
   return (
-    <Box
-      maxW="md"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow="lg"
-      p="5"
-      h="208px"
-    >
-      <Stack direction="row" h="8" align="center" mb="3" gap="5">
-        <Divider orientation="vertical" />
-        <BreadscrumbList
-          breadCrumbList={breadCrumbList}
-          onBreadCrumbClick={handleBreadCrumbClick}
-        />
-      </Stack>
-      <Box overflowY="auto" h="100%">
-        {!selectedDistrictId && (
-          <DistrictList onDistrictClick={handleDistrictClick} />
-        )}
-        {selectedDistrictId && <WelfareList districtId={selectedDistrictId} />}
-      </Box>
-    </Box>
+    <>
+      <NavButton fLine="복지관" sLine="목록 보기" onClick={onOpen} />
+      <Modal isOpen={isOpen} onClose={handleClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>노인복지관 목록보기</ModalHeader>
+          <ModalCloseButton />
+          <Stack direction="row" h="8" align="center" mb="3" gap="5" ml="6">
+            <Divider orientation="vertical" />
+            <BreadscrumbList
+              breadCrumbList={breadCrumbList}
+              onBreadCrumbClick={handleBreadCrumbClick}
+            />
+          </Stack>
+          <ModalBody>
+            <Box>
+              {!selectedDistrictId && (
+                <Suspense
+                  fallback={
+                    <LoadingIndicator
+                      fLine="지역 정보를 불러오는 중입니다"
+                      sLine="잠시만 기다려주세요."
+                    />
+                  }
+                >
+                  <DistrictList onDistrictClick={handleDistrictClick} />
+                </Suspense>
+              )}
+              {selectedDistrictId && (
+                <Suspense
+                  fallback={
+                    <LoadingIndicator
+                      fLine="복지관 정보를 불러오는 중 입니다."
+                      sLine="잠시만 기다려주세요."
+                    />
+                  }
+                >
+                  <WelfareList districtId={selectedDistrictId} />
+                </Suspense>
+              )}
+            </Box>
+          </ModalBody>
+          <ModalFooter>
+            {breadCrumbList.length > 1 && (
+              <Button colorScheme="blue" mr={3} onClick={handleBreadCrumbClick}>
+                지역 다시 찾기
+              </Button>
+            )}
+            <Button variant="ghost" onClick={handleClose}>
+              닫기
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

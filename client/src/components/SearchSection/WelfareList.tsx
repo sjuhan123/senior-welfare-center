@@ -19,8 +19,12 @@ interface DistrictListProps {
 
 const WelfareList = ({ districtId }: DistrictListProps) => {
   const { bookmarkList, handleBookmark } = useBookmarkList();
-  const { data: welfares } = useQuery(["welfares", districtId], () =>
-    fetchWelfaresByDistrict(districtId)
+  const { data: welfares } = useQuery(
+    ["welfares", districtId],
+    () => fetchWelfaresByDistrict(districtId),
+    {
+      suspense: true,
+    }
   );
 
   return (
