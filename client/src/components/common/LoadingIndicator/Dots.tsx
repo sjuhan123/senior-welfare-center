@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-const LoadingIndicator = () => {
+const Dots = () => {
   const [loadingDots, setLoadingDots] = useState(0);
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const LoadingIndicator = () => {
   );
 };
 
-export default LoadingIndicator;
+export default Dots;
