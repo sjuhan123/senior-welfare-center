@@ -94,7 +94,7 @@ async function getWelfaresByDistrictId(districtId) {
 }
 
 async function getAllWelfares() {
-  return await Welfare.find({}, { _id: 0, __v: 0 })
+  return await Welfare.find({}, { __v: 0 })
     .populate("district", {
       __v: 0,
     })
