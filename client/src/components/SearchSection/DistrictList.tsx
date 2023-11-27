@@ -1,9 +1,10 @@
 import { Text, Button, SimpleGrid } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { DistrictData } from "../../types/district";
+import { END_POINT } from "../../constant/endpoint";
 
 const fetchDistricts = async () => {
-  const res = await fetch("https://localhost:8000/api/districts");
+  const res = await fetch(END_POINT.DISTRICTS);
   return await res.json();
 };
 

@@ -5,17 +5,16 @@ import {
   getUserToken,
   setUserToken,
 } from "../utills/persistentStorage";
+import { END_POINT } from "../constant/endpoint";
 
 async function getToken(code?: string) {
-  const response = await fetch(
-    `https://localhost:8000/api/auth/kakao?code=${code}`
-  );
+  const response = await fetch(`${END_POINT.KAKAO_LOGIN}?code=${code}`);
   const { data } = await response.json();
   return data;
 }
 
 async function getUserInfo(token: string) {
-  const response = await fetch("https://localhost:8000/api/user", {
+  const response = await fetch(END_POINT.USER, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -56,7 +55,7 @@ const useAuth = (code?: string): UseAuth => {
       const token = getUserToken();
 
       if (token) {
-        await fetch("https://localhost:8000/api/user/logout", {
+        await fetch(END_POINT.KAKAO_LOGOUT, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
