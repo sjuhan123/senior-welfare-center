@@ -1,11 +1,14 @@
 import {
   Button,
+  Flex,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
+  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
@@ -27,7 +30,7 @@ const getCurrentLocation: () => Promise<CurrentLocation> = () => {
           const { latitude, longitude } = position.coords;
           resolve({ latitude, longitude });
         },
-        (error) => {
+        (error: GeolocationPositionError) => {
           console.error("Error getting location:", error.message);
           reject(error.message);
         }
@@ -42,10 +45,11 @@ const getCurrentLocation: () => Promise<CurrentLocation> = () => {
 
 const NearByCenterSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: currentLocation, isLoading } = useQuery<CurrentLocation>(
-    "currentLocation",
-    getCurrentLocation
-  );
+  const {
+    data: currentLocation,
+    isLoading,
+    error,
+  } = useQuery<CurrentLocation, Error>("currentLocation", getCurrentLocation);
 
   return (
     <>
@@ -60,6 +64,25 @@ const NearByCenterSection = () => {
                 fLine="가까운 복지관을 찾는 중입니다"
                 sLine="잠시만 기다려주세요."
               />
+            )}
+            {error && (
+              <Flex
+                justify="center"
+                flexDir="column"
+                align="flex-start"
+                height="100%"
+                width="100%"
+              >
+                <VStack>
+                  <Text fontSize="lg" fontWeight="bold">
+                    브라우저 설정에서 위치 정보를 허용해주세요.
+                  </Text>
+                  <Text fontSize="md" mt="2">
+                    위치 정보를 허용하지 않으면 가까운 복지관을 찾을 수
+                    없습니다.
+                  </Text>
+                </VStack>
+              </Flex>
             )}
             {currentLocation && (
               <Suspense

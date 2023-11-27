@@ -15,15 +15,15 @@ const LoadingIndicator = ({ fLine, sLine }: LoadingIndicatorProps) => {
       height="100%"
       width="100%"
     >
+      <Text fontSize="lg" fontWeight="bold">
+        {fLine}
+      </Text>
       <Flex>
-        <Text fontSize="lg" fontWeight="bold">
-          {fLine}
+        <Text fontSize="md" mt="2">
+          {sLine}
         </Text>
         <Dots />
       </Flex>
-      <Text fontSize="md" mt="2">
-        {sLine}
-      </Text>
     </Flex>
   );
 };
