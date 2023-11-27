@@ -17,9 +17,13 @@ interface ClosestCenterListProps {
     latitude: number;
     longitude: number;
   };
+  from?: string;
 }
 
-const ClosestCenterList = ({ location }: ClosestCenterListProps) => {
+const ClosestCenterList = ({
+  location,
+  from = "me",
+}: ClosestCenterListProps) => {
   const { bookmarkList, handleBookmark } = useBookmarkList();
   const { data: welfares, error } = useQuery(
     "closestWelfare",
@@ -42,6 +46,7 @@ const ClosestCenterList = ({ location }: ClosestCenterListProps) => {
               false
             }
             onBookmark={() => handleBookmark(welfare)}
+            from={from}
           />
           <Divider />
         </Fragment>

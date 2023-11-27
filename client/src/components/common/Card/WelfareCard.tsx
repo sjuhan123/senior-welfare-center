@@ -18,15 +18,18 @@ interface WelfareCardProps {
   center: WelfareData;
   isBookmarked: boolean;
   onBookmark: () => void;
+  from?: string;
 }
 
 const WelfareCard = ({
   center,
   isBookmarked,
   onBookmark,
+  from = "me",
 }: WelfareCardProps) => {
   const toast = useToast();
-  const { district, name, address, phone, homepage, remarks } = center;
+  const { district, name, address, phone, homepage, distance, remarks } =
+    center;
 
   return (
     <Box overflow="hidden" p="3" w="100%">
@@ -48,6 +51,9 @@ const WelfareCard = ({
         />
       </Flex>
       <VStack spacing="2px" align="flex-start">
+        <Text fontSize="small">
+          {from === "me" ? "나" : "집"}와의 거리: {distance.toFixed(2)}km
+        </Text>
         <Text fontSize="small">
           홈페이지:
           <Text

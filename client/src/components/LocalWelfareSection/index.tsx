@@ -101,7 +101,7 @@ const LocalWelfareSection = () => {
                 />
               }
             >
-              <ClosestCenterList location={coordinate} />
+              <ClosestCenterList location={coordinate} from="home" />
             </Suspense>
           </ModalBody>
           <ModalFooter>
