@@ -1,5 +1,4 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
-import { useState } from "react";
 import QualificationCheckSection from "../QualificationCheckSection";
 import SearchSection from "../SearchSection";
 import TabBar from "./TabBar";
@@ -7,22 +6,9 @@ import NearByCenterSection from "../NearByCenterSection";
 import LocalWelfareSection from "../LocalWelfareSection";
 
 const MenuArea = () => {
-  const [isQualificationCheckerClicked, setIsQualificationCheckerClicked] =
-    useState(false);
-  const [isCenterListClicked, setIsCenterListClicked] = useState(false);
-
-  const handleHomeButtonClick = () => {
-    setIsQualificationCheckerClicked(false);
-    setIsCenterListClicked(false);
-  };
-
   return (
     <Box as="section">
-      <TabBar
-        onClick={handleHomeButtonClick}
-        isQualificationCheckerClicked={isQualificationCheckerClicked}
-        isCenterListClicked={isCenterListClicked}
-      />
+      <TabBar />
       <Grid
         templateRows="repeat(2, 1fr)"
         templateColumns="repeat(2, 1fr)"
