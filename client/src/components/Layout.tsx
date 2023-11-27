@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <Center h="100vh" w="100vw">
       <Box
         p="46"
-        w="500px"
+        w="390px"
         h="800px"
         style={
           !isMobile

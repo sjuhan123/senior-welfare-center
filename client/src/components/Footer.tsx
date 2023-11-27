@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <Box
       as="footer"
-      w={isMobile ? "calc(100vw - 92px)" : "406px"}
+      w={isMobile ? "calc(100vw - 92px)" : "296px"}
       textAlign="center"
       paddingY="2"
       justifyContent="center"
@@ -15,8 +15,16 @@ const Footer = () => {
       display="flex"
       flexDir="column"
       position="fixed"
-      bottom={isMobile ? "0" : "140"}
       gap="1"
+      style={
+        !isMobile
+          ? {
+              top: "calc(100vh - ((100vh - 500px) / 2) + 90px)",
+            }
+          : {
+              bottom: "0",
+            }
+      }
     >
       <HStack spacing="1">
         <EmailIcon boxSize={4} />
