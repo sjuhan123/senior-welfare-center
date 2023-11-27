@@ -11,6 +11,7 @@ const WelfareSchema = new mongoose.Schema({
   latitude: Number,
   longitude: Number,
   phone: String,
+  homepage: String,
   remarks: String,
 });
 

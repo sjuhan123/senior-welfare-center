@@ -29,6 +29,7 @@ async function saveWelfare(welfare) {
         latitude: welfare.latitude,
         longitude: welfare.longitude,
         phone: welfare.phone,
+        homepage: welfare.homepage,
         remarks: welfare.remarks,
       });
 
@@ -41,6 +42,7 @@ async function saveWelfare(welfare) {
           latitude: welfare.latitude,
           longitude: welfare.longitude,
           phone: welfareInstance.phone,
+          homepage: welfare.homepage,
           remarks: welfareInstance.remarks,
         },
       };
@@ -56,6 +58,7 @@ async function saveWelfare(welfare) {
         latitude: welfare.latitude,
         longitude: welfare.longitude,
         phone: welfare.phone,
+        homepage: welfare.homepage,
         remarks: welfare.remarks,
       });
 
@@ -68,6 +71,7 @@ async function saveWelfare(welfare) {
           latitude: welfare.latitude,
           longitude: welfare.longitude,
           phone: welfareInstance.phone,
+          homepage: welfare.homepage,
           remarks: welfareInstance.remarks,
         },
       };
