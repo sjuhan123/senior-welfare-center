@@ -7,6 +7,7 @@ export type WelfareData = {
   name: string;
   address: string;
   phone: string;
+  homepage: string;
   remarks?: string;
 };
 

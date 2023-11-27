@@ -6,6 +6,7 @@ import {
   Icon,
   HStack,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { WelfareData } from "../../../types/welfare";
 import { MdBookmarkAdded } from "react-icons/md";
@@ -25,7 +26,7 @@ const WelfareCard = ({
   onBookmark,
 }: WelfareCardProps) => {
   const toast = useToast();
-  const { district, name, address, phone, remarks } = center;
+  const { district, name, address, phone, homepage, remarks } = center;
 
   return (
     <Box overflow="hidden" p="3" w="100%">
@@ -46,8 +47,19 @@ const WelfareCard = ({
           aria-label="Bookmark"
         />
       </Flex>
-      <Box>
-        <Text fontSize="small">홈페이지:</Text>
+      <VStack spacing="2px" align="flex-start">
+        <Text fontSize="small">
+          홈페이지:
+          <Text
+            as="span"
+            color="blue.500"
+            ml="5px"
+            cursor="pointer"
+            onClick={() => window.open(homepage, "_blank")}
+          >
+            방문하기
+          </Text>
+        </Text>
         <HStack spacing="3px">
           <Text fontSize="small">
             주소: {address}, {district.name}
@@ -105,7 +117,7 @@ const WelfareCard = ({
             비고: {remarks}
           </Text>
         )}
-      </Box>
+      </VStack>
     </Box>
   );
 };

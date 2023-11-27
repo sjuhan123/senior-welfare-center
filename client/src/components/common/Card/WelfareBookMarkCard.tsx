@@ -1,4 +1,12 @@
-import { Box, Text, Flex, IconButton, Icon, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  IconButton,
+  Icon,
+  HStack,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { WelfareData } from "../../../types/welfare";
 import { FaPaste } from "react-icons/fa";
@@ -10,7 +18,8 @@ interface WelfareCenterCardProps {
 }
 
 const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
-  const { district, name, address, phone, remarks } = center;
+  const toast = useToast();
+  const { district, name, address, phone, homepage, remarks } = center;
 
   return (
     <Box
@@ -21,58 +30,90 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
       boxShadow="lg"
       p="3"
     >
-      <Flex justify="space-between" align="center" w="100%">
-        <Text fontSize="l" fontWeight="bold">
-          {name}
-        </Text>
-        <IconButton
-          icon={<DeleteIcon />}
-          size="sm"
-          onClick={() => onDelete(center)}
-          aria-label="Delete"
-        />
-      </Flex>
-      <Box>
-        <HStack spacing="3px">
-          <Text fontSize="small">
-            주소: {address}, {district.name}
+      <VStack justify="space-between" align="start" w="100%">
+        <HStack spacing="10px" justify="space-between" w="100%">
+          <Text fontSize="l" fontWeight="bold">
+            {name}
           </Text>
-          <Icon
-            as={FaPaste}
-            w={3}
-            h={3}
-            cursor="pointer"
-            onClick={() => handleCopyClipBoard(address)}
+          <IconButton
+            icon={<DeleteIcon />}
+            size="sm"
+            onClick={() => onDelete(center)}
+            aria-label="Delete"
           />
         </HStack>
-        <HStack spacing="3px">
+        <VStack spacing="2px" align="flex-start">
           <Text fontSize="small">
-            전화번호:
+            홈페이지:
             <Text
               as="span"
               color="blue.500"
-              onClick={() => handlePhoneClick(phone)}
               ml="5px"
-              textDecoration="underline"
               cursor="pointer"
+              onClick={() => window.open(homepage, "_blank")}
             >
-              {phone}
+              방문하기
             </Text>
           </Text>
-          <Icon
-            as={FaPaste}
-            w={3}
-            h={3}
-            cursor="pointer"
-            onClick={() => handleCopyClipBoard(phone)}
-          />
-        </HStack>
+          <HStack spacing="3px">
+            <Text fontSize="small">
+              주소: {address}, {district.name}
+            </Text>
+            <Icon
+              as={FaPaste}
+              w={3}
+              h={3}
+              cursor="pointer"
+              onClick={() => {
+                handleCopyClipBoard(address);
+                toast({
+                  title: "복사 완료",
+                  description: "주소가 복사되었습니다.",
+                  status: "success",
+                  duration: 1000,
+                  isClosable: true,
+                });
+              }}
+            />
+          </HStack>
+          <HStack spacing="3px">
+            <Text fontSize="small">
+              전화번호:
+              <Text
+                as="span"
+                color="blue.500"
+                onClick={() => handlePhoneClick(phone)}
+                ml="5px"
+                textDecoration="underline"
+                cursor="pointer"
+              >
+                {phone}
+              </Text>
+            </Text>
+            <Icon
+              as={FaPaste}
+              w={3}
+              h={3}
+              cursor="pointer"
+              onClick={() => {
+                handleCopyClipBoard(phone);
+                toast({
+                  title: "복사 완료",
+                  description: "전화번호가 복사되었습니다.",
+                  status: "success",
+                  duration: 1000,
+                  isClosable: true,
+                });
+              }}
+            />
+          </HStack>
+        </VStack>
         {remarks && (
           <Text fontSize="small" fontStyle="italic" color="gray.500">
             {remarks}
           </Text>
         )}
-      </Box>
+      </VStack>
     </Box>
   );
 };
