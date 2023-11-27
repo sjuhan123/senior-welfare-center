@@ -1,7 +1,17 @@
-import { Box, Text, Flex, IconButton, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  IconButton,
+  Icon,
+  HStack,
+  useToast,
+} from "@chakra-ui/react";
 import { WelfareData } from "../../../types/welfare";
 import { MdBookmarkAdded } from "react-icons/md";
 import { FcBookmark } from "react-icons/fc";
+import { FaPaste } from "react-icons/fa";
+import { handleCopyClipBoard, handlePhoneClick } from "../../../utills/card";
 
 interface WelfareCardProps {
   center: WelfareData;
@@ -14,6 +24,7 @@ const WelfareCard = ({
   isBookmarked,
   onBookmark,
 }: WelfareCardProps) => {
+  const toast = useToast();
   const { district, name, address, phone, remarks } = center;
 
   return (
@@ -37,10 +48,58 @@ const WelfareCard = ({
       </Flex>
       <Box>
         <Text fontSize="small">홈페이지:</Text>
-        <Text fontSize="small">
-          {address}, {district.name}
-        </Text>
-        <Text fontSize="small">전화번호: {phone}</Text>
+        <HStack spacing="3px">
+          <Text fontSize="small">
+            주소: {address}, {district.name}
+          </Text>
+          <Icon
+            as={FaPaste}
+            w={3}
+            h={3}
+            cursor="pointer"
+            onClick={() => {
+              handleCopyClipBoard(address);
+              toast({
+                title: "복사 완료",
+                description: "주소가 복사되었습니다.",
+                status: "success",
+                duration: 1000,
+                isClosable: true,
+              });
+            }}
+          />
+        </HStack>
+        <HStack spacing="3px">
+          <Text fontSize="small">
+            전화번호:
+            <Text
+              as="span"
+              color="blue.500"
+              onClick={() => handlePhoneClick(phone)}
+              ml="5px"
+              textDecoration="underline"
+              cursor="pointer"
+            >
+              {phone}
+            </Text>
+          </Text>
+          <Icon
+            as={FaPaste}
+            w={3}
+            h={3}
+            cursor="pointer"
+            onClick={() => {
+              handleCopyClipBoard(phone);
+              toast({
+                title: "복사 완료",
+                description: "전화번호가 복사되었습니다.",
+                status: "success",
+                duration: 1000,
+                isClosable: true,
+              });
+            }}
+          />
+        </HStack>
         {remarks && (
           <Text fontSize="small" fontStyle="italic" color="gray.500">
             비고: {remarks}

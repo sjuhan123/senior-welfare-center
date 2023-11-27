@@ -1,6 +1,8 @@
-import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Text, Flex, IconButton, Icon, HStack } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { WelfareData } from "../../../types/welfare";
+import { FaPaste } from "react-icons/fa";
+import { handleCopyClipBoard, handlePhoneClick } from "../../../utills/card";
 
 interface WelfareCenterCardProps {
   center: WelfareData;
@@ -31,10 +33,40 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
         />
       </Flex>
       <Box>
-        <Text fontSize="small">
-          {address}, {district.name}
-        </Text>
-        <Text fontSize="small">전화번호: {phone}</Text>
+        <HStack spacing="3px">
+          <Text fontSize="small">
+            주소: {address}, {district.name}
+          </Text>
+          <Icon
+            as={FaPaste}
+            w={3}
+            h={3}
+            cursor="pointer"
+            onClick={() => handleCopyClipBoard(address)}
+          />
+        </HStack>
+        <HStack spacing="3px">
+          <Text fontSize="small">
+            전화번호:
+            <Text
+              as="span"
+              color="blue.500"
+              onClick={() => handlePhoneClick(phone)}
+              ml="5px"
+              textDecoration="underline"
+              cursor="pointer"
+            >
+              {phone}
+            </Text>
+          </Text>
+          <Icon
+            as={FaPaste}
+            w={3}
+            h={3}
+            cursor="pointer"
+            onClick={() => handleCopyClipBoard(phone)}
+          />
+        </HStack>
         {remarks && (
           <Text fontSize="small" fontStyle="italic" color="gray.500">
             {remarks}
