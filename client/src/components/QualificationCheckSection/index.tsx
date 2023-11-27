@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
@@ -14,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   Text,
+  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import NavButton from "../common/Button/NavButton";
@@ -47,54 +47,66 @@ const QualificationSection = () => {
         <NavButton fLine="참여 자격" sLine="확인하기" onClick={onOpen} />
       )}
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="sm">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>노인복지관 자격확인하기</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Box>
+            <VStack spacing="24px" mt="10">
               <FormControl mb="4">
-                <FormLabel htmlFor="seoulResident">
-                  <Text fontSize="md" fontWeight="bold">
-                    1. 서울시 거주민이신가요?
-                  </Text>
-                </FormLabel>
-                <RadioGroup
-                  onChange={(value) => setIsSeoulResident(value)}
-                  value={isSeoulResident}
-                >
-                  <HStack spacing="24px">
-                    <Radio id="seoulResidentYes" value="yes">
-                      네
-                    </Radio>
-                    <Radio id="seoulResidentNo" value="no">
-                      아니요
-                    </Radio>
-                  </HStack>
-                </RadioGroup>
+                <VStack spacing="24px" align="flex-start">
+                  <FormLabel htmlFor="seoulResident">
+                    <Text fontSize="lg" fontWeight="bold">
+                      1. 서울시 거주민이신가요?
+                    </Text>
+                  </FormLabel>
+                  <RadioGroup
+                    onChange={(value) => setIsSeoulResident(value)}
+                    value={isSeoulResident}
+                  >
+                    <HStack spacing="24px">
+                      <Radio id="seoulResidentYes" value="yes">
+                        <Text fontSize="lg" fontWeight="bold">
+                          네
+                        </Text>
+                      </Radio>
+                      <Radio id="seoulResidentNo" value="no">
+                        <Text fontSize="lg" fontWeight="bold">
+                          아니요
+                        </Text>
+                      </Radio>
+                    </HStack>
+                  </RadioGroup>
+                </VStack>
               </FormControl>
               <FormControl mb="4">
-                <FormLabel htmlFor="above60">
-                  <Text fontSize="md" fontWeight="bold">
-                    2. 만 60세 이상이신가요?
-                  </Text>
-                </FormLabel>
-                <RadioGroup
-                  onChange={(value) => setIsAbove60(value)}
-                  value={isAbove60}
-                >
-                  <HStack spacing="24px">
-                    <Radio id="above60Yes" value="yes">
-                      네
-                    </Radio>
-                    <Radio id="above60No" value="no">
-                      아니요
-                    </Radio>
-                  </HStack>
-                </RadioGroup>
+                <VStack spacing="24px" align="flex-start">
+                  <FormLabel htmlFor="above60">
+                    <Text fontSize="lg" fontWeight="bold">
+                      2. 만 60세 이상이신가요?
+                    </Text>
+                  </FormLabel>
+                  <RadioGroup
+                    onChange={(value) => setIsAbove60(value)}
+                    value={isAbove60}
+                  >
+                    <HStack spacing="24px">
+                      <Radio id="above60Yes" value="yes">
+                        <Text fontSize="lg" fontWeight="bold">
+                          네
+                        </Text>
+                      </Radio>
+                      <Radio id="above60No" value="no">
+                        <Text fontSize="lg" fontWeight="bold">
+                          아니요
+                        </Text>
+                      </Radio>
+                    </HStack>
+                  </RadioGroup>
+                </VStack>
               </FormControl>
-            </Box>
+            </VStack>
           </ModalBody>
           <ModalFooter>
             <Button
