@@ -18,7 +18,7 @@ const BookmarkList = () => {
             <WelfareBookMarkCard
               key={center._id}
               center={center}
-              onDelete={() => handleBookmark(center)}
+              onDelete={() => handleBookmark("삭제", center)}
             />
           ))}
           {bookmarkList.length === 1 && <BookmarkableCard />}

@@ -5,11 +5,10 @@ import WelfareCard from "../common/Card/WelfareCard";
 import { WelfareData } from "../../types/welfare";
 import { Fragment } from "react";
 import useBookmarkList from "../../hooks/useBookmarkList";
+import { END_POINT } from "../../constant/endpoint";
 
 const fetchWelfaresByDistrict = async (districtId: string) => {
-  const res = await fetch(
-    `https://localhost:8000/api/welfares?districtId=${districtId}`
-  );
+  const res = await fetch(`${END_POINT.WELFARES}?districtId=${districtId}`);
   return await res.json();
 };
 
@@ -37,7 +36,7 @@ const WelfareList = ({ districtId }: DistrictListProps) => {
               bookmarkList.some((bookmark) => bookmark._id === welfare._id) ||
               false
             }
-            onBookmark={() => handleBookmark(welfare)}
+            onBookmark={() => handleBookmark("추가", welfare)}
           />
           <Divider />
         </Fragment>

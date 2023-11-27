@@ -4,9 +4,10 @@ import { WelfareData } from "../../types/welfare";
 import WelfareCard from "../common/Card/WelfareCard";
 import useBookmarkList from "../../hooks/useBookmarkList";
 import { Fragment } from "react";
+import { END_POINT } from "../../constant/endpoint";
 
 async function fetchClosestWelfare(latitude: number, longitude: number) {
-  const endpoint = `https://localhost:8000/api/welfares/closest?latitude=${latitude}&longitude=${longitude}`;
+  const endpoint = `${END_POINT.CLOSEST_WELFARES}?latitude=${latitude}&longitude=${longitude}`;
 
   const res = await fetch(endpoint);
   return await res.json();
@@ -45,7 +46,7 @@ const ClosestCenterList = ({
               bookmarkList.some((bookmark) => bookmark._id === welfare._id) ||
               false
             }
-            onBookmark={() => handleBookmark(welfare)}
+            onBookmark={() => handleBookmark("추가", welfare)}
             from={from}
           />
           <Divider />
