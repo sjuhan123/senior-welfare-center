@@ -74,6 +74,11 @@ const LocalWelfareSection = () => {
     zIndex: 100,
   };
 
+  const handleModalClose = () => {
+    setIsPostCodeOn(false);
+    onClose();
+  };
+
   return (
     <>
       <NavButton
@@ -82,13 +87,15 @@ const LocalWelfareSection = () => {
         onClick={() => setIsPostCodeOn(true)}
       />
       {isPostCodeOn && (
-        <DaumPostcodeEmbed
-          style={postCodeStyle}
-          onComplete={handleComplete}
-          autoClose={true}
-        />
+        <div>
+          <DaumPostcodeEmbed
+            key={isPostCodeOn ? "postcode-open" : "postcode-closed"}
+            style={postCodeStyle}
+            onComplete={handleComplete}
+          />
+        </div>
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={handleModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>집 근처 복지관 목록</ModalHeader>
@@ -105,7 +112,7 @@ const LocalWelfareSection = () => {
             </Suspense>
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onClose}>
+            <Button variant="ghost" mr={3} onClick={handleModalClose}>
               닫기
             </Button>
           </ModalFooter>
