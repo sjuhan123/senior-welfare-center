@@ -36,26 +36,26 @@
 
 - 지역별 복지관 목록 보기
 
-<img src="https://user-images.githubusercontent.com/81420856/285915191-a5a6dbe1-eda9-4656-ad71-05c25847955b.gif" width="200" height="400">
+<img src="https://user-images.githubusercontent.com/81420856/285915191-a5a6dbe1-eda9-4656-ad71-05c25847955b.gif" width="240" height="500">
 
 ### 내 근처 복지관 찾기
 
 - 내 현재 GPS 위치 기준으로 가장 가까운 복지관 2곳 보기
 
-<img src="https://user-images.githubusercontent.com/81420856/285915575-41155f31-b15d-49e5-9b48-f88df85f5560.gif" width="200" height="400">
+<img src="https://user-images.githubusercontent.com/81420856/285915575-41155f31-b15d-49e5-9b48-f88df85f5560.gif" width="240" height="500">
 
 ### 집 근처 복지관 찾기
 
 - 집 주소 기준으로 가장 가까운 복지관 2곳 보기
 
-<img src="https://user-images.githubusercontent.com/81420856/285915594-e7ee36fb-32e3-46a5-aa15-205eac8d2c4e.gif" width="200" height="400">
+<img src="https://user-images.githubusercontent.com/81420856/285915594-e7ee36fb-32e3-46a5-aa15-205eac8d2c4e.gif" width="240" height="500">
 
 ### 카카오 로그인 및 복지관 북마크
 
 - 카카오 로그인 및 로그아웃
 - 복지관 북마크 기능
 
-<img src="https://user-images.githubusercontent.com/81420856/285915604-7d67b270-353e-46e1-9737-ef7194dfbf2c.gif" width="200" height="400">
+<img src="https://user-images.githubusercontent.com/81420856/285915604-7d67b270-353e-46e1-9737-ef7194dfbf2c.gif" width="240" height="500">
 
 ### 기타 기능
 
