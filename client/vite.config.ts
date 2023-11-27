@@ -13,4 +13,7 @@ export default defineConfig({
   build: {
     outDir: "../server/public", // 빌드 결과물의 경로를 설정합니다.
   },
+  define: {
+    "window.matchMedia": jest.fn(),
+  },
 });
