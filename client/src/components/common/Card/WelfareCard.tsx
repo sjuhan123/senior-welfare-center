@@ -51,9 +51,11 @@ const WelfareCard = ({
         />
       </Flex>
       <VStack spacing="2px" align="flex-start">
-        <Text fontSize="small">
-          {from === "me" ? "나" : "집"}와의 거리: {distance.toFixed(2)}km
-        </Text>
+        {distance && (
+          <Text fontSize="small">
+            {from === "me" ? "나" : "집"}와의 거리: {distance.toFixed(2)}km
+          </Text>
+        )}
         <Text fontSize="small">
           홈페이지:
           <Text

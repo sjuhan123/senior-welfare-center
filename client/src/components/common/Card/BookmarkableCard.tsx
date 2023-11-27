@@ -11,7 +11,7 @@ const BookmarkableCard = () => {
       boxShadow="lg"
       p="3"
       display="flex"
-      h="97px"
+      h="128.5px"
       alignItems="center"
       justifyContent="center"
       gap="10px"

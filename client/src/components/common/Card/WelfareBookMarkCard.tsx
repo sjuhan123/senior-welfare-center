@@ -19,7 +19,7 @@ interface WelfareCenterCardProps {
 
 const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
   const toast = useToast();
-  const { district, name, address, phone, homepage, remarks } = center;
+  const { district, name, address, phone, homepage } = center;
 
   return (
     <Box
@@ -108,11 +108,6 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
             />
           </HStack>
         </VStack>
-        {remarks && (
-          <Text fontSize="small" fontStyle="italic" color="gray.500">
-            {remarks}
-          </Text>
-        )}
       </VStack>
     </Box>
   );

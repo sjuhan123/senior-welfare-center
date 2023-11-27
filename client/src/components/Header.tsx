@@ -2,7 +2,7 @@ import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 
 const Header = () => {
   return (
-    <Box p="30px 0px">
+    <Box p="0px 0px 20px 0px">
       <Flex
         display="flex"
         flexDirection="column"

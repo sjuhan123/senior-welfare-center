@@ -24,7 +24,7 @@ const TabBar = ({
       flexDir="row"
       gap={2}
       alignItems="center"
-      p="0px 0px 10px 0px"
+      p="0px 0px 20px 0px"
       align-items="flex-end"
     >
       {isAtHome && (

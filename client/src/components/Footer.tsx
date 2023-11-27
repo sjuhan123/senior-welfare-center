@@ -32,9 +32,6 @@ const Footer = () => {
           den.sjuhan.dev@gmail.com
         </Text>
       </HStack>
-      <Text fontSize="xs" fontWeight="bold" ml="1">
-        2023. All rights reserved.
-      </Text>
     </Box>
   );
 };

@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useBookmarkListContext } from "../contexts/bookmarkContext";
 import LoadingIndicator from "../components/common/LoadingIndicator";
+import Layout from "../components/Layout";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -22,9 +23,18 @@ const Auth = () => {
   }, [navigate, updateBookmarkList, userInfo]);
 
   return (
-    <Flex align="center" justify="center" height="100vh" width="100vw">
-      <LoadingIndicator fLine="로그인 중입니다" sLine="잠시만 기다려주세요" />
-    </Flex>
+    <Layout>
+      <Box
+        as="div"
+        w="100%"
+        h="100%"
+        display="flex"
+        justifyContent="center"
+        ml="10"
+      >
+        <LoadingIndicator fLine="로그인 중입니다" sLine="잠시만 기다려주세요" />
+      </Box>
+    </Layout>
   );
 };
 
