@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <Box
       as="footer"
-      w={isMobile ? "calc(100vw - 92px)" : "296px"}
+      w="298px"
       textAlign="center"
       paddingY="2"
       justifyContent="center"
@@ -19,7 +19,7 @@ const Footer = () => {
       style={
         !isMobile
           ? {
-              top: "calc(100vh - ((100vh - 500px) / 2) + 90px)",
+              top: "calc(100vh - ((100vh - 500px) / 2) + 140px)",
             }
           : {
               bottom: "0",
