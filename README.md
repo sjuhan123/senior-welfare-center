@@ -1,6 +1,6 @@
 # 노인복지관 프로젝트
 
-<img width="200" alt="스크린샷 2023-11-27 오후 9 43 22" src="https://user-images.githubusercontent.com/81420856/285865555-f6014d82-c2f8-48db-a109-a26efd7c5c41.png">
+👉👉 홈페이지 방문하기: https://www.노인복지관.com
 
 ## 📌 프로젝트 소개
 
@@ -82,6 +82,11 @@
 ### CI/CD
 
 - Github Actions
+
+### Deploy
+
+- Docker
+- AWS EC2, AWS Route 53
 
 ### ETC
 
