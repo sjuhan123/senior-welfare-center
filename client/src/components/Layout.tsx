@@ -4,11 +4,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Center h="100vh" w="100vw">
+    <Center h="calc(var(--vh, 1vh) * 100)" w="100%">
       <Box
         p="46"
         w="390px"
-        h={isMobile ? "100vh" : "850"}
+        h={isMobile ? "calc(var(--vh, 1vh) * 100)" : "850"}
         style={
           !isMobile
             ? {
