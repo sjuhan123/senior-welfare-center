@@ -5,6 +5,7 @@ import { Box } from "@chakra-ui/react";
 import { useBookmarkListContext } from "../contexts/bookmarkContext";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import Layout from "../components/common/Layout";
+import { ROUTE_PATH } from "../constant/route";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Auth = () => {
   useEffect(() => {
     if (userInfo && userInfo.message === "유저 정보 조회 성공") {
       updateBookmarkList(userInfo.data.bookmarkWelfares);
-      navigate("/");
+      navigate(ROUTE_PATH.HOME);
     }
   }, [navigate, updateBookmarkList, userInfo]);
 
