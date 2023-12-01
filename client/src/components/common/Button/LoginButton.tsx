@@ -13,7 +13,7 @@ const LoginButton = ({ onLogin }: LoginButtonProps) => {
       w="100%"
       bg="#FEE500"
       variant="solid"
-      onClick={() => onLogin()}
+      onClick={onLogin}
     >
       <Text ml="10px">카카오 로그인</Text>
     </Button>

@@ -24,10 +24,7 @@ const BreadscrumbList = ({
       {breadCrumbList.map((breadCrumb) => {
         if (breadCrumb === "서울시") {
           return (
-            <BreadcrumbItem
-              key={breadCrumb}
-              onClick={() => onBreadCrumbClick()}
-            >
+            <BreadcrumbItem key={breadCrumb} onClick={onBreadCrumbClick}>
               <BreadcrumbLink>
                 <Text fontSize="sm" fontWeight="900">
                   {breadCrumb}

@@ -13,7 +13,7 @@ const BookmarkButton = ({ onClick }: BookmarkButtonProps) => {
       w="100%"
       bg="#f0c74b"
       variant="solid"
-      onClick={() => onClick()}
+      onClick={onClick}
     >
       <Text ml="10px">복지관 보관소</Text>
     </Button>
