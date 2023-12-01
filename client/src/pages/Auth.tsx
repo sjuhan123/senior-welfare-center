@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { useBookmarkListContext } from "../contexts/bookmarkContext";
 import LoadingIndicator from "../components/common/LoadingIndicator";
-import Layout from "../components/Layout";
+import Layout from "../components/common/Layout";
 
 const Auth = () => {
   const navigate = useNavigate();

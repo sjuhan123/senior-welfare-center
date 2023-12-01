@@ -1,7 +1,7 @@
-import Layout from "../components/Layout";
-import Header from "../components/Header";
+import Layout from "../components/common/Layout";
+import Header from "../components/common/Header";
 import MenuArea from "../components/MenuArea";
-import Footer from "../components/Footer";
+import Footer from "../components/common/Footer";
 import BookmarkArea from "../components/BookmarkArea";
 import { Box } from "@chakra-ui/react";
 
