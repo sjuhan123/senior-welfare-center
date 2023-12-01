@@ -6,6 +6,7 @@ import { WelfareData } from "../../types/welfare";
 import { Fragment } from "react";
 import useBookmarkList from "../../hooks/useBookmarkList";
 import { END_POINT } from "../../constant/endpoint";
+import { QUERY_KEYS } from "../../constant/queryKeys";
 
 const fetchWelfaresByDistrict = async (districtId: string) => {
   const res = await fetch(`${END_POINT.WELFARES}?districtId=${districtId}`);
@@ -19,7 +20,7 @@ interface DistrictListProps {
 const WelfareList = ({ districtId }: DistrictListProps) => {
   const { bookmarkList, handleBookmark } = useBookmarkList();
   const { data: welfares } = useQuery(
-    ["welfares", districtId],
+    [QUERY_KEYS.WELFARES, districtId],
     () => fetchWelfaresByDistrict(districtId),
     {
       suspense: true,

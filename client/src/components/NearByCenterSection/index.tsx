@@ -16,6 +16,7 @@ import ClosestCenterList from "./ClosestCenterList";
 import LoadingIndicator from "../common/LoadingIndicator";
 import NavButton from "../common/Button/NavButton";
 import { Suspense } from "react";
+import { QUERY_KEYS } from "../../constant/queryKeys";
 
 type CurrentLocation = {
   latitude: number;
@@ -49,7 +50,10 @@ const NearByCenterSection = () => {
     data: currentLocation,
     isLoading,
     error,
-  } = useQuery<CurrentLocation, Error>("currentLocation", getCurrentLocation);
+  } = useQuery<CurrentLocation, Error>(
+    QUERY_KEYS.CURRENT_LOCATION,
+    getCurrentLocation
+  );
 
   return (
     <>

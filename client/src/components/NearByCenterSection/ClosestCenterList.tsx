@@ -5,6 +5,7 @@ import WelfareCard from "../common/Card/WelfareCard";
 import useBookmarkList from "../../hooks/useBookmarkList";
 import { Fragment } from "react";
 import { END_POINT } from "../../constant/endpoint";
+import { QUERY_KEYS } from "../../constant/queryKeys";
 
 async function fetchClosestWelfare(latitude: number, longitude: number) {
   const endpoint = `${END_POINT.CLOSEST_WELFARES}?latitude=${latitude}&longitude=${longitude}`;
@@ -27,7 +28,7 @@ const ClosestCenterList = ({
 }: ClosestCenterListProps) => {
   const { bookmarkList, handleBookmark } = useBookmarkList();
   const { data: welfares, error } = useQuery(
-    "closestWelfare",
+    QUERY_KEYS.CLOSEST_WELFARES,
     () => fetchClosestWelfare(location.latitude, location.longitude),
     {
       enabled: !!location,

@@ -6,6 +6,7 @@ import {
   setUserToken,
 } from "../utills/persistentStorage";
 import { END_POINT } from "../constant/endpoint";
+import { QUERY_KEYS } from "../constant/queryKeys";
 
 async function getToken(code?: string) {
   const response = await fetch(`${END_POINT.KAKAO_LOGIN}?code=${code}`);
@@ -31,21 +32,24 @@ interface UseAuth {
 const useAuth = (code?: string): UseAuth => {
   const queryClient = useQueryClient();
 
-  const { data: token } = useQuery(["token", code], () => getToken(code), {
-    enabled: !!code,
-    onSuccess: (receivedToken) => {
-      setUserToken(receivedToken);
-      queryClient.setQueryData("token", receivedToken);
-    },
-  });
+  const { data: token } = useQuery(
+    [QUERY_KEYS.TOKEN, code],
+    () => getToken(code),
+    {
+      enabled: !!code,
+      onSuccess: (receivedToken) => {
+        setUserToken(receivedToken);
+      },
+    }
+  );
 
   const { data: userInfo } = useQuery(
-    ["userInfo", token],
+    [QUERY_KEYS.USER_INFO, token],
     () => getUserInfo(token),
     {
       enabled: !!token,
       onSuccess: (receivedUserInfo) => {
-        queryClient.setQueryData("userInfo", receivedUserInfo);
+        queryClient.setQueryData(QUERY_KEYS.USER_INFO, receivedUserInfo);
       },
     }
   );
@@ -63,8 +67,7 @@ const useAuth = (code?: string): UseAuth => {
         });
 
         clearUserToken();
-        queryClient.setQueryData("token", null);
-        queryClient.setQueryData("userInfo", null);
+        queryClient.setQueryData(QUERY_KEYS.USER_INFO, null);
       }
     } catch (error) {
       console.error("Error during logout:", error);
