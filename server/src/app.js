@@ -21,12 +21,12 @@ app.use(
     directives: {
       "script-src": [
         "'self'",
-        "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
+        "https://t1.daumcdn.net",
+        "https://postcode.map.daum.net",
       ],
       "img-src": [
         "'self'",
         "https://user-images.githubusercontent.com",
-        ,
         "https://k.kakaocdn.net",
       ],
       "frame-src": ["'self'", "https://postcode.map.daum.net/"],
