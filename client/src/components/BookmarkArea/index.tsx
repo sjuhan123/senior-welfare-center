@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 const BookmarkArea = () => {
   const navigate = useNavigate();
+  // FIXME: 중앙상태에 저장해서 쓰자
   const { data: userInfo } = useQuery<UserResponse>("userInfo");
   const { logout } = useAuth();
 

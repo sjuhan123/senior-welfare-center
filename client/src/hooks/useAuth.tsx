@@ -49,6 +49,7 @@ const useAuth = (code?: string): UseAuth => {
     {
       enabled: !!token,
       onSuccess: (receivedUserInfo) => {
+        // FIXME: 중앙상태에 저장해서 쓰자
         queryClient.setQueryData(QUERY_KEYS.USER_INFO, receivedUserInfo);
       },
     }
