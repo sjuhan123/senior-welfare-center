@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { WelfareData } from "../types/welfare";
 
 interface BookmarkListContextProps {
@@ -18,9 +18,9 @@ const bookmarkListContext = createContext<BookmarkListContextProps | null>(
 const BookmarkListProvider = ({ children }: BookmarkListProps) => {
   const [bookmarkList, setBookmarkList] = useState<WelfareData[]>([]);
 
-  const updateBookmarkList = (bookmarkList: WelfareData[]) => {
+  const updateBookmarkList = useCallback((bookmarkList: WelfareData[]) => {
     setBookmarkList(bookmarkList);
-  };
+  }, []);
 
   return (
     <bookmarkListContext.Provider value={{ bookmarkList, updateBookmarkList }}>

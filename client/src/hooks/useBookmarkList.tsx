@@ -17,7 +17,9 @@ const useBookmarkList = () => {
   };
 
   const removeBookmark = (welfare: WelfareData) => {
-    updateBookmarkList(bookmarkList.filter((bookmark) => bookmark !== welfare));
+    updateBookmarkList([
+      ...bookmarkList.filter((bookmark) => bookmark !== welfare),
+    ]);
   };
 
   const handleBookmark = async (action = "추가", welfare: WelfareData) => {
