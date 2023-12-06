@@ -10,7 +10,9 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./setupTests.ts",
   },
+  base: "https://www.xn--zb0bt8fd6lsrkqxc.com/",
   build: {
+    manifest: true,
     rollupOptions: {
       input: {
         main: "./index.html",

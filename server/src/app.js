@@ -23,6 +23,8 @@ app.use(
         "'self'",
         "https://t1.daumcdn.net",
         "https://postcode.map.daum.net",
+        "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
+        `'sha256-${process.env.DAUM_HASH_KEY}'`,
       ],
       "img-src": [
         "'self'",
@@ -31,6 +33,7 @@ app.use(
       ],
       "frame-src": ["'self'", "https://postcode.map.daum.net/"],
       "connect-src": ["'self'", "https://dapi.kakao.com"],
+      "manifest-src": ["'self'", "data:"],
     },
   })
 );
