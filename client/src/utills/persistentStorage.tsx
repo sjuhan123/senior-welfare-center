@@ -1,15 +1,15 @@
 export class PersistentStorage {
-  public key;
+  private key: string;
 
   constructor(key: string) {
     this.key = key;
   }
 
-  set(value: unknown) {
+  set(value: string) {
     window.localStorage.setItem(this.key, JSON.stringify(value));
   }
 
-  get() {
+  get(): string | null {
     const rawValue = window.localStorage.getItem(this.key);
     if (!rawValue) {
       return null;
@@ -25,17 +25,16 @@ export class PersistentStorage {
 
 const USER_TOKEN = "userToken";
 
-export const getUserToken = () => {
-  const userStorage = new PersistentStorage(USER_TOKEN);
+const userStorage = new PersistentStorage(USER_TOKEN);
+
+export const getUserToken = (): string | null => {
   return userStorage.get();
 };
 
 export const setUserToken = (token: string) => {
-  const userStorage = new PersistentStorage(USER_TOKEN);
   userStorage.set(token);
 };
 
 export const clearUserToken = () => {
-  const userStorage = new PersistentStorage(USER_TOKEN);
   userStorage.delete();
 };
