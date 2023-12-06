@@ -11,6 +11,7 @@ import TabBar from "./TabBar";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { getUserToken } from "../../utills/persistentStorage";
+import { ROUTE_PATH } from "../../constant/route";
 
 const BookmarkArea = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const BookmarkArea = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/");
+    navigate(ROUTE_PATH.HOME);
   };
 
   return (
