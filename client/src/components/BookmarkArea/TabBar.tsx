@@ -2,12 +2,11 @@ import { RiAccountPinCircleFill } from "react-icons/ri";
 import { BsBookmarkHeartFill } from "react-icons/bs";
 import { Box, Icon, Text } from "@chakra-ui/react";
 import { CgCloseO } from "react-icons/cg";
-import { UserResponse } from "../../types/user";
 
 interface TabBarProps {
   isAtHome: boolean;
-  isOnBookmark: true | UserResponse | undefined;
-  isOnLogin: UserResponse | undefined;
+  isOnBookmark: string | null | true;
+  isOnLogin: string | null;
   handleBookmarkArea: () => void;
 }
 

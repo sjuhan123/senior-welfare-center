@@ -4,26 +4,24 @@ import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 
 import BookmarkButton from "../common/Button/BookmarkButton";
-import { useQuery } from "react-query";
 import AccountBar from "./AccountBar";
-import { UserResponse } from "../../types/user";
 import BookmarkList from "./BookmarkList";
 
 import TabBar from "./TabBar";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { getUserToken } from "../../utills/persistentStorage";
 
 const BookmarkArea = () => {
   const navigate = useNavigate();
-  // FIXME: 중앙상태에 저장해서 쓰자
-  const { data: userInfo } = useQuery<UserResponse>("userInfo");
+  const token = getUserToken();
   const { logout } = useAuth();
 
   const [isBookmarkCardOn, setIsBookmarkCardOn] = useState(false);
 
-  const isAtHome = !userInfo && !isBookmarkCardOn;
-  const isOnLogin = userInfo;
-  const isOnBookmark = isBookmarkCardOn || userInfo;
+  const isAtHome = !token && !isBookmarkCardOn;
+  const isOnLogin = token;
+  const isOnBookmark = isBookmarkCardOn || token;
 
   const kakaoLogin = `https://kauth.kakao.com/oauth/authorize?client_id=${
     import.meta.env.VITE_KAKAO_API_KEY
@@ -59,9 +57,7 @@ const BookmarkArea = () => {
           </>
         )}
         {isOnBookmark && <BookmarkList />}
-        {userInfo && (
-          <AccountBar userInfo={userInfo.data} onLogout={handleLogout} />
-        )}
+        {token && <AccountBar onLogout={handleLogout} />}
       </Box>
     </Box>
   );

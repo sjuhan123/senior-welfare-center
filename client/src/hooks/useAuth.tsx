@@ -7,6 +7,7 @@ import {
 } from "../utills/persistentStorage";
 import { END_POINT } from "../constant/endpoint";
 import { QUERY_KEYS } from "../constant/queryKeys";
+import { useUserKakaoInfoContext } from "../contexts/userKakaoInfoContext";
 
 async function getToken(code?: string) {
   const response = await fetch(`${END_POINT.KAKAO_LOGIN}?code=${code}`);
@@ -25,12 +26,13 @@ async function getUserInfo(token: string) {
 }
 
 interface UseAuth {
-  userInfo: UserResponse | null;
+  userInfo: UserResponse | undefined;
   logout: () => Promise<void>;
 }
 
 const useAuth = (code?: string): UseAuth => {
   const queryClient = useQueryClient();
+  const { updateUserKakaoInfo } = useUserKakaoInfoContext();
 
   const { data: token } = useQuery(
     [QUERY_KEYS.TOKEN, code],
@@ -48,9 +50,11 @@ const useAuth = (code?: string): UseAuth => {
     () => getUserInfo(token),
     {
       enabled: !!token,
-      onSuccess: (receivedUserInfo) => {
-        // FIXME: 중앙상태에 저장해서 쓰자
-        queryClient.setQueryData(QUERY_KEYS.USER_INFO, receivedUserInfo);
+      onSuccess: (receivedUserInfo: UserResponse) => {
+        updateUserKakaoInfo({
+          userName: receivedUserInfo.data.userName,
+          userAvatar: receivedUserInfo.data.userAvatar,
+        });
       },
     }
   );

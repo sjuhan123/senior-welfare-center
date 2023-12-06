@@ -4,6 +4,7 @@ import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import theme from "./styles/theme";
 import { BookmarkListProvider } from "./contexts/bookmarkContext";
 import { useEffect } from "react";
+import { UserKakaoInfoProvider } from "./contexts/userKakaoInfoContext";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -26,9 +27,11 @@ const App = () => {
     <ChakraProvider theme={theme}>
       <CSSReset />
       <QueryClientProvider client={queryClient}>
-        <BookmarkListProvider>
-          <Routers />
-        </BookmarkListProvider>
+        <UserKakaoInfoProvider>
+          <BookmarkListProvider>
+            <Routers />
+          </BookmarkListProvider>
+        </UserKakaoInfoProvider>
       </QueryClientProvider>
     </ChakraProvider>
   );
