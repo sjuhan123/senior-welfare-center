@@ -5,9 +5,20 @@ import theme from "./styles/theme";
 import { BookmarkListProvider } from "./contexts/bookmarkContext";
 import { UserKakaoInfoProvider } from "./contexts/userKakaoInfoContext";
 import useScreenSizeEffect from "./hooks/useScreenSize";
+import { useState } from "react";
 
 const App = () => {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
   useScreenSizeEffect();
 
   return (
