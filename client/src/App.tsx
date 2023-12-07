@@ -3,25 +3,12 @@ import Routers from "./router";
 import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import theme from "./styles/theme";
 import { BookmarkListProvider } from "./contexts/bookmarkContext";
-import { useEffect } from "react";
 import { UserKakaoInfoProvider } from "./contexts/userKakaoInfoContext";
+import useScreenSizeEffect from "./hooks/useScreenSize";
 
 const App = () => {
   const queryClient = new QueryClient();
-
-  function setScreenSize() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }
-
-  useEffect(() => {
-    setScreenSize();
-    window.addEventListener("resize", setScreenSize);
-
-    return () => {
-      window.removeEventListener("resize", setScreenSize);
-    };
-  }, []);
+  useScreenSizeEffect();
 
   return (
     <ChakraProvider theme={theme}>
