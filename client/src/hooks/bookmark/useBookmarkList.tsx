@@ -1,29 +1,28 @@
 import { useToast } from "@chakra-ui/react";
 import { END_POINT } from "../../constant/endpoint";
-import { useBookmarkListContext } from "../../contexts/bookmarkContext";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { WelfareData } from "../../types/welfare";
-import { getUserToken } from "../../utills/persistentStorage";
+import {
+  addBookmarkAtom,
+  bookmarkListAtom,
+  isBookmarkedAtom,
+  isBookmarkListFullAtom,
+  removeBookmarkAtom,
+} from "../../store/bookmarkList";
+import { isUserTokenValidAtom } from "../../store/auth";
+import { del, post } from "../../libs/api";
 
 const useBookmarkList = () => {
   const toast = useToast();
-  const { bookmarkList, updateBookmarkList } = useBookmarkListContext();
-
-  const isAlreadyBookmarked = (welfare: WelfareData) => {
-    return bookmarkList.some((bookmark) => bookmark._id === welfare._id);
-  };
-
-  const addBookmark = (welfare: WelfareData) => {
-    updateBookmarkList([...bookmarkList, welfare]);
-  };
-
-  const removeBookmark = (welfare: WelfareData) => {
-    updateBookmarkList([
-      ...bookmarkList.filter((bookmark) => bookmark !== welfare),
-    ]);
-  };
+  const bookmarkList = useAtomValue(bookmarkListAtom);
+  const isBookmarkListFull = useAtomValue(isBookmarkListFullAtom);
+  const isUserTokenValid = useAtomValue(isUserTokenValidAtom);
+  const addBookmark = useSetAtom(addBookmarkAtom);
+  const removeBookmark = useSetAtom(removeBookmarkAtom);
+  const [checkIsWelfareBookmarked] = useAtom(isBookmarkedAtom);
 
   const handleBookmark = async (action = "추가", welfare: WelfareData) => {
-    if (action === "추가" && bookmarkList.length === 2) {
+    if (action === "추가" && isBookmarkListFull) {
       toast({
         title: "북마크는 최대 2개까지 가능합니다.",
         status: "error",
@@ -32,40 +31,26 @@ const useBookmarkList = () => {
       });
       return;
     }
-    const token = getUserToken();
 
-    const isBookmarked = isAlreadyBookmarked(welfare);
+    const welfareId = welfare._id;
+    const isBookmarked = checkIsWelfareBookmarked(welfareId);
 
-    if (!token) {
+    if (!isUserTokenValid) {
       if (isBookmarked) {
-        removeBookmark(welfare);
+        removeBookmark(welfareId);
       } else {
         addBookmark(welfare);
       }
       return;
     }
 
-    try {
-      await fetch(
-        `${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfare._id}`,
-        {
-          method: isBookmarked ? "DELETE" : "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (isBookmarked) {
-        removeBookmark(welfare);
-      } else {
-        addBookmark(welfare);
-      }
-    } catch (error) {
-      console.error("Error during bookmark:", error);
+    if (isBookmarked) {
+      await post(`${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfareId}`);
+      removeBookmark(welfareId);
+    } else {
+      await del(`${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfareId}`);
+      addBookmark(welfare);
     }
-
-    return;
   };
 
   return { bookmarkList, handleBookmark };
