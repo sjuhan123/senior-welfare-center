@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
-import { useBookmarkListContext } from "../contexts/bookmarkContext";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import Layout from "../components/common/Layout";
 import { ROUTE_PATH } from "../constant/route";
@@ -11,11 +10,12 @@ import useGetUserInfo from "../hooks/api/useGetUserInfo";
 import { useUserKakaoInfoContext } from "../contexts/userKakaoInfoContext";
 import { useSetAtom } from "jotai";
 import { isUserTokenValidAtom } from "../store/auth";
+import { bookmarkListAtom } from "../store/bookmarkList";
 
 const Auth = () => {
   const navigate = useNavigate();
   const setIsUserTokenValid = useSetAtom(isUserTokenValidAtom);
-  const { updateBookmarkList } = useBookmarkListContext();
+  const updateBookmarkList = useSetAtom(bookmarkListAtom);
   const { updateUserKakaoInfo } = useUserKakaoInfoContext();
 
   const url = new URL(window.location.href);
