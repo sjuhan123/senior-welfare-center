@@ -8,7 +8,7 @@ import AccountBar from "./AccountBar";
 import BookmarkList from "./BookmarkList";
 
 import TabBar from "./TabBar";
-import useAuth from "../../hooks/useKakaoLogin";
+import useKakaoLogin from "../../hooks/auth/useKakaoLogin";
 import { useNavigate } from "react-router-dom";
 import { getUserToken } from "../../utills/persistentStorage";
 import { ROUTE_PATH } from "../../constant/route";
@@ -16,7 +16,7 @@ import { ROUTE_PATH } from "../../constant/route";
 const BookmarkArea = () => {
   const navigate = useNavigate();
   const token = getUserToken();
-  const { login, logout } = useAuth();
+  const { login, logout } = useKakaoLogin();
 
   const [isBookmarkCardOn, setIsBookmarkCardOn] = useState(false);
 
