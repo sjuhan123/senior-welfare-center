@@ -1,27 +1,50 @@
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useKakaoLogin";
 import { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { useBookmarkListContext } from "../contexts/bookmarkContext";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import Layout from "../components/common/Layout";
 import { ROUTE_PATH } from "../constant/route";
+import useGetTokenByCode from "../hooks/api/useGetTokenByCode";
+import { setUserToken } from "../utills/persistentStorage";
+import useGetUserInfo from "../hooks/api/useGetUserInfo";
+import { useUserKakaoInfoContext } from "../contexts/userKakaoInfoContext";
+import { useSetAtom } from "jotai";
+import { isUserTokenValidAtom } from "../store/auth";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const setIsUserTokenValid = useSetAtom(isUserTokenValidAtom);
   const { updateBookmarkList } = useBookmarkListContext();
+  const { updateUserKakaoInfo } = useUserKakaoInfoContext();
 
   const url = new URL(window.location.href);
   const queryCode = url.searchParams.get("code") || "";
 
-  const { userInfo } = useAuth(queryCode);
+  const { data } = useGetTokenByCode(queryCode, {
+    enabled: !!queryCode,
+    onSuccess: (receivedToken) => {
+      setIsUserTokenValid(true);
+      setUserToken(receivedToken.data);
+    },
+  });
+
+  const { data: userInfo } = useGetUserInfo({
+    enabled: !!data,
+    onSuccess: (receivedUserInfo) => {
+      updateUserKakaoInfo({
+        userName: receivedUserInfo.data.userName,
+        userAvatar: receivedUserInfo.data.userAvatar,
+      });
+      updateBookmarkList(receivedUserInfo.data.bookmarkWelfares);
+    },
+  });
 
   useEffect(() => {
     if (userInfo && userInfo.message === "유저 정보 조회 성공") {
-      updateBookmarkList(userInfo.data.bookmarkWelfares);
       navigate(ROUTE_PATH.HOME);
     }
-  }, [navigate, updateBookmarkList, userInfo]);
+  }, [navigate, userInfo]);
 
   return (
     <Layout>

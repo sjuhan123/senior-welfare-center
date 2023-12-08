@@ -11,8 +11,6 @@ const instance = axios.create({
 });
 
 const interceptorRequestFulfilled = (config: InternalAxiosRequestConfig) => {
-  if (typeof window === "undefined") return config;
-
   const accessToken = getUserToken();
   if (!config.headers) return config;
   if (!accessToken) return config;
@@ -30,7 +28,7 @@ const interceptorResponseFulfilled = (res: AxiosResponse) => {
     return res.data;
   }
 
-  return Promise.reject(res.data);
+  return Promise.resolve(res.data);
 };
 
 // Response interceptor
