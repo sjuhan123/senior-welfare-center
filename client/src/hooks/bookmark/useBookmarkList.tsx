@@ -1,8 +1,8 @@
 import { useToast } from "@chakra-ui/react";
-import { END_POINT } from "../constant/endpoint";
-import { useBookmarkListContext } from "../contexts/bookmarkContext";
-import { WelfareData } from "../types/welfare";
-import { getUserToken } from "../utills/persistentStorage";
+import { END_POINT } from "../../constant/endpoint";
+import { useBookmarkListContext } from "../../contexts/bookmarkContext";
+import { WelfareData } from "../../types/welfare";
+import { getUserToken } from "../../utills/persistentStorage";
 
 const useBookmarkList = () => {
   const toast = useToast();

@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import WelfareCard from "../common/Card/WelfareCard";
 import { WelfareData } from "../../types/welfare";
 import { Fragment } from "react";
-import useBookmarkList from "../../hooks/useBookmarkList";
+import useBookmarkList from "../../hooks/bookmark/useBookmarkList";
 import { END_POINT } from "../../constant/endpoint";
 import { QUERY_KEYS } from "../../constant/queryKeys";
 

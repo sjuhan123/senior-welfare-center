@@ -1,6 +1,6 @@
 import BookmarkableCard from "../common/Card/BookmarkableCard";
 import WelfareBookMarkCard from "../common/Card/WelfareBookMarkCard";
-import useBookmarkList from "../../hooks/useBookmarkList";
+import useBookmarkList from "../../hooks/bookmark/useBookmarkList";
 
 const BookmarkList = () => {
   const { bookmarkList, handleBookmark } = useBookmarkList();

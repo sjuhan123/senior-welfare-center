@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { Divider } from "@chakra-ui/react";
 import { WelfareData } from "../../types/welfare";
 import WelfareCard from "../common/Card/WelfareCard";
-import useBookmarkList from "../../hooks/useBookmarkList";
+import useBookmarkList from "../../hooks/bookmark/useBookmarkList";
 import { Fragment } from "react";
 import { END_POINT } from "../../constant/endpoint";
 import { QUERY_KEYS } from "../../constant/queryKeys";
