@@ -25,12 +25,13 @@ async function getUserInfo(token: string) {
   return data;
 }
 
-interface UseAuth {
+interface UseKakaoLogin {
   userInfo: UserResponse | undefined;
+  login: () => void;
   logout: () => Promise<void>;
 }
 
-const useAuth = (code?: string): UseAuth => {
+const useKakaoLogin = (code?: string): UseKakaoLogin => {
   const queryClient = useQueryClient();
   const { updateUserKakaoInfo } = useUserKakaoInfoContext();
 
@@ -59,6 +60,16 @@ const useAuth = (code?: string): UseAuth => {
     }
   );
 
+  const login = () => {
+    const kakaoLogin = `https://kauth.kakao.com/oauth/authorize?client_id=${
+      import.meta.env.VITE_KAKAO_API_KEY
+    }&redirect_uri=${
+      import.meta.env.VITE_KAKAO_REDIRECT_URI
+    }&response_type=code`;
+
+    window.location.href = kakaoLogin;
+  };
+
   const logout = async () => {
     try {
       const token = getUserToken();
@@ -79,7 +90,7 @@ const useAuth = (code?: string): UseAuth => {
     }
   };
 
-  return { userInfo, logout };
+  return { userInfo, login, logout };
 };
 
-export default useAuth;
+export default useKakaoLogin;

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/useKakaoLogin";
 import { useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { useBookmarkListContext } from "../contexts/bookmarkContext";
