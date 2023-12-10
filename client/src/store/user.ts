@@ -6,7 +6,7 @@ export const userInfoAtom = atom<UserKakaoInfo>({
   userAvatar: "",
 });
 
-export const resetUserInfoAtom = atom(null, (get, set) => {
+export const resetUserInfoAtom = atom(null, (_get, set) => {
   set(userInfoAtom, {
     userName: "",
     userAvatar: "",
