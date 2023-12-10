@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import ClosestCenterList from "./ClosestCenterList";
+import WelfaresNear from "./WelfaresNear";
 import LoadingIndicator from "../common/LoadingIndicator";
 import NavButton from "../common/Button/NavButton";
 import { Suspense } from "react";
@@ -97,7 +97,7 @@ const NearByCenterSection = () => {
                   />
                 }
               >
-                <ClosestCenterList location={currentLocation} />
+                <WelfaresNear location={currentLocation} />
               </Suspense>
             )}
           </ModalBody>

@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NavButton from "../common/Button/NavButton";
-import ClosestCenterList from "../NearByCenterSection/ClosestCenterList";
+import WelfaresNear from "../NearByCenterSection/WelfaresNear";
 import { Suspense, useState } from "react";
 import LoadingIndicator from "../common/LoadingIndicator";
 import DaumPostcodeEmbed from "react-daum-postcode";
@@ -108,7 +108,7 @@ const LocalWelfareSection = () => {
                 />
               }
             >
-              <ClosestCenterList location={coordinate} from="home" />
+              <WelfaresNear location={coordinate} from="home" />
             </Suspense>
           </ModalBody>
           <ModalFooter>

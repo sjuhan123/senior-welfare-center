@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { Suspense, useState } from "react";
 
-import WelfareList from "./WelfareList";
+import WelfaresInDistrict from "./WelfaresInDistrict";
 import BreadscrumbList from "./BreadscrumbList";
 import DistrictList from "./DistrictList";
 import NavButton from "../common/Button/NavButton";
@@ -81,7 +81,7 @@ const SearchSection = () => {
                     />
                   }
                 >
-                  <WelfareList districtId={selectedDistrictId} />
+                  <WelfaresInDistrict districtId={selectedDistrictId} />
                 </Suspense>
               )}
             </Box>
