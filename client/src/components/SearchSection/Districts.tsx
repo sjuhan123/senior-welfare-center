@@ -1,20 +1,13 @@
 import { Text, Button, SimpleGrid } from "@chakra-ui/react";
-import { useQuery } from "react-query";
 import { DistrictData } from "../../types/district";
-import { END_POINT } from "../../constant/endpoint";
-import { QUERY_KEYS } from "../../constant/queryKeys";
-
-const fetchDistricts = async () => {
-  const res = await fetch(END_POINT.DISTRICTS);
-  return await res.json();
-};
+import useGetDistricts from "../../hooks/api/district/useGetDistricts";
 
 interface DistrictListProps {
   onDistrictClick: (districtName: string, districtId: string) => void;
 }
 
-const DistrictList = ({ onDistrictClick }: DistrictListProps) => {
-  const { data } = useQuery(QUERY_KEYS.DISTRICTS, fetchDistricts, {
+const Districts = ({ onDistrictClick }: DistrictListProps) => {
+  const { data } = useGetDistricts({
     suspense: true,
   });
 
@@ -36,4 +29,4 @@ const DistrictList = ({ onDistrictClick }: DistrictListProps) => {
   );
 };
 
-export default DistrictList;
+export default Districts;

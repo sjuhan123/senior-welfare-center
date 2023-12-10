@@ -16,7 +16,7 @@ import { Suspense, useState } from "react";
 
 import WelfaresInDistrict from "./WelfaresInDistrict";
 import BreadscrumbList from "./BreadscrumbList";
-import DistrictList from "./DistrictList";
+import DistrictList from "./Districts";
 import NavButton from "../common/Button/NavButton";
 import LoadingIndicator from "../common/LoadingIndicator";
 
