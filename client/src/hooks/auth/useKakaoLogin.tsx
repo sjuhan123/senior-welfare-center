@@ -1,8 +1,9 @@
 import { clearUserToken } from "../../utills/persistentStorage";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { isUserTokenValidAtom } from "../../store/auth";
 import { post } from "../../libs/api";
 import { END_POINT } from "../../constant/endpoint";
+import { resetUserInfoAtom } from "../../store/user";
 
 type UseKakaoLogin = {
   login: () => void;
@@ -11,6 +12,7 @@ type UseKakaoLogin = {
 
 const useKakaoLogin = (): UseKakaoLogin => {
   const [isUserTokenValid, setIsUserTokenValid] = useAtom(isUserTokenValidAtom);
+  const resetUserInfo = useSetAtom(resetUserInfoAtom);
 
   const login = () => {
     const kakaoLogin = `https://kauth.kakao.com/oauth/authorize?client_id=${
@@ -27,6 +29,7 @@ const useKakaoLogin = (): UseKakaoLogin => {
       await post(END_POINT.KAKAO_LOGOUT);
     }
     setIsUserTokenValid(false);
+    resetUserInfo();
     clearUserToken();
   };
 

@@ -7,16 +7,16 @@ import { ROUTE_PATH } from "../constant/route";
 import useGetTokenByCode from "../hooks/api/auth/useGetTokenByCode";
 import { setUserToken } from "../utills/persistentStorage";
 import useGetUserInfo from "../hooks/api/auth/useGetUserInfo";
-import { useUserKakaoInfoContext } from "../contexts/userKakaoInfoContext";
 import { useSetAtom } from "jotai";
 import { isUserTokenValidAtom } from "../store/auth";
 import { bookmarkListAtom } from "../store/bookmarkList";
+import { userInfoAtom } from "../store/user";
 
 const Auth = () => {
   const navigate = useNavigate();
   const setIsUserTokenValid = useSetAtom(isUserTokenValidAtom);
   const updateBookmarkList = useSetAtom(bookmarkListAtom);
-  const { updateUserKakaoInfo } = useUserKakaoInfoContext();
+  const setUserInfo = useSetAtom(userInfoAtom);
 
   const url = new URL(window.location.href);
   const queryCode = url.searchParams.get("code") || "";
@@ -32,7 +32,7 @@ const Auth = () => {
   const { data: userInfo } = useGetUserInfo({
     enabled: !!data,
     onSuccess: (receivedUserInfo) => {
-      updateUserKakaoInfo({
+      setUserInfo({
         userName: receivedUserInfo.data.userName,
         userAvatar: receivedUserInfo.data.userAvatar,
       });

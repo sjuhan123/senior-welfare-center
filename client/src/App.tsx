@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Routers from "./router";
 import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import theme from "./styles/theme";
-import { UserKakaoInfoProvider } from "./contexts/userKakaoInfoContext";
 import useScreenSizeEffect from "./hooks/screen/useScreenSize";
 import { useState } from "react";
 
@@ -24,9 +23,7 @@ const App = () => {
     <ChakraProvider theme={theme}>
       <CSSReset />
       <QueryClientProvider client={queryClient}>
-        <UserKakaoInfoProvider>
-          <Routers />
-        </UserKakaoInfoProvider>
+        <Routers />
       </QueryClientProvider>
     </ChakraProvider>
   );

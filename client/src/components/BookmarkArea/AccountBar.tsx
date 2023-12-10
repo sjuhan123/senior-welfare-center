@@ -1,16 +1,16 @@
 import ToButton from "../common/Button/ToButton";
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { KakaoLogo } from "../../assets";
-import { useUserKakaoInfoContext } from "../../contexts/userKakaoInfoContext";
+import { useAtomValue } from "jotai";
+import { userInfoAtom } from "../../store/user";
 
 interface TabBarProps {
   onLogout: () => void;
 }
 
 const AccountBar = ({ onLogout }: TabBarProps) => {
-  const {
-    userKakaoInfo: { userName, userAvatar },
-  } = useUserKakaoInfoContext();
+  const userInfo = useAtomValue(userInfoAtom);
+  const { userName, userAvatar } = userInfo;
 
   return (
     <Flex w="100%" p="0px 10px" gap={2} justifyContent="space-between">
