@@ -5,6 +5,7 @@ import axios, {
 } from "axios";
 
 import { getUserToken } from "../utills/persistentStorage";
+import { ApiException } from "../exceptions/ApiException";
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL || "",
@@ -28,12 +29,12 @@ const interceptorResponseFulfilled = (res: AxiosResponse) => {
     return res.data;
   }
 
-  return Promise.resolve(res.data);
+  return Promise.reject(res.data);
 };
 
 // Response interceptor
 const interceptorResponseRejected = (error: AxiosError) => {
-  return Promise.reject(error);
+  return Promise.reject(new ApiException(error.message, error.code));
 };
 
 instance.interceptors.response.use(
