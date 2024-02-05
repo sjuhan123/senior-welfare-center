@@ -869,6 +869,16 @@ const welfares = [
     latitude: "37.569212036556934",
     longitude: "127.02023911968907",
   },
+  {
+    district: "성동구",
+    name: "송정동노인복지관",
+    address: "송정18가길 9",
+    phone: "02-6951-1055",
+    homepage: `http://sjdsenior.org/home/H00_02#.`,
+    remarks: "",
+    latitude: "37.5532273222163",
+    longitude: "127.06837176554",
+  },
 ];
 
 export default welfares;
