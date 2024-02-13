@@ -51,73 +51,70 @@ const fetchCoordinates = async (roadAddress: string) => {
 };
 
 const LocalWelfareSection = () => {
-  const [isPostCodeOn, setIsPostCodeOn] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [coordinate, setCoordinate] = useState({
     latitude: 0,
     longitude: 0,
   });
+  const isCoordinateSet =
+    coordinate.latitude !== 0 && coordinate.longitude !== 0;
 
   const handleComplete = async (data: PostCodeResponse) => {
     const roadAddress = data.roadAddress;
     const coordinateRes = await fetchCoordinates(roadAddress);
     setCoordinate(coordinateRes);
-    onOpen();
   };
 
-  const postCodeStyle = {
-    position: "fixed",
-    width: "100%",
-    height: "100%",
-    top: 0,
-    left: 0,
-    zIndex: 100,
-  };
-
-  const handleModalClose = () => {
-    setIsPostCodeOn(false);
-    onClose();
+  const handleReset = () => {
+    setCoordinate({ latitude: 0, longitude: 0 });
   };
 
   return (
     <>
-      <NavButton
-        fLine="집 근처"
-        sLine="복지관 찾기"
-        onClick={() => setIsPostCodeOn(true)}
-      />
-      {isPostCodeOn && (
-        <div>
-          <DaumPostcodeEmbed
-            key={isPostCodeOn ? "postcode-open" : "postcode-closed"}
-            style={postCodeStyle}
-            onComplete={handleComplete}
-          />
-        </div>
+      <NavButton fLine="집 근처" sLine="복지관 찾기" onClick={onOpen} />
+      {!isCoordinateSet && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <DaumPostcodeEmbed
+              key="postcode"
+              onComplete={handleComplete}
+              style={{
+                padding: "5px 0 0 0",
+                height: "100%",
+              }}
+            />
+          </ModalContent>
+        </Modal>
       )}
-      <Modal isOpen={isOpen} onClose={handleModalClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>집 근처 복지관 목록</ModalHeader>
-          <ModalBody>
-            <Suspense
-              fallback={
-                <LoadingIndicator
-                  fLine="가까운 복지관을 불러오고 있습니다."
-                  sLine="잠시만 기다려주세요."
-                />
-              }
-            >
-              <WelfaresNear location={coordinate} from="home" />
-            </Suspense>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={handleModalClose}>
-              닫기
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {isCoordinateSet && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>집 근처 복지관 목록</ModalHeader>
+            <ModalBody>
+              <Suspense
+                fallback={
+                  <LoadingIndicator
+                    fLine="가까운 복지관을 불러오고 있습니다."
+                    sLine="잠시만 기다려주세요."
+                  />
+                }
+              >
+                <WelfaresNear location={coordinate} from="home" />
+              </Suspense>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={handleReset}>
+                주소 검색 다시하기
+              </Button>
+              <Button variant="ghost" mr={3} onClick={onClose}>
+                닫기
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };
