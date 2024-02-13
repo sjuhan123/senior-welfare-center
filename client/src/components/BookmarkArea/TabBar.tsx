@@ -48,6 +48,7 @@ const TabBar = ({
               w={6}
               h={6}
               onClick={handleBookmarkArea}
+              cursor="pointer"
             />
             {!isAtHome && (
               <Text fontSize="md" fontWeight="bold">
@@ -57,7 +58,7 @@ const TabBar = ({
           </Box>
           {!isOnLogin && (
             <Box display="flex" alignItems="center">
-              <Icon as={CgCloseO} w={4} h={4} onClick={handleBookmarkArea} />
+              <Icon as={CgCloseO} w={4} h={4} onClick={handleBookmarkArea} cursor="pointer" />
             </Box>
           )}
         </Box>
