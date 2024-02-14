@@ -21,17 +21,7 @@ const useBookmarkList = () => {
   const removeBookmark = useSetAtom(removeBookmarkAtom);
   const [checkIsWelfareBookmarked] = useAtom(isBookmarkedAtom);
 
-  const handleBookmark = async (action = "추가", welfare: WelfareData) => {
-    if (action === "추가" && isBookmarkListFull) {
-      toast({
-        title: "북마크는 최대 2개까지 가능합니다.",
-        status: "error",
-        duration: 1000,
-        isClosable: true,
-      });
-      return;
-    }
-
+  const handleBookmark = async (welfare: WelfareData) => {
     const welfareId = welfare._id;
     const isBookmarked = checkIsWelfareBookmarked(welfareId);
 
@@ -45,10 +35,20 @@ const useBookmarkList = () => {
     }
 
     if (isBookmarked) {
-      await post(`${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfareId}`);
+      await del(`${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfareId}`);
       removeBookmark(welfareId);
     } else {
-      await del(`${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfareId}`);
+      if (isBookmarkListFull) {
+        toast({
+          title: "북마크는 최대 2개까지 가능합니다.",
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      await post(`${END_POINT.USER_WELFARE_BOOKMARK}?welfareId=${welfareId}`);
       addBookmark(welfare);
     }
   };

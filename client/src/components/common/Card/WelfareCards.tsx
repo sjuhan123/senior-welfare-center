@@ -15,10 +15,10 @@ const WelfareCards = ({ welfares, from }: WelfareCardsProps) => {
     <Fragment key={welfare._id}>
       <WelfareCard
         center={welfare}
-        isBookmarked={
-          bookmarkList.some((bookmark) => bookmark._id === welfare._id) || false
-        }
-        onBookmark={() => handleBookmark("추가", welfare)}
+        isBookmarked={bookmarkList.some(
+          (bookmark) => bookmark._id === welfare._id
+        )}
+        onBookmark={() => handleBookmark(welfare)}
         from={from}
       />
       <Divider />
