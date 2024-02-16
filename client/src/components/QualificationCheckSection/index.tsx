@@ -15,12 +15,14 @@ import {
   Text,
   VStack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import NavButton from "../common/Button/NavButton";
 import { useState } from "react";
 import QualificationCheckCard from "../common/Card/QualificationCheckCard";
 
 const QualificationSection = () => {
+  const toast = useToast();
   const [isChecked, setIsChecked] = useState(false);
   const [isSeoulResident, setIsSeoulResident] = useState("");
   const [isAbove60, setIsAbove60] = useState("");
@@ -31,7 +33,14 @@ const QualificationSection = () => {
     if (isSeoulResident === "yes" && isAbove60 === "yes") {
       setIsChecked(true);
       onClose();
+      return;
     }
+    toast({
+      title: `노인 복지관 이용 자격이 없습니다.`,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (
