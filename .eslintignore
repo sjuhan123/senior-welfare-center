@@ -6,3 +6,4 @@ node_modules
 .pnp.loager.mjs
 !.storybook
 mockServiceWorker.js
+.eslintrc.js
