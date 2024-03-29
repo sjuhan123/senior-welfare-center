@@ -123,16 +123,11 @@ module.exports = {
       },
     },
     {
-      files: [
-        "packages/senior-welfare-center-client/**/*.ts?(x)",
-        "packages/senior-welfare-center-client/**/*.js?(x)",
-      ],
+      files: ["packages/client/**/*.ts?(x)", "packages/client/**/*.js?(x)"],
       settings: {
         "import/resolver": {
           typescript: {
-            project: path.resolve(
-              `${__dirname}/packages/senior-welfare-center-client/tsconfig.json`
-            ),
+            project: path.resolve(`${__dirname}/packages/client/tsconfig.json`),
           },
         },
       },

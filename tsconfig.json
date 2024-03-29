@@ -23,7 +23,7 @@
   },
   "references": [
     {
-      "path": "packages/senior-welfare-center-client"
+      "path": "packages/client"
     }
   ],
   "include": []
