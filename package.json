@@ -3,13 +3,18 @@
   "packageManager": "yarn@4.1.1",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/client",
+    "packages/server"
   ],
+  "scripts": {
+    "senior-welfare-center-client": "yarn workspace senior-welfare-center-client dev"
+  },
   "devDependencies": {
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.73",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
+    "@yarnpkg/sdks": "^3.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-node": "^0.3.9",

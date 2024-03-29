@@ -11,6 +11,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "axios": "^1.6.8",
     "framer-motion": "^11.0.23",
     "jotai": "^2.7.1",
