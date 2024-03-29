@@ -475,7 +475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/anatomy@npm:2.2.2":
+"@chakra-ui/anatomy@npm:2.2.2, @chakra-ui/anatomy@npm:^2.2.2":
   version: 2.2.2
   resolution: "@chakra-ui/anatomy@npm:2.2.2"
   checksum: 10c0/06088161541e63bcc240487c0916d536c4b807e53da8ec4821b6dad737c84683a5936e3e44b99b6a6435a9cf896a3236d5f87226add27378c939804daed77305
@@ -1427,7 +1427,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/styled-system@npm:2.9.2":
+"@chakra-ui/styled-system@npm:2.9.2, @chakra-ui/styled-system@npm:^2.9.2":
   version: 2.9.2
   resolution: "@chakra-ui/styled-system@npm:2.9.2"
   dependencies:
@@ -9711,8 +9711,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "senior-welfare-center-client@workspace:packages/client"
   dependencies:
+    "@chakra-ui/anatomy": "npm:^2.2.2"
     "@chakra-ui/icons": "npm:^2.1.1"
     "@chakra-ui/react": "npm:^2.8.2"
+    "@chakra-ui/styled-system": "npm:^2.9.2"
     "@chakra-ui/system": "npm:^2.6.2"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"

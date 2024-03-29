@@ -12940,8 +12940,10 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/client/",\
         "packageDependencies": [\
           ["senior-welfare-center-client", "workspace:packages/client"],\
+          ["@chakra-ui/anatomy", "npm:2.2.2"],\
           ["@chakra-ui/icons", "virtual:71b92891ba5338c3dcb036e34b659ff71bd96d55fd8504af536b964d6b41f6a23e0d69bfb1ca6a64e77740fffe98e8d17ee260eb682b8b284d615721e7518f56#npm:2.1.1"],\
           ["@chakra-ui/react", "virtual:71b92891ba5338c3dcb036e34b659ff71bd96d55fd8504af536b964d6b41f6a23e0d69bfb1ca6a64e77740fffe98e8d17ee260eb682b8b284d615721e7518f56#npm:2.8.2"],\
+          ["@chakra-ui/styled-system", "npm:2.9.2"],\
           ["@chakra-ui/system", "virtual:71b92891ba5338c3dcb036e34b659ff71bd96d55fd8504af536b964d6b41f6a23e0d69bfb1ca6a64e77740fffe98e8d17ee260eb682b8b284d615721e7518f56#npm:2.6.2"],\
           ["@emotion/react", "virtual:71b92891ba5338c3dcb036e34b659ff71bd96d55fd8504af536b964d6b41f6a23e0d69bfb1ca6a64e77740fffe98e8d17ee260eb682b8b284d615721e7518f56#npm:11.11.4"],\
           ["@emotion/styled", "virtual:71b92891ba5338c3dcb036e34b659ff71bd96d55fd8504af536b964d6b41f6a23e0d69bfb1ca6a64e77740fffe98e8d17ee260eb682b8b284d615721e7518f56#npm:11.11.0"],\
