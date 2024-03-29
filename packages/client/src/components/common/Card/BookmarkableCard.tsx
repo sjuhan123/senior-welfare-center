@@ -1,5 +1,5 @@
-import { Box, Text, Icon } from "@chakra-ui/react";
-import { FaRegBookmark } from "react-icons/fa";
+import { Box, Text, Icon } from '@chakra-ui/react';
+import { FaRegBookmark } from 'react-icons/fa';
 
 const BookmarkableCard = () => {
   return (

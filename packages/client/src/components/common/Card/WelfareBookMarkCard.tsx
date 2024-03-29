@@ -6,11 +6,11 @@ import {
   HStack,
   VStack,
   useToast,
-} from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
-import { WelfareData } from "../../../types/welfare";
-import { FaPaste } from "react-icons/fa";
-import { handleCopyClipBoard, handlePhoneClick } from "../../../utills/card";
+} from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { WelfareData } from '../../../types/welfare';
+import { FaPaste } from 'react-icons/fa';
+import { handleCopyClipBoard, handlePhoneClick } from '../../../utills/card';
 
 interface WelfareCenterCardProps {
   center: WelfareData;
@@ -50,7 +50,7 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
               color="blue.500"
               ml="5px"
               cursor="pointer"
-              onClick={() => window.open(homepage, "_blank")}
+              onClick={() => window.open(homepage, '_blank')}
             >
               방문하기
             </Text>
@@ -67,9 +67,9 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
               onClick={() => {
                 handleCopyClipBoard(address);
                 toast({
-                  title: "복사 완료",
-                  description: "주소가 복사되었습니다.",
-                  status: "success",
+                  title: '복사 완료',
+                  description: '주소가 복사되었습니다.',
+                  status: 'success',
                   duration: 1000,
                   isClosable: true,
                 });
@@ -98,9 +98,9 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
               onClick={() => {
                 handleCopyClipBoard(phone);
                 toast({
-                  title: "복사 완료",
-                  description: "전화번호가 복사되었습니다.",
-                  status: "success",
+                  title: '복사 완료',
+                  description: '전화번호가 복사되었습니다.',
+                  status: 'success',
                   duration: 1000,
                   isClosable: true,
                 });

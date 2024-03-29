@@ -10,13 +10,13 @@ import {
   Text,
   VStack,
   useDisclosure,
-} from "@chakra-ui/react";
-import { useQuery } from "react-query";
-import WelfaresNear from "./WelfaresNear";
-import LoadingIndicator from "../common/LoadingIndicator";
-import NavButton from "../common/Button/NavButton";
-import { Suspense } from "react";
-import { QUERY_KEYS } from "../../constant/queryKeys";
+} from '@chakra-ui/react';
+import { useQuery } from 'react-query';
+import WelfaresNear from './WelfaresNear';
+import LoadingIndicator from '../common/LoadingIndicator';
+import NavButton from '../common/Button/NavButton';
+import { Suspense } from 'react';
+import { QUERY_KEYS } from '../../constant/queryKeys';
 
 type CurrentLocation = {
   latitude: number;
@@ -27,17 +27,17 @@ const getCurrentLocation: () => Promise<CurrentLocation> = () => {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           const { latitude, longitude } = position.coords;
           resolve({ latitude, longitude });
         },
         (error: GeolocationPositionError) => {
-          console.error("Error getting location:", error.message);
+          console.error('Error getting location:', error.message);
           reject(error.message);
-        }
+        },
       );
     } else {
-      const errorMessage = "Geolocation is not supported by this browser.";
+      const errorMessage = 'Geolocation is not supported by this browser.';
       console.error(errorMessage);
       reject(errorMessage);
     }
@@ -52,7 +52,7 @@ const NearByCenterSection = () => {
     error,
   } = useQuery<CurrentLocation, Error>(
     QUERY_KEYS.CURRENT_LOCATION,
-    getCurrentLocation
+    getCurrentLocation,
   );
 
   return (

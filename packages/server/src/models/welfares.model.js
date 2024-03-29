@@ -1,7 +1,7 @@
-import welfaresInfo from "../../data/welfares.data.js";
-import { saveDistrict } from "./districts.model.js";
-import District from "./districts.mongo.js";
-import Welfare from "./welfares.mongo.js";
+import welfaresInfo from '../../data/welfares.data.js';
+import { saveDistrict } from './districts.model.js';
+import District from './districts.mongo.js';
+import Welfare from './welfares.mongo.js';
 
 async function loadWelfareData() {
   try {
@@ -9,7 +9,7 @@ async function loadWelfareData() {
       await saveWelfare(welfare);
     }
   } catch (error) {
-    console.error("Error loading welfare data", error);
+    console.error('Error loading welfare data', error);
     throw error;
   } finally {
     const welfaresFound = (await getAllWelfares()).length;
@@ -79,27 +79,27 @@ async function saveWelfare(welfare) {
       await Welfare.updateOne(filter, update, { upsert: true });
     }
   } catch (error) {
-    console.error("Could not save welfare", error);
+    console.error('Could not save welfare', error);
   }
 }
 
 async function getWelfareByWelfareId(welfareId) {
-  return await Welfare.findOne({ _id: welfareId }, "-__v").populate(
-    "district",
-    "name -_id"
+  return await Welfare.findOne({ _id: welfareId }, '-__v').populate(
+    'district',
+    'name -_id',
   );
 }
 
 async function getWelfaresByDistrictId(districtId) {
-  return await Welfare.find({ district: districtId }, "-__v").populate(
-    "district",
-    "name -_id"
+  return await Welfare.find({ district: districtId }, '-__v').populate(
+    'district',
+    'name -_id',
   );
 }
 
 async function getAllWelfares() {
   return await Welfare.find({}, { __v: 0 })
-    .populate("district", {
+    .populate('district', {
       __v: 0,
     })
     .lean();

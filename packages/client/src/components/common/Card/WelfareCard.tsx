@@ -7,12 +7,12 @@ import {
   HStack,
   useToast,
   VStack,
-} from "@chakra-ui/react";
-import { WelfareData } from "../../../types/welfare";
-import { MdBookmarkAdded } from "react-icons/md";
-import { FcBookmark } from "react-icons/fc";
-import { FaPaste } from "react-icons/fa";
-import { handleCopyClipBoard, handlePhoneClick } from "../../../utills/card";
+} from '@chakra-ui/react';
+import { WelfareData } from '../../../types/welfare';
+import { MdBookmarkAdded } from 'react-icons/md';
+import { FcBookmark } from 'react-icons/fc';
+import { FaPaste } from 'react-icons/fa';
+import { handleCopyClipBoard, handlePhoneClick } from '../../../utills/card';
 
 interface WelfareCardProps {
   center: WelfareData;
@@ -25,7 +25,7 @@ const WelfareCard = ({
   center,
   isBookmarked,
   onBookmark,
-  from = "me",
+  from = 'me',
 }: WelfareCardProps) => {
   const toast = useToast();
   const { district, name, address, phone, homepage, distance, remarks } =
@@ -53,7 +53,7 @@ const WelfareCard = ({
       <VStack spacing="2px" align="flex-start">
         {distance && (
           <Text fontSize="small">
-            {from === "me" ? "나" : "집"}와의 거리: {distance.toFixed(2)}km
+            {from === 'me' ? '나' : '집'}와의 거리: {distance.toFixed(2)}km
           </Text>
         )}
         <Text fontSize="small">
@@ -63,7 +63,7 @@ const WelfareCard = ({
             color="blue.500"
             ml="5px"
             cursor="pointer"
-            onClick={() => window.open(homepage, "_blank")}
+            onClick={() => window.open(homepage, '_blank')}
           >
             방문하기
           </Text>
@@ -80,9 +80,9 @@ const WelfareCard = ({
             onClick={() => {
               handleCopyClipBoard(address);
               toast({
-                title: "복사 완료",
-                description: "주소가 복사되었습니다.",
-                status: "success",
+                title: '복사 완료',
+                description: '주소가 복사되었습니다.',
+                status: 'success',
                 duration: 1000,
                 isClosable: true,
               });
@@ -111,9 +111,9 @@ const WelfareCard = ({
             onClick={() => {
               handleCopyClipBoard(phone);
               toast({
-                title: "복사 완료",
-                description: "전화번호가 복사되었습니다.",
-                status: "success",
+                title: '복사 완료',
+                description: '전화번호가 복사되었습니다.',
+                status: 'success',
                 duration: 1000,
                 isClosable: true,
               });

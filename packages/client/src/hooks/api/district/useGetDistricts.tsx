@@ -1,8 +1,8 @@
-import { UseQueryOptions, useQuery } from "react-query";
-import { QUERY_KEYS } from "../../../constant/queryKeys";
-import { get } from "../../../libs/api";
-import { END_POINT } from "../../../constant/endpoint";
-import { DistrictData } from "../../../types/district";
+import { UseQueryOptions, useQuery } from 'react-query';
+import { QUERY_KEYS } from '../../../constant/queryKeys';
+import { get } from '../../../libs/api';
+import { END_POINT } from '../../../constant/endpoint';
+import { DistrictData } from '../../../types/district';
 
 type Response = {
   status: number;

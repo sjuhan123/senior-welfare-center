@@ -11,24 +11,24 @@ import {
   ModalOverlay,
   Stack,
   useDisclosure,
-} from "@chakra-ui/react";
-import { Suspense, useState } from "react";
+} from '@chakra-ui/react';
+import { Suspense, useState } from 'react';
 
-import WelfaresInDistrict from "./WelfaresInDistrict";
-import BreadscrumbList from "./BreadscrumbList";
-import DistrictList from "./Districts";
-import NavButton from "../common/Button/NavButton";
-import LoadingIndicator from "../common/LoadingIndicator";
+import WelfaresInDistrict from './WelfaresInDistrict';
+import BreadscrumbList from './BreadscrumbList';
+import DistrictList from './Districts';
+import NavButton from '../common/Button/NavButton';
+import LoadingIndicator from '../common/LoadingIndicator';
 
 const SearchSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [breadCrumbList, setBreadCrumbList] = useState<string[]>(["서울시"]);
+  const [breadCrumbList, setBreadCrumbList] = useState<string[]>(['서울시']);
   const [selectedDistrictId, setSelectedDistrictId] = useState<string | null>(
-    null
+    null,
   );
 
   const handleBreadCrumbClick = () => {
-    setBreadCrumbList(["서울시"]);
+    setBreadCrumbList(['서울시']);
     setSelectedDistrictId(null);
   };
 
@@ -38,7 +38,7 @@ const SearchSection = () => {
   };
 
   const handleClose = () => {
-    setBreadCrumbList(["서울시"]);
+    setBreadCrumbList(['서울시']);
     setSelectedDistrictId(null);
     onClose();
   };

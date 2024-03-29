@@ -1,8 +1,8 @@
-import ToButton from "../common/Button/ToButton";
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import { KakaoLogo } from "../../assets";
-import { useAtomValue } from "jotai";
-import { userInfoAtom } from "../../store/user";
+import ToButton from '../common/Button/ToButton';
+import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import { KakaoLogo } from '../../assets';
+import { useAtomValue } from 'jotai';
+import { userInfoAtom } from '../../store/user';
 
 interface TabBarProps {
   onLogout: () => void;

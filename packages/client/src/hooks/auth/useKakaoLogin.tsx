@@ -1,9 +1,9 @@
-import { clearUserToken } from "../../utills/persistentStorage";
-import { useAtom, useSetAtom } from "jotai";
-import { isUserTokenValidAtom } from "../../store/auth";
-import { post } from "../../libs/api";
-import { END_POINT } from "../../constant/endpoint";
-import { resetUserInfoAtom } from "../../store/user";
+import { clearUserToken } from '../../utills/persistentStorage';
+import { useAtom, useSetAtom } from 'jotai';
+import { isUserTokenValidAtom } from '../../store/auth';
+import { post } from '../../libs/api';
+import { END_POINT } from '../../constant/endpoint';
+import { resetUserInfoAtom } from '../../store/user';
 
 type UseKakaoLogin = {
   login: () => void;

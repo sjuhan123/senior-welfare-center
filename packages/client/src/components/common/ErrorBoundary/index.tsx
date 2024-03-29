@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
-import { ApiException } from "../../../exceptions/ApiException";
-import ErrorFallback from "../ErrorFallback";
+import React, { ReactNode } from 'react';
+import { ApiException } from '../../../exceptions/ApiException';
+import ErrorFallback from '../ErrorFallback';
 
 interface Props {
   children?: ReactNode;

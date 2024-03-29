@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text } from '@chakra-ui/react';
 
 interface NavButtonProps {
   onClick: () => void;

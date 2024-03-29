@@ -1,5 +1,5 @@
-import User from "./user.mongo.js";
-import { getWelfareByWelfareId } from "./welfares.model.js";
+import User from './user.mongo.js';
+import { getWelfareByWelfareId } from './welfares.model.js';
 
 async function saveUser(userId, kakaoAccount) {
   try {
@@ -22,7 +22,7 @@ async function saveUser(userId, kakaoAccount) {
 
     await User.updateOne(filter, update, { upsert: true });
   } catch (error) {
-    console.error("Could not save user", error);
+    console.error('Could not save user', error);
     throw error;
   }
 }
@@ -30,11 +30,11 @@ async function saveUser(userId, kakaoAccount) {
 async function findUserBy(userId) {
   try {
     return await User.findOne({ id: userId }, { _id: 0, __v: 0 }).populate(
-      "bookmarkWelfares",
-      "-__v"
+      'bookmarkWelfares',
+      '-__v',
     );
   } catch (error) {
-    console.error("Could not find user", error);
+    console.error('Could not find user', error);
     throw error;
   }
 }
@@ -44,10 +44,10 @@ async function updateUserBookmarkWelfares(userId, bookmarkWelfares) {
     await User.findOneAndUpdate(
       { id: userId },
       { bookmarkWelfares: bookmarkWelfares },
-      { upsert: true }
+      { upsert: true },
     );
   } catch (error) {
-    console.error("Could not update user bookmark welfares", error);
+    console.error('Could not update user bookmark welfares', error);
     throw error;
   }
 }
@@ -58,11 +58,11 @@ async function bookmarkWelfare(userId, welfareId) {
     const bookmarkedWelfares = user.bookmarkWelfares;
 
     const isBookmarked = bookmarkedWelfares.some(
-      ({ _id }) => _id.toString() === welfareId
+      ({ _id }) => _id.toString() === welfareId,
     );
 
     if (bookmarkedWelfares.length >= 2) {
-      console.log("Maximum bookmarks reached");
+      console.log('Maximum bookmarks reached');
       return;
     }
 
@@ -83,7 +83,7 @@ async function bookmarkWelfare(userId, welfareId) {
       return welfareInstance.name;
     }
   } catch (error) {
-    console.error("Could not bookmark welfare", error);
+    console.error('Could not bookmark welfare', error);
     throw error;
   }
 }
@@ -94,23 +94,23 @@ async function unBookmarkWelfare(userId, welfareId) {
     const bookmarkedWelfares = user.bookmarkWelfares;
 
     const isBookmarked = bookmarkedWelfares.some(
-      ({ _id }) => _id.toString() === welfareId
+      ({ _id }) => _id.toString() === welfareId,
     );
 
     if (isBookmarked) {
       const updatedBookmarkedWelfares = bookmarkedWelfares.filter(
-        ({ _id }) => _id.toString() !== welfareId
+        ({ _id }) => _id.toString() !== welfareId,
       );
 
       await updateUserBookmarkWelfares(userId, updatedBookmarkedWelfares);
 
       return welfareId;
     } else {
-      console.log("Welfare not found in user bookmark welfares");
+      console.log('Welfare not found in user bookmark welfares');
       return;
     }
   } catch (error) {
-    console.error("Could not delete bookmark welfare", error);
+    console.error('Could not delete bookmark welfare', error);
     throw error;
   }
 }

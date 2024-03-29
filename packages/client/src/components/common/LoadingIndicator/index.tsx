@@ -1,5 +1,5 @@
-import { Flex, Text } from "@chakra-ui/react";
-import Dots from "./Dots";
+import { Flex, Text } from '@chakra-ui/react';
+import Dots from './Dots';
 
 interface LoadingIndicatorProps {
   fLine: string;

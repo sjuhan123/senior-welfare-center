@@ -1,7 +1,7 @@
-import { END_POINT } from "../../../constant/endpoint";
-import { get } from "../../../libs/api";
-import { QUERY_KEYS } from "../../../constant/queryKeys";
-import { UseQueryOptions, useQuery } from "react-query";
+import { END_POINT } from '../../../constant/endpoint';
+import { get } from '../../../libs/api';
+import { QUERY_KEYS } from '../../../constant/queryKeys';
+import { UseQueryOptions, useQuery } from 'react-query';
 
 type Response = {
   status: number;
@@ -19,7 +19,7 @@ export const getTokenByCode = (code: string) =>
 
 const useGetTokenByCode = (
   code: string,
-  options?: UseQueryOptions<Response>
+  options?: UseQueryOptions<Response>,
 ) => {
   return useQuery<Response>({
     queryKey: getTokenByCodeQueryKey(code),

@@ -23,7 +23,7 @@ export class PersistentStorage {
   }
 }
 
-const USER_TOKEN = "userToken";
+const USER_TOKEN = 'userToken';
 
 const userStorage = new PersistentStorage(USER_TOKEN);
 

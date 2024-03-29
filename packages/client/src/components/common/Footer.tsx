@@ -1,5 +1,5 @@
-import { EmailIcon } from "@chakra-ui/icons";
-import { Box, HStack, Text, useBreakpointValue } from "@chakra-ui/react";
+import { EmailIcon } from '@chakra-ui/icons';
+import { Box, HStack, Text, useBreakpointValue } from '@chakra-ui/react';
 
 const Footer = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -19,10 +19,10 @@ const Footer = () => {
       style={
         !isMobile
           ? {
-              top: "calc(100vh - ((100vh - 500px) / 2) + 140px)",
+              top: 'calc(100vh - ((100vh - 500px) / 2) + 140px)',
             }
           : {
-              bottom: "0",
+              bottom: '0',
             }
       }
     >

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
   id: {
@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
   },
   userAvatar: {
     type: String,
-    default: "",
+    default: '',
   },
   qualificationChecked: {
     type: Boolean,
@@ -20,11 +20,11 @@ const UserSchema = new mongoose.Schema({
   bookmarkWelfares: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Welfare",
+      ref: 'Welfare',
     },
   ],
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 export default User;

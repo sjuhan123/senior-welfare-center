@@ -1,14 +1,14 @@
-import https from "https";
-import app from "./app.js";
-import fs from "fs";
-import { mongoConnect } from "./server/mongo.js";
-import { loadWelfareData } from "./models/welfares.model.js";
+import https from 'https';
+import app from './app.js';
+import fs from 'fs';
+import { mongoConnect } from './server/mongo.js';
+import { loadWelfareData } from './models/welfares.model.js';
 
 const PORT = process.env.PORT || 8000;
 
 const options = {
-  key: fs.readFileSync("key.pem"),
-  cert: fs.readFileSync("cert.pem"),
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
 };
 
 const server = https.createServer(options, app);

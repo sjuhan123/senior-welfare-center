@@ -1,1 +1,1 @@
-export { Swiper } from "./components/Swiper";
+export { Swiper } from './components/Swiper';

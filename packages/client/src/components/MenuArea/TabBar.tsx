@@ -1,5 +1,5 @@
-import { Box, Icon, Text } from "@chakra-ui/react";
-import { FaHouseUser } from "react-icons/fa";
+import { Box, Icon, Text } from '@chakra-ui/react';
+import { FaHouseUser } from 'react-icons/fa';
 
 const TabBar = () => {
   return (

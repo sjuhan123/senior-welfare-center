@@ -1,5 +1,5 @@
-import { Button, Text } from "@chakra-ui/react";
-import { KakaoLogo } from "../../../assets";
+import { Button, Text } from '@chakra-ui/react';
+import { KakaoLogo } from '../../../assets';
 
 interface LoginButtonProps {
   onLogin: () => void;

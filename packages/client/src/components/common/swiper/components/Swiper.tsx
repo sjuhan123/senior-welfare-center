@@ -1,6 +1,6 @@
-import React from "react";
-import { SwiperProvider } from "../contexts/SwiperContext";
-import SwiperBase from "./Swiper/SwiperBase";
+import React from 'react';
+import { SwiperProvider } from '../contexts/SwiperContext';
+import SwiperBase from './Swiper/SwiperBase';
 
 interface Props {
   children: React.ReactNode;

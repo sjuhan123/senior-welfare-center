@@ -1,6 +1,6 @@
-import { VStack } from "@chakra-ui/react";
-import WelfareCards from "../common/Card/WelfareCards";
-import useGetWelfaresByDistrictId from "../../hooks/api/welfare/useGetWelfaresByDistrictId";
+import { VStack } from '@chakra-ui/react';
+import WelfareCards from '../common/Card/WelfareCards';
+import useGetWelfaresByDistrictId from '../../hooks/api/welfare/useGetWelfaresByDistrictId';
 
 interface DistrictListProps {
   districtId: string;

@@ -1,9 +1,9 @@
-import { Box, Grid, GridItem } from "@chakra-ui/react";
-import QualificationCheckSection from "../QualificationCheckSection";
-import SearchSection from "../SearchSection";
-import TabBar from "./TabBar";
-import NearByCenterSection from "../NearByCenterSection";
-import LocalWelfareSection from "../LocalWelfareSection";
+import { Box, Grid, GridItem } from '@chakra-ui/react';
+import QualificationCheckSection from '../QualificationCheckSection';
+import SearchSection from '../SearchSection';
+import TabBar from './TabBar';
+import NearByCenterSection from '../NearByCenterSection';
+import LocalWelfareSection from '../LocalWelfareSection';
 
 const MenuArea = () => {
   return (

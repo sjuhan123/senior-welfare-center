@@ -1,10 +1,10 @@
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 interface BreadscrumbListProps {
   breadCrumbList: string[];
@@ -21,8 +21,8 @@ const BreadscrumbList = ({
       separator={<ChevronRightIcon color="gray.500" />}
       fontSize="sm"
     >
-      {breadCrumbList.map((breadCrumb) => {
-        if (breadCrumb === "서울시") {
+      {breadCrumbList.map(breadCrumb => {
+        if (breadCrumb === '서울시') {
           return (
             <BreadcrumbItem key={breadCrumb} onClick={onBreadCrumbClick}>
               <BreadcrumbLink>

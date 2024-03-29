@@ -1,6 +1,6 @@
-import { Text, Button, SimpleGrid } from "@chakra-ui/react";
-import { DistrictData } from "../../types/district";
-import useGetDistricts from "../../hooks/api/district/useGetDistricts";
+import { Text, Button, SimpleGrid } from '@chakra-ui/react';
+import { DistrictData } from '../../types/district';
+import useGetDistricts from '../../hooks/api/district/useGetDistricts';
 
 interface DistrictListProps {
   onDistrictClick: (districtName: string, districtId: string) => void;

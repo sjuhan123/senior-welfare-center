@@ -1,5 +1,5 @@
-import { css } from "@emotion/react";
-import { useSwiperContext } from "../../contexts/SwiperContext";
+import { css } from '@emotion/react';
+import { useSwiperContext } from '../../contexts/SwiperContext';
 
 interface Props {
   total: number;
@@ -63,5 +63,5 @@ const dotCss = (isActive: boolean) => css`
   height: 4px;
   margin: 0 3px;
   border-radius: 50%;
-  background-color: ${isActive ? "white" : "rgba(255, 255, 255, 0.5)"};
+  background-color: ${isActive ? 'white' : 'rgba(255, 255, 255, 0.5)'};
 `;

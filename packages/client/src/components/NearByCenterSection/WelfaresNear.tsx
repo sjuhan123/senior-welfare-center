@@ -1,5 +1,5 @@
-import useGetWelfaresLocation from "../../hooks/api/welfare/useGetWelfaresByLocation";
-import WelfareCards from "../common/Card/WelfareCards";
+import useGetWelfaresLocation from '../../hooks/api/welfare/useGetWelfaresByLocation';
+import WelfareCards from '../common/Card/WelfareCards';
 
 type ClosestCenterListProps = {
   location: {
@@ -9,7 +9,7 @@ type ClosestCenterListProps = {
   from?: string;
 };
 
-const WelfaresNear = ({ location, from = "me" }: ClosestCenterListProps) => {
+const WelfaresNear = ({ location, from = 'me' }: ClosestCenterListProps) => {
   const { data: welfares } = useGetWelfaresLocation(location, {
     suspense: true,
   });

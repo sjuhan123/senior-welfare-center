@@ -1,8 +1,8 @@
-import { Fragment } from "react";
-import { WelfareData } from "../../../types/welfare";
-import WelfareCard from "./WelfareCard";
-import useBookmarkList from "../../../hooks/bookmark/useBookmarkList";
-import { Divider } from "@chakra-ui/react";
+import { Fragment } from 'react';
+import { WelfareData } from '../../../types/welfare';
+import WelfareCard from './WelfareCard';
+import useBookmarkList from '../../../hooks/bookmark/useBookmarkList';
+import { Divider } from '@chakra-ui/react';
 
 type WelfareCardsProps = {
   welfares: WelfareData[];
@@ -16,7 +16,7 @@ const WelfareCards = ({ welfares, from }: WelfareCardsProps) => {
       <WelfareCard
         center={welfare}
         isBookmarked={bookmarkList.some(
-          (bookmark) => bookmark._id === welfare._id
+          bookmark => bookmark._id === welfare._id,
         )}
         onBookmark={() => handleBookmark(welfare)}
         from={from}

@@ -1,4 +1,4 @@
-import District from "./districts.mongo.js";
+import District from './districts.mongo.js';
 
 async function saveDistrict(districtName) {
   try {
@@ -16,7 +16,7 @@ async function saveDistrict(districtName) {
     await District.updateOne(filter, update, { upsert: true });
     return districtInstance._id;
   } catch (error) {
-    console.error("Could not save district", error);
+    console.error('Could not save district', error);
     throw error;
   }
 }

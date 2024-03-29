@@ -1,8 +1,8 @@
-import { UseQueryOptions, useQuery } from "react-query";
-import { QUERY_KEYS } from "../../../constant/queryKeys";
-import { get } from "../../../libs/api";
-import { WelfareData } from "../../../types/welfare";
-import { END_POINT } from "../../../constant/endpoint";
+import { UseQueryOptions, useQuery } from 'react-query';
+import { QUERY_KEYS } from '../../../constant/queryKeys';
+import { get } from '../../../libs/api';
+import { WelfareData } from '../../../types/welfare';
+import { END_POINT } from '../../../constant/endpoint';
 
 type Response = {
   status: number;
@@ -20,7 +20,7 @@ const getWelfaresByDistrictId = (districtId: string) =>
 
 const useGetWelfaresByDistrictId = (
   districtId: string,
-  options?: UseQueryOptions<Response>
+  options?: UseQueryOptions<Response>,
 ) => {
   return useQuery<Response>({
     queryKey: getWelfaresByDistrictIdQueryKey(districtId),

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const DistrictSchema = new mongoose.Schema({
   name: {
@@ -7,6 +7,6 @@ const DistrictSchema = new mongoose.Schema({
   },
 });
 
-const District = mongoose.model("District", DistrictSchema);
+const District = mongoose.model('District', DistrictSchema);
 
 export default District;

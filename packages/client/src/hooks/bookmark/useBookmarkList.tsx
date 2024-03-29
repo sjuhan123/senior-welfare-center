@@ -1,16 +1,16 @@
-import { useToast } from "@chakra-ui/react";
-import { END_POINT } from "../../constant/endpoint";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { WelfareData } from "../../types/welfare";
+import { useToast } from '@chakra-ui/react';
+import { END_POINT } from '../../constant/endpoint';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { WelfareData } from '../../types/welfare';
 import {
   addBookmarkAtom,
   bookmarkListAtom,
   isBookmarkedAtom,
   isBookmarkListFullAtom,
   removeBookmarkAtom,
-} from "../../store/bookmarkList";
-import { isUserTokenValidAtom } from "../../store/auth";
-import { del, post } from "../../libs/api";
+} from '../../store/bookmarkList';
+import { isUserTokenValidAtom } from '../../store/auth';
+import { del, post } from '../../libs/api';
 
 const useBookmarkList = () => {
   const toast = useToast();
@@ -40,8 +40,8 @@ const useBookmarkList = () => {
     } else {
       if (isBookmarkListFull) {
         toast({
-          title: "북마크는 최대 2개까지 가능합니다.",
-          status: "error",
+          title: '북마크는 최대 2개까지 가능합니다.',
+          status: 'error',
           duration: 1000,
           isClosable: true,
         });

@@ -1,9 +1,9 @@
-import express from "express";
+import express from 'express';
 
-import { httpGetAllDistricts } from "./districts.controller.js";
+import { httpGetAllDistricts } from './districts.controller.js';
 
 const districtsRouter = express.Router();
 
-districtsRouter.get("/", httpGetAllDistricts);
+districtsRouter.get('/', httpGetAllDistricts);
 
 export default districtsRouter;

@@ -1,8 +1,8 @@
-import React, { cloneElement, useRef } from "react";
-import { useSwiperContext } from "../../contexts/SwiperContext";
-import Pagination from "./Pagination";
-import Navigation from "./Navigation";
-import { css } from "@emotion/react";
+import React, { cloneElement, useRef } from 'react';
+import { useSwiperContext } from '../../contexts/SwiperContext';
+import Pagination from './Pagination';
+import Navigation from './Navigation';
+import { css } from '@emotion/react';
 
 interface Props {
   children: React.ReactNode;
@@ -15,8 +15,8 @@ const SwiperBase = ({ children }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const renderChildren = () => {
-    return React.Children.map(children, (child) =>
-      cloneElement(child as React.ReactElement)
+    return React.Children.map(children, child =>
+      cloneElement(child as React.ReactElement),
     );
   };
 

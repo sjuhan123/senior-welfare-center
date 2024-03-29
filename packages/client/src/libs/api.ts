@@ -2,13 +2,13 @@ import axios, {
   type AxiosError,
   type AxiosResponse,
   type InternalAxiosRequestConfig,
-} from "axios";
+} from 'axios';
 
-import { getUserToken } from "../utills/persistentStorage";
-import { ApiException } from "../exceptions/ApiException";
+import { getUserToken } from '../utills/persistentStorage';
+import { ApiException } from '../exceptions/ApiException';
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL || "",
+  baseURL: import.meta.env.VITE_BASE_URL || '',
 });
 
 const interceptorRequestFulfilled = (config: InternalAxiosRequestConfig) => {
@@ -39,7 +39,7 @@ const interceptorResponseRejected = (error: AxiosError) => {
 
 instance.interceptors.response.use(
   interceptorResponseFulfilled,
-  interceptorResponseRejected
+  interceptorResponseRejected,
 );
 
 export const get = <T>(...args: Parameters<typeof instance.get>) => {

@@ -1,5 +1,5 @@
-import { SunIcon } from "@chakra-ui/icons";
-import { Button, Text, useToast } from "@chakra-ui/react";
+import { SunIcon } from '@chakra-ui/icons';
+import { Button, Text, useToast } from '@chakra-ui/react';
 
 const EmployeeLoginButton = () => {
   const toast = useToast();
@@ -13,8 +13,8 @@ const EmployeeLoginButton = () => {
       variant="solid"
       onClick={() =>
         toast({
-          title: "서비스 준비중입니다.",
-          status: "info",
+          title: '서비스 준비중입니다.',
+          status: 'info',
           duration: 1000,
           isClosable: true,
         })

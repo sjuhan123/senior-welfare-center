@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { Box } from "@chakra-ui/react";
-import LoadingIndicator from "../components/common/LoadingIndicator";
-import Layout from "../components/common/Layout";
-import { ROUTE_PATH } from "../constant/route";
-import useGetTokenByCode from "../hooks/api/auth/useGetTokenByCode";
-import { setUserToken } from "../utills/persistentStorage";
-import useGetUserInfo from "../hooks/api/auth/useGetUserInfo";
-import { useSetAtom } from "jotai";
-import { isUserTokenValidAtom } from "../store/auth";
-import { bookmarkListAtom } from "../store/bookmarkList";
-import { userInfoAtom } from "../store/user";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Box } from '@chakra-ui/react';
+import LoadingIndicator from '../components/common/LoadingIndicator';
+import Layout from '../components/common/Layout';
+import { ROUTE_PATH } from '../constant/route';
+import useGetTokenByCode from '../hooks/api/auth/useGetTokenByCode';
+import { setUserToken } from '../utills/persistentStorage';
+import useGetUserInfo from '../hooks/api/auth/useGetUserInfo';
+import { useSetAtom } from 'jotai';
+import { isUserTokenValidAtom } from '../store/auth';
+import { bookmarkListAtom } from '../store/bookmarkList';
+import { userInfoAtom } from '../store/user';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -19,11 +19,11 @@ const Auth = () => {
   const setUserInfo = useSetAtom(userInfoAtom);
 
   const url = new URL(window.location.href);
-  const queryCode = url.searchParams.get("code") || "";
+  const queryCode = url.searchParams.get('code') || '';
 
   const { data } = useGetTokenByCode(queryCode, {
     enabled: !!queryCode,
-    onSuccess: (receivedToken) => {
+    onSuccess: receivedToken => {
       setIsUserTokenValid(true);
       setUserToken(receivedToken.data);
     },
@@ -31,7 +31,7 @@ const Auth = () => {
 
   const { data: userInfo } = useGetUserInfo({
     enabled: !!data,
-    onSuccess: (receivedUserInfo) => {
+    onSuccess: receivedUserInfo => {
       setUserInfo({
         userName: receivedUserInfo.data.userName,
         userAvatar: receivedUserInfo.data.userAvatar,
@@ -41,7 +41,7 @@ const Auth = () => {
   });
 
   useEffect(() => {
-    if (userInfo && userInfo.message === "유저 정보 조회 성공") {
+    if (userInfo && userInfo.message === '유저 정보 조회 성공') {
       navigate(ROUTE_PATH.HOME);
     }
   }, [navigate, userInfo]);

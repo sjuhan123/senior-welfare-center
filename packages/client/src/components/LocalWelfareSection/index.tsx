@@ -9,12 +9,12 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-} from "@chakra-ui/react";
-import NavButton from "../common/Button/NavButton";
-import WelfaresNear from "../NearByCenterSection/WelfaresNear";
-import { Suspense, useState } from "react";
-import LoadingIndicator from "../common/LoadingIndicator";
-import DaumPostcodeEmbed from "react-daum-postcode";
+} from '@chakra-ui/react';
+import NavButton from '../common/Button/NavButton';
+import WelfaresNear from '../NearByCenterSection/WelfaresNear';
+import { Suspense, useState } from 'react';
+import LoadingIndicator from '../common/LoadingIndicator';
+import DaumPostcodeEmbed from 'react-daum-postcode';
 
 interface FetchCoordinatesResponse {
   documents: {
@@ -37,7 +37,7 @@ const fetchCoordinates = async (roadAddress: string) => {
         headers: {
           Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_API_KEY}`,
         },
-      }
+      },
     );
 
     const data: FetchCoordinatesResponse = await response.json();
@@ -45,8 +45,8 @@ const fetchCoordinates = async (roadAddress: string) => {
     const { x, y } = data.documents[0]?.address || {};
     return { latitude: y, longitude: x };
   } catch (error) {
-    console.error("좌표 가져오기 실패:", error);
-    throw new Error("좌표 가져오기 실패");
+    console.error('좌표 가져오기 실패:', error);
+    throw new Error('좌표 가져오기 실패');
   }
 };
 
@@ -80,8 +80,8 @@ const LocalWelfareSection = () => {
               key="postcode"
               onComplete={handleComplete}
               style={{
-                padding: "5px 0 0 0",
-                height: "100%",
+                padding: '5px 0 0 0',
+                height: '100%',
               }}
             />
           </ModalContent>

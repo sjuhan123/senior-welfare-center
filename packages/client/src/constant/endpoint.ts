@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL || "";
+const BASE_URL = import.meta.env.VITE_BASE_URL || '';
 
 export const END_POINT = Object.freeze({
   CLOSEST_WELFARES: `${BASE_URL}api/welfares/closest`,

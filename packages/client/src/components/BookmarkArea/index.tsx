@@ -1,17 +1,17 @@
-import LoginButton from "../common/Button/LoginButton";
-import EmployeeLoginButton from "../common/Button/EmployeeLoginButton";
-import { Box } from "@chakra-ui/react";
-import { useState } from "react";
+import LoginButton from '../common/Button/LoginButton';
+import EmployeeLoginButton from '../common/Button/EmployeeLoginButton';
+import { Box } from '@chakra-ui/react';
+import { useState } from 'react';
 
-import BookmarkButton from "../common/Button/BookmarkButton";
-import AccountBar from "./AccountBar";
-import BookmarkList from "./BookmarkList";
+import BookmarkButton from '../common/Button/BookmarkButton';
+import AccountBar from './AccountBar';
+import BookmarkList from './BookmarkList';
 
-import TabBar from "./TabBar";
-import useKakaoLogin from "../../hooks/auth/useKakaoLogin";
-import { useNavigate } from "react-router-dom";
-import { getUserToken } from "../../utills/persistentStorage";
-import { ROUTE_PATH } from "../../constant/route";
+import TabBar from './TabBar';
+import useKakaoLogin from '../../hooks/auth/useKakaoLogin';
+import { useNavigate } from 'react-router-dom';
+import { getUserToken } from '../../utills/persistentStorage';
+import { ROUTE_PATH } from '../../constant/route';
 
 const BookmarkArea = () => {
   const navigate = useNavigate();

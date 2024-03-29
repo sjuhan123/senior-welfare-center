@@ -1,8 +1,8 @@
-import { END_POINT } from "../../../constant/endpoint";
-import { get } from "../../../libs/api";
-import { UseQueryOptions, useQuery } from "react-query";
-import { User } from "../../../types/user";
-import { QUERY_KEYS } from "../../../constant/queryKeys";
+import { END_POINT } from '../../../constant/endpoint';
+import { get } from '../../../libs/api';
+import { UseQueryOptions, useQuery } from 'react-query';
+import { User } from '../../../types/user';
+import { QUERY_KEYS } from '../../../constant/queryKeys';
 
 type Response = {
   status: number;

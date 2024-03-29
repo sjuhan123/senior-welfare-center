@@ -1,8 +1,8 @@
-import { Icon } from "@chakra-ui/react";
-import { useSwiperContext } from "../../contexts/SwiperContext";
-import { FaChevronLeft } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa6";
-import { css } from "@emotion/react";
+import { Icon } from '@chakra-ui/react';
+import { useSwiperContext } from '../../contexts/SwiperContext';
+import { FaChevronLeft } from 'react-icons/fa6';
+import { FaChevronRight } from 'react-icons/fa6';
+import { css } from '@emotion/react';
 
 interface Props {
   total: number;

@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from '@chakra-ui/react';
 
 interface QualificationCheckCardProps {
   onClick: () => void;

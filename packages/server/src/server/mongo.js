@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
-import "dotenv/config";
+import mongoose from 'mongoose';
+import 'dotenv/config';
 
 const MONGODB_URL = process.env.MONGODB_URL;
 
-mongoose.connection.once("open", () => {
-  console.log("Connected to MongoDB");
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
 });
 
-mongoose.connection.on("error", (err) => {
+mongoose.connection.on('error', err => {
   console.error(err);
 });
 

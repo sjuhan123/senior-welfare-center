@@ -1,5 +1,5 @@
-import { Button, Icon, Text } from "@chakra-ui/react";
-import { FaRegBookmark } from "react-icons/fa";
+import { Button, Icon, Text } from '@chakra-ui/react';
+import { FaRegBookmark } from 'react-icons/fa';
 
 interface BookmarkButtonProps {
   onClick: () => void;

@@ -1,5 +1,5 @@
-import { atom } from "jotai";
-import { WelfareData } from "../types/welfare";
+import { atom } from 'jotai';
+import { WelfareData } from '../types/welfare';
 
 export const bookmarkListAtom = atom<WelfareData[]>([]);
 
@@ -12,16 +12,16 @@ export const removeBookmarkAtom = atom(null, (get, set, welfareId: string) => {
   const bookmarkList = get(bookmarkListAtom);
   set(
     bookmarkListAtom,
-    bookmarkList.filter((welfare) => welfare._id !== welfareId)
+    bookmarkList.filter(welfare => welfare._id !== welfareId),
   );
 });
 
-export const isBookmarkListFullAtom = atom((get) => {
+export const isBookmarkListFullAtom = atom(get => {
   const bookmarkList = get(bookmarkListAtom);
   return bookmarkList.length === 2;
 });
 
-export const isBookmarkedAtom = atom((get) => (welfareId: string) => {
+export const isBookmarkedAtom = atom(get => (welfareId: string) => {
   const bookmarkList = get(bookmarkListAtom);
-  return bookmarkList.some((welfare) => welfare._id === welfareId);
+  return bookmarkList.some(welfare => welfare._id === welfareId);
 });

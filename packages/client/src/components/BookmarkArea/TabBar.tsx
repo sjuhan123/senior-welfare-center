@@ -1,7 +1,7 @@
-import { RiAccountPinCircleFill } from "react-icons/ri";
-import { BsBookmarkHeartFill } from "react-icons/bs";
-import { Box, Icon, Text } from "@chakra-ui/react";
-import { CgCloseO } from "react-icons/cg";
+import { RiAccountPinCircleFill } from 'react-icons/ri';
+import { BsBookmarkHeartFill } from 'react-icons/bs';
+import { Box, Icon, Text } from '@chakra-ui/react';
+import { CgCloseO } from 'react-icons/cg';
 
 interface TabBarProps {
   isAtHome: boolean;
@@ -58,7 +58,13 @@ const TabBar = ({
           </Box>
           {!isOnLogin && (
             <Box display="flex" alignItems="center">
-              <Icon as={CgCloseO} w={4} h={4} onClick={handleBookmarkArea} cursor="pointer" />
+              <Icon
+                as={CgCloseO}
+                w={4}
+                h={4}
+                onClick={handleBookmarkArea}
+                cursor="pointer"
+              />
             </Box>
           )}
         </Box>

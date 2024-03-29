@@ -1,4 +1,4 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Center, VStack } from '@chakra-ui/react';
 
 const ErrorFallback = ({ errorMessage }: { errorMessage: string }) => {
   return (

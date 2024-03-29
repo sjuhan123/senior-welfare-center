@@ -16,28 +16,28 @@ import {
   VStack,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import NavButton from "../common/Button/NavButton";
-import { useState } from "react";
-import QualificationCheckCard from "../common/Card/QualificationCheckCard";
+} from '@chakra-ui/react';
+import NavButton from '../common/Button/NavButton';
+import { useState } from 'react';
+import QualificationCheckCard from '../common/Card/QualificationCheckCard';
 
 const QualificationSection = () => {
   const toast = useToast();
   const [isChecked, setIsChecked] = useState(false);
-  const [isSeoulResident, setIsSeoulResident] = useState("");
-  const [isAbove60, setIsAbove60] = useState("");
+  const [isSeoulResident, setIsSeoulResident] = useState('');
+  const [isAbove60, setIsAbove60] = useState('');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleQualificationCheck = () => {
-    if (isSeoulResident === "yes" && isAbove60 === "yes") {
+    if (isSeoulResident === 'yes' && isAbove60 === 'yes') {
       setIsChecked(true);
       onClose();
       return;
     }
     toast({
       title: `노인 복지관 이용 자격이 없습니다.`,
-      status: "error",
+      status: 'error',
       duration: 5000,
       isClosable: true,
     });
@@ -71,7 +71,7 @@ const QualificationSection = () => {
                     </Text>
                   </FormLabel>
                   <RadioGroup
-                    onChange={(value) => setIsSeoulResident(value)}
+                    onChange={value => setIsSeoulResident(value)}
                     value={isSeoulResident}
                   >
                     <HStack spacing="24px">
@@ -97,7 +97,7 @@ const QualificationSection = () => {
                     </Text>
                   </FormLabel>
                   <RadioGroup
-                    onChange={(value) => setIsAbove60(value)}
+                    onChange={value => setIsAbove60(value)}
                     value={isAbove60}
                   >
                     <HStack spacing="24px">

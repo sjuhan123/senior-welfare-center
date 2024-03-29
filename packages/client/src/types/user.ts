@@ -1,4 +1,4 @@
-import { WelfareData } from "./welfare";
+import { WelfareData } from './welfare';
 
 export type UserKakaoInfo = {
   userName: string;
