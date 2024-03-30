@@ -1,6 +1,7 @@
 # 노인복지관 프로젝트
 
 👉👉 홈페이지 방문하기: https://www.노인복지관.com
+👉👉 모노레포 migragtion 진행 중입니다: https://github.com/sjuhan123/senior-welfare-center/tree/mono-repo
 
 ## 📌 프로젝트 소개
 
