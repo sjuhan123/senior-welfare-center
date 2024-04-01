@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "composite": true,
+    "declaration": true,
+
+    "types": ["@emotion/react/types/css-prop", "vitest/globals"]
+  },
+  "include": ["vite.config.ts", "@types/*", "src/**/*"]
+}

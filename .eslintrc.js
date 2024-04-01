@@ -28,6 +28,7 @@ module.exports = {
         'react/react-in-jsx-scope': 'off',
         'react-hooks/exhaustive-deps': 'warn',
         'react/jsx-props-no-spreading': 'off',
+        'react/no-unknown-property': ['error', { ignore: ['css'] }],
         'react/function-component-definition': [
           'error',
           { namedComponents: 'arrow-function' },
