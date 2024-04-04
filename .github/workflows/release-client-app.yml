@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build ./docker/client -f ./packages/client/dockerfile --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
+          docker build ./packages/client -f ./packages/client/dockerfile --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
 
       - name: SSH into EC2 and run Docker container
