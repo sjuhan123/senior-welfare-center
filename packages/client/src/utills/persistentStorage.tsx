@@ -15,7 +15,7 @@ export class PersistentStorage {
       return null;
     }
 
-    return JSON.parse(rawValue) as string;
+    return JSON.parse(rawValue);
   }
 
   delete() {
