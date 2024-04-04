@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "lint": "eslint ./packages --ext .ts,.tsx,.js,.jsx --cache --fix",
-    "senior-welfare-center-client": "yarn workspace senior-welfare-center-client dev"
+    "client:build": "yarn workspace senior-welfare-center-client build"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
