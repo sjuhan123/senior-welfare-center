@@ -13,7 +13,7 @@ RUN npm install -g corepack \
     && corepack enable
 
 # Install yarn globally with the specified version
-RUN npm install -g yarn
+RUN npm install -g yarn --force
 
 RUN yarn set version berry
 
