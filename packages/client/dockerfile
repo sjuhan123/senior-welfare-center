@@ -4,22 +4,21 @@
 FROM node:lts-alpine
 
 # Set working directory
-WORKDIR /app/client
+WORKDIR /app
 
-# Copy yarn.lock file from root
-COPY /yarn.lock ./
+COPY package.json yarn.lock /app/
 
 # Copy dependencies
-COPY /packages/client/package.json .
+COPY ./packages/client/package.json . /app/packages/client/
 
 # Install dependencies
 RUN yarn install
 
 # Copy source code
-COPY /packages/client/src .
+COPY /packages/client/src /app/packages/client/src
 
 # Build the application
-RUN yarn build
+RUN yarn workspace senior-welfare-center-client build
 
 # Expose port
 EXPOSE 80
