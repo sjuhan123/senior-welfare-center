@@ -6,23 +6,24 @@ FROM node:lts-alpine
 # Set working directory
 WORKDIR /app
 
-COPY package.json ./
-COPY yarn.lock ./
-    
-# Installs all node packages
-# RUN npm ci 
-RUN npm install yarn --global --force
+COPY package.json yarn.lock ./
 
-RUN corepack enable \
-    && npm install -g corepack
+# Install Corepack and enable it
+RUN npm install -g corepack \
+    && corepack enable
 
+# Install yarn globally
+RUN npm install -g yarn --force
+
+# Install project dependencies
 RUN yarn install --immutable --immutable-cache --check-cache
 
 # Copies everything over to Docker environment
 COPY . ./
-RUN yarn install --immutable
-# RUN npm run build
-RUN yarn client:build
+
+# Build the application
+RUN yarn install --immutable \
+    && yarn client:build
 
 # Expose port
 EXPOSE 80
