@@ -6,16 +6,16 @@ FROM node:lts-alpine
 # Set working directory
 WORKDIR /app
 
-COPY package.json yarn.lock /app/
+COPY ../../package.json ../../yarn.lock /app/
 
 # Copy dependencies
-COPY ./packages/client/package.json . /app/packages/client/
+COPY package.json . /app/packages/client/
 
 # Install dependencies
 RUN yarn install
 
 # Copy source code
-COPY /packages/client/src /app/packages/client/src
+COPY src /app/packages/client/src
 
 # Build the application
 RUN yarn workspace senior-welfare-center-client build
