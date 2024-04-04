@@ -1,0 +1,25 @@
+# Dockerfile for client project
+
+# Base image
+FROM node:lts-alpine
+
+# Set working directory
+WORKDIR /app/client
+
+# Copy yarn.lock file from root
+COPY yarn.lock ./
+
+# Copy dependencies
+COPY packages/client/package.json .
+
+# Install dependencies
+RUN yarn install
+
+# Copy source code
+COPY packages/client/src .
+
+# Build the application
+RUN yarn build
+
+# Expose port
+EXPOSE 80
