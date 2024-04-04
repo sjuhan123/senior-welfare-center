@@ -8,14 +8,14 @@ WORKDIR /app
 
 COPY package.json ./
 COPY yarn.lock ./
-
-# Install Corepack and enable it
-RUN npm install -g corepack \
-    && corepack enable
     
 # Installs all node packages
 # RUN npm ci 
 RUN npm install yarn --global --force
+
+RUN corepack enable \
+    && npm install -g corepack
+
 RUN yarn install --immutable --immutable-cache --check-cache
 
 # Copies everything over to Docker environment
