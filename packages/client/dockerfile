@@ -7,16 +7,16 @@ FROM node:lts-alpine
 WORKDIR /app/client
 
 # Copy yarn.lock file from root
-COPY /root/yarn.lock ./
+COPY /yarn.lock ./
 
 # Copy dependencies
-COPY /root/packages/client/package.json .
+COPY /packages/client/package.json .
 
 # Install dependencies
 RUN yarn install
 
 # Copy source code
-COPY /root/packages/client/src .
+COPY /packages/client/src .
 
 # Build the application
 RUN yarn build
