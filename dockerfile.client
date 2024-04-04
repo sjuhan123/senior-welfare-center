@@ -9,6 +9,10 @@ WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 
+# Install Corepack and enable it
+RUN npm install -g corepack \
+    && corepack enable
+    
 # Installs all node packages
 # RUN npm ci 
 RUN npm install yarn --global --force
