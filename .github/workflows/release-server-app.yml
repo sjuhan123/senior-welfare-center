@@ -26,15 +26,6 @@ jobs:
           docker build ./docker -f ./packages/server/dockerfile --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:server-latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:server-latest
 
-      - name: Deploy to EC2 via CodeDeploy
-        uses: aws-actions/aws-codedeploy-github-deploy@v2
-        with:
-          application-name: ${{ secrets.CODEDEPLOY_APPLICATION_NAME }}
-          deployment-group-name: ${{ secrets.CODEDEPLOY_DEPLOYMENT_GROUP_NAME }}
-          region: ap-northeast-2
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:server-latest
-          wait-until-deployed: true
-
       - name: SSH into EC2 and run Docker container
         uses: appleboy/ssh-action@master
         with:
