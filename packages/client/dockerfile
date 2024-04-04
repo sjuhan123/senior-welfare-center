@@ -6,7 +6,7 @@ FROM node:lts-alpine
 # Set working directory
 WORKDIR /app
 
-COPY ../../package.json ../../yarn.lock /app/
+COPY ../../package.json /app/
 
 # Copy dependencies
 COPY package.json . /app/packages/client/
