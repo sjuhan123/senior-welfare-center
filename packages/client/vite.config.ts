@@ -24,6 +24,5 @@ export default defineConfig({
         nested: './sw.js',
       },
     },
-    outDir: '../server/public', // 빌드 결과물의 경로를 설정합니다.
   },
 });

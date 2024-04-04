@@ -1,0 +1,25 @@
+# Dockerfile for server project
+
+# Base image
+FROM node:lts-alpine
+
+# Set working directory
+WORKDIR /app/server
+
+# Copy yarn.lock file from root
+COPY yarn.lock ./
+
+# Copy dependencies
+COPY packages/server/package.json .
+
+# Install dependencies
+RUN yarn install
+
+# Copy source code
+COPY packages/server/src .
+
+# Expose port
+EXPOSE 8000
+
+# Command to run the application
+CMD ["node", "index.js"]
