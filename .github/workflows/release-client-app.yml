@@ -22,9 +22,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        run: |
-          docker build ./packages/client -f ./packages/client/dockerfile --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./dockerfile.client
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
 
       - name: SSH into EC2 and run Docker container
         uses: appleboy/ssh-action@master
