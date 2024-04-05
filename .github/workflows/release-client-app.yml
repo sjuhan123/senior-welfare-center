@@ -15,9 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -25,10 +22,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        run: docker-compose -f docker-compose.yml build
-
-      - name: Push Docker image
-        run: docker-compose -f docker-compose.yml push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./dockerfile.client
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
 
       - name: SSH into EC2 and run Docker container
         uses: appleboy/ssh-action@master
@@ -37,6 +37,8 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker-compose -f /path/to/docker-compose.yml down
-            sudo docker-compose -f /path/to/docker-compose.yml pull
-            sudo docker-compose -f /path/to/docker-compose.yml up -d
+            sudo docker rm -f $(docker ps -aq)
+            sudo docker image rm -f dencs/senior-welfare-center:latest
+            sudo docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:client-latest
+            sudo docker run -d -p 433:433 --name ${{secrets.DOCKERHUB_REPO}} ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:client-latest
+            sudo docker image prune -f
