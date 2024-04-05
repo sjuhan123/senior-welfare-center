@@ -1,25 +1,30 @@
 # Dockerfile for server project
 
 # Base image
-FROM node:lts-alpine
+FROM node:lts-alpine AS builder
 
 # Set working directory
-WORKDIR /app/server
+WORKDIR /app
 
 # Copy yarn.lock file from root
-COPY yarn.lock ./
+COPY package.json yarn.lock ./
 
-# Copy dependencies
-COPY packages/server/package.json .
+# Install Corepack and enable it
+RUN npm install -g corepack \
+    && corepack enable
 
-# Install dependencies
-RUN yarn install
+# Install yarn globally with the specified version
+RUN npm install yarn --global --force
 
-# Copy source code
-COPY packages/server/src .
+# Install project dependencies
+RUN yarn install --immutable --immutable-cache --check-cache
+
+# Copies everything over to Docker environment
+COPY . ./
+
+# Build the application
+RUN yarn install --immutable \
+    && yarn server:start
 
 # Expose port
 EXPOSE 8000
-
-# Command to run the application
-CMD ["node", "index.js"]
