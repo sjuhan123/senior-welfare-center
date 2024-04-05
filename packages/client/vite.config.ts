@@ -4,6 +4,8 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
+  assetsInclude: ['**/*.jpg'],
   plugins: [
     react({
       jsxImportSource: '@emotion/react',
@@ -15,7 +17,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './setupTests.ts',
   },
-  base: 'https://www.xn--zb0bt8fd6lsrkqxc.com/',
   build: {
     manifest: true,
     rollupOptions: {
