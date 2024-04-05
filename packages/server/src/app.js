@@ -49,6 +49,7 @@ app.use(
 app.use(morgan('combined'));
 
 app.use(express.json());
+
 app.use('/api', api);
 
 // 프론트엔드 정적 파일 제공
