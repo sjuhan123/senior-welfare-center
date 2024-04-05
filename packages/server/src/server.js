@@ -1,17 +1,19 @@
-import https from 'https';
+// import https from 'https';
+import http from 'http';
 import app from './app.js';
-import fs from 'fs';
+// import fs from 'fs';
 import { mongoConnect } from './server/mongo.js';
 import { loadWelfareData } from './models/welfares.model.js';
 
 const PORT = process.env.PORT || 8000;
 
-const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
-};
+// const options = {
+//   key: fs.readFileSync('key.pem') || '',
+//   cert: fs.readFileSync('cert.pem') || '',
+// };
 
-const server = https.createServer(options, app);
+// http.createServer를 사용하여 HTTP 서버를 생성합니다.
+const server = http.createServer(app);
 
 async function startServer() {
   await mongoConnect();
