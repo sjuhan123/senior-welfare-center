@@ -1,7 +1,5 @@
-// import https from 'https';
 import http from 'http';
 import app from './app.js';
-// import fs from 'fs';
 import { mongoConnect } from './server/mongo.js';
 import { loadWelfareData } from './models/welfares.model.js';
 
