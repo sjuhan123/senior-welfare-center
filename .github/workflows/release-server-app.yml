@@ -28,7 +28,7 @@ jobs:
           file: ./Dockerfile.server
           platforms: linux/amd64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:server-latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}:server-latest
 
       - name: SSH into EC2 and run Docker container
         uses: appleboy/ssh-action@master
@@ -37,17 +37,17 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
           script: |
-            CONTAINERS=$(sudo docker ps -a -q --filter "ancestor=${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:server-latest")
+            CONTAINERS=$(sudo docker ps -a -q --filter "ancestor=${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO_SERVER}}:server-latest")
             for CONTAINER_ID in $CONTAINERS
             do
                 sudo docker rm -f $CONTAINER_ID
             done
-            sudo docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:server-latest
+            sudo docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO_SERVER}}:server-latest
             sudo docker run \
             -e MONGODB_URL=${{ secrets.MONGODB_URL }} \
             -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
             -e KAKAO_REST_API_KEY=${{ secrets.KAKAO_REST_API_KEY }} \
             -e KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }} \
             -d -p 8000:8000 \
-            --name ${{secrets.DOCKERHUB_REPO}} ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:server-latest
+            --name ${{secrets.DOCKERHUB_REPO_SERVER}} ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO_SERVER}}:server-latest
             sudo docker image prune -f
