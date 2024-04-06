@@ -24,7 +24,6 @@ app.use(
         'https://t1.daumcdn.net',
         'https://postcode.map.daum.net',
         'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js',
-        `'sha256-${process.env.DAUM_HASH_KEY}'`,
       ],
       'img-src': [
         "'self'",
