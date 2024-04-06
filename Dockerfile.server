@@ -23,8 +23,10 @@ RUN yarn install --immutable --immutable-cache --check-cache
 COPY . ./
 
 # Build the application
-RUN yarn install --immutable \
-    && yarn server:start
+RUN yarn install --immutable
 
 # Expose port
 EXPOSE 8000
+
+# Command to start the server when the container starts
+CMD ["yarn", "server:start"]
