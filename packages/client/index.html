@@ -34,9 +34,6 @@
           .register('/assets/nested-b89ffa2c.js')
           .then(registration => {
             console.log('Service worker registration succeeded:', registration);
-          })
-          .catch(err => {
-            console.log('Service worker registration failed:', error);
           });
       } else {
         console.log('Service workers are not supported.');
