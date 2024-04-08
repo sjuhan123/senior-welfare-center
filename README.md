@@ -1,7 +1,7 @@
 # 노인복지관 프로젝트
 
-👉👉 홈페이지 방문하기: https://www.노인복지관.com
-👉👉 모노레포 migragtion 진행 중입니다: https://github.com/sjuhan123/senior-welfare-center/tree/mono-repo
+👉👉 홈페이지 방문하기: https://www.노인복지관.com <br />
+👉👉 모노레포 migration 진행 중입니다: https://github.com/sjuhan123/senior-welfare-center/tree/mono-repo
 
 ## 📌 프로젝트 소개
 
@@ -21,17 +21,16 @@
 
 ### 개발
 
-- 프로덕트의 기획과 디자인,
-- 프론트엔드와 백엔드 개발,
-- 서버 구축 및 배포,
-- 유지 보수와 리팩토링까지,
+- 단일 레포 / 모노레포 환경에서 공통 모듈 프로젝트, 백엔드 프로젝트, 프론트엔드 프로젝트 구성
+- 각 프로젝트 별 자동 배포 pipeline을 구축하여, 코드 변경 시 자동으로 배포되도록 환경 구성
 
-서비스의 라이프사이클 전반을 경험하고자 합니다.
+<img width="928" alt="노인복지관 예상 구조" src="https://gist.github.com/assets/81420856/2b7ce25a-e790-48f4-b417-efd097bb5d99">
 
 ## 📌 프로젝트 개발 기간
 
 - 1차 기능 개발 완료: 2023.11.08 ~ 2023.11.27
 - 배포 및 유지 보수: 2023.11.28 ~ 현재
+- 프로젝트 개편: 2024.02.01 ~ 현재
 
 ## 📌 서비스 기능 소개
 
@@ -72,7 +71,7 @@
 
 - TypeScript, React
 - Emotion, Chakra UI, react-icons
-- TanStack Query, Context API
+- TanStack Query, Context API, Jotai
 - Vite
 - react-daum-postcode
 
@@ -82,14 +81,15 @@
 - MongoDB, Mongoose
 - Jest, Supertest
 
-### CI/CD
+### Common
+
+- Yarn Workspaces
+- ESLint, Prettier
+
+### Infra
 
 - Github Actions
-
-### Deploy
-
-- Docker
-- AWS EC2, AWS Route 53
+- Docker, Nginx, AWS EC2, AWS Route 53
 
 ### ETC
 
