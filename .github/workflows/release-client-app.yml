@@ -26,7 +26,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.client
-          args: |
+          build-args: |
             --build-arg VITE_KAKAO_API_KEY=${{ secrets.VITE_KAKAO_API_KEY }}
             --build-arg VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}
             --build-arg VITE_ADDRESS_API_KEY=${{ secrets.VITE_ADDRESS_API_KEY }}
