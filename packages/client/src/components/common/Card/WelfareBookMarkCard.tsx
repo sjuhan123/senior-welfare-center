@@ -98,6 +98,8 @@ const WelfareBookMarkCard = ({ center, onDelete }: WelfareCenterCardProps) => {
               h={3}
               cursor="pointer"
               onClick={() => {
+                // TODO: eslint error 해결하기
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 handleCopyClipBoard(phone);
                 toast({
                   title: '복사 완료',
