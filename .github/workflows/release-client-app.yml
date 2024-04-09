@@ -26,6 +26,10 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.client
+          args: |
+            --build-arg VITE_KAKAO_API_KEY=${{ secrets.VITE_KAKAO_API_KEY }}
+            --build-arg VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}
+            --build-arg VITE_ADDRESS_API_KEY=${{ secrets.VITE_ADDRESS_API_KEY }}
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest
@@ -43,10 +47,5 @@ jobs:
                 sudo docker rm -f $CONTAINER_ID
             done
             sudo docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:client-latest
-            sudo docker run \
-            -e VITE_KAKAO_API_KEY=${{ secrets.VITE_KAKAO_API_KEY }} \
-            -e VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }} \
-            -e VITE_ADDRESS_API_KEY=${{ secrets.VITE_ADDRESS_API_KEY }} \
-            -d -p 80:80 \
-            --name ${{secrets.DOCKERHUB_REPO}} ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:client-latest
+            sudo docker run -d -p 80:80 --name ${{secrets.DOCKERHUB_REPO}} ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPO}}:client-latest
             sudo docker image prune -f
