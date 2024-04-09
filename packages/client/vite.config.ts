@@ -26,7 +26,4 @@ export default defineConfig({
       },
     },
   },
-  server: {
-    port: 433,
-  },
 });
