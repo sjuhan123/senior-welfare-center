@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'packages/client/**'
+      - 'packages/common/**'
     types:
       - closed
 
