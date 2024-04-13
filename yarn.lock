@@ -2704,7 +2704,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@common/shared@workspace:packages/common":
+"@common/shared@workspace:^, @common/shared@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@common/shared@workspace:packages/common"
   dependencies:
@@ -13430,6 +13430,7 @@ __metadata:
     "@chakra-ui/react": "npm:^2.8.2"
     "@chakra-ui/styled-system": "npm:^2.9.2"
     "@chakra-ui/system": "npm:^2.6.2"
+    "@common/shared": "workspace:^"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.0"
     "@testing-library/dom": "npm:^9.3.4"
