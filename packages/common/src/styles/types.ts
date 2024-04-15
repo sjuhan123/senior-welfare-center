@@ -1,5 +1,3 @@
-import type { SerializedStyles } from '@emotion/react';
-
 export interface ITheme {
   colors: {
     gray_100: string;
@@ -13,10 +11,5 @@ export interface ITheme {
   };
   size: {
     maxWidth: string;
-  };
-  typo: {
-    HEAD: SerializedStyles;
-    BODY: SerializedStyles;
-    DETAIL: SerializedStyles;
   };
 }
