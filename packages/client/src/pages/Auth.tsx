@@ -42,7 +42,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (userInfo && userInfo.message === '유저 정보 조회 성공') {
-      navigate(ROUTE_PATH.HOME);
+      navigate(ROUTE_PATH.WELFARE_LIST);
     }
   }, [navigate, userInfo]);
 
