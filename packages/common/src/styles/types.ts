@@ -3,13 +3,14 @@ export interface ITheme {
     gray_100: string;
     gray_200: string;
     gray_300: string;
-    green_100: string;
-    green_200: string;
-    green_300: string;
+    blue_100: string;
+    blue_200: string;
     black: string;
     white: string;
   };
-  size: {
-    maxWidth: string;
+  maxWidths: {
+    mobile: number;
+    tablet: number;
+    desktop: number;
   };
 }

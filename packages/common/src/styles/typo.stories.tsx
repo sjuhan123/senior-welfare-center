@@ -10,8 +10,18 @@ export const Default = () => {
         IT 기기 사용에 어려움을 겪는 사람들을 위한 노인복지관 사이트
       </p>
 
-      <p>BODY</p>
-      <p css={typos.BODY}>
+      <p>BODY 1 REGULAR</p>
+      <p css={typos.BODY_1_REGULAR}>
+        IT 기기 사용에 어려움을 겪는 사람들을 위한 노인복지관 사이트
+      </p>
+
+      <p>BODY_1_SEMIBOLD</p>
+      <p css={typos.BODY_1_SEMIBOLD}>
+        IT 기기 사용에 어려움을 겪는 사람들을 위한 노인복지관 사이트
+      </p>
+
+      <p>BODY 1 BOLD</p>
+      <p css={typos.BODY_1_BOLD}>
         IT 기기 사용에 어려움을 겪는 사람들을 위한 노인복지관 사이트
       </p>
 
