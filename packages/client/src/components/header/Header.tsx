@@ -34,7 +34,7 @@ const Header = ({
           {backIcon ? (
             backIcon
           ) : (
-            <span css={guideCss}>가까운 복지관을 찾아보세요</span>
+            <div css={guideCss}>가까운 복지관을 찾아보세요</div>
           )}
         </button>
         {title && (
@@ -101,7 +101,7 @@ const titleCss = css`
 `;
 
 const guideCss = (theme: Theme) => css`
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 12px;
   font-weight: 600;
 
