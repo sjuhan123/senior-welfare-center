@@ -24,7 +24,7 @@ const wrapperCss = (theme: Theme) => css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   width: 100%;
-  max-width: ${theme.size.maxWidth};
+  max-width: ${theme.maxWidths.mobile}px;
+  height: 100vh;
 `;
