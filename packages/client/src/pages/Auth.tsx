@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import LoadingIndicator from '../components/common/LoadingIndicator';
-import Layout from '../components/common/Layout';
+import Layout from '../components/layout/Layout';
 import { ROUTE_PATH } from '../constant/route';
 import useGetTokenByCode from '../hooks/api/auth/useGetTokenByCode';
 import { setUserToken } from '../utills/persistentStorage';
