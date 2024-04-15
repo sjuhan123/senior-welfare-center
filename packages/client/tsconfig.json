@@ -3,7 +3,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
 
-    "types": ["vitest/globals"]
+    "types": ["@emotion/react/types/css-prop", "vitest/globals"]
   },
   "include": ["vite.config.ts", "src", "custom.d.ts"]
 }
