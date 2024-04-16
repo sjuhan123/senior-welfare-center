@@ -28,9 +28,23 @@ const BODY_1_BOLD = css`
   letter-spacing: -0.3px;
 `;
 
-const DETAIL = css`
+const DETAIL_1_REGULAR = css`
   font-style: normal;
   font-weight: 400;
+  font-size: 18px;
+  line-height: 170%;
+`;
+
+const DETAIL_1_SEMIBOLD = css`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 170%;
+`;
+
+const DETAIL_1_BOLD = css`
+  font-style: normal;
+  font-weight: 600;
   font-size: 18px;
   line-height: 170%;
 `;
@@ -40,7 +54,9 @@ const typos = {
   BODY_1_REGULAR,
   BODY_1_SEMIBOLD,
   BODY_1_BOLD,
-  DETAIL,
+  DETAIL_1_REGULAR,
+  DETAIL_1_SEMIBOLD,
+  DETAIL_1_BOLD,
 } as const;
 
 export default typos;
