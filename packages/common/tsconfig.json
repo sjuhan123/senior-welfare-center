@@ -8,5 +8,10 @@
 
     "types": ["@emotion/react/types/css-prop", "vitest/globals"]
   },
-  "include": ["vite.config.ts", "@types/*", "src/**/*"]
+  "include": [
+    "vite.config.ts",
+    "@types/*",
+    "src/**/*",
+    "../client/src/components/swiper"
+  ]
 }
