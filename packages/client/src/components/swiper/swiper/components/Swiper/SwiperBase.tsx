@@ -34,8 +34,8 @@ export default SwiperBase;
 const containerCss = css`
   overflow: hidden;
   position: relative;
-  height: 190px;
-  width: 180px;
+  height: 100%;
+  width: 100%;
   border-radius: 10px;
 
   button {
@@ -57,3 +57,8 @@ const wrapperCss = (activeIndex: number) => css`
   transition: transform 0.5s ease-in-out;
   transform: translateX(-${activeIndex * 100}%);
 `;
+
+// 770px
+// 20px 20px 24px
+// 770 - 40 - 24 = 706
+// 706 / 2 = 353

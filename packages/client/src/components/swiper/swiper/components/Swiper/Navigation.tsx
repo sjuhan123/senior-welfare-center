@@ -1,8 +1,8 @@
-import { Icon } from '@chakra-ui/react';
 import { useSwiperContext } from '../../contexts/SwiperContext';
-import { FaChevronLeft } from 'react-icons/fa6';
-import { FaChevronRight } from 'react-icons/fa6';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+
 import { css } from '@emotion/react';
+import { CircleButton } from '@common/shared';
 
 interface Props {
   total: number;
@@ -18,16 +18,16 @@ const Navigation = ({ total }: Props) => {
     <div css={containerCss}>
       <div css={wrapperCss}>
         {!isAtFirstSlide ? (
-          <button onClick={slidePrev} css={buttonCss}>
-            <Icon as={FaChevronLeft} w={8} h={8} color="black" />
-          </button>
+          <CircleButton css={buttonCss} onClick={slidePrev}>
+            <FaAngleLeft />
+          </CircleButton>
         ) : (
           <div />
         )}
         {!isAtLastSlide ? (
-          <button onClick={slideNext} css={buttonCss}>
-            <Icon as={FaChevronRight} w={8} h={8} color="black" />
-          </button>
+          <CircleButton css={buttonCss} onClick={slideNext}>
+            <FaAngleRight />
+          </CircleButton>
         ) : (
           <div />
         )}
@@ -43,7 +43,7 @@ const containerCss = css`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 50%;
+  top: 53%;
   width: 100%;
   z-index: 10;
   transform: translateY(-50%);
@@ -53,15 +53,15 @@ const wrapperCss = css`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0 10px;
+  padding: 0 15px;
 `;
 
 const buttonCss = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   box-shadow: 0px 0px 5px 1px rgba(201, 201, 201, 0.841);
