@@ -1,3 +1,5 @@
+import type { Keyframes } from '@emotion/react';
+
 export interface ITheme {
   colors: {
     gray_100: string;
@@ -12,5 +14,8 @@ export interface ITheme {
     mobile: number;
     tablet: number;
     desktop: number;
+  };
+  animations: {
+    pulse: Keyframes;
   };
 }
