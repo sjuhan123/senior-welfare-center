@@ -13,4 +13,6 @@ const containerCss = (theme: Theme) => css`
   max-width: ${theme.maxWidths.mobile};
   height: calc(100% - 80px - 80px);
   margin: 80px auto 80px;
+
+  scrollbar-color: ${theme.colors.gray_200} ${theme.colors.white};
 `;
