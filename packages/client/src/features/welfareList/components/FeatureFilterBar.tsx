@@ -1,15 +1,33 @@
 import { css } from '@emotion/react';
 import AddressFilterButton from './AddressFilterButton';
-import LocationFilterButton from './LocationFilterButton';
 import NearByFilterButton from './NearByFilterButton';
 import type { Theme } from '@emotion/react';
+import type { Location } from '../../../types/location';
+import { CURRENT_VIEW } from '../constant';
+import CityFilterButton from './CityFilterButton';
 
-const FeatureFilterBar = () => {
+interface Props {
+  currentFilter: string;
+  onCitySet: (city: string) => void;
+  onAddressSet: (location: Location) => void;
+}
+
+const FeatureFilterBar = ({
+  currentFilter,
+  onCitySet,
+  onAddressSet,
+}: Props) => {
   return (
     <div css={containerCss}>
-      <LocationFilterButton />
-      <AddressFilterButton />
-      <NearByFilterButton />
+      <CityFilterButton
+        onCitySet={onCitySet}
+        isActive={currentFilter === CURRENT_VIEW.LOCATION}
+      />
+      <AddressFilterButton
+        isActive={currentFilter === CURRENT_VIEW.ADDRESS}
+        onAddressSet={onAddressSet}
+      />
+      <NearByFilterButton isActive={currentFilter === CURRENT_VIEW.NEARBY} />
     </div>
   );
 };

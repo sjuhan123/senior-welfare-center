@@ -27,7 +27,7 @@ const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
   const theme = useTheme();
 
   const [isBookmarked, setisBookmarked] = useState(false);
-  const { name, address, distance, phone, images } = welfareInfo;
+  const { name, address, distance, phone, remarks, images } = welfareInfo;
 
   const WELFARE_IMAGES = images ?? MOCK_IMAGES;
 
@@ -47,8 +47,9 @@ const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
         <div css={infoCss}>
           <h2>{name}</h2>
           <p>주소 {address}</p>
-          <p>거리 {distance}km 거리</p>
+          {distance && <p>거리 {distance.toFixed(2)}km</p>}
           <p>번호 {phone}</p>
+          {!distance && <p>비고 {remarks ? remarks : '-'}</p>}
         </div>
         <div css={buttonCss(theme, isBookmarked)} onClick={handleBookmarkClick}>
           <Button css={typos.DETAIL_1_SEMIBOLD}>저장</Button>

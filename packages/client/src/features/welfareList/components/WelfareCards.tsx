@@ -6,17 +6,24 @@ import useGetWelfaresByDistrictId from '../../../hooks/api/welfare/useGetWelfare
 import type { Location } from '../../../types/location';
 
 interface Prop {
+  onCardSet: () => void;
   location: Location | null;
   districtId: string | null;
 }
 
-const WelfareCards = ({ location, districtId }: Prop) => {
+const WelfareCards = ({ location, onCardSet, districtId }: Prop) => {
+  const tempDistrictId = location !== null ? null : districtId;
+
   const { data: welfaresByocation } = useGetWelfaresLocation(location, {
     suspense: true,
+    onSuccess: () => {
+      console.log('onSuccess');
+      onCardSet ? onCardSet() : null;
+    },
   });
 
   const { data: welfaresByDistrictId } = useGetWelfaresByDistrictId(
-    districtId,
+    tempDistrictId,
     {
       suspense: true,
     },
@@ -46,7 +53,7 @@ const containerCss = (theme: Theme) => css`
   padding: 20px;
   background-color: ${theme.colors.white};
   width: 100%;
-  height: calc(100vh - 277px);
+  height: calc(100vh - 285px);
 `;
 
 const wrapperCss = css`
