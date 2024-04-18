@@ -54,6 +54,10 @@ const noticeCss = (theme: Theme) => css`
   display: flex;
   gap: 5px;
 
+  @media (max-width: ${theme.maxWidths.mobile}px) {
+    flex-direction: column;
+  }
+
   background-color: ${theme.colors.white};
 
   h2 {

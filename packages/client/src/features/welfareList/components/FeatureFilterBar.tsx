@@ -5,6 +5,9 @@ import type { Theme } from '@emotion/react';
 import type { Location } from '../../../types/location';
 import { CURRENT_VIEW } from '../constant';
 import CityFilterButton from './CityFilterButton';
+import useBreakPointValue from '../../../hooks/breakPoint/useBreakPointValue';
+import BREAKE_POINT from '../../../hooks/breakPoint/constant';
+import FilterDropdown from './FilterDropdown';
 
 interface Props {
   currentFilter: string;
@@ -19,20 +22,37 @@ const FeatureFilterBar = ({
   onAddressSet,
   onAddressNearBySet,
 }: Props) => {
+  const breakpointValue = useBreakPointValue();
+
+  const isMobile = breakpointValue === BREAKE_POINT.MOBILE;
+
+  const isLocationView = currentFilter === CURRENT_VIEW.LOCATION;
+  const isAddressView = currentFilter === CURRENT_VIEW.ADDRESS;
+  const isNearByView = currentFilter === CURRENT_VIEW.NEARBY;
+
   return (
     <div css={containerCss}>
-      <CityFilterButton
-        onCitySet={onCitySet}
-        isActive={currentFilter === CURRENT_VIEW.LOCATION}
-      />
-      <AddressFilterButton
-        isActive={currentFilter === CURRENT_VIEW.ADDRESS}
-        onAddressSet={onAddressSet}
-      />
-      <NearByFilterButton
-        onAddressNearBySet={onAddressNearBySet}
-        isActive={currentFilter === CURRENT_VIEW.NEARBY}
-      />
+      {isMobile && (
+        <FilterDropdown
+          onCitySet={onCitySet}
+          onAddressSet={onAddressSet}
+          onAddressNearBySet={onAddressNearBySet}
+          currentFilter={currentFilter}
+        />
+      )}
+      {!isMobile && (
+        <>
+          <CityFilterButton onCitySet={onCitySet} isActive={isLocationView} />
+          <AddressFilterButton
+            isActive={isAddressView}
+            onAddressSet={onAddressSet}
+          />
+          <NearByFilterButton
+            onAddressNearBySet={onAddressNearBySet}
+            isActive={isNearByView}
+          />
+        </>
+      )}
     </div>
   );
 };

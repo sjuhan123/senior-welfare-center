@@ -9,6 +9,8 @@ import { css, useTheme } from '@emotion/react';
 import type { Location } from '../../../types/location';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../../constant/queryKeys';
+import useBreakPointValue from '../../../hooks/breakPoint/useBreakPointValue';
+import BREAKE_POINT from '../../../hooks/breakPoint/constant';
 
 const getCurrentCoordinate: () => Promise<Location> = () => {
   return new Promise((resolve, reject) => {
@@ -55,11 +57,12 @@ const fetchAddress = async (latitude: string, longitude: string) => {
 
 interface Prop {
   isActive: boolean;
-  onAddressNearBySet: (coordinate: Location) => void;
+  onAddressNearBySet?: (coordinate: Location) => void;
 }
 
 const NearByFilterButton = ({ isActive, onAddressNearBySet }: Prop) => {
-  const theme = useTheme();
+  const breakpointValue = useBreakPointValue();
+  const isMobile = breakpointValue === BREAKE_POINT.MOBILE;
 
   const { data: currentCoordinate } = useQuery<Location, Error>(
     QUERY_KEYS.CURRENT_LOCATION,
@@ -84,15 +87,47 @@ const NearByFilterButton = ({ isActive, onAddressNearBySet }: Prop) => {
   };
 
   return (
-    <EllipseButton onClick={handleButtonClick}>
-      <div css={wrapperCss(theme, isActive)}>
-        <span css={typos.DETAIL_1_REGULAR}>가까운 복지관 찾기</span>
-      </div>
-    </EllipseButton>
+    <>
+      {isMobile && (
+        <div css={containerCss} onClick={handleButtonClick}>
+          <NearByFilterButtonContent isActive={isActive} />
+        </div>
+      )}
+      {!isMobile && (
+        <EllipseButton onClick={handleButtonClick}>
+          <NearByFilterButtonContent isActive={isActive} />
+        </EllipseButton>
+      )}
+    </>
   );
 };
 
 export default NearByFilterButton;
+
+const containerCss = (theme: Theme) => css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 50px;
+  width: 100%;
+
+  &:hover {
+    background-color: ${theme.colors.gray_100};
+  }
+`;
+
+export const NearByFilterButtonContent = ({
+  isActive,
+}: Pick<Prop, 'isActive'>) => {
+  const theme = useTheme();
+
+  return (
+    <div css={wrapperCss(theme, isActive)}>
+      <span css={typos.DETAIL_1_REGULAR}>가까운 복지관 찾기</span>
+    </div>
+  );
+};
 
 const wrapperCss = (theme: Theme, isActive: boolean) => css`
   display: flex;

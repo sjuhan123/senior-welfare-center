@@ -4,6 +4,8 @@ import type { Location } from '../../../types/location';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import { useState } from 'react';
 import type { Theme } from '@emotion/react';
+import useBreakPointValue from '../../../hooks/breakPoint/useBreakPointValue';
+import BREAKE_POINT from '../../../hooks/breakPoint/constant';
 
 interface FetchCoordinatesResponse {
   documents: {
@@ -42,11 +44,12 @@ const fetchCoordinates = async (roadAddress: string) => {
 
 interface Prop {
   isActive: boolean;
-  onAddressSet: (coordinate: Location) => void;
+  onAddressSet?: (coordinate: Location) => void;
 }
 
 const AddressFilterButton = ({ isActive, onAddressSet }: Prop) => {
-  const theme = useTheme();
+  const breakpointValue = useBreakPointValue();
+  const isMobile = breakpointValue === BREAKE_POINT.MOBILE;
 
   const [isCoordinateSet, setIsCoordinateSet] = useState(false);
 
@@ -77,11 +80,17 @@ const AddressFilterButton = ({ isActive, onAddressSet }: Prop) => {
 
   return (
     <>
-      <EllipseButton onClick={handleButtonClick}>
-        <div css={wrapperCss(theme, isActive)}>
-          <span css={typos.DETAIL_1_REGULAR}>집 인근 복지관 찾기</span>
+      {isMobile && (
+        <div css={containerCss} onClick={handleButtonClick}>
+          <AddressFilterButtonContent isActive={isActive} />
         </div>
-      </EllipseButton>
+      )}
+      {!isMobile && (
+        <EllipseButton onClick={handleButtonClick}>
+          <AddressFilterButtonContent isActive={isActive} />
+        </EllipseButton>
+      )}
+
       {isCoordinateSet && (
         <Modal onClickOutside={handleModalClose} isBlurOn={true}>
           <DaumPostcodeEmbed
@@ -102,6 +111,31 @@ const AddressFilterButton = ({ isActive, onAddressSet }: Prop) => {
 };
 
 export default AddressFilterButton;
+
+const containerCss = (theme: Theme) => css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 50px;
+  width: 100%;
+
+  &:hover {
+    background-color: ${theme.colors.gray_100};
+  }
+`;
+
+export const AddressFilterButtonContent = ({
+  isActive,
+}: Pick<Prop, 'isActive'>) => {
+  const theme = useTheme();
+
+  return (
+    <div css={wrapperCss(theme, isActive)}>
+      <span css={typos.DETAIL_1_REGULAR}>집 인근 복지관 찾기</span>
+    </div>
+  );
+};
 
 const wrapperCss = (theme: Theme, isActive: boolean) => css`
   display: flex;
