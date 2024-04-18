@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import type { Keyframes } from '@emotion/react';
 
 export interface ITheme {
@@ -17,5 +18,15 @@ export interface ITheme {
   };
   animations: {
     pulse: Keyframes;
+  };
+  zIndex: {
+    toast: number;
+    modal: number;
+    dropdown: number;
+    aboveDefault: number;
+    default: number;
+    belowDefault: number;
+    above: (n: number) => number;
+    below: (n: number) => number;
   };
 }
