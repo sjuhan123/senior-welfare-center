@@ -5,11 +5,5 @@
 
     "types": ["@emotion/react/types/css-prop", "vitest/globals"]
   },
-  "include": [
-    "vite.config.ts",
-    "src",
-    "custom.d.ts",
-    "@types/*",
-    "src/components/swiper/swiper"
-  ]
+  "include": ["vite.config.ts", "src", "custom.d.ts", "@types/*"]
 }
