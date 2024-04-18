@@ -9,6 +9,7 @@ import CircleButton from './components/button/CircleButton';
 import EllipseButton from './components/button/EllipseButton';
 
 import Modal from './components/modal/Modal';
+import Dropdown from './components/dropdown/Dropdown';
 
 export type ThemeType = ITheme;
 export { colors, defaultTheme };
@@ -20,3 +21,4 @@ export { CircleButton };
 export { EllipseButton };
 
 export { Modal };
+export { Dropdown };
