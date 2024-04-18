@@ -10,12 +10,14 @@ interface Props {
   currentFilter: string;
   onCitySet: (city: string) => void;
   onAddressSet: (location: Location) => void;
+  onAddressNearBySet: (location: Location) => void;
 }
 
 const FeatureFilterBar = ({
   currentFilter,
   onCitySet,
   onAddressSet,
+  onAddressNearBySet,
 }: Props) => {
   return (
     <div css={containerCss}>
@@ -27,7 +29,10 @@ const FeatureFilterBar = ({
         isActive={currentFilter === CURRENT_VIEW.ADDRESS}
         onAddressSet={onAddressSet}
       />
-      <NearByFilterButton isActive={currentFilter === CURRENT_VIEW.NEARBY} />
+      <NearByFilterButton
+        onAddressNearBySet={onAddressNearBySet}
+        isActive={currentFilter === CURRENT_VIEW.NEARBY}
+      />
     </div>
   );
 };

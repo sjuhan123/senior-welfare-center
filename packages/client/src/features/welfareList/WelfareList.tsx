@@ -36,6 +36,12 @@ const WelfareList = () => {
     setIsSearching(true);
   };
 
+  const onAddressNearBySet = (location: Location) => {
+    setCurrentFilterView(CURRENT_VIEW.NEARBY);
+    setLocation(location);
+    setIsSearching(true);
+  };
+
   const handleDistrictIdChange = (district: DistrictData) => {
     setCurrentFilterView(CURRENT_VIEW.LOCATION);
     setDistrict(district);
@@ -48,6 +54,7 @@ const WelfareList = () => {
         currentFilter={currentFilterView}
         onCitySet={onCitySet}
         onAddressSet={onAddressSet}
+        onAddressNearBySet={onAddressNearBySet}
       />
       {currentFilterView === CURRENT_VIEW.LOCATION && district && (
         <DistrictFilterBar
