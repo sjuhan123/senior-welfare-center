@@ -16,9 +16,11 @@ const Districts = ({ currentDistrict, onDistrictClick }: Prop) => {
     suspense: true,
   });
 
+  const districtList = [...(data?.data ?? [])];
+
   return (
     <ul css={listCss}>
-      {[...(data?.data ?? [])].map((district: DistrictData) => {
+      {districtList.map((district: DistrictData) => {
         const isSelected = district.name === currentDistrict;
 
         return (

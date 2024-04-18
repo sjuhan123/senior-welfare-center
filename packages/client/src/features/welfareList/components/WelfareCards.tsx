@@ -17,7 +17,6 @@ const WelfareCards = ({ location, onCardSet, districtId }: Prop) => {
   const { data: welfaresByocation } = useGetWelfaresLocation(location, {
     suspense: true,
     onSuccess: () => {
-      console.log('onSuccess');
       onCardSet ? onCardSet() : null;
     },
   });
