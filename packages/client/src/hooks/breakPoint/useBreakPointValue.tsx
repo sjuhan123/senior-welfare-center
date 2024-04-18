@@ -3,7 +3,13 @@ import { useState, useEffect } from 'react';
 import BREAKE_POINT from './constant';
 
 const useBreakPointValue = () => {
-  const [breakPointValue, setBreakPointValue] = useState('');
+  const [breakPointValue, setBreakPointValue] = useState(() =>
+    window.innerWidth < maxWidths.mobile
+      ? BREAKE_POINT.MOBILE
+      : window.innerWidth < maxWidths.tablet
+        ? BREAKE_POINT.TABLET
+        : BREAKE_POINT.DESKTOP,
+  );
 
   useEffect(() => {
     const updateBreakPoint = () => {
