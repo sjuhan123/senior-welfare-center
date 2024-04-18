@@ -36,12 +36,10 @@ const containerCss = (theme: Theme) => css`
   &::after {
     content: '';
     position: absolute;
-    left: 0;
     bottom: -1px;
     width: 100%;
     height: 2px;
     border-bottom: 1px solid ${theme.colors.gray_200};
     box-shadow: 0 2px 4px ${theme.colors.gray_100};
-    z-index: 1;
   }
 `;

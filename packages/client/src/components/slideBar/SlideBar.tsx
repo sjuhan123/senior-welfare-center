@@ -15,8 +15,9 @@ const SlideBar = ({
   children,
   scrollDistance = 300,
 }: PropsWithChildren<Props>) => {
-  const [scrollPosition, setScrollPosition] = useState(DEFAULT_POSITION);
   const theme = useTheme();
+
+  const [scrollPosition, setScrollPosition] = useState(DEFAULT_POSITION);
   const listRef = useRef<HTMLDivElement>(null);
 
   const listWidth = listRef.current?.scrollWidth || DEFAULT_POSITION;
@@ -52,7 +53,7 @@ const SlideBar = ({
             <FaAngleLeft />
           </CircleButton>
         )}
-        <div css={slideBarCss(isAtStart, isAtEnd)}>
+        <div css={slideBarCss(theme, isAtStart, isAtEnd)}>
           <div
             css={listWrapperCss(theme, scrollPosition)}
             id="list"
@@ -87,7 +88,7 @@ const slideWrapperCss = css`
   position: relative;
 `;
 
-const slideBarCss = (isAtStart: boolean, isAtEnd: boolean) => css`
+const slideBarCss = (theme: Theme, isAtStart: boolean, isAtEnd: boolean) => css`
   overflow: hidden;
 
   &:before {
@@ -98,7 +99,7 @@ const slideBarCss = (isAtStart: boolean, isAtEnd: boolean) => css`
     bottom: 0;
     width: 60px;
     background: linear-gradient(270deg, hsla(0, 0%, 100%, 0), #fff 50%);
-    z-index: 1;
+    z-index: ${theme.zIndex.aboveDefault};
     display: ${isAtStart ? 'none' : 'block'};
   }
 
@@ -110,7 +111,7 @@ const slideBarCss = (isAtStart: boolean, isAtEnd: boolean) => css`
     bottom: 0;
     width: 60px;
     background: linear-gradient(90deg, hsla(0, 0%, 100%, 0), #fff 50%);
-    z-index: 1;
+    z-index: ${theme.zIndex.aboveDefault};
     display: ${isAtEnd ? 'none' : 'block'};
   }
 `;
@@ -123,14 +124,14 @@ const listWrapperCss = (theme: Theme, scrollPosition: number) => css`
   transform: translateX(-${scrollPosition}px);
 `;
 
-const leftButtonCss = css`
+const leftButtonCss = (theme: Theme) => css`
   position: absolute;
   left: 0;
-  z-index: 10;
+  z-index: ${theme.zIndex.above(theme.zIndex.aboveDefault)};
 `;
 
-const rightButtonCss = css`
+const rightButtonCss = (theme: Theme) => css`
   position: absolute;
   right: 0;
-  z-index: 10;
+  z-index: ${theme.zIndex.above(theme.zIndex.aboveDefault)};
 `;

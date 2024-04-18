@@ -3,6 +3,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 import { css } from '@emotion/react';
 import { CircleButton } from '@common/shared';
+import type { Theme } from '@emotion/react';
 
 interface Props {
   total: number;
@@ -38,14 +39,14 @@ const Navigation = ({ total }: Props) => {
 
 export default Navigation;
 
-const containerCss = css`
+const containerCss = (theme: Theme) => css`
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   top: 53%;
   width: 100%;
-  z-index: 10;
+  z-index: ${theme.zIndex.aboveDefault};
   transform: translateY(-50%);
 `;
 
