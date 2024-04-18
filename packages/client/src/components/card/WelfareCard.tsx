@@ -11,7 +11,7 @@ interface Prop {
   onCardClick?: () => void;
   onBookmarkClick?: () => void;
 }
-// VITE_BASE_URL
+
 const MOCK_IMAGES = import.meta.env.DEV
   ? [
       '../../../../public/송정동-정보검색대.jpeg',
@@ -24,14 +24,14 @@ const MOCK_IMAGES = import.meta.env.DEV
       '../../../../public/송정동-건강관리실.jpeg',
     ]
   : [
-      '/송정동-정보검색대.jpeg',
-      '/송정동-2층복도쉼터.jpeg',
-      '/송정동-강당.jpeg',
-      '/송정동-건강관리실스마트.jpeg',
-      '/송정동-배움터.jpeg',
-      '/송정동-휴게실.jpeg',
-      '/송정동-안내데스크.png',
-      '/송정동-건강관리실.jpeg',
+      '송정동-정보검색대.jpeg',
+      '송정동-2층복도쉼터.jpeg',
+      '송정동-강당.jpeg',
+      '송정동-건강관리실스마트.jpeg',
+      '송정동-배움터.jpeg',
+      '송정동-휴게실.jpeg',
+      '송정동-안내데스크.png',
+      '송정동-건강관리실.jpeg',
     ];
 
 const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
