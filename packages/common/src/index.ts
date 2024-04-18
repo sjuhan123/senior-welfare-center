@@ -8,6 +8,8 @@ import Button from './components/button/Button';
 import CircleButton from './components/button/CircleButton';
 import EllipseButton from './components/button/EllipseButton';
 
+import Modal from './components/modal/Modal';
+
 export type ThemeType = ITheme;
 export { colors, defaultTheme };
 export { typos };
@@ -16,3 +18,5 @@ export { maxWidths };
 export { Button };
 export { CircleButton };
 export { EllipseButton };
+
+export { Modal };
