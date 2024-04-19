@@ -40,7 +40,7 @@
 
 - 모바일 뷰
 
-<img src="https://ifh.cc/g/TCMrg6.gif">
+<img src="https://ifh.cc/g/TCMrg6.gif" width="240" height="500">
 
 ## 📌 프로젝트 홈페이지 소개 v1
 
