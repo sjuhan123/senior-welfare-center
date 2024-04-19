@@ -6,6 +6,7 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   base: './',
   assetsInclude: ['**/*.jpg', '**/*.png', '**/*.svg', '**/*.jpeg'],
+  publicDir: false,
   plugins: [
     react({
       jsxImportSource: '@emotion/react',

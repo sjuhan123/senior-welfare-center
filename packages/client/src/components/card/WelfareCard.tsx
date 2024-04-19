@@ -5,6 +5,7 @@ import type { Theme } from '@emotion/react';
 import { Button, typos } from '@common/shared';
 import { MdBookmarkAdded } from 'react-icons/md';
 import { useState } from 'react';
+import '../../../public/송정동-2층복도쉼터.jpeg';
 
 interface Prop {
   welfareInfo: WelfareData;
@@ -13,14 +14,14 @@ interface Prop {
 }
 
 const MOCK_IMAGES = [
-  '송정동-정보검색대.jpeg',
-  '송정동-2층복도쉼터.jpeg',
-  '송정동-강당.jpeg',
-  '송정동-건강관리실스마트.jpeg',
-  '송정동-배움터.jpeg',
-  '송정동-휴게실.jpeg',
-  '송정동-안내데스크.png',
-  '송정동-건강관리실.jpeg',
+  '../../../public/송정동-정보검색대.jpeg',
+  '../../../public/송정동-2층복도쉼터.jpeg',
+  '../../../public/송정동-강당.jpeg',
+  '../../../public/송정동-건강관리실스마트.jpeg',
+  '../../../public/송정동-배움터.jpeg',
+  '../../../public/송정동-휴게실.jpeg',
+  '../../../public/송정동-안내데스크.png',
+  '../../../public/송정동-건강관리실.jpeg',
 ];
 
 const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
@@ -29,7 +30,7 @@ const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
   const [isBookmarked, setisBookmarked] = useState(false);
   const { name, address, distance, phone, remarks, images } = welfareInfo;
 
-  const WELFARE_IMAGES =  images ?? MOCK_IMAGES.map(image => `${import.meta.env.BASE_URL}${image}`);
+  const WELFARE_IMAGES = images ?? MOCK_IMAGES.map(image => `${image}`);
 
   const handleBookmarkClick = () => {
     setisBookmarked(prev => !prev);
