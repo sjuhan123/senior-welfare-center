@@ -23,6 +23,8 @@ const MOCK_IMAGES = [
   '/송정동-건강관리실.jpeg',
 ];
 
+const WELFARE_IMAGES =
+
 const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
   const theme = useTheme();
 
