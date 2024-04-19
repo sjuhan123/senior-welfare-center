@@ -23,15 +23,14 @@ const MOCK_IMAGES = [
   '/송정동-건강관리실.jpeg',
 ];
 
-const WELFARE_IMAGES =
-
 const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
   const theme = useTheme();
 
   const [isBookmarked, setisBookmarked] = useState(false);
   const { name, address, distance, phone, remarks, images } = welfareInfo;
 
-  const WELFARE_IMAGES = images ?? MOCK_IMAGES;
+  const WELFARE_IMAGES =
+    images ?? MOCK_IMAGES.map(image => `${import.meta.env.BASE_URL}${image}`);
 
   const handleBookmarkClick = () => {
     setisBookmarked(prev => !prev);
