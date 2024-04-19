@@ -5,7 +5,14 @@ import type { Theme } from '@emotion/react';
 import { Button, typos } from '@common/shared';
 import { MdBookmarkAdded } from 'react-icons/md';
 import { useState } from 'react';
-import '../../../public/송정동-2층복도쉼터.jpeg';
+import mockImage1 from '../../../public/송정동-정보검색대.jpeg';
+import mockImage2 from '../../../public/송정동-2층복도쉼터.jpeg';
+import mockImage3 from '../../../public/송정동-강당.jpeg';
+import mockImage4 from '../../../public/송정동-건강관리실.jpeg';
+import mockImage5 from '../../../public/송정동-배움터.jpeg';
+import mockImage6 from '../../../public/송정동-휴게실.jpeg';
+import mockImage7 from '../../../public/송정동-안내데스크.png';
+import mockImage8 from '../../../public/송정동-건강관리실.jpeg';
 
 interface Prop {
   welfareInfo: WelfareData;
@@ -14,14 +21,14 @@ interface Prop {
 }
 
 const MOCK_IMAGES = [
-  '../../../public/송정동-정보검색대.jpeg',
-  '../../../public/송정동-2층복도쉼터.jpeg',
-  '../../../public/송정동-강당.jpeg',
-  '../../../public/송정동-건강관리실스마트.jpeg',
-  '../../../public/송정동-배움터.jpeg',
-  '../../../public/송정동-휴게실.jpeg',
-  '../../../public/송정동-안내데스크.png',
-  '../../../public/송정동-건강관리실.jpeg',
+  mockImage1,
+  mockImage2,
+  mockImage3,
+  mockImage4,
+  mockImage5,
+  mockImage6,
+  mockImage7,
+  mockImage8,
 ];
 
 const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
@@ -30,7 +37,7 @@ const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
   const [isBookmarked, setisBookmarked] = useState(false);
   const { name, address, distance, phone, remarks, images } = welfareInfo;
 
-  const WELFARE_IMAGES = images ?? MOCK_IMAGES.map(image => `${image}`);
+  const WELFARE_IMAGES = images ?? MOCK_IMAGES;
 
   const handleBookmarkClick = () => {
     setisBookmarked(prev => !prev);
