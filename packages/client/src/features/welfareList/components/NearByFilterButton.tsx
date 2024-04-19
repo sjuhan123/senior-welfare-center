@@ -70,7 +70,7 @@ const NearByFilterButton = ({ isActive, onAddressNearBySet }: Prop) => {
   );
 
   const handleButtonClick = async () => {
-    if (!currentCoordinate) {
+    if (!currentCoordinate || isActive) {
       return;
     }
 

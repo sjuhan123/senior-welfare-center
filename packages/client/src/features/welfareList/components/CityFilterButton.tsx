@@ -16,6 +16,7 @@ const CityFilterButton = ({ city = '서울시', isActive, onCitySet }: Props) =>
   const isMobile = breakpointValue === BREAKE_POINT.MOBILE;
 
   const handleButtonClick = () => {
+    if (isActive) return;
     onCitySet ? onCitySet(city) : null;
   };
 
