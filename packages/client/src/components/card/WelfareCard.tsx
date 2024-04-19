@@ -29,8 +29,7 @@ const WelfareCard = ({ welfareInfo, onCardClick, onBookmarkClick }: Prop) => {
   const [isBookmarked, setisBookmarked] = useState(false);
   const { name, address, distance, phone, remarks, images } = welfareInfo;
 
-  const WELFARE_IMAGES =
-    images ?? MOCK_IMAGES.map(image => `${import.meta.env.BASE_URL}${image}`);
+  const WELFARE_IMAGES =  images ?? MOCK_IMAGES.map(image => `${import.meta.env.BASE_URL}${image}`);
 
   const handleBookmarkClick = () => {
     setisBookmarked(prev => !prev);
