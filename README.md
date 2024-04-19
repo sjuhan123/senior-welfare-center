@@ -36,11 +36,11 @@
 
 - 데스크탑 뷰
 
-<img src="https://gist.github.com/assets/81420856/97d9fd57-aecf-446d-9f21-293c189c80fb" width="1000" height="800">
+<img src="https://ifh.cc/g/z4bryo.gif">
 
 - 모바일 뷰
 
-<img src="https://gist.github.com/assets/81420856/7a80887b-338e-45b9-8f2d-db70830a2fc0" width="240" height="500">
+<img src="https://ifh.cc/g/TCMrg6.gif">
 
 ## 📌 프로젝트 홈페이지 소개 v1
 
