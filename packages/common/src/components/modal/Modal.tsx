@@ -20,8 +20,8 @@ const Modal = ({
 
   return (
     <Portal>
-      <div css={dialogCss} onClick={onClickOutside} ref={ref}>
-        {isBlurOn && <div css={blurCss} onClick={onClickOutside} />}
+      <div css={dialogCss}>
+        {isBlurOn && <div css={blurCss} onClick={onClickOutside} ref={ref} />}
         <div css={containerCss}>{children}</div>
       </div>
     </Portal>
