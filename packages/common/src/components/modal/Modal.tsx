@@ -1,7 +1,8 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
-import type { PropsWithChildren } from 'react';
+import { useRef, type PropsWithChildren } from 'react';
 import Portal from '../portal/Portal';
+import useClickOutside from '../../hooks/interaction/useClickOutside';
 
 interface Props {
   onClickOutside: () => void;
@@ -13,9 +14,13 @@ const Modal = ({
   onClickOutside,
   isBlurOn,
 }: PropsWithChildren<Props>) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useClickOutside(ref, onClickOutside);
+
   return (
     <Portal>
-      <div css={dialogCss} onClick={onClickOutside}>
+      <div css={dialogCss} onClick={onClickOutside} ref={ref}>
         {isBlurOn && <div css={blurCss} onClick={onClickOutside} />}
         <div css={containerCss}>{children}</div>
       </div>
