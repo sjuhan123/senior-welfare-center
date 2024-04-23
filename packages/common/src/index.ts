@@ -14,10 +14,18 @@ import { Dropdown } from './components/dropdown';
 import useClickOutside from './hooks/interaction/useClickOutside';
 import useDisclosure from './hooks/disclosure/useDisclosure';
 
+/**
+ * styles
+ */
+
 export type ThemeType = ITheme;
 export { colors, defaultTheme };
 export { typos };
 export { maxWidths };
+
+/**
+ * commcomponents
+ */
 
 export { Button };
 export { CircleButton };
@@ -25,6 +33,10 @@ export { EllipseButton };
 
 export { Modal };
 export { Dropdown };
+
+/**
+ * hooks
+ */
 
 export { useClickOutside };
 export { useDisclosure };
