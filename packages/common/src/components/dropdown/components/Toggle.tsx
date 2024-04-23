@@ -1,26 +1,18 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { HTMLAttributes, PropsWithChildren } from 'react';
-import { useDropdownContext } from '../contexts/DropdownContext';
 
 export interface Props extends HTMLAttributes<HTMLButtonElement> {
-  onClickHandler?: () => void;
+  onClick: () => void;
 }
 
-const Toggle = ({
-  children,
-  onClickHandler,
-  ...props
-}: PropsWithChildren<Props>) => {
-  const { toggleDropdown } = useDropdownContext();
-
+const Toggle = ({ children, onClick, ...props }: PropsWithChildren<Props>) => {
   const handleClick = () => {
-    toggleDropdown();
-    onClickHandler?.();
+    onClick();
   };
 
   return (
-    <button css={toggleCss} onClick={handleClick} {...props}>
+    <button css={toggleCss} {...props} onClick={handleClick}>
       {children}
     </button>
   );

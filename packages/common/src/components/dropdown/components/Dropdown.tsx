@@ -1,15 +1,28 @@
 import { css } from '@emotion/react';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useRef } from 'react';
 import Toggle from './Toggle';
 import Menu from './Menu';
 import Divider from './Divider';
-import { DropdownProvider } from '../contexts/DropdownContext';
+import useClickOutside from '../../../hooks/interaction/useClickOutside';
 
-const Dropdown = ({ children }: PropsWithChildren) => {
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Dropdown = ({ children, isOpen, onClose }: PropsWithChildren<Props>) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useClickOutside(ref, () => {
+    if (isOpen) {
+      onClose();
+    }
+  });
+
   return (
-    <DropdownProvider>
-      <div css={containerCss}>{children}</div>
-    </DropdownProvider>
+    <div css={containerCss} ref={ref}>
+      {children}
+    </div>
   );
 };
 

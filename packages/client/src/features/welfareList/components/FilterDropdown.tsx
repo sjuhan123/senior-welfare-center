@@ -10,7 +10,7 @@ import NearByFilterButton, {
 } from './NearByFilterButton';
 import type { Location } from '../../../types/location';
 import { FaAngleDown } from 'react-icons/fa';
-import { Dropdown } from '@common/shared';
+import { Dropdown, useDisclosure } from '@common/shared';
 
 interface Props {
   currentFilter: string;
@@ -25,13 +25,30 @@ const FilterDropdown = ({
   onAddressSet,
   onAddressNearBySet,
 }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const isLocationView = currentFilter === CURRENT_VIEW.LOCATION;
   const isAddressView = currentFilter === CURRENT_VIEW.ADDRESS;
   const isNearByView = currentFilter === CURRENT_VIEW.NEARBY;
 
+  const onCityFilterSet = () => {
+    onCitySet('서울시');
+    onClose();
+  };
+
+  const onAddressFilterSet = (address: Location) => {
+    onAddressSet(address);
+    onClose();
+  };
+
+  const onAddressNearByFilterSet = (location: Location) => {
+    onAddressNearBySet(location);
+    onClose();
+  };
+
   return (
-    <Dropdown>
-      <Dropdown.Toggle css={dropdownButtonCss}>
+    <Dropdown isOpen={isOpen} onClose={onClose}>
+      <Dropdown.Toggle css={dropdownButtonCss} onClick={onOpen}>
         {isLocationView && (
           <CityFilterButtonContent isActive={isLocationView} />
         )}
@@ -41,18 +58,26 @@ const FilterDropdown = ({
         {isNearByView && <NearByFilterButtonContent isActive={isNearByView} />}
         <FaAngleDown css={buttonIcon} />
       </Dropdown.Toggle>
-      <Dropdown.Menu fixedDir="left" distance={60}>
+      <Dropdown.Menu
+        fixedDir="left"
+        distance={60}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <div css={dropdownBodyCss}>
-          <CityFilterButton isActive={isLocationView} onCitySet={onCitySet} />
+          <CityFilterButton
+            isActive={isLocationView}
+            onCitySet={onCityFilterSet}
+          />
           <Dropdown.Divider />
           <AddressFilterButton
             isActive={isAddressView}
-            onAddressSet={onAddressSet}
+            onAddressSet={onAddressFilterSet}
           />
           <Dropdown.Divider />
           <NearByFilterButton
             isActive={isNearByView}
-            onAddressNearBySet={onAddressNearBySet}
+            onAddressNearBySet={onAddressNearByFilterSet}
           />
         </div>
       </Dropdown.Menu>

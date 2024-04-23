@@ -1,40 +1,25 @@
 import type { Theme } from '@emotion/react';
 import { css, useTheme } from '@emotion/react';
-import { PropsWithChildren, useRef } from 'react';
-import { useDropdownContext } from '../contexts/DropdownContext';
-import useClickOutside from '../../../hooks/interaction/useClickOutside';
+import { PropsWithChildren } from 'react';
 
 type FixedDir = 'left' | 'right';
 
 export interface Prop {
-  children: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
   fixedDir: FixedDir;
   distance: number;
-  onClickOutside?: () => void;
 }
 
 const Menu = ({
   children,
+  isOpen,
   fixedDir,
   distance,
-  onClickOutside,
 }: PropsWithChildren<Prop>) => {
   const theme = useTheme();
-  const ref = useRef<HTMLDivElement>(null);
-  const { isDropdownOpen, toggleDropdown } = useDropdownContext();
 
-  useClickOutside(ref, () => {
-    if (isDropdownOpen) {
-      toggleDropdown();
-      onClickOutside?.();
-    }
-  });
-
-  return (
-    <div css={menuCss(theme, isDropdownOpen, fixedDir, distance)} ref={ref}>
-      {children}
-    </div>
-  );
+  return <div css={menuCss(theme, isOpen, fixedDir, distance)}>{children}</div>;
 };
 
 export default Menu;
