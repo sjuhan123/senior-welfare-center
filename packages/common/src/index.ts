@@ -12,6 +12,7 @@ import Modal from './components/modal/Modal';
 import { Dropdown } from './components/dropdown';
 
 import useClickOutside from './hooks/interaction/useClickOutside';
+import useDisclosure from './hooks/disclosure/useDisclosure';
 
 export type ThemeType = ITheme;
 export { colors, defaultTheme };
@@ -26,3 +27,4 @@ export { Modal };
 export { Dropdown };
 
 export { useClickOutside };
+export { useDisclosure };
