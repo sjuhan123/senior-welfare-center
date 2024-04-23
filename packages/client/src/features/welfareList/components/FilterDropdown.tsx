@@ -1,6 +1,5 @@
 import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
-import { useEffect, useRef, useState } from 'react';
 import { CURRENT_VIEW } from '../constant';
 import CityFilterButton, { CityFilterButtonContent } from './CityFilterButton';
 import AddressFilterButton, {
@@ -26,49 +25,13 @@ const FilterDropdown = ({
   onAddressSet,
   onAddressNearBySet,
 }: Props) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const isLocationView = currentFilter === CURRENT_VIEW.LOCATION;
   const isAddressView = currentFilter === CURRENT_VIEW.ADDRESS;
   const isNearByView = currentFilter === CURRENT_VIEW.NEARBY;
 
-  const handleDropdown = () => {
-    setIsDropdownOpen(prev => !prev);
-  };
-
-  const onCityFilter = (city: string) => {
-    onCitySet(city);
-    handleDropdown();
-  };
-
-  const onAddressFilter = (location: Location) => {
-    onAddressSet(location);
-    handleDropdown();
-  };
-
-  const onNearByFilter = (location: Location) => {
-    onAddressNearBySet(location);
-    handleDropdown();
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div css={containerCss} ref={ref}>
-      <button css={dropdownButtonCss} onClick={handleDropdown}>
+    <Dropdown>
+      <Dropdown.Toggle css={dropdownButtonCss}>
         {isLocationView && (
           <CityFilterButtonContent isActive={isLocationView} />
         )}
@@ -77,38 +40,27 @@ const FilterDropdown = ({
         )}
         {isNearByView && <NearByFilterButtonContent isActive={isNearByView} />}
         <FaAngleDown css={buttonIcon} />
-      </button>
-      {isDropdownOpen && (
-        <Dropdown fixedDir="left" distance={60}>
-          <div css={dropdownBodyCss}>
-            <CityFilterButton
-              isActive={isLocationView}
-              onCitySet={onCityFilter}
-            />
-            <Dropdown.Divider />
-            <AddressFilterButton
-              isActive={isAddressView}
-              onAddressSet={onAddressFilter}
-            />
-            <Dropdown.Divider />
-            <NearByFilterButton
-              isActive={isNearByView}
-              onAddressNearBySet={onNearByFilter}
-            />
-          </div>
-        </Dropdown>
-      )}
-    </div>
+      </Dropdown.Toggle>
+      <Dropdown.Menu fixedDir="left" distance={60}>
+        <div css={dropdownBodyCss}>
+          <CityFilterButton isActive={isLocationView} onCitySet={onCitySet} />
+          <Dropdown.Divider />
+          <AddressFilterButton
+            isActive={isAddressView}
+            onAddressSet={onAddressSet}
+          />
+          <Dropdown.Divider />
+          <NearByFilterButton
+            isActive={isNearByView}
+            onAddressNearBySet={onAddressNearBySet}
+          />
+        </div>
+      </Dropdown.Menu>
+    </Dropdown>
   );
 };
 
 export default FilterDropdown;
-
-const containerCss = css`
-  display: flex;
-  position: relative;
-  width: 100%;
-`;
 
 const dropdownButtonCss = (theme: Theme) => css`
   cursor: pointer;
