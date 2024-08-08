@@ -10,6 +10,7 @@ const app = express();
 // 보안 미들웨어
 app.use(helmet());
 
+// TODO: contentSecurityPolicy 학습 후 리펙토링 혹은 코드 수정 필요
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
