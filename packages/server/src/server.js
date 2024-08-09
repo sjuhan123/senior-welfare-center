@@ -5,7 +5,6 @@ import { loadWelfareData } from './models/welfares.model.js';
 
 const PORT = process.env.PORT || 8000;
 
-// http.createServer를 사용하여 HTTP 서버를 생성합니다.
 const server = http.createServer(app);
 
 async function startServer() {
