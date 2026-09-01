@@ -28,3 +28,9 @@ mockServiceWorker.js
 *storybook.log
 
 .idea
+
+# 로컬 전용 (SSH 키, 스크린샷 등 민감/개인 자료)
+/private
+
+# Understand(SciTools) 로컬 분석 캐시
+/.ua
