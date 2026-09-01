@@ -1,6 +1,8 @@
 # 노인복지관 프로젝트
 
 👉👉 홈페이지 방문하기: https://www.노인복지관.com <br />
+👉👉 개편 테스트 페이지 방문하기: https://senior-welfare-center-client.vercel.app/ <br />
+👉👉 개편 소스코드로 이동하기: https://github.com/sjuhan123/senior-welfare-center/tree/fe-test <br />
 👉👉 모노레포 migration 진행 중입니다: https://github.com/sjuhan123/senior-welfare-center/tree/mono-repo
 
 ## 📌 프로젝트 소개
@@ -26,11 +28,24 @@
 
 ![노인복지관 예상 구조](/public/노인복지관%20예상%20구조.png)
 
-## 📌 프로젝트 개발 기간
+## 📌 프로젝트 홈페이지 소개 v2
+
+- 프로젝트 개편: 2024.02.12 ~ 현재
+
+### 복지관 목록 보기
+
+- 데스크탑 뷰
+
+<img src="https://ifh.cc/g/z4bryo.gif">
+
+- 모바일 뷰
+
+<img src="https://ifh.cc/g/TCMrg6.gif" width="240" height="500">
+
+## 📌 프로젝트 홈페이지 소개 v1
 
 - 1차 기능 개발 완료: 2023.11.08 ~ 2023.11.27
-- 배포 및 유지 보수: 2023.11.28 ~ 현재
-- 프로젝트 개편: 2024.02.01 ~ 현재
+- 배포 및 유지 보수: 2023.11.28 ~ 2023.12.12
 
 ## 📌 서비스 기능 소개
 
