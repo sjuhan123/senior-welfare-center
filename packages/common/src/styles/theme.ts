@@ -1,12 +1,13 @@
+import animations from './animations';
 import colors from './colors';
-import typos from './typos';
+import maxWidths from './maxWidths';
+import zIndex from './zIndex';
 
 const theme = {
   colors,
-  typos,
-  size: {
-    maxWidth: '640px',
-  },
+  maxWidths,
+  animations,
+  zIndex,
 } as const;
 
 export default theme;

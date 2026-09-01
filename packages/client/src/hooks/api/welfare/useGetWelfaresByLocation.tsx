@@ -3,6 +3,8 @@ import { QUERY_KEYS } from '../../../constant/queryKeys';
 import { get } from '../../../libs/api';
 import { WelfareData } from '../../../types/welfare';
 import { END_POINT } from '../../../constant/endpoint';
+import type { Location } from '../../../types/location';
+import { API_DELAY_TIME } from '../constant';
 
 type Response = {
   status: number;
@@ -10,21 +12,25 @@ type Response = {
   data: WelfareData[];
 };
 
-const getWelfaresLocation = (latitude: number, longitude: number) =>
-  get<Response>(
-    `${END_POINT.CLOSEST_WELFARES}?latitude=${latitude}&longitude=${longitude}`,
-  );
+const getWelfaresLocation = (location: Location | null): Promise<Response> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(
+        get<Response>(
+          `${END_POINT.CLOSEST_WELFARES}?latitude=${location?.latitude}&longitude=${location?.longitude}`,
+        ),
+      );
+    }, API_DELAY_TIME);
+  });
+};
 
 const useGetWelfaresLocation = (
-  location: {
-    latitude: number;
-    longitude: number;
-  },
+  location: Location | null,
   options?: UseQueryOptions<Response>,
 ) => {
   return useQuery<Response>({
     queryKey: [QUERY_KEYS.CLOSEST_WELFARES, location],
-    queryFn: () => getWelfaresLocation(location.latitude, location.longitude),
+    queryFn: () => getWelfaresLocation(location),
     enabled: !!location,
     ...options,
   });

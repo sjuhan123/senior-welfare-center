@@ -57,6 +57,11 @@ module.exports = {
         },
       },
     },
+    {
+      files: ['packages/server/**/*.js'],
+      env: { node: true, es2020: true },
+      parserOptions: { sourceType: 'module' },
+    },
   ],
   settings: {
     react: {

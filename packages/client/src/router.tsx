@@ -7,7 +7,7 @@ const Routers = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTE_PATH.HOME} element={<Main />} />
+        <Route path={ROUTE_PATH.WELFARE_LIST} element={<Main />} />
         <Route path={ROUTE_PATH.AUTH} element={<Auth />} />
       </Routes>
     </BrowserRouter>

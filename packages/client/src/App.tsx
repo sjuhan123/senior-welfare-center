@@ -5,6 +5,8 @@ import theme from './styles/theme';
 import useScreenSizeEffect from './hooks/screen/useScreenSize';
 import { useState } from 'react';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { ThemeProvider } from '@emotion/react';
+import { defaultTheme } from '@common/shared';
 
 const App = () => {
   const [queryClient] = useState(
@@ -22,12 +24,14 @@ const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <ErrorBoundary>
-        <CSSReset />
-        <QueryClientProvider client={queryClient}>
-          <Routers />
-        </QueryClientProvider>
-      </ErrorBoundary>
+      <ThemeProvider theme={defaultTheme}>
+        <ErrorBoundary>
+          <CSSReset />
+          <QueryClientProvider client={queryClient}>
+            <Routers />
+          </QueryClientProvider>
+        </ErrorBoundary>
+      </ThemeProvider>
     </ChakraProvider>
   );
 };

@@ -1,26 +1,23 @@
-import Layout from '../components/common/Layout';
-import Header from '../components/common/Header';
-import MenuArea from '../components/MenuArea';
-import Footer from '../components/common/Footer';
-import BookmarkArea from '../components/BookmarkArea';
-import { Box } from '@chakra-ui/react';
+import Layout from '../components/layout/Layout';
+import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
+import TabBar from '../components/tabBar/TabBar';
+import useBreakPointValue from '../hooks/breakPoint/useBreakPointValue';
+import BREAKE_POINT from '../hooks/breakPoint/constant';
+import SiteInfo from '../components/siteInfo/SiteInfo';
+import WelfareList from '../features/main/WelfareList';
 
 const Main = () => {
+  const breakPointValue = useBreakPointValue();
+
   return (
     <Layout>
-      <Header />
-      <Box
-        as="main"
-        w="100%"
-        display="flex"
-        flexDir="column"
-        gap="30px"
-        p="10px 0px"
-      >
-        <MenuArea />
-        <BookmarkArea />
-      </Box>
-      <Footer />
+      <Header title="노인복지관" />
+      <WelfareList />
+      <Footer>
+        {breakPointValue === BREAKE_POINT.MOBILE && <TabBar />}
+        {breakPointValue !== BREAKE_POINT.MOBILE && <SiteInfo />}
+      </Footer>
     </Layout>
   );
 };

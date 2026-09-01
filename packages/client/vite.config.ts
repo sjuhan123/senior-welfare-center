@@ -5,7 +5,8 @@ import svgr from 'vite-plugin-svgr';
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
-  assetsInclude: ['**/*.jpg'],
+  assetsInclude: ['**/*.jpg', '**/*.png', '**/*.svg', '**/*.jpeg'],
+  publicDir: false,
   plugins: [
     react({
       jsxImportSource: '@emotion/react',
@@ -22,7 +23,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './index.html',
-        nested: './sw.js',
       },
     },
   },

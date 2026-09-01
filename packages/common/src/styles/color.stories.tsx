@@ -30,19 +30,15 @@ export const Default = () => {
       <div css={headingCss}>Button</div>
       <div css={FlexBoxCss}>
         <div
-          css={[theme => ({ backgroundColor: theme.colors.green_300 }), BoxCss]}
+          css={[theme => ({ backgroundColor: theme.colors.blue_200 }), BoxCss]}
         />
         <div
-          css={[theme => ({ backgroundColor: theme.colors.green_100 }), BoxCss]}
-        />
-        <div
-          css={[theme => ({ backgroundColor: theme.colors.green_200 }), BoxCss]}
+          css={[theme => ({ backgroundColor: theme.colors.blue_100 }), BoxCss]}
         />
       </div>
       <div css={FlexBoxCss}>
         <span>$green_300 (main-color)</span>
         <span>$green_100 (button-disabled)</span>
-        <span>$green_200 (button-hover)</span>
       </div>
     </ThemeProvider>
   );

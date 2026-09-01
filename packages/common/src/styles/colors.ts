@@ -3,9 +3,8 @@ const colors = {
   gray_200: '#E4E7EE',
   gray_300: '#C9CFDF',
 
-  green_100: 'rgb(191, 255, 179)',
-  green_200: 'rgb(154, 253, 134)',
-  green_300: 'rgb(103, 255, 72)',
+  blue_100: '#8BDCFF',
+  blue_200: '#00B3FF',
 
   black: '#17171B',
   white: '#ffffff',
