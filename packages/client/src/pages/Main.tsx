@@ -5,7 +5,7 @@ import TabBar from '../components/tabBar/TabBar';
 import useBreakPointValue from '../hooks/breakPoint/useBreakPointValue';
 import BREAKE_POINT from '../hooks/breakPoint/constant';
 import SiteInfo from '../components/siteInfo/SiteInfo';
-import WelfareList from '../features/welfareList/WelfareList';
+import WelfareList from '../features/main/WelfareList';
 
 const Main = () => {
   const breakPointValue = useBreakPointValue();
