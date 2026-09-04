@@ -23,7 +23,10 @@
   },
   "references": [
     {
-      "path": "packages/client"
+      "path": "packages/mobile"
+    },
+    {
+      "path": "packages/admin"
     }
   ],
   "include": []

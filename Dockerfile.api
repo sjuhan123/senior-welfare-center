@@ -1,4 +1,4 @@
-# Dockerfile for server project
+# Dockerfile for api project
 
 # Base image
 FROM node:lts-alpine AS builder
@@ -28,4 +28,4 @@ RUN yarn install --immutable
 EXPOSE 8000
 
 # Command to start the server when the container starts
-CMD ["yarn", "server:start"]
+CMD ["yarn", "api:start"]

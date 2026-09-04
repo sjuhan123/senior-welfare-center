@@ -1,4 +1,4 @@
-# Dockerfile for client project
+# Dockerfile for mobile project
 
 # Base image
 FROM node:lts-alpine AS builder
@@ -23,25 +23,23 @@ COPY . ./
 # Set Vite environment variables during build time
 ARG VITE_KAKAO_API_KEY
 ARG VITE_KAKAO_REDIRECT_URI
-ARG VITE_ADDRESS_API_KEY
 ENV VITE_KAKAO_API_KEY=$VITE_KAKAO_API_KEY
 ENV VITE_KAKAO_REDIRECT_URI=$VITE_KAKAO_REDIRECT_URI
-ENV VITE_ADDRESS_API_KEY=$VITE_ADDRESS_API_KEY
 
 # Build the application
 RUN yarn install --immutable \
-    && yarn client:build
+    && yarn mobile:build
 
 #pull the official nginx:1.24.0 base image
 FROM nginx:1.24.0
 #copies React to the container directory
 # Set working directory to nginx resources directory
 # WORKDIR /usr/share/nginx/html
-COPY ./nginx/client.conf /etc/nginx/conf.d
+COPY ./nginx/mobile.conf /etc/nginx/conf.d
 # Remove default nginx static resources
 RUN rm -rf ./usr/share/nginx/html/*
 # Copies static resources from builder stage
-COPY --from=builder /app/packages/client/dist /usr/share/nginx/html/
+COPY --from=builder /app/packages/mobile/dist /usr/share/nginx/html/
 # Containers run nginx with global directives and daemon off
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

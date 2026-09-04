@@ -3,7 +3,7 @@ name: Release Client App Docker
 on:
   pull_request:
     paths:
-      - 'packages/client/**'
+      - 'packages/mobile/**'
       - 'packages/common/**'
     types:
       - closed
@@ -29,11 +29,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile.client
+          file: ./Dockerfile.mobile
           build-args: |
             VITE_KAKAO_API_KEY=${{ secrets.VITE_KAKAO_API_KEY }}
-            VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}
-            VITE_ADDRESS_API_KEY=${{ secrets.VITE_ADDRESS_API_KEY }}
+            VITE_KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }}
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:client-latest

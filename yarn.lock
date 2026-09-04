@@ -13382,9 +13382,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"senior-welfare-center-api@workspace:packages/server":
+"senior-welfare-center-admin@workspace:packages/admin":
   version: 0.0.0-use.local
-  resolution: "senior-welfare-center-api@workspace:packages/server"
+  resolution: "senior-welfare-center-admin@workspace:packages/admin"
+  dependencies:
+    "@types/react": "npm:^18.2.73"
+    "@types/react-dom": "npm:^18.2.23"
+    "@vitejs/plugin-react-swc": "npm:^3.6.0"
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
+    typescript: "npm:^5.4.3"
+    vite: "npm:^5.2.7"
+  languageName: unknown
+  linkType: soft
+
+"senior-welfare-center-api@workspace:packages/api":
+  version: 0.0.0-use.local
+  resolution: "senior-welfare-center-api@workspace:packages/api"
   dependencies:
     axios: "npm:^1.6.8"
     cors: "npm:^2.8.5"
@@ -13400,9 +13414,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"senior-welfare-center-client@workspace:packages/client":
+"senior-welfare-center-mobile@workspace:packages/mobile":
   version: 0.0.0-use.local
-  resolution: "senior-welfare-center-client@workspace:packages/client"
+  resolution: "senior-welfare-center-mobile@workspace:packages/mobile"
   dependencies:
     "@chakra-ui/anatomy": "npm:^2.2.2"
     "@chakra-ui/icons": "npm:^2.1.1"

@@ -1,5 +1,5 @@
 {
-  "name": "senior-welfare-center-client",
+  "name": "senior-welfare-center-mobile",
   "packageManager": "yarn@4.1.1",
   "main": "src/main.tsx",
   "scripts": {
