@@ -25,7 +25,7 @@ const Auth = () => {
     enabled: !!queryCode,
     onSuccess: receivedToken => {
       setIsUserTokenValid(true);
-      setUserToken(receivedToken.data);
+      setUserToken(receivedToken.data.accessToken);
     },
   });
 

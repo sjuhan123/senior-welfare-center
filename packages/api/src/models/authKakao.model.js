@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
 import { saveUser } from './user.model.js';
 
 async function postAuthKakao(code) {
@@ -9,6 +8,7 @@ async function postAuthKakao(code) {
       {
         grant_type: 'authorization_code',
         client_id: process.env.KAKAO_REST_API_KEY,
+        client_secret: process.env.KAKAO_CLIENT_SECRET,
         code,
         redirect_uri: process.env.KAKAO_REDIRECT_URI,
       },
@@ -30,19 +30,13 @@ async function postAuthKakao(code) {
 
     const { id, kakao_account } = userInfo.data;
 
-    await saveUser(id, kakao_account);
+    await saveUser(id, kakao_account, accessToken);
 
-    const JWTTOKEN = jwt.sign(
-      {
-        accessToken,
-        id,
-        userName: kakao_account.profile.nickname,
-        userAvatar: kakao_account.profile.thumbnail_image_url,
-      },
-      process.env.JWT_SECRET_KEY,
-    );
-
-    return JWTTOKEN;
+    return {
+      id,
+      userName: kakao_account.profile.nickname,
+      userAvatar: kakao_account.profile.thumbnail_image_url,
+    };
   } catch (error) {
     console.error('Error retrieving districts:', error);
   }

@@ -1,7 +1,7 @@
 import User from './user.mongo.js';
 import { getWelfareByWelfareId } from './welfares.model.js';
 
-async function saveUser(userId, kakaoAccount) {
+async function saveUser(userId, kakaoAccount, kakaoAccessToken) {
   try {
     const { nickname, thumbnail_image_url } = kakaoAccount.profile;
 
@@ -9,6 +9,7 @@ async function saveUser(userId, kakaoAccount) {
       id: userId,
       userName: nickname,
       userAvatar: thumbnail_image_url,
+      kakaoAccessToken,
     });
 
     const filter = { id: userInstance.id };
@@ -17,6 +18,7 @@ async function saveUser(userId, kakaoAccount) {
         id: userInstance.id,
         userName: userInstance.userName,
         userAvatar: userInstance.userAvatar,
+        kakaoAccessToken: userInstance.kakaoAccessToken,
       },
     };
 

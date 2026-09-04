@@ -1,9 +1,11 @@
 import { postAuthKakaoLogout } from '../../models/authKakao.model.js';
 import { bookmarkWelfare, unBookmarkWelfare } from '../../models/user.model.js';
+import { revokeAllRefreshTokens } from '../../models/refreshToken.model.js';
 
 async function httpGetUserInfo(req, res) {
   try {
-    const userInfo = req.user;
+    const userInfo = req.user.toObject();
+    delete userInfo.kakaoAccessToken;
 
     const jsonResponse = {
       statusCode: 200,
@@ -23,11 +25,11 @@ async function httpGetUserInfo(req, res) {
 
 async function httpPostUserLogout(req, res) {
   try {
-    const userToken = req.token;
-
-    const logoutRes = await postAuthKakaoLogout(userToken);
+    const logoutRes = await postAuthKakaoLogout(req.user.kakaoAccessToken);
 
     if (logoutRes) {
+      await revokeAllRefreshTokens(req.user.id);
+
       const jsonResponse = {
         statusCode: 200,
         message: '로그아웃 성공',

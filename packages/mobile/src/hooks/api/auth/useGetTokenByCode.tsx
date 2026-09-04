@@ -6,7 +6,7 @@ import { UseQueryOptions, useQuery } from 'react-query';
 type Response = {
   status: number;
   message: string;
-  data: string;
+  data: { accessToken: string; refreshToken: string };
 };
 
 export const getTokenByCodeQueryKey = (code: string) => [

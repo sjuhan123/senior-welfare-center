@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -37,8 +38,10 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
-      'https://senior-welfare-center-client.vercel.app',
+      'https://dev.uri-bokji.com',
+      'https://uri-bokji.com',
     ],
+    credentials: true,
   }),
 );
 
@@ -46,6 +49,7 @@ app.use(
 app.use(morgan('combined'));
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api', api);
 

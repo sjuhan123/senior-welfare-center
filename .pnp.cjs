@@ -11098,6 +11098,24 @@ const RAW_RUNTIME_STATE =
           ["cookie", "npm:0.6.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:0.7.2", {\
+        "packageLocation": "./.yarn/cache/cookie-npm-0.7.2-6ea9ee4231-9596e8ccdb.zip/node_modules/cookie/",\
+        "packageDependencies": [\
+          ["cookie", "npm:0.7.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["cookie-parser", [\
+      ["npm:1.4.7", {\
+        "packageLocation": "./.yarn/cache/cookie-parser-npm-1.4.7-970a70a2fd-46bef553de.zip/node_modules/cookie-parser/",\
+        "packageDependencies": [\
+          ["cookie-parser", "npm:1.4.7"],\
+          ["cookie", "npm:0.7.2"],\
+          ["cookie-signature", "npm:1.0.6"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["cookie-signature", [\
@@ -18550,6 +18568,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["senior-welfare-center-api", "workspace:packages/api"],\
           ["axios", "npm:1.6.8"],\
+          ["cookie-parser", "npm:1.4.7"],\
           ["cors", "npm:2.8.5"],\
           ["dotenv", "npm:16.4.5"],\
           ["express", "npm:4.19.2"],\

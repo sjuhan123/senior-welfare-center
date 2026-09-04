@@ -13,6 +13,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  kakaoAccessToken: {
+    type: String,
+    default: '',
+  },
   qualificationChecked: {
     type: Boolean,
     default: false,
