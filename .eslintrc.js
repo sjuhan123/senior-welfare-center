@@ -48,17 +48,27 @@ module.exports = {
       },
     },
     {
-      files: ['packages/client/**/*.ts?(x)', 'packages/client/**/*.js?(x)'],
+      files: ['packages/mobile/**/*.ts?(x)', 'packages/mobile/**/*.js?(x)'],
       settings: {
         'import/resolver': {
           typescript: {
-            project: path.resolve(__dirname, 'packages/client/tsconfig.json'),
+            project: path.resolve(__dirname, 'packages/mobile/tsconfig.json'),
           },
         },
       },
     },
     {
-      files: ['packages/server/**/*.js'],
+      files: ['packages/admin/**/*.ts?(x)', 'packages/admin/**/*.js?(x)'],
+      settings: {
+        'import/resolver': {
+          typescript: {
+            project: path.resolve(__dirname, 'packages/admin/tsconfig.json'),
+          },
+        },
+      },
+    },
+    {
+      files: ['packages/api/**/*.js'],
       env: { node: true, es2020: true },
       parserOptions: { sourceType: 'module' },
     },
