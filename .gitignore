@@ -4,9 +4,8 @@
 !/.yarn/releases
 !/.yarn/sdks
 
-# Swap the comments on the following lines if you don't wish to use zero-installs
+# node-modules 링커 전환 이후로는 Zero-Install 이점이 없어져서 캐시를 커밋하지 않음
 # Documentation here: https://yarnpkg.com/features/zero-installs
-!/.yarn/cache
 /.pnp.*
 
 node_modules
