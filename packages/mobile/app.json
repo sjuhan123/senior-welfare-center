@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "복지관 이용앱",
+    "slug": "senior-welfare-center",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "uribokji",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
