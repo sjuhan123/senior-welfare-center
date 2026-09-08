@@ -4,7 +4,10 @@ import { isUserTokenValidAtom } from '../../store/auth';
 import { post } from '../../libs/api';
 import { END_POINT } from '../../constant/endpoint';
 import { resetUserInfoAtom } from '../../store/user';
-import { clearUserToken, clearRefreshToken } from '../../utills/persistentStorage';
+import {
+  clearUserToken,
+  clearRefreshToken,
+} from '../../utills/persistentStorage';
 
 type UseKakaoLogin = {
   login: () => Promise<string | null>;
@@ -12,9 +15,7 @@ type UseKakaoLogin = {
 };
 
 const useKakaoLogin = (): UseKakaoLogin => {
-  const [isUserTokenValid, setIsUserTokenValid] = useAtom(
-    isUserTokenValidAtom,
-  );
+  const [isUserTokenValid, setIsUserTokenValid] = useAtom(isUserTokenValidAtom);
   const resetUserInfo = useSetAtom(resetUserInfoAtom);
 
   const login = async () => {
