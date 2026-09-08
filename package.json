@@ -21,7 +21,16 @@
     "mobile:web": "yarn workspace senior-welfare-center-mobile web",
     "admin:dev": "yarn workspace senior-welfare-center-admin dev",
     "admin:build": "yarn workspace senior-welfare-center-admin build",
-    "api:start": "yarn workspace senior-welfare-center-api start"
+    "admin:serve": "yarn workspace senior-welfare-center-admin serve",
+    "admin:lint": "yarn workspace senior-welfare-center-admin lint",
+    "admin:format": "yarn workspace senior-welfare-center-admin format",
+    "api:start": "yarn workspace senior-welfare-center-api start",
+    "api:watch": "yarn workspace senior-welfare-center-api watch",
+    "api:test": "yarn workspace senior-welfare-center-api test",
+    "api:test-watch": "yarn workspace senior-welfare-center-api test-watch",
+    "api:cluster": "yarn workspace senior-welfare-center-api cluster",
+    "common:storybook": "yarn workspace @common/shared storybook",
+    "common:build-storybook": "yarn workspace @common/shared build-storybook"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
