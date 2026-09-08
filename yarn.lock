@@ -1641,6 +1641,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo-google-fonts/ibm-plex-sans-kr@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@expo-google-fonts/ibm-plex-sans-kr@npm:0.4.1"
+  checksum: 10c0/49a6d404a2f82200ea13f39b4e5d0ffa88aa5cbccfaf39885148521ae38cd11f2b21ed251248bdefd3eda569ccea9a5c38f3ff3d9b9719270ddb770b796b3385
+  languageName: node
+  linkType: hard
+
 "@expo/cli@npm:^57.0.22":
   version: 57.0.22
   resolution: "@expo/cli@npm:57.0.22"
@@ -6548,7 +6555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-font@npm:~57.0.3":
+"expo-font@npm:^57.0.3, expo-font@npm:~57.0.3":
   version: 57.0.3
   resolution: "expo-font@npm:57.0.3"
   dependencies:
@@ -11709,6 +11716,7 @@ __metadata:
   resolution: "senior-welfare-center-mobile@workspace:packages/mobile"
   dependencies:
     "@common/shared": "workspace:^"
+    "@expo-google-fonts/ibm-plex-sans-kr": "npm:^0.4.1"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
     "@react-native-seoul/kakao-login": "npm:^6.0.4"
     "@react-navigation/bottom-tabs": "npm:^7.18.18"
@@ -11720,6 +11728,7 @@ __metadata:
     axios: "npm:^1.6.8"
     expo: "npm:~57.0.20"
     expo-build-properties: "npm:^57.0.17"
+    expo-font: "npm:^57.0.3"
     expo-status-bar: "npm:~57.0.1"
     jotai: "npm:2.7.1"
     react: "npm:19.2.3"
