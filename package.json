@@ -28,9 +28,7 @@
     "api:watch": "yarn workspace senior-welfare-center-api watch",
     "api:test": "yarn workspace senior-welfare-center-api test",
     "api:test-watch": "yarn workspace senior-welfare-center-api test-watch",
-    "api:cluster": "yarn workspace senior-welfare-center-api cluster",
-    "common:storybook": "yarn workspace @common/shared storybook",
-    "common:build-storybook": "yarn workspace @common/shared build-storybook"
+    "api:cluster": "yarn workspace senior-welfare-center-api cluster"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
@@ -48,7 +46,6 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-storybook": "^0.8.0",
     "prettier": "^3.2.5",
     "react": "19.2.3",
     "typescript": "^5.4.3"

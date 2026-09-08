@@ -10,14 +10,11 @@ type StyleFactoryArgs = {
   fontSize: (step: FontStep) => number;
 };
 
-const useStyles = <T extends StyleSheet.NamedStyles<T>>(
-  factory: (args: StyleFactoryArgs) => T,
-): T => {
+const useStyles = <T extends StyleSheet.NamedStyles<T>>(factory: (args: StyleFactoryArgs) => T): T => {
   const textScale = useAtomValue(textScaleAtom);
 
   return useMemo(() => {
-    const fontSize = (step: FontStep) =>
-      scale.mobile.base * scale.mobile.step[step] * textScale;
+    const fontSize = (step: FontStep) => scale.mobile.base * scale.mobile.step[step] * textScale;
 
     return StyleSheet.create(factory({ fontSize }));
     // factory는 매 렌더마다 새로 만들어지는 인라인 함수로 쓰는 걸 전제로 함
