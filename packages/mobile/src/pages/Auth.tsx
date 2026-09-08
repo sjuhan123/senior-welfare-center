@@ -21,8 +21,7 @@ import type { RootStackParamList } from '../router';
  */
 
 const Auth = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { login } = useKakaoLogin();
   const setIsUserTokenValid = useSetAtom(isUserTokenValidAtom);
   const updateBookmarkList = useSetAtom(bookmarkListAtom);
@@ -51,7 +50,7 @@ const Auth = () => {
       });
       updateBookmarkList(userInfoRes.data.bookmarkWelfares);
 
-      navigation.replace('Main');
+      navigation.replace('MainTabs');
     } catch (error) {
       console.error('로그인 처리 실패', error);
       setStatus('error');
@@ -60,11 +59,7 @@ const Auth = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Button
-        onPress={handlePressButton}
-        title={status === 'loading' ? '로그인 중...' : '로그인 버튼'}
-        disabled={status === 'loading'}
-      />
+      <Button onPress={handlePressButton} title={status === 'loading' ? '로그인 중...' : '로그인 버튼'} disabled={status === 'loading'} />
       {status === 'error' && <Text>로그인에 실패했습니다</Text>}
     </View>
   );

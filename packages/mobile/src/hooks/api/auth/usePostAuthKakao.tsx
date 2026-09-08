@@ -7,5 +7,4 @@ type Response = {
   data: { accessToken: string; refreshToken: string };
 };
 
-export const postAuthKakao = (kakaoAccessToken: string) =>
-  post<Response>(END_POINT.KAKAO_LOGIN, { kakaoAccessToken });
+export const postAuthKakao = (kakaoAccessToken: string) => post<Response>(END_POINT.KAKAO_LOGIN, { kakaoAccessToken });
