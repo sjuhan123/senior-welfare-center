@@ -1,6 +1,6 @@
 import { END_POINT } from '../../../constant/endpoint';
 import { get } from '../../../libs/api';
-import { UseQueryOptions, useQuery } from 'react-query';
+import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { User } from '../../../types/user';
 import { QUERY_KEYS } from '../../../constant/queryKeys';
 

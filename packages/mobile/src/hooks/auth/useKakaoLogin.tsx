@@ -1,27 +1,30 @@
-import { clearUserToken } from '../../utills/persistentStorage';
+import { login as kakaoLogin } from '@react-native-seoul/kakao-login';
 import { useAtom, useSetAtom } from 'jotai';
 import { isUserTokenValidAtom } from '../../store/auth';
 import { post } from '../../libs/api';
 import { END_POINT } from '../../constant/endpoint';
 import { resetUserInfoAtom } from '../../store/user';
+import { clearUserToken, clearRefreshToken } from '../../utills/persistentStorage';
 
 type UseKakaoLogin = {
-  login: () => void;
+  login: () => Promise<string | null>;
   logout: () => Promise<void>;
 };
 
 const useKakaoLogin = (): UseKakaoLogin => {
-  const [isUserTokenValid, setIsUserTokenValid] = useAtom(isUserTokenValidAtom);
+  const [isUserTokenValid, setIsUserTokenValid] = useAtom(
+    isUserTokenValidAtom,
+  );
   const resetUserInfo = useSetAtom(resetUserInfoAtom);
 
-  const login = () => {
-    const kakaoLogin = `https://kauth.kakao.com/oauth/authorize?client_id=${
-      import.meta.env.VITE_KAKAO_API_KEY
-    }&redirect_uri=${
-      import.meta.env.VITE_KAKAO_REDIRECT_URI
-    }&response_type=code`;
-
-    window.location.href = kakaoLogin;
+  const login = async () => {
+    try {
+      const { accessToken } = await kakaoLogin();
+      return accessToken;
+    } catch (error) {
+      console.error('카카오 로그인 실패', error);
+      return null;
+    }
   };
 
   const logout = async () => {
@@ -30,7 +33,8 @@ const useKakaoLogin = (): UseKakaoLogin => {
     }
     setIsUserTokenValid(false);
     resetUserInfo();
-    clearUserToken();
+    await clearUserToken();
+    await clearRefreshToken();
   };
 
   return { login, logout };

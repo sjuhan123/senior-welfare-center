@@ -8,11 +8,13 @@ import { getUserToken } from '../utills/persistentStorage';
 import { ApiException } from '../exceptions/ApiException';
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL || '',
+  baseURL: process.env.EXPO_PUBLIC_BASE_URL || '',
 });
 
-const interceptorRequestFulfilled = (config: InternalAxiosRequestConfig) => {
-  const accessToken = getUserToken();
+const interceptorRequestFulfilled = async (
+  config: InternalAxiosRequestConfig,
+) => {
+  const accessToken = await getUserToken();
   if (!config.headers) return config;
   if (!accessToken) return config;
 

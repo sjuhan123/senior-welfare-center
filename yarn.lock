@@ -3633,6 +3633,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-seoul/kakao-login@npm:^6.0.4":
+  version: 6.0.4
+  resolution: "@react-native-seoul/kakao-login@npm:6.0.4"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/41916adeff610241be0d2ea625ba907ca69d615c88b0b3c5127a03b97bc77c91c7f8cf4074eee02d9fba2a310f58c76db0040b4a60111f0e81d4f1c44b70ae49
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.86.3":
   version: 0.86.3
   resolution: "@react-native/assets-registry@npm:0.86.3"
@@ -3818,6 +3828,24 @@ __metadata:
     "@react-native-masked-view/masked-view":
       optional: true
   checksum: 10c0/a786344ccd7231781cc89086d872196c82e8134d5b4312d5b6f3256b09917b278ac721a6d2042d2def0074caf0ced0f7add0b2c1a0e116dae767f0799c95b444
+  languageName: node
+  linkType: hard
+
+"@react-navigation/native-stack@npm:^7.18.10":
+  version: 7.18.10
+  resolution: "@react-navigation/native-stack@npm:7.18.10"
+  dependencies:
+    "@react-navigation/elements": "npm:^2.9.40"
+    color: "npm:^4.2.3"
+    sf-symbols-typescript: "npm:^2.1.0"
+    warn-once: "npm:^0.1.1"
+  peerDependencies:
+    "@react-navigation/native": ^7.3.18
+    react: ">= 18.2.0"
+    react-native: "*"
+    react-native-safe-area-context: ">= 4.0.0"
+    react-native-screens: ">= 4.0.0"
+  checksum: 10c0/55c5c609ebfcf8d470f7381391ebbaa652a8d449584de11c43bbd1f2ac01979db1597a415e9ace061ebef5fee06d4da0b08998e38bca4ddc5e0ffa3c0047706b
   languageName: node
   linkType: hard
 
@@ -9117,6 +9145,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-build-properties@npm:^57.0.17":
+  version: 57.0.17
+  resolution: "expo-build-properties@npm:57.0.17"
+  dependencies:
+    "@expo/schema-utils": "npm:^57.0.2"
+    resolve-from: "npm:^5.0.0"
+    semver: "npm:^7.6.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/655e8b8c2d3a7546726f5bafe2325745da2f91db4c5ba111b9a717c3ff5bf1978c954cd160877d75ea4696234ca7697a01fa66c2ae6823602a850e831bd91551
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~57.0.17":
   version: 57.0.17
   resolution: "expo-constants@npm:57.0.17"
@@ -9218,16 +9259,6 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/c909e6b4d93591f47fd32f33c893df69639a5bc7538777c13407d34f9e0db3a3095b8710c284d5cefde6df482e49e402bcb3a489fd3bfe864de2cde891d71c97
-  languageName: node
-  linkType: hard
-
-"expo-web-browser@npm:^57.0.2":
-  version: 57.0.2
-  resolution: "expo-web-browser@npm:57.0.2"
-  peerDependencies:
-    expo: "*"
-    react-native: "*"
-  checksum: 10c0/3db87d3880e4cbd5c1870f9f5ae7d53cff2752aa9768668115d5452ad181e2c52561365d38aa341f40504f9926a52703bc50cdef0f0baa0901794173a5fcd535
   languageName: node
   linkType: hard
 
@@ -15264,15 +15295,17 @@ __metadata:
   dependencies:
     "@common/shared": "workspace:^"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
+    "@react-native-seoul/kakao-login": "npm:^6.0.4"
     "@react-navigation/bottom-tabs": "npm:^7.18.18"
     "@react-navigation/native": "npm:^7.3.18"
+    "@react-navigation/native-stack": "npm:^7.18.10"
     "@tanstack/react-query": "npm:^5.102.8"
     "@types/jest": "npm:29.5.14"
     "@types/react": "npm:~19.2.2"
     axios: "npm:^1.6.8"
     expo: "npm:~57.0.20"
+    expo-build-properties: "npm:^57.0.17"
     expo-status-bar: "npm:~57.0.1"
-    expo-web-browser: "npm:^57.0.2"
     jotai: "npm:2.7.1"
     react: "npm:19.2.3"
     react-native: "npm:0.86.3"
@@ -17012,7 +17045,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"warn-once@npm:^0.1.0":
+"warn-once@npm:^0.1.0, warn-once@npm:^0.1.1":
   version: 0.1.1
   resolution: "warn-once@npm:0.1.1"
   checksum: 10c0/f531e7b2382124f51e6d8f97b8c865246db8ab6ff4e53257a2d274e0f02b97d7201eb35db481843dc155815e154ad7afb53b01c4d4db15fb5aa073562496aff7

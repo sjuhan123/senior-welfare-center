@@ -1,16 +1,23 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from './pages/Main';
 import Auth from './pages/Auth';
-import { ROUTE_PATH } from './constant/route';
+
+export type RootStackParamList = {
+  Auth: undefined;
+  Main: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Routers = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={ROUTE_PATH.WELFARE_LIST} element={<Main />} />
-        <Route path={ROUTE_PATH.AUTH} element={<Auth />} />
-      </Routes>
-    </BrowserRouter>
+    <Stack.Navigator
+      initialRouteName="Auth"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="Auth" component={Auth} />
+      <Stack.Screen name="Main" component={Main} />
+    </Stack.Navigator>
   );
 };
 

@@ -8,10 +8,32 @@
     "scheme": "uribokji",
     "userInterfaceStyle": "light",
     "ios": {
+      "bundleIdentifier": "com.uribokji.mobile",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.uribokji.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "@react-native-seoul/kakao-login",
+        {
+          "kakaoAppKey": "3529b38721b4cb1a1eeab0e0d29a7ba6"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              "https://devrepo.kakao.com/nexus/content/groups/public/"
+            ]
+          }
+        }
+      ]
+    ]
   }
 }
