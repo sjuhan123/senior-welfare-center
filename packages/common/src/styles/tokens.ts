@@ -11,7 +11,7 @@ export const color = {
   navyTint: '#f3f6fb',
 
   // 흙갈색: 전화, 시간, 오늘 같은 "지금 벌어지는 일"
-  brown: '#64452e',
+  brown: '#6c4a30', // 프로토타입 실측값(oklch(0.44 0.06 58))으로 갱신
   brownDeep: '#583b24',
   brownSoft: '#f2e8dd',
   brownTint: '#f9f2eb',
@@ -68,6 +68,9 @@ export const semantic = {
 
   urgent: color.brown, // 전화, 오늘 일정
   countBadge: color.brownMark,
+
+  ctaBg: color.brown, // 시작하기/QR 찍기 등 온보딩 흐름의 주요 CTA
+  ctaFg: color.grey0,
 } as const;
 
 export const font = {
