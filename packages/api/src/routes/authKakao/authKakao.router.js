@@ -3,6 +3,6 @@ import { httpPostAuthKakao } from './authKakao.controller.js';
 
 const authKakaoRouter = express.Router();
 
-authKakaoRouter.get('/', httpPostAuthKakao);
+authKakaoRouter.post('/', httpPostAuthKakao);
 
 export default authKakaoRouter;
