@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Auth from './pages/Auth';
+import AccountCreated from './pages/AccountCreated';
 import Center from './pages/Center';
 import Chat from './pages/Chat';
 import Feed from './pages/Feed';
@@ -16,6 +17,7 @@ export type MainTabParamList = {
 
 export type RootStackParamList = {
   Auth: undefined;
+  AccountCreated: undefined;
   MainTabs: undefined;
 };
 
@@ -37,6 +39,7 @@ const Routers = () => {
   return (
     <Stack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Auth" component={Auth} />
+      <Stack.Screen name="AccountCreated" component={AccountCreated} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
     </Stack.Navigator>
   );
