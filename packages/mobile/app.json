@@ -12,7 +12,11 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.uribokji.mobile"
+      "package": "com.uribokji.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2d3d5a"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
