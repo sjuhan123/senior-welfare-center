@@ -9,7 +9,6 @@ import { postAuthKakao } from '../hooks/api/auth/usePostAuthKakao';
 import { getUserInfo } from '../hooks/api/auth/useGetUserInfo';
 import { setUserToken, setRefreshToken } from '../utills/persistentStorage';
 import { isUserTokenValidAtom } from '../store/auth';
-import { bookmarkListAtom } from '../store/bookmarkList';
 import { userInfoAtom } from '../store/user';
 import useStyles from '../hooks/styles/useStyles';
 import type { RootStackParamList } from '../router';
@@ -26,7 +25,6 @@ const Auth = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { login } = useKakaoLogin();
   const setIsUserTokenValid = useSetAtom(isUserTokenValidAtom);
-  const updateBookmarkList = useSetAtom(bookmarkListAtom);
   const setUserInfo = useSetAtom(userInfoAtom);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
 
@@ -50,7 +48,6 @@ const Auth = () => {
         userName: userInfoRes.data.userName,
         userAvatar: userInfoRes.data.userAvatar,
       });
-      updateBookmarkList(userInfoRes.data.bookmarkWelfares);
 
       navigation.replace('AccountCreated');
     } catch (error) {
@@ -162,9 +159,7 @@ const Auth = () => {
           <Text style={styles.logoText}>복지</Text>
         </View>
         <Text style={styles.title}>우리복지관</Text>
-        <Text style={styles.subtitle}>
-          복지관 소식과 강좌 신청을{'\n'}한곳에서 보실 수 있습니다.
-        </Text>
+        <Text style={styles.subtitle}>복지관 소식과 강좌 신청을{'\n'}한곳에서 보실 수 있습니다.</Text>
         <View style={styles.infoBox}>
           <Text style={styles.infoBoxText}>
             쓰시던 카카오 계정으로 시작합니다.{'\n'}
@@ -174,14 +169,8 @@ const Auth = () => {
         </View>
       </View>
       <View style={styles.buttonGroup}>
-        <Pressable
-          style={styles.primaryButton}
-          onPress={handlePressButton}
-          disabled={status === 'loading'}
-        >
-          <Text style={styles.primaryButtonText}>
-            {status === 'loading' ? '로그인 중...' : '카카오 계정으로 시작하기'}
-          </Text>
+        <Pressable style={styles.primaryButton} onPress={handlePressButton} disabled={status === 'loading'}>
+          <Text style={styles.primaryButtonText}>{status === 'loading' ? '로그인 중...' : '카카오 계정으로 시작하기'}</Text>
         </Pressable>
         <Pressable style={styles.secondaryButton}>
           <Text style={styles.secondaryButtonText}>어려우면 복지관에 전화</Text>

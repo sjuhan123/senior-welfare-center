@@ -5,4 +5,5 @@ export const QUERY_KEYS = Object.freeze({
   DISTRICTS: 'districts',
   CURRENT_LOCATION: 'currentLocation',
   CLOSEST_WELFARES: 'closestWelfares',
+  MEMBERSHIPS: 'memberships',
 });
