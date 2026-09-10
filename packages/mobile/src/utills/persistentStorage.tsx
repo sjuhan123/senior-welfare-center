@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export class PersistentStorage {
   private key: string;
 
@@ -5,12 +7,12 @@ export class PersistentStorage {
     this.key = key;
   }
 
-  set(value: string) {
-    window.localStorage.setItem(this.key, JSON.stringify(value));
+  async set(value: string) {
+    await AsyncStorage.setItem(this.key, JSON.stringify(value));
   }
 
-  get(): string | null {
-    const rawValue = window.localStorage.getItem(this.key);
+  async get(): Promise<string | null> {
+    const rawValue = await AsyncStorage.getItem(this.key);
     if (!rawValue) {
       return null;
     }
@@ -18,23 +20,37 @@ export class PersistentStorage {
     return JSON.parse(rawValue) as string;
   }
 
-  delete() {
-    window.localStorage.removeItem(this.key);
+  async delete() {
+    await AsyncStorage.removeItem(this.key);
   }
 }
 
 const USER_TOKEN = 'userToken';
+const REFRESH_TOKEN = 'refreshToken';
 
-const userStorage = new PersistentStorage(USER_TOKEN);
+const userTokenStorage = new PersistentStorage(USER_TOKEN);
+const refreshTokenStorage = new PersistentStorage(REFRESH_TOKEN);
 
-export const getUserToken = (): string | null => {
-  return userStorage.get();
+export const getUserToken = (): Promise<string | null> => {
+  return userTokenStorage.get();
 };
 
-export const setUserToken = (token: string) => {
-  userStorage.set(token);
+export const setUserToken = async (token: string) => {
+  return await userTokenStorage.set(token);
 };
 
 export const clearUserToken = () => {
-  userStorage.delete();
+  return userTokenStorage.delete();
+};
+
+export const getRefreshToken = (): Promise<string | null> => {
+  return refreshTokenStorage.get();
+};
+
+export const setRefreshToken = (token: string) => {
+  return refreshTokenStorage.set(token);
+};
+
+export const clearRefreshToken = () => {
+  return refreshTokenStorage.delete();
 };

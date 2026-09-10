@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "복지관 이용앱",
+    "slug": "senior-welfare-center",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "uribokji",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "com.uribokji.mobile",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.uribokji.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#2d3d5a"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@react-native-seoul/kakao-login",
+        {
+          "kakaoAppKey": "3529b38721b4cb1a1eeab0e0d29a7ba6"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              "https://devrepo.kakao.com/nexus/content/groups/public/"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}

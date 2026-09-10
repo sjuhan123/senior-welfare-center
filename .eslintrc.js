@@ -6,7 +6,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'eslint:recommended',
-    'plugin:storybook/recommended',
   ],
   plugins: ['prettier', 'react-hooks', '@emotion'],
   rules: {

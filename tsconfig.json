@@ -23,9 +23,6 @@
   },
   "references": [
     {
-      "path": "packages/mobile"
-    },
-    {
       "path": "packages/admin"
     }
   ],

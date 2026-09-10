@@ -1,14 +1,13 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
-import Routers from './router';
-import { CSSReset, ChakraProvider } from '@chakra-ui/react';
-import theme from './styles/theme';
-import useScreenSizeEffect from './hooks/screen/useScreenSize';
 import { useState } from 'react';
-import { ErrorBoundary } from './components/common/ErrorBoundary';
-import { ThemeProvider } from '@emotion/react';
-import { defaultTheme } from '@common/shared';
+import { useFonts } from 'expo-font';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Routers from './router';
+import { FONT_ASSETS } from './constant/fonts';
 
 const App = () => {
+  const [fontsLoaded] = useFonts(FONT_ASSETS);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -20,19 +19,19 @@ const App = () => {
         },
       }),
   );
-  useScreenSizeEffect();
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <ChakraProvider theme={theme}>
-      <ThemeProvider theme={defaultTheme}>
-        <ErrorBoundary>
-          <CSSReset />
-          <QueryClientProvider client={queryClient}>
-            <Routers />
-          </QueryClientProvider>
-        </ErrorBoundary>
-      </ThemeProvider>
-    </ChakraProvider>
+    <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer>
+          <Routers />
+        </NavigationContainer>
+      </QueryClientProvider>
+    </SafeAreaProvider>
   );
 };
 

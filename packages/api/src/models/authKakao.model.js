@@ -1,7 +1,36 @@
 import axios from 'axios';
 import { saveUser } from './user.model.js';
 
-async function postAuthKakao(code) {
+async function getKakaoUserInfo(kakaoAccessToken) {
+  const userInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
+    headers: {
+      Authorization: `Bearer ${kakaoAccessToken}`,
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    },
+  });
+
+  const { id, kakao_account } = userInfo.data;
+
+  await saveUser(id, kakao_account, kakaoAccessToken);
+
+  return {
+    id,
+    userName: kakao_account.profile.nickname,
+    userAvatar: kakao_account.profile.thumbnail_image_url,
+  };
+}
+
+// 모바일: 네이티브 SDK가 이미 발급한 카카오 access token을 그대로 사용
+async function postAuthKakaoByAccessToken(kakaoAccessToken) {
+  try {
+    return await getKakaoUserInfo(kakaoAccessToken);
+  } catch (error) {
+    console.error('Error retrieving kakao user info:', error);
+  }
+}
+
+// 어드민(예정): 브라우저 리다이렉트로 받은 code를 client_secret과 함께 교환
+async function postAuthKakaoByCode(code) {
   try {
     const kakaoAccessTokenRes = await axios.post(
       'https://kauth.kakao.com/oauth/token',
@@ -19,26 +48,9 @@ async function postAuthKakao(code) {
       },
     );
 
-    const accessToken = kakaoAccessTokenRes.data.access_token;
-
-    const userInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-    });
-
-    const { id, kakao_account } = userInfo.data;
-
-    await saveUser(id, kakao_account, accessToken);
-
-    return {
-      id,
-      userName: kakao_account.profile.nickname,
-      userAvatar: kakao_account.profile.thumbnail_image_url,
-    };
+    return await getKakaoUserInfo(kakaoAccessTokenRes.data.access_token);
   } catch (error) {
-    console.error('Error retrieving districts:', error);
+    console.error('Error exchanging kakao code:', error);
   }
 }
 
@@ -59,4 +71,4 @@ async function postAuthKakaoLogout(accessToken) {
   }
 }
 
-export { postAuthKakao, postAuthKakaoLogout };
+export { postAuthKakaoByAccessToken, postAuthKakaoByCode, postAuthKakaoLogout };

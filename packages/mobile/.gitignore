@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Expo
+.expo
+
+# 네이티브 config plugin(app.json)에서 매번 재생성되는 폴더(expo prebuild/run:ios/run:android)
+/ios
+/android
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
