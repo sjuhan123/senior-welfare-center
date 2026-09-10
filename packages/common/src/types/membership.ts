@@ -1,4 +1,4 @@
-import { WelfareData } from './welfare';
+import type { WelfareData } from './welfare';
 
 export type MembershipRole = 'member' | 'teacher' | 'admin' | 'super';
 export type MembershipStatus = 'pending' | 'approved';

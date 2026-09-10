@@ -1,9 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { color, semantic, radius, hit } from '@common/shared';
+import { color, semantic, radius, hit, type MembershipRole } from '@common/shared';
 import useStyles from '../hooks/styles/useStyles';
-import type { MembershipRole } from '../types/membership';
 import type { RootStackParamList } from '../router';
 
 const ROLE_LABEL: Record<MembershipRole, string> = {

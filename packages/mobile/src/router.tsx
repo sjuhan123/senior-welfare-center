@@ -9,7 +9,7 @@ import Me from './pages/Me';
 import TabBar from './components/TabBar';
 import QrScan from './pages/QrScan';
 import JoinSuccess from './pages/JoinSuccess';
-import type { MembershipRole } from './types/membership';
+import type { MembershipRole } from '@common/shared';
 
 export type MainTabParamList = {
   Center: undefined;
