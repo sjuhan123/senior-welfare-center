@@ -11,7 +11,7 @@ import { getMemberships } from '../hooks/api/membership/useGetMemberships';
 import { setUserToken, setRefreshToken } from '../utills/persistentStorage';
 import { isUserTokenValidAtom } from '../store/auth';
 import { userInfoAtom } from '../store/user';
-import useStyles from '../hooks/styles/useStyles';
+import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 import type { RootStackParamList } from '../router';
 
 /**
@@ -61,101 +61,7 @@ const Auth = () => {
     }
   };
 
-  const styles = useStyles(({ fontSize, fontFamily }) =>
-    StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: color.grey0,
-      },
-      content: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 24,
-        paddingVertical: 32,
-      },
-      logo: {
-        width: 82,
-        height: 82,
-        borderRadius: 8,
-        backgroundColor: color.navy,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      logoText: {
-        fontSize: fontSize('lg'),
-        fontFamily: fontFamily('bold'),
-        color: semantic.textOnDark,
-      },
-      title: {
-        fontSize: fontSize('display'),
-        fontFamily: fontFamily('bold'),
-        marginTop: 24,
-        color: semantic.textPrimary,
-      },
-      subtitle: {
-        fontSize: fontSize('lg'),
-        fontFamily: fontFamily('semibold'),
-        lineHeight: fontSize('lg') * 1.6,
-        marginTop: 12,
-        color: semantic.textSecondary,
-      },
-      infoBox: {
-        marginTop: 26,
-        padding: 18,
-        backgroundColor: color.grey50,
-        borderWidth: 1,
-        borderColor: semantic.border,
-        borderRadius: radius.mobileContainer,
-      },
-      infoBoxText: {
-        fontSize: fontSize('md'),
-        fontFamily: fontFamily('regular'),
-        lineHeight: fontSize('md') * 1.7,
-        color: semantic.textSecondary,
-      },
-      infoBoxBold: {
-        fontFamily: fontFamily('bold'),
-      },
-      buttonGroup: {
-        paddingHorizontal: 20,
-        paddingBottom: 28,
-        gap: 12,
-      },
-      primaryButton: {
-        minHeight: hit.mobileLarge,
-        borderRadius: radius.mobileButton,
-        backgroundColor: semantic.ctaBg,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      primaryButtonText: {
-        fontSize: fontSize('xxl'),
-        fontFamily: fontFamily('bold'),
-        color: semantic.ctaFg,
-      },
-      secondaryButton: {
-        minHeight: hit.mobileMin,
-        borderWidth: 1.5,
-        borderColor: color.grey400,
-        borderRadius: radius.mobileButton,
-        backgroundColor: color.grey0,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      secondaryButtonText: {
-        fontSize: fontSize('lg'),
-        fontFamily: fontFamily('semibold'),
-        color: color.grey800,
-      },
-      errorText: {
-        fontSize: fontSize('sm'),
-        fontFamily: fontFamily('regular'),
-        color: semantic.stateStopFg,
-        textAlign: 'center',
-        marginTop: 8,
-      },
-    }),
-  );
+  const styles = useStyles(authStyleFactory);
 
   return (
     <View style={styles.container}>
@@ -185,5 +91,100 @@ const Auth = () => {
     </View>
   );
 };
+
+const authStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: color.grey0,
+    },
+    content: {
+      flex: 1,
+      justifyContent: 'center',
+      paddingHorizontal: 24,
+      paddingVertical: 32,
+    },
+    logo: {
+      width: 82,
+      height: 82,
+      borderRadius: 8,
+      backgroundColor: color.navy,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    logoText: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textOnDark,
+    },
+    title: {
+      fontSize: fontSize('display'),
+      fontFamily: fontFamily('bold'),
+      marginTop: 24,
+      color: semantic.textPrimary,
+    },
+    subtitle: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('semibold'),
+      lineHeight: fontSize('lg') * 1.6,
+      marginTop: 12,
+      color: semantic.textSecondary,
+    },
+    infoBox: {
+      marginTop: 26,
+      padding: 18,
+      backgroundColor: color.grey50,
+      borderWidth: 1,
+      borderColor: semantic.border,
+      borderRadius: radius.mobileContainer,
+    },
+    infoBoxText: {
+      fontSize: fontSize('md'),
+      fontFamily: fontFamily('regular'),
+      lineHeight: fontSize('md') * 1.7,
+      color: semantic.textSecondary,
+    },
+    infoBoxBold: {
+      fontFamily: fontFamily('bold'),
+    },
+    buttonGroup: {
+      paddingHorizontal: 20,
+      paddingBottom: 28,
+      gap: 12,
+    },
+    primaryButton: {
+      minHeight: hit.mobileLarge,
+      borderRadius: radius.mobileButton,
+      backgroundColor: semantic.ctaBg,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    primaryButtonText: {
+      fontSize: fontSize('xxl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.ctaFg,
+    },
+    secondaryButton: {
+      minHeight: hit.mobileMin,
+      borderWidth: 1.5,
+      borderColor: color.grey400,
+      borderRadius: radius.mobileButton,
+      backgroundColor: color.grey0,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    secondaryButtonText: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('semibold'),
+      color: color.grey800,
+    },
+    errorText: {
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('regular'),
+      color: semantic.stateStopFg,
+      textAlign: 'center',
+      marginTop: 8,
+    },
+  });
 
 export default Auth;

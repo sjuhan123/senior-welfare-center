@@ -2,32 +2,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { color, semantic } from '@common/shared';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
-import useStyles from '../hooks/styles/useStyles';
+import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 
 const Chat = () => {
   const { data } = useGetMemberships();
   const memberships = data?.data ?? [];
 
-  const styles = useStyles(({ fontSize, fontFamily }) =>
-    StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: color.grey0,
-      },
-      header: {
-        paddingHorizontal: 18,
-        paddingTop: 18,
-        paddingBottom: 14,
-        borderBottomWidth: 1.5,
-        borderBottomColor: semantic.border,
-      },
-      title: {
-        fontSize: fontSize('xl'),
-        fontFamily: fontFamily('bold'),
-        color: semantic.textPrimary,
-      },
-    }),
-  );
+  const styles = useStyles(chatStyleFactory);
 
   return (
     <View style={styles.container}>
@@ -45,5 +26,25 @@ const Chat = () => {
     </View>
   );
 };
+
+const chatStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: color.grey0,
+    },
+    header: {
+      paddingHorizontal: 18,
+      paddingTop: 18,
+      paddingBottom: 14,
+      borderBottomWidth: 1.5,
+      borderBottomColor: semantic.border,
+    },
+    title: {
+      fontSize: fontSize('xl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+  });
 
 export default Chat;

@@ -7,7 +7,7 @@ import { FONT_FAMILY, type FontWeightName } from '../../constant/fonts';
 
 type FontStep = keyof typeof scale.mobile.step;
 
-type StyleFactoryArgs = {
+export type StyleFactoryArgs = {
   fontSize: (step: FontStep) => number;
   fontFamily: (weight: FontWeightName) => string;
 };
@@ -21,8 +21,8 @@ const useStyles = <T extends StyleSheet.NamedStyles<T>>(factory: (args: StyleFac
     const fontSize = (step: FontStep) => scale.mobile.base * scale.mobile.step[step] * textScale;
 
     return StyleSheet.create(factory({ fontSize, fontFamily }));
-    // factory는 매 렌더마다 새로 만들어지는 인라인 함수로 쓰는 걸 전제로 함
-    // (정적 토큰 + 주입된 fontSize/fontFamily만 참조, 외부 상태를 클로저로 안 잡음)
+    // factory는 컴포넌트 파일 하단에 선언된 모듈 스코프 함수를 참조로 넘기는 걸 전제로 함
+    // (정적 토큰 + 주입된 fontSize/fontFamily만 참조, 외부 상태를 클로저로 안 잡음 — 스코프상 강제됨)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textScale]);
 };

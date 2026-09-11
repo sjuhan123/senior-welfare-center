@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text } from 'react-native';
 import Svg, { Defs, Pattern, Rect } from 'react-native-svg';
 import { color } from '@common/shared';
-import useStyles from '../hooks/styles/useStyles';
+import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 
 type Props = {
   size: number;
@@ -15,35 +15,10 @@ type Props = {
 const PlaceholderAvatar = ({ size, borderRadius = 0, label }: Props) => {
   const patternId = 'placeholder-stripes';
 
-  const styles = useStyles(({ fontSize, fontFamily }) =>
-    StyleSheet.create({
-      container: {
-        width: size,
-        height: size,
-        borderRadius,
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: color.grey300,
-      },
-      labelWrap: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      label: {
-        fontSize: fontSize('md'),
-        fontFamily: fontFamily('bold'),
-        color: color.grey600,
-      },
-    }),
-  );
+  const styles = useStyles(placeholderAvatarStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: size, height: size, borderRadius }]}>
       <Svg width={size} height={size}>
         <Defs>
           <Pattern
@@ -65,5 +40,30 @@ const PlaceholderAvatar = ({ size, borderRadius = 0, label }: Props) => {
     </View>
   );
 };
+
+// width/height/borderRadius는 인스턴스마다 달라지는 props라 컴포넌트 안에서
+// 인라인 스타일로 병합하고, 여기엔 고정된 값만 둠.
+const placeholderAvatarStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
+  StyleSheet.create({
+    container: {
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: color.grey300,
+    },
+    labelWrap: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    label: {
+      fontSize: fontSize('md'),
+      fontFamily: fontFamily('bold'),
+      color: color.grey600,
+    },
+  });
 
 export default PlaceholderAvatar;

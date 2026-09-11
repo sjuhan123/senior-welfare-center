@@ -2,57 +2,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { color, semantic, radius } from '@common/shared';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
-import useStyles from '../hooks/styles/useStyles';
+import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 
 const Center = () => {
   const { data } = useGetMemberships();
   const memberships = data?.data ?? [];
 
-  const styles = useStyles(({ fontSize, fontFamily }) =>
-    StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: color.grey0,
-      },
-      header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 14,
-        paddingHorizontal: 18,
-        paddingTop: 20,
-        paddingBottom: 18,
-        borderBottomWidth: 1.5,
-        borderBottomColor: semantic.border,
-      },
-      logo: {
-        width: 74,
-        height: 74,
-        borderRadius: radius.mobileContainer,
-        backgroundColor: color.navy,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      logoText: {
-        fontSize: fontSize('lg'),
-        fontFamily: fontFamily('bold'),
-        color: semantic.textOnDark,
-      },
-      headerTextWrap: {
-        flex: 1,
-      },
-      title: {
-        fontSize: fontSize('xl'),
-        fontFamily: fontFamily('bold'),
-        color: semantic.textPrimary,
-      },
-      subtitle: {
-        fontSize: fontSize('sm'),
-        fontFamily: fontFamily('regular'),
-        marginTop: 4,
-        color: semantic.textMuted,
-      },
-    }),
-  );
+  const styles = useStyles(centerStyleFactory);
 
   return (
     <View style={styles.container}>
@@ -77,5 +33,50 @@ const Center = () => {
     </View>
   );
 };
+
+const centerStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: color.grey0,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 14,
+      paddingHorizontal: 18,
+      paddingTop: 20,
+      paddingBottom: 18,
+      borderBottomWidth: 1.5,
+      borderBottomColor: semantic.border,
+    },
+    logo: {
+      width: 74,
+      height: 74,
+      borderRadius: radius.mobileContainer,
+      backgroundColor: color.navy,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    logoText: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textOnDark,
+    },
+    headerTextWrap: {
+      flex: 1,
+    },
+    title: {
+      fontSize: fontSize('xl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+    subtitle: {
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('regular'),
+      marginTop: 4,
+      color: semantic.textMuted,
+    },
+  });
 
 export default Center;
