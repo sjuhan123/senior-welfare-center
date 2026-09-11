@@ -7,6 +7,7 @@ import { color, semantic, radius, hit } from '@common/shared';
 import useKakaoLogin from '../hooks/auth/useKakaoLogin';
 import { postAuthKakao } from '../hooks/api/auth/usePostAuthKakao';
 import { getUserInfo } from '../hooks/api/auth/useGetUserInfo';
+import { getMemberships } from '../hooks/api/membership/useGetMemberships';
 import { setUserToken, setRefreshToken } from '../utills/persistentStorage';
 import { isUserTokenValidAtom } from '../store/auth';
 import { userInfoAtom } from '../store/user';
@@ -18,7 +19,8 @@ import type { RootStackParamList } from '../router';
  * -> useKakaoLogin().login() 호출 (카카오 SDK, 카카오톡 앱 전환 또는 웹 로그인)
  * -> 카카오 access token 반환받음
  * -> 그 토큰을 그대로 서버에 넘겨 code 교환 없이 바로 사용자 정보 조회
- * -> 서버 토큰 저장 -> 유저정보 조회 -> AccountCreated 이동
+ * -> 서버 토큰 저장 -> 유저정보 조회 -> 가입한 복지관 조회
+ * -> 가입한 복지관이 있으면 MainTabs, 없으면 AccountCreated로 이동
  */
 
 const Auth = () => {
@@ -49,7 +51,10 @@ const Auth = () => {
         userAvatar: userInfoRes.data.userAvatar,
       });
 
-      navigation.replace('AccountCreated');
+      const membershipsRes = await getMemberships();
+      const hasMembership = membershipsRes.data.length > 0;
+
+      navigation.replace(hasMembership ? 'MainTabs' : 'AccountCreated');
     } catch (error) {
       console.error('로그인 처리 실패', error);
       setStatus('error');
