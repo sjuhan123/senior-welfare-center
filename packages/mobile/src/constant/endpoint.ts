@@ -10,4 +10,5 @@ export const END_POINT = Object.freeze({
   WELFARES: `${BASE_URL}api/welfares`,
   MEMBERSHIPS_ME: `${BASE_URL}api/memberships/me`,
   MEMBERSHIP_SCAN: `${BASE_URL}api/memberships/scan`,
+  MEMBERSHIPS: `${BASE_URL}api/memberships`,
 });
