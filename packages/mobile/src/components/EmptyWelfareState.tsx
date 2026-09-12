@@ -22,29 +22,37 @@ type Props = {
   callButtonLabel?: string;
 };
 
+// 프로토타입 기준 두 변형이 구조 자체가 다름(순서·정렬·여백).
+// showQrExample=true: 10 복지관 없음(왼쪽 정렬, 제목→설명→QR예시카드 순)
+// showQrExample=false: 12/13 대화·사진방 없음(가운데 정렬, 마크→제목→설명 순)
 const EmptyWelfareState = ({ heading, description, showQrExample = false, showCallButton = false, callButtonLabel = '복지관에 전화하기' }: Props) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
   const styles = useStyles(emptyWelfareStateStyleFactory);
 
   return (
     <View style={styles.container}>
       {showQrExample ? (
-        <View style={styles.qrExampleCard}>
-          <View style={styles.qrExampleSwatch}>
-            {QR_EXAMPLE_PATTERN.flat().map((filled, index) => (
-              <View key={index} style={styles.qrExampleCell}>
-                {Boolean(filled) && <View style={styles.qrExampleCellFill} />}
-              </View>
-            ))}
+        <View style={styles.contentTop}>
+          <Text style={styles.headingTop}>{heading}</Text>
+          <Text style={styles.descriptionTop}>{description}</Text>
+          <View style={styles.qrExampleCard}>
+            <View style={styles.qrExampleSwatch}>
+              {QR_EXAMPLE_PATTERN.flat().map((filled, index) => (
+                <View key={index} style={styles.qrExampleCell}>
+                  {Boolean(filled) && <View style={styles.qrExampleCellFill} />}
+                </View>
+              ))}
+            </View>
+            <Text style={styles.qrExampleText}>이런 표시를{'\n'}찾으시면 됩니다</Text>
           </View>
-          <Text style={styles.qrExampleText}>이런 표시를{'\n'}찾으시면 됩니다</Text>
         </View>
       ) : (
-        <View style={styles.mark} />
+        <View style={styles.contentCentered}>
+          <View style={styles.mark} />
+          <Text style={styles.headingCentered}>{heading}</Text>
+          <Text style={styles.descriptionCentered}>{description}</Text>
+        </View>
       )}
-      <Text style={styles.heading}>{heading}</Text>
-      <Text style={styles.description}>{description}</Text>
       <View style={styles.buttonGroup}>
         <Pressable style={styles.primaryButton} onPress={() => navigation.navigate('QrScan')}>
           <Text style={styles.primaryButtonText}>QR 찍어서 가입하기</Text>
@@ -63,9 +71,18 @@ const emptyWelfareStateStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArg
   StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
+    },
+    contentTop: {
+      flex: 1,
+      paddingHorizontal: 20,
+      paddingTop: 24,
+      paddingBottom: 8,
+    },
+    contentCentered: {
+      flex: 1,
       alignItems: 'center',
-      paddingHorizontal: 24,
+      justifyContent: 'center',
+      paddingHorizontal: 26,
       paddingVertical: 32,
     },
     mark: {
@@ -73,7 +90,13 @@ const emptyWelfareStateStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArg
       height: 5,
       backgroundColor: color.navy,
     },
-    heading: {
+    headingTop: {
+      fontSize: fontSize('xxxl'),
+      fontFamily: fontFamily('bold'),
+      lineHeight: fontSize('xxxl') * 1.45,
+      color: semantic.textPrimary,
+    },
+    headingCentered: {
       fontSize: fontSize('xxxl'),
       fontFamily: fontFamily('bold'),
       lineHeight: fontSize('xxxl') * 1.45,
@@ -81,21 +104,27 @@ const emptyWelfareStateStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArg
       textAlign: 'center',
       color: semantic.textPrimary,
     },
-    description: {
+    descriptionTop: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('regular'),
+      lineHeight: fontSize('lg') * 1.7,
+      marginTop: 14,
+      color: color.grey700,
+    },
+    descriptionCentered: {
       fontSize: fontSize('lg'),
       fontFamily: fontFamily('regular'),
       lineHeight: fontSize('lg') * 1.7,
       marginTop: 16,
       textAlign: 'center',
-      color: semantic.textMuted,
+      color: color.grey600,
     },
     qrExampleCard: {
-      width: '100%',
       marginTop: 22,
       backgroundColor: color.grey50,
       borderWidth: 1.5,
-      borderColor: semantic.border,
-      borderRadius: radius.mobileContainer,
+      borderColor: color.grey200,
+      borderRadius: 12,
       padding: 22,
       flexDirection: 'row',
       alignItems: 'center',
@@ -104,10 +133,10 @@ const emptyWelfareStateStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArg
     qrExampleSwatch: {
       width: 104,
       height: 104,
-      borderRadius: radius.mobileContainer,
+      borderRadius: 8,
       backgroundColor: color.grey0,
       borderWidth: 2,
-      borderColor: color.grey300,
+      borderColor: color.grey400,
       padding: 10,
       flexDirection: 'row',
       flexWrap: 'wrap',
@@ -130,8 +159,9 @@ const emptyWelfareStateStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArg
       color: color.grey700,
     },
     buttonGroup: {
-      width: '100%',
-      marginTop: 22,
+      paddingHorizontal: 20,
+      paddingTop: 16,
+      paddingBottom: 24,
       gap: 12,
     },
     primaryButton: {

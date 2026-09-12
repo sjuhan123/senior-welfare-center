@@ -13,7 +13,6 @@ import { deleteMembership } from '../hooks/api/membership/useDeleteMembership';
 import { deleteAccount } from '../hooks/api/auth/useDeleteAccount';
 import { clearUserToken, clearRefreshToken } from '../utills/persistentStorage';
 import PlaceholderAvatar from '../components/PlaceholderAvatar';
-import EmptyWelfareState from '../components/EmptyWelfareState';
 import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 import { QUERY_KEYS } from '../constant/queryKeys';
 import type { RootStackParamList } from '../router';
@@ -90,7 +89,10 @@ const Me = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>글씨 크기</Text>
+          <View style={styles.sectionTitleRow}>
+            <View style={styles.sectionBullet} />
+            <Text style={styles.sectionTitle}>글씨 크기</Text>
+          </View>
           <Text style={styles.sectionDesc}>누르면 바로 바뀝니다.</Text>
           <View style={styles.scaleRow}>
             {scale.mobile.userScale.map((value, index) => {
@@ -105,16 +107,25 @@ const Me = () => {
         </View>
 
         {memberships.length === 0 ? (
-          <EmptyWelfareState
-            heading={'복지관에 가입하면\n더 많은 걸 쓸 수 있습니다'}
-            description={'복지관에서 제공하는\n네모난 QR을 찍으면 됩니다.'}
-            showQrExample
-            showCallButton
-            callButtonLabel="복지관에 전화해서 물어보기"
-          />
+          <View style={styles.noCenterSection}>
+            <View style={styles.sectionTitleRow}>
+              <View style={styles.sectionBullet} />
+              <Text style={styles.sectionTitle}>가입한 복지관 없음</Text>
+            </View>
+            <Text style={styles.noCenterDesc}>가입하시면 공지와 강좌 신청,{'\n'}알림을 모두 쓰실 수 있습니다.</Text>
+            <Pressable style={styles.noCenterPrimaryButton} onPress={() => navigation.navigate('QrScan')}>
+              <Text style={styles.noCenterPrimaryButtonText}>QR 찍어서 가입하기</Text>
+            </Pressable>
+            <Pressable style={styles.noCenterSecondaryButton}>
+              <Text style={styles.noCenterSecondaryButtonText}>복지관에 전화해서 물어보기</Text>
+            </Pressable>
+          </View>
         ) : (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>복지관에 전화</Text>
+            <View style={styles.sectionTitleRow}>
+              <View style={styles.sectionBullet} />
+              <Text style={styles.sectionTitle}>복지관에 전화</Text>
+            </View>
             <Text style={styles.sectionDesc}>{memberships[0].welfare.phone}</Text>
             <Pressable style={styles.callButton} onPress={() => void Linking.openURL(`tel:${memberships[0].welfare.phone}`)}>
               <Text style={styles.callButtonText}>전화 걸기</Text>
@@ -124,7 +135,10 @@ const Me = () => {
 
         {memberships.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>가입한 복지관</Text>
+            <View style={styles.sectionTitleRow}>
+              <View style={styles.sectionBullet} />
+              <Text style={styles.sectionTitle}>가입한 복지관</Text>
+            </View>
             <Text style={styles.sectionDesc}>탈퇴하면 그 복지관의 공지와{'\n'}강좌를 볼 수 없습니다.</Text>
             <View style={styles.centerList}>
               {memberships.map(membership => (
@@ -143,7 +157,10 @@ const Me = () => {
         )}
 
         <View style={styles.dangerSection}>
-          <Text style={styles.sectionTitle}>앱 그만 쓰기</Text>
+          <View style={styles.sectionTitleRow}>
+            <View style={styles.sectionBullet} />
+            <Text style={styles.sectionTitle}>앱 그만 쓰기</Text>
+          </View>
           <Text style={styles.sectionDesc}>앱만 지우면 계정은 남아 있습니다.{'\n'}아주 그만 쓰시려면 아래를 누르세요.</Text>
           <Pressable style={styles.deleteAccountButton} onPress={handleDeleteAccount}>
             <Text style={styles.deleteAccountButtonText}>우리복지관 계정 지우기</Text>
@@ -207,6 +224,16 @@ const meStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       borderBottomWidth: 9,
       borderBottomColor: semantic.divider,
     },
+    sectionTitleRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 9,
+    },
+    sectionBullet: {
+      width: 10,
+      height: 10,
+      backgroundColor: color.navy,
+    },
     sectionTitle: {
       fontSize: fontSize('lg'),
       fontFamily: fontFamily('bold'),
@@ -217,7 +244,7 @@ const meStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontFamily: fontFamily('regular'),
       lineHeight: fontSize('sm') * 1.6,
       marginTop: 6,
-      color: semantic.textMuted,
+      color: color.grey600,
     },
     scaleRow: {
       flexDirection: 'row',
@@ -259,6 +286,47 @@ const meStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontFamily: fontFamily('bold'),
       color: semantic.textOnDark,
     },
+    noCenterSection: {
+      padding: 18,
+      borderBottomWidth: 9,
+      borderBottomColor: semantic.divider,
+      backgroundColor: color.grey50,
+    },
+    noCenterDesc: {
+      fontSize: fontSize('base'),
+      fontFamily: fontFamily('regular'),
+      lineHeight: fontSize('base') * 1.7,
+      marginTop: 8,
+      color: color.grey700,
+    },
+    noCenterPrimaryButton: {
+      marginTop: 14,
+      minHeight: hit.mobileLarge,
+      borderRadius: radius.mobileButton,
+      backgroundColor: semantic.ctaBg,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    noCenterPrimaryButtonText: {
+      fontSize: fontSize('xl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.ctaFg,
+    },
+    noCenterSecondaryButton: {
+      marginTop: 10,
+      minHeight: hit.mobileMin,
+      borderWidth: 1.5,
+      borderColor: color.grey400,
+      borderRadius: radius.mobileButton,
+      backgroundColor: color.grey0,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    noCenterSecondaryButtonText: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('semibold'),
+      color: color.grey800,
+    },
     centerList: {
       marginTop: 14,
       gap: 12,
@@ -278,7 +346,7 @@ const meStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontSize: fontSize('sm'),
       fontFamily: fontFamily('regular'),
       marginTop: 5,
-      color: semantic.textMuted,
+      color: color.grey600,
     },
     leaveButton: {
       marginTop: 12,

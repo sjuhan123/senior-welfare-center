@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { color, semantic, radius } from '@common/shared';
+import { color, semantic } from '@common/shared';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
 import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
@@ -54,7 +54,7 @@ const centerStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
     logo: {
       width: 74,
       height: 74,
-      borderRadius: radius.mobileContainer,
+      borderRadius: 8,
       backgroundColor: color.navy,
       alignItems: 'center',
       justifyContent: 'center',
@@ -68,7 +68,7 @@ const centerStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       flex: 1,
     },
     title: {
-      fontSize: fontSize('xl'),
+      fontSize: fontSize('xxl'),
       fontFamily: fontFamily('bold'),
       color: semantic.textPrimary,
     },
@@ -76,7 +76,7 @@ const centerStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontSize: fontSize('sm'),
       fontFamily: fontFamily('regular'),
       marginTop: 4,
-      color: semantic.textMuted,
+      color: color.grey600,
     },
   });
 
