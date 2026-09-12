@@ -46,7 +46,7 @@ const AccountCreated = () => {
       </View>
 
       <View style={styles.buttonGroup}>
-        <Pressable style={styles.primaryButton}>
+        <Pressable style={styles.primaryButton} onPress={() => navigation.navigate('QrScan')}>
           <Text style={styles.primaryButtonText}>복지관 QR 찍기</Text>
         </Pressable>
         <Pressable style={styles.secondaryButton} onPress={() => navigation.replace('MainTabs')}>
