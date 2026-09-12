@@ -10,6 +10,7 @@ export type MembershipData = {
   role: MembershipRole;
   status: MembershipStatus;
   joinedVia: 'qr' | 'manual';
+  createdAt: string;
 };
 
 export type MembershipListResponse = {

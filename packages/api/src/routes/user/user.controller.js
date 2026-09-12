@@ -1,5 +1,6 @@
 import { postAuthKakaoLogout } from '../../models/authKakao.model.js';
-import { bookmarkWelfare, unBookmarkWelfare } from '../../models/user.model.js';
+import { bookmarkWelfare, unBookmarkWelfare, deleteUser } from '../../models/user.model.js';
+import { deleteMembershipsByUserId } from '../../models/membership.model.js';
 import { revokeAllRefreshTokens } from '../../models/refreshToken.model.js';
 
 async function httpGetUserInfo(req, res) {
@@ -94,9 +95,27 @@ async function httpDeleteUserBookmarkWelfare(req, res) {
   }
 }
 
-export {
-  httpGetUserInfo,
-  httpPostUserLogout,
-  httpPostUserBookmarkWelfare,
-  httpDeleteUserBookmarkWelfare,
-};
+async function httpDeleteUser(req, res) {
+  try {
+    const userId = req.user.id;
+
+    await deleteUser(userId);
+    await deleteMembershipsByUserId(userId);
+    await revokeAllRefreshTokens(userId);
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '계정 삭제 성공',
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpGetUserInfo, httpPostUserLogout, httpPostUserBookmarkWelfare, httpDeleteUserBookmarkWelfare, httpDeleteUser };

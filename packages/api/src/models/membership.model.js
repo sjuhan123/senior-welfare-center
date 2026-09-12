@@ -42,4 +42,21 @@ async function hasApprovedRole(userId, roles) {
   return Boolean(membership);
 }
 
-export { createMembership, getMembershipsByUserId, getMembershipsByWelfareId, approveMembership, getMembership, hasApprovedRole };
+async function deleteMembership(userId, membershipId) {
+  return await Membership.findOneAndDelete({ _id: membershipId, userId });
+}
+
+async function deleteMembershipsByUserId(userId) {
+  await Membership.deleteMany({ userId });
+}
+
+export {
+  createMembership,
+  getMembershipsByUserId,
+  getMembershipsByWelfareId,
+  approveMembership,
+  getMembership,
+  hasApprovedRole,
+  deleteMembership,
+  deleteMembershipsByUserId,
+};

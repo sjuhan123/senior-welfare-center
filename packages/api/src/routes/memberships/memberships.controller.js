@@ -1,4 +1,10 @@
-import { createMembership, getMembershipsByUserId, getMembershipsByWelfareId, approveMembership } from '../../models/membership.model.js';
+import {
+  createMembership,
+  getMembershipsByUserId,
+  getMembershipsByWelfareId,
+  approveMembership,
+  deleteMembership,
+} from '../../models/membership.model.js';
 import { findActiveInviteCodeByCode, incrementScanCount } from '../../models/welfareInviteCode.model.js';
 
 async function httpPostMembershipScan(req, res) {
@@ -102,4 +108,33 @@ async function httpPatchMembership(req, res) {
   }
 }
 
-export { httpPostMembershipScan, httpGetMyMemberships, httpGetWelfareMemberships, httpPatchMembership };
+async function httpDeleteMembership(req, res) {
+  try {
+    const userId = req.user.id;
+    const { membershipId } = req.params;
+
+    const deleted = await deleteMembership(userId, membershipId);
+
+    if (!deleted) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: '해당 멤버십을 찾을 수 없습니다',
+      });
+    }
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '복지관 탈퇴 성공',
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error deleting membership:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpPostMembershipScan, httpGetMyMemberships, httpGetWelfareMemberships, httpPatchMembership, httpDeleteMembership };
