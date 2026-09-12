@@ -22,7 +22,12 @@ const SCALE_LABELS = ['보통', '크게', '더 크게'] as const;
 
 const formatSince = (isoDate: string) => {
   const date = new Date(isoDate);
-  return `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
+
+  if (Number.isNaN(date.getTime())) {
+    return '가입일 확인 중';
+  }
+
+  return `${date.getFullYear()}년 ${date.getMonth() + 1}월부터`;
 };
 
 const Me = () => {
@@ -126,7 +131,7 @@ const Me = () => {
                 <View key={membership._id} style={styles.centerCard}>
                   <Text style={styles.centerName}>{membership.welfare.name}</Text>
                   <Text style={styles.centerMeta}>
-                    회원번호 {membership.userId.slice(-4)} · {formatSince(membership.createdAt)}부터
+                    회원번호 {membership.userId.slice(-4)} · {formatSince(membership.createdAt)}
                   </Text>
                   <Pressable style={styles.leaveButton} onPress={() => handleLeaveMembership(membership._id, membership.welfare.name)}>
                     <Text style={styles.leaveButtonText}>탈퇴하기</Text>
