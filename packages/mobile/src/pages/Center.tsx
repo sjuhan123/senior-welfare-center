@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { color, semantic, radius } from '@common/shared';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
@@ -11,7 +12,7 @@ const Center = () => {
   const styles = useStyles(centerStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <View style={styles.logo}>
           <Text style={styles.logoText}>복지</Text>
@@ -30,7 +31,7 @@ const Center = () => {
           callButtonLabel="복지관에 전화해서 물어보기"
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

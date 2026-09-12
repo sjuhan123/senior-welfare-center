@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAtomValue } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -15,7 +16,7 @@ const AccountCreated = () => {
   const styles = useStyles(accountCreatedStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.profileRow}>
           <PlaceholderAvatar size={84} borderRadius={22} label={userInfo.userName.charAt(0)} />
@@ -27,8 +28,7 @@ const AccountCreated = () => {
 
         <Text style={styles.heading}>시작할 준비가{'\n'}되었습니다</Text>
         <Text style={styles.description}>
-          이제 다니시는 복지관을 연결해 주세요.{'\n'}복지관에서 주는{' '}
-          <Text style={styles.descriptionBold}>QR</Text>을 찍으면 됩니다.
+          이제 다니시는 복지관을 연결해 주세요.{'\n'}복지관에서 주는 <Text style={styles.descriptionBold}>QR</Text>을 찍으면 됩니다.
         </Text>
 
         <View style={styles.stepRow}>
@@ -53,7 +53,7 @@ const AccountCreated = () => {
           <Text style={styles.secondaryButtonText}>나중에 하기</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { color, semantic } from '@common/shared';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
@@ -11,7 +12,7 @@ const Chat = () => {
   const styles = useStyles(chatStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>대화</Text>
       </View>
@@ -23,7 +24,7 @@ const Chat = () => {
           callButtonLabel="복지관에 전화하기"
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

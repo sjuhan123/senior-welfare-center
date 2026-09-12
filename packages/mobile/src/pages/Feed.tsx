@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { color, semantic } from '@common/shared';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
@@ -11,7 +12,7 @@ const Feed = () => {
   const styles = useStyles(feedStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>사진방</Text>
       </View>
@@ -21,7 +22,7 @@ const Feed = () => {
           description={'복지관 강좌에 가입하시면\n같은 반 어르신들의 사진을\n보고 댓글도 다실 수 있습니다.'}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

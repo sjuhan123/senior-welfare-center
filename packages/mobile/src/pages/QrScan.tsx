@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -46,7 +47,7 @@ const QrScan = () => {
   const styles = useStyles(qrScanStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.backButtonText}>←</Text>
@@ -82,7 +83,7 @@ const QrScan = () => {
           <Text style={styles.secondaryButtonText}>어려우면 직원에게 전화</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

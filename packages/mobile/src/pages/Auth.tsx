@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -64,7 +65,7 @@ const Auth = () => {
   const styles = useStyles(authStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.logo}>
           <Text style={styles.logoText}>복지</Text>
@@ -88,7 +89,7 @@ const Auth = () => {
         </Pressable>
         {status === 'error' && <Text style={styles.errorText}>로그인에 실패했습니다</Text>}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

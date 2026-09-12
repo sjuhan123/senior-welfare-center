@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit, type MembershipRole } from '@common/shared';
@@ -19,7 +20,7 @@ const JoinSuccess = () => {
   const styles = useStyles(joinSuccessStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.checkBox}>
           <Text style={styles.checkText}>✓</Text>
@@ -37,7 +38,7 @@ const JoinSuccess = () => {
           <Text style={styles.primaryButtonText}>강좌 보러 가기</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
