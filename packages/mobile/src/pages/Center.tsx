@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { color, semantic } from '@common/shared';
+import appIcon from '../../assets/icon.png';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import EmptyWelfareState from '../components/EmptyWelfareState';
 import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
@@ -14,9 +15,7 @@ const Center = () => {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
-        <View style={styles.logo}>
-          <Text style={styles.logoText}>복지</Text>
-        </View>
+        <Image source={appIcon} style={styles.logo} />
         <View style={styles.headerTextWrap}>
           <Text style={styles.title}>우리복지관</Text>
           <Text style={styles.subtitle}>{memberships.length === 0 ? '아직 가입한 복지관이 없습니다' : memberships[0].welfare.name}</Text>
@@ -27,8 +26,6 @@ const Center = () => {
           heading={'복지관에 가입하면\n여기에 소식이 옵니다'}
           description={'복지관에서 제공하는\n네모난 QR을 찍으면 됩니다.'}
           showQrExample
-          showCallButton
-          callButtonLabel="복지관에 전화해서 물어보기"
         />
       )}
     </SafeAreaView>
@@ -55,14 +52,6 @@ const centerStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       width: 74,
       height: 74,
       borderRadius: 8,
-      backgroundColor: color.navy,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    logoText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textOnDark,
     },
     headerTextWrap: {
       flex: 1,

@@ -116,9 +116,6 @@ const Me = () => {
             <Pressable style={styles.noCenterPrimaryButton} onPress={() => navigation.navigate('QrScan')}>
               <Text style={styles.noCenterPrimaryButtonText}>QR 찍어서 가입하기</Text>
             </Pressable>
-            <Pressable style={styles.noCenterSecondaryButton}>
-              <Text style={styles.noCenterSecondaryButtonText}>복지관에 전화해서 물어보기</Text>
-            </Pressable>
           </View>
         ) : (
           <View style={styles.section}>
@@ -311,21 +308,6 @@ const meStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontSize: fontSize('xl'),
       fontFamily: fontFamily('bold'),
       color: semantic.ctaFg,
-    },
-    noCenterSecondaryButton: {
-      marginTop: 10,
-      minHeight: hit.mobileMin,
-      borderWidth: 1.5,
-      borderColor: color.grey400,
-      borderRadius: radius.mobileButton,
-      backgroundColor: color.grey0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    noCenterSecondaryButtonText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('semibold'),
-      color: color.grey800,
     },
     centerList: {
       marginTop: 14,

@@ -17,12 +17,7 @@ const Chat = () => {
         <Text style={styles.title}>대화</Text>
       </View>
       {memberships.length === 0 && (
-        <EmptyWelfareState
-          heading={'아직 대화방이\n없습니다'}
-          description={'복지관에 가입하시면\n공지방과 이야기방이\n여기에 생깁니다.'}
-          showCallButton
-          callButtonLabel="복지관에 전화하기"
-        />
+        <EmptyWelfareState heading={'아직 대화방이\n없습니다'} description={'복지관에 가입하시면\n공지방과 이야기방이\n여기에 생깁니다.'} />
       )}
     </SafeAreaView>
   );

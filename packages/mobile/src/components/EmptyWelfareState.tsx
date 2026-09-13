@@ -18,14 +18,13 @@ type Props = {
   heading: string;
   description: string;
   showQrExample?: boolean;
-  showCallButton?: boolean;
-  callButtonLabel?: string;
 };
 
 // 프로토타입 기준 두 변형이 구조 자체가 다름(순서·정렬·여백).
 // showQrExample=true: 10 복지관 없음(왼쪽 정렬, 제목→설명→QR예시카드 순)
 // showQrExample=false: 12/13 대화·사진방 없음(가운데 정렬, 마크→제목→설명 순)
-const EmptyWelfareState = ({ heading, description, showQrExample = false, showCallButton = false, callButtonLabel = '복지관에 전화하기' }: Props) => {
+// 전화 버튼은 아직 가입 전이라 어느 복지관에 걸어야 할지 몰라서 넣지 않음.
+const EmptyWelfareState = ({ heading, description, showQrExample = false }: Props) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const styles = useStyles(emptyWelfareStateStyleFactory);
 
@@ -57,11 +56,6 @@ const EmptyWelfareState = ({ heading, description, showQrExample = false, showCa
         <Pressable style={styles.primaryButton} onPress={() => navigation.navigate('QrScan')}>
           <Text style={styles.primaryButtonText}>QR 찍어서 가입하기</Text>
         </Pressable>
-        {showCallButton && (
-          <Pressable style={styles.secondaryButton}>
-            <Text style={styles.secondaryButtonText}>{callButtonLabel}</Text>
-          </Pressable>
-        )}
       </View>
     </View>
   );
@@ -175,20 +169,6 @@ const emptyWelfareStateStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArg
       fontSize: fontSize('xl'),
       fontFamily: fontFamily('bold'),
       color: semantic.ctaFg,
-    },
-    secondaryButton: {
-      minHeight: hit.mobileMin,
-      borderWidth: 1.5,
-      borderColor: color.grey400,
-      borderRadius: radius.mobileButton,
-      backgroundColor: color.grey0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    secondaryButtonText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('semibold'),
-      color: color.grey800,
     },
   });
 

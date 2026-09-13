@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit } from '@common/shared';
+import appIcon from '../../assets/icon.png';
 import useKakaoLogin from '../hooks/auth/useKakaoLogin';
 import { postAuthKakao } from '../hooks/api/auth/usePostAuthKakao';
 import { getUserInfo } from '../hooks/api/auth/useGetUserInfo';
@@ -14,6 +15,10 @@ import { isUserTokenValidAtom } from '../store/auth';
 import { userInfoAtom } from '../store/user';
 import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 import type { RootStackParamList } from '../router';
+
+// 카카오 로그인 버튼의 공식 브랜드 색상(우리 디자인 토큰과는 무관, 카카오 자체 규정값)
+const KAKAO_YELLOW = '#FEE500';
+const KAKAO_TEXT = '#191919';
 
 /**
  * 버튼 onPress
@@ -67,9 +72,7 @@ const Auth = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <View style={styles.logo}>
-          <Text style={styles.logoText}>복지</Text>
-        </View>
+        <Image source={appIcon} style={styles.logo} />
         <Text style={styles.title}>우리복지관</Text>
         <Text style={styles.subtitle}>복지관 소식과 강좌 신청을{'\n'}한곳에서 보실 수 있습니다.</Text>
         <View style={styles.infoBox}>
@@ -83,9 +86,6 @@ const Auth = () => {
       <View style={styles.buttonGroup}>
         <Pressable style={styles.primaryButton} onPress={handlePressButton} disabled={status === 'loading'}>
           <Text style={styles.primaryButtonText}>{status === 'loading' ? '로그인 중...' : '카카오 계정으로 시작하기'}</Text>
-        </Pressable>
-        <Pressable style={styles.secondaryButton}>
-          <Text style={styles.secondaryButtonText}>어려우면 복지관에 전화</Text>
         </Pressable>
         {status === 'error' && <Text style={styles.errorText}>로그인에 실패했습니다</Text>}
       </View>
@@ -109,14 +109,6 @@ const authStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       width: 82,
       height: 82,
       borderRadius: 8,
-      backgroundColor: color.navy,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    logoText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textOnDark,
     },
     title: {
       fontSize: fontSize('display'),
@@ -156,28 +148,14 @@ const authStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
     primaryButton: {
       minHeight: hit.mobileLarge,
       borderRadius: radius.mobileButton,
-      backgroundColor: semantic.ctaBg,
+      backgroundColor: KAKAO_YELLOW,
       alignItems: 'center',
       justifyContent: 'center',
     },
     primaryButtonText: {
       fontSize: fontSize('xxl'),
       fontFamily: fontFamily('bold'),
-      color: semantic.ctaFg,
-    },
-    secondaryButton: {
-      minHeight: hit.mobileMin,
-      borderWidth: 1.5,
-      borderColor: color.grey400,
-      borderRadius: radius.mobileButton,
-      backgroundColor: color.grey0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    secondaryButtonText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('semibold'),
-      color: color.grey800,
+      color: KAKAO_TEXT,
     },
     errorText: {
       fontSize: fontSize('sm'),
