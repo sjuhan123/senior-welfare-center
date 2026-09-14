@@ -23,7 +23,7 @@
   },
   "references": [
     {
-      "path": "packages/client"
+      "path": "packages/admin"
     }
   ],
   "include": []

@@ -1,0 +1,31 @@
+# Dockerfile for api project
+
+# Base image
+FROM node:lts-alpine AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy yarn.lock file from root
+COPY package.json yarn.lock ./
+
+# Install Corepack and enable it (package.json의 packageManager 필드를 보고
+# corepack이 알아서 정확한 yarn 버전을 받아 씀. 별도로 yarn을 npm install하면
+# corepack이 깔아준 걸 덮어써서 packageManager 검증에 걸림)
+RUN npm install -g corepack \
+    && corepack enable
+
+# Install project dependencies
+RUN yarn install --immutable --immutable-cache --check-cache
+
+# Copies everything over to Docker environment
+COPY . ./
+
+# Build the application
+RUN yarn install --immutable
+
+# Expose port
+EXPOSE 8000
+
+# Command to start the server when the container starts
+CMD ["yarn", "api:start"]

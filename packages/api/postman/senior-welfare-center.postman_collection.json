@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "senior-welfare-center API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000/api" },
+    { "key": "accessToken", "value": "" },
+    { "key": "welfareId", "value": "" },
+    { "key": "membershipId", "value": "" },
+    { "key": "code", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "카카오 로그인 (mobile)",
+          "request": {
+            "method": "POST",
+            "auth": { "type": "noauth" },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kakaoAccessToken\": \"\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/kakao"
+          }
+        },
+        {
+          "name": "카카오 로그인 (admin)",
+          "request": {
+            "method": "POST",
+            "auth": { "type": "noauth" },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/kakao/admin"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Welfares",
+      "item": [
+        {
+          "name": "복지관 목록 조회",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/welfares"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Membership (mobile)",
+      "item": [
+        {
+          "name": "내 복지관 목록",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/memberships/me"
+          }
+        },
+        {
+          "name": "QR 스캔",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"{{code}}\"\n}"
+            },
+            "url": "{{baseUrl}}/memberships/scan"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Welfare Admin (admin/super 권한 필요)",
+      "item": [
+        {
+          "name": "QR 발급/재발급",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/welfares/{{welfareId}}/invite-code"
+          }
+        },
+        {
+          "name": "QR 조회",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/welfares/{{welfareId}}/invite-code"
+          }
+        },
+        {
+          "name": "회원 목록 조회 (검토 대기)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/welfares/{{welfareId}}/memberships?status=pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["welfares", "{{welfareId}}", "memberships"],
+              "query": [{ "key": "status", "value": "pending" }]
+            }
+          }
+        },
+        {
+          "name": "회원 역할 지정/승인",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"member\"\n}"
+            },
+            "url": "{{baseUrl}}/welfares/{{welfareId}}/memberships/{{membershipId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "내 정보 조회",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/user"
+          }
+        }
+      ]
+    }
+  ]
+}

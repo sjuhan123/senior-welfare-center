@@ -1,0 +1,24 @@
+{
+  "name": "senior-welfare-center-admin",
+  "packageManager": "yarn@4.1.1",
+  "main": "src/main.tsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint --ext .ts,.tsx src",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "typescript": "^5.4.3",
+    "vite": "^5.2.7"
+  }
+}

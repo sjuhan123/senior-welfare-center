@@ -1,0 +1,23 @@
+import jwt from 'jsonwebtoken';
+import { findUserBy } from '../models/user.model.js';
+
+const authenticateToken = async (req, res, next) => {
+  const token =
+    req.cookies?.token || req.header('Authorization')?.replace('Bearer ', '');
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    req.user = await findUserBy(decoded.id);
+
+    next();
+  } catch (error) {
+    return res.status(403).json({ message: 'Invalid token' });
+  }
+};
+
+export { authenticateToken };

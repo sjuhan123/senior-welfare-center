@@ -5,18 +5,39 @@
   "workspaces": [
     "packages/*"
   ],
+  "resolutions": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@emotion/react": "11.11.4",
+    "jotai": "2.7.1"
+  },
   "scripts": {
     "lint": "eslint ./packages --ext .ts,.tsx,.js,.jsx --cache --fix",
-    "client:build": "yarn workspace senior-welfare-center-client build",
-    "server:start": "yarn workspace senior-welfare-center-api start"
+    "mobile:start": "yarn workspace senior-welfare-center-mobile start",
+    "mobile:android": "yarn workspace senior-welfare-center-mobile android",
+    "mobile:ios": "yarn workspace senior-welfare-center-mobile ios",
+    "mobile:web": "yarn workspace senior-welfare-center-mobile web",
+    "admin:dev": "yarn workspace senior-welfare-center-admin dev",
+    "admin:build": "yarn workspace senior-welfare-center-admin build",
+    "admin:serve": "yarn workspace senior-welfare-center-admin serve",
+    "admin:lint": "yarn workspace senior-welfare-center-admin lint",
+    "admin:format": "yarn workspace senior-welfare-center-admin format",
+    "api:start": "yarn workspace senior-welfare-center-api start",
+    "api:watch": "yarn workspace senior-welfare-center-api watch",
+    "api:test": "yarn workspace senior-welfare-center-api test",
+    "api:test-watch": "yarn workspace senior-welfare-center-api test-watch",
+    "api:cluster": "yarn workspace senior-welfare-center-api cluster"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
     "@types/node": "^20.11.30",
-    "@types/react": "^18.2.73",
+    "@types/react": "19.2.18",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
     "@yarnpkg/sdks": "^3.1.0",
+    "@yarnpkg/types": "^4.0.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-node": "^0.3.9",
@@ -25,9 +46,8 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-storybook": "^0.8.0",
     "prettier": "^3.2.5",
-    "react": "^18.2.0",
+    "react": "19.2.3",
     "typescript": "^5.4.3"
   }
 }

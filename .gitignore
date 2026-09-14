@@ -4,10 +4,9 @@
 !/.yarn/releases
 !/.yarn/sdks
 
-# Swap the comments on the following lines if you don't wish to use zero-installs
+# node-modules 링커 전환 이후로는 Zero-Install 이점이 없어져서 캐시를 커밋하지 않음
 # Documentation here: https://yarnpkg.com/features/zero-installs
-!/.yarn/cache
-#/.pnp.*
+/.pnp.*
 
 node_modules
 
@@ -28,3 +27,9 @@ mockServiceWorker.js
 *storybook.log
 
 .idea
+
+# 로컬 전용 (SSH 키, 스크린샷 등 민감/개인 자료)
+/private
+
+# Understand(SciTools) 로컬 분석 캐시
+/.ua
