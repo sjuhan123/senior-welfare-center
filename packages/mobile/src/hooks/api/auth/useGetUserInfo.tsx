@@ -1,19 +1,13 @@
 import { END_POINT } from '../../../constant/endpoint';
 import { get } from '../../../libs/api';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
-import { User } from '../../../types/user';
+import type { UserResponse } from '@common/shared';
 import { QUERY_KEYS } from '../../../constant/queryKeys';
 
-type Response = {
-  status: number;
-  message: string;
-  data: User;
-};
+export const getUserInfo = () => get<UserResponse>(END_POINT.USER);
 
-export const getUserInfo = () => get<Response>(END_POINT.USER);
-
-const useGetUserInfo = (options?: UseQueryOptions<Response>) => {
-  return useQuery<Response>({
+const useGetUserInfo = (options?: UseQueryOptions<UserResponse>) => {
+  return useQuery<UserResponse>({
     queryKey: [QUERY_KEYS.USER_INFO],
     queryFn: getUserInfo,
     ...options,

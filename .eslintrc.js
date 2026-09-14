@@ -55,6 +55,16 @@ module.exports = {
           },
         },
       },
+      rules: {
+        'no-restricted-syntax': [
+          'error',
+          {
+            selector: 'CallExpression[callee.name="useStyles"] > :function',
+            message:
+              'useStyles에 인라인 함수를 넘기지 마세요. 컴포넌트 파일 하단에 이름 붙인 factory 함수로 선언하고 참조로 넘기세요.',
+          },
+        ],
+      },
     },
     {
       files: ['packages/admin/**/*.ts?(x)', 'packages/admin/**/*.js?(x)'],

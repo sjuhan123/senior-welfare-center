@@ -29,6 +29,12 @@
         }
       ],
       [
+        "expo-camera",
+        {
+          "cameraPermission": "복지관에서 받은 QR을 찍기 위해 카메라 접근이 필요합니다."
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "android": {

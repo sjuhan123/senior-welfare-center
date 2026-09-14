@@ -1,7 +1,5 @@
-import {
-  getAllWelfares,
-  getWelfaresByDistrictId,
-} from '../../models/welfares.model.js';
+import { getAllWelfares, getWelfaresByDistrictId } from '../../models/welfares.model.js';
+import { issueInviteCode, getActiveInviteCode, getInviteCodeHistory } from '../../models/welfareInviteCode.model.js';
 import { calculateDistance } from '../../utils/index.js';
 
 async function httpGetAllWelfares(req, res) {
@@ -51,12 +49,7 @@ async function httpGetClosestWelfare(req, res) {
     const sortedWelfares = welfaresData
       .map(welfare => ({
         ...welfare,
-        distance: calculateDistance(
-          latitude,
-          longitude,
-          welfare.latitude,
-          welfare.longitude,
-        ),
+        distance: calculateDistance(latitude, longitude, welfare.latitude, welfare.longitude),
       }))
       .sort((a, b) => a.distance - b.distance)
       .slice(0, 2);
@@ -77,4 +70,48 @@ async function httpGetClosestWelfare(req, res) {
   }
 }
 
-export { httpGetAllWelfares, httpGetClosestWelfare };
+async function httpPostWelfareInviteCode(req, res) {
+  try {
+    const { welfareId } = req.params;
+
+    const inviteCode = await issueInviteCode(welfareId);
+
+    const jsonResponse = {
+      statusCode: 201,
+      message: 'QR 코드 발급 성공',
+      data: inviteCode,
+    };
+    return res.status(201).json(jsonResponse);
+  } catch (error) {
+    console.error('Error issuing welfare invite code:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpGetWelfareInviteCode(req, res) {
+  try {
+    const { welfareId } = req.params;
+
+    const [active, history] = await Promise.all([getActiveInviteCode(welfareId), getInviteCodeHistory(welfareId)]);
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: 'QR 코드 조회 성공',
+      data: { active, history },
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error retrieving welfare invite code:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpGetAllWelfares, httpGetClosestWelfare, httpPostWelfareInviteCode, httpGetWelfareInviteCode };

@@ -31,10 +31,7 @@ async function saveUser(userId, kakaoAccount, kakaoAccessToken) {
 
 async function findUserBy(userId) {
   try {
-    return await User.findOne({ id: userId }, { _id: 0, __v: 0 }).populate(
-      'bookmarkWelfares',
-      '-__v',
-    );
+    return await User.findOne({ id: userId }, { _id: 0, __v: 0 }).populate('bookmarkWelfares', '-__v');
   } catch (error) {
     console.error('Could not find user', error);
     throw error;
@@ -43,11 +40,7 @@ async function findUserBy(userId) {
 
 async function updateUserBookmarkWelfares(userId, bookmarkWelfares) {
   try {
-    await User.findOneAndUpdate(
-      { id: userId },
-      { bookmarkWelfares: bookmarkWelfares },
-      { upsert: true },
-    );
+    await User.findOneAndUpdate({ id: userId }, { bookmarkWelfares: bookmarkWelfares }, { upsert: true });
   } catch (error) {
     console.error('Could not update user bookmark welfares', error);
     throw error;
@@ -59,9 +52,7 @@ async function bookmarkWelfare(userId, welfareId) {
     const user = await findUserBy(userId);
     const bookmarkedWelfares = user.bookmarkWelfares;
 
-    const isBookmarked = bookmarkedWelfares.some(
-      ({ _id }) => _id.toString() === welfareId,
-    );
+    const isBookmarked = bookmarkedWelfares.some(({ _id }) => _id.toString() === welfareId);
 
     if (bookmarkedWelfares.length >= 2) {
       console.log('Maximum bookmarks reached');
@@ -75,10 +66,7 @@ async function bookmarkWelfare(userId, welfareId) {
         throw new Error(`Welfare not found for ID: ${welfareId}`);
       }
 
-      const updatedBookmarkedWelfares = [
-        ...bookmarkedWelfares,
-        welfareInstance._id,
-      ];
+      const updatedBookmarkedWelfares = [...bookmarkedWelfares, welfareInstance._id];
 
       await updateUserBookmarkWelfares(userId, updatedBookmarkedWelfares);
 
@@ -95,14 +83,10 @@ async function unBookmarkWelfare(userId, welfareId) {
     const user = await findUserBy(userId);
     const bookmarkedWelfares = user.bookmarkWelfares;
 
-    const isBookmarked = bookmarkedWelfares.some(
-      ({ _id }) => _id.toString() === welfareId,
-    );
+    const isBookmarked = bookmarkedWelfares.some(({ _id }) => _id.toString() === welfareId);
 
     if (isBookmarked) {
-      const updatedBookmarkedWelfares = bookmarkedWelfares.filter(
-        ({ _id }) => _id.toString() !== welfareId,
-      );
+      const updatedBookmarkedWelfares = bookmarkedWelfares.filter(({ _id }) => _id.toString() !== welfareId);
 
       await updateUserBookmarkWelfares(userId, updatedBookmarkedWelfares);
 
@@ -117,4 +101,8 @@ async function unBookmarkWelfare(userId, welfareId) {
   }
 }
 
-export { saveUser, findUserBy, bookmarkWelfare, unBookmarkWelfare };
+async function deleteUser(userId) {
+  await User.deleteOne({ id: userId });
+}
+
+export { saveUser, findUserBy, bookmarkWelfare, unBookmarkWelfare, deleteUser };

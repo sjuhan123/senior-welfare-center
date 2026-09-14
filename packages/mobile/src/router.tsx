@@ -7,6 +7,9 @@ import Chat from './pages/Chat';
 import Feed from './pages/Feed';
 import Me from './pages/Me';
 import TabBar from './components/TabBar';
+import QrScan from './pages/QrScan';
+import JoinSuccess from './pages/JoinSuccess';
+import type { MembershipRole } from '@common/shared';
 
 export type MainTabParamList = {
   Center: undefined;
@@ -18,6 +21,8 @@ export type MainTabParamList = {
 export type RootStackParamList = {
   Auth: undefined;
   AccountCreated: undefined;
+  QrScan: undefined;
+  JoinSuccess: { welfareName: string; role: MembershipRole };
   MainTabs: undefined;
 };
 
@@ -40,6 +45,8 @@ const Routers = () => {
     <Stack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Auth" component={Auth} />
       <Stack.Screen name="AccountCreated" component={AccountCreated} />
+      <Stack.Screen name="QrScan" component={QrScan} />
+      <Stack.Screen name="JoinSuccess" component={JoinSuccess} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
     </Stack.Navigator>
   );

@@ -2,7 +2,7 @@ import { END_POINT } from '../../../constant/endpoint';
 import { post } from '../../../libs/api';
 
 type Response = {
-  status: number;
+  statusCode: number;
   message: string;
   data: { accessToken: string; refreshToken: string };
 };

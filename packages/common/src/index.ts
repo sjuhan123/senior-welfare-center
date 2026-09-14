@@ -7,3 +7,12 @@ import type { Color, Semantic } from './styles/tokens';
 
 export { color, semantic, font, lineHeight, scale, space, radius, border, hit };
 export type { Color, Semantic };
+
+/**
+ * api 응답 타입. admin/mobile이 공통으로 씀 (packages/api는 아직 순수 JS라 강제되진 않음)
+ */
+
+export type { DistrictData } from './types/district';
+export type { WelfareData, WelfareResponse } from './types/welfare';
+export type { User, UserResponse } from './types/user';
+export type { MembershipRole, MembershipStatus, MembershipData, MembershipListResponse, MembershipScanResponse } from './types/membership';

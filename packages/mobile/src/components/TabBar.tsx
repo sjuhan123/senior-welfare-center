@@ -1,7 +1,8 @@
 import { View, Pressable, Text, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { color, semantic, font, hit } from '@common/shared';
-import useStyles from '../hooks/styles/useStyles';
+import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 
 const TAB_LABELS: Record<string, string> = {
   Center: '복지관',
@@ -11,28 +12,11 @@ const TAB_LABELS: Record<string, string> = {
 };
 
 const TabBar = ({ state, navigation }: BottomTabBarProps) => {
-  const styles = useStyles(({ fontSize }) =>
-    StyleSheet.create({
-      container: {
-        flexDirection: 'row',
-        backgroundColor: color.grey0,
-      },
-      tab: {
-        flex: 1,
-        minHeight: hit.mobileNav,
-        borderTopWidth: 4,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      label: {
-        fontSize: fontSize('md'),
-        fontWeight: String(font.weight.bold) as '700',
-      },
-    }),
-  );
+  const insets = useSafeAreaInsets();
+  const styles = useStyles(tabBarStyleFactory);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;
 
@@ -49,5 +33,24 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
     </View>
   );
 };
+
+const tabBarStyleFactory = ({ fontSize }: StyleFactoryArgs) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      backgroundColor: color.grey0,
+    },
+    tab: {
+      flex: 1,
+      minHeight: hit.mobileNav,
+      borderTopWidth: 4,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    label: {
+      fontSize: fontSize('md'),
+      fontWeight: String(font.weight.bold) as '700',
+    },
+  });
 
 export default TabBar;
