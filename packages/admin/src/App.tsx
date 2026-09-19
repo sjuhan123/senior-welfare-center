@@ -1,5 +1,8 @@
+import { RouterProvider } from 'react-router';
+import router from './router';
+
 const App = () => {
-  return <div>우리복지관 어드민</div>;
+  return <RouterProvider router={router} />;
 };
 
 export default App;
