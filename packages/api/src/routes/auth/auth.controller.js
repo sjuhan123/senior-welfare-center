@@ -1,26 +1,18 @@
-import { rotateRefreshToken } from '../../models/refreshToken.model.js';
+import { rotateRefreshToken, revokeRefreshToken } from '../../models/refreshToken.model.js';
 import { findUserBy } from '../../models/user.model.js';
-import {
-  issueAccessToken,
-  sendAuthTokens,
-} from '../../services/auth.service.js';
+import { issueAccessToken, sendAuthTokens, clearAuthCookies } from '../../services/auth.service.js';
 
 async function refresh(req, res, clientType) {
-  const refreshToken =
-    clientType === 'admin' ? req.cookies?.refreshToken : req.body.refreshToken;
+  const refreshToken = clientType === 'admin' ? req.cookies?.refreshToken : req.body.refreshToken;
 
   if (!refreshToken) {
-    return res
-      .status(401)
-      .json({ statusCode: 401, message: 'Refresh token이 없습니다' });
+    return res.status(401).json({ statusCode: 401, message: 'Refresh token이 없습니다' });
   }
 
   const rotated = await rotateRefreshToken(refreshToken, clientType);
 
   if (!rotated) {
-    return res
-      .status(403)
-      .json({ statusCode: 403, message: '유효하지 않은 refresh token' });
+    return res.status(403).json({ statusCode: 403, message: '유효하지 않은 refresh token' });
   }
 
   const user = await findUserBy(rotated.userId);
@@ -41,9 +33,7 @@ async function httpPostAdminRefresh(req, res) {
     return await refresh(req, res, 'admin');
   } catch (error) {
     console.error('Error refreshing admin token:', error);
-    return res
-      .status(500)
-      .json({ statusCode: 500, message: '서버 오류', error: error.message });
+    return res.status(500).json({ statusCode: 500, message: '서버 오류', error: error.message });
   }
 }
 
@@ -52,10 +42,25 @@ async function httpPostMobileRefresh(req, res) {
     return await refresh(req, res, 'mobile');
   } catch (error) {
     console.error('Error refreshing mobile token:', error);
-    return res
-      .status(500)
-      .json({ statusCode: 500, message: '서버 오류', error: error.message });
+    return res.status(500).json({ statusCode: 500, message: '서버 오류', error: error.message });
   }
 }
 
-export { httpPostAdminRefresh, httpPostMobileRefresh };
+async function httpPostAdminLogout(req, res) {
+  try {
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (refreshToken) {
+      await revokeRefreshToken(refreshToken);
+    }
+
+    clearAuthCookies(res);
+
+    return res.status(200).json({ statusCode: 200, message: '로그아웃 성공' });
+  } catch (error) {
+    console.error('Error logging out admin:', error);
+    return res.status(500).json({ statusCode: 500, message: '서버 오류', error: error.message });
+  }
+}
+
+export { httpPostAdminRefresh, httpPostMobileRefresh, httpPostAdminLogout };

@@ -54,21 +54,4 @@ async function postAuthKakaoByCode(code) {
   }
 }
 
-async function postAuthKakaoLogout(accessToken) {
-  try {
-    const logoutRes = await axios.post(
-      'https://kapi.kakao.com/v1/user/logout',
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
-    return logoutRes;
-  } catch (error) {
-    console.error('로그아웃 실패:', error);
-  }
-}
-
-export { postAuthKakaoByAccessToken, postAuthKakaoByCode, postAuthKakaoLogout };
+export { postAuthKakaoByAccessToken, postAuthKakaoByCode };

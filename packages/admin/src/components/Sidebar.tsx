@@ -3,6 +3,7 @@ import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NavLink, useLoaderData } from 'react-router';
 import type { MembershipData, User } from '@common/shared';
+import useLogout from '../hooks/useLogout';
 
 const ROLE_LABEL: Record<'admin' | 'super', string> = {
   admin: '관리자',
@@ -23,6 +24,7 @@ const NAV = [
 const Sidebar = () => {
   const [accountOpen, setAccountOpen] = useState(false);
   const { user, membership } = useLoaderData<{ user: User; membership?: MembershipData }>();
+  const logout = useLogout();
 
   const roleLabel = membership && ROLE_LABEL[membership.role as 'admin' | 'super'];
 
@@ -67,7 +69,7 @@ const Sidebar = () => {
           <AccountMenu>
             <AccountMenuButton>복지관 정보 보기</AccountMenuButton>
             <AccountMenuButton>연결된 카카오 계정</AccountMenuButton>
-            <LogoutMenuButton>로그아웃</LogoutMenuButton>
+            <LogoutMenuButton onClick={logout}>로그아웃</LogoutMenuButton>
           </AccountMenu>
         )}
       </AccountArea>

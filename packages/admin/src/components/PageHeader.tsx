@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useMatches } from 'react-router';
+import useLogout from '../hooks/useLogout';
 
 type RouteHandle = {
   title: string;
@@ -17,6 +18,7 @@ const PageHeader = () => {
   const matches = useMatches();
   const match = [...matches].reverse().find(m => m.handle);
   const handle = match?.handle as RouteHandle | undefined;
+  const logout = useLogout();
 
   return (
     <Header>
@@ -25,7 +27,7 @@ const PageHeader = () => {
         <Description>{handle?.description}</Description>
       </TitleGroup>
       <Today>{today}</Today>
-      <LogoutButton>로그아웃</LogoutButton>
+      <LogoutButton onClick={logout}>로그아웃</LogoutButton>
     </Header>
   );
 };

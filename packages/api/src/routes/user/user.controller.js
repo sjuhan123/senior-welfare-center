@@ -1,7 +1,6 @@
-import { postAuthKakaoLogout } from '../../models/authKakao.model.js';
 import { bookmarkWelfare, unBookmarkWelfare, deleteUser } from '../../models/user.model.js';
 import { deleteMembershipsByUserId } from '../../models/membership.model.js';
-import { revokeAllRefreshTokens } from '../../models/refreshToken.model.js';
+import { revokeRefreshToken, revokeAllRefreshTokens } from '../../models/refreshToken.model.js';
 
 async function httpGetUserInfo(req, res) {
   try {
@@ -26,19 +25,19 @@ async function httpGetUserInfo(req, res) {
 
 async function httpPostUserLogout(req, res) {
   try {
-    const logoutRes = await postAuthKakaoLogout(req.user.kakaoAccessToken);
+    const { refreshToken } = req.body;
 
-    if (logoutRes) {
-      await revokeAllRefreshTokens(req.user.id);
-
-      const jsonResponse = {
-        statusCode: 200,
-        message: '로그아웃 성공',
-      };
-      return res.status(200).json(jsonResponse);
+    if (refreshToken) {
+      await revokeRefreshToken(refreshToken);
     }
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '로그아웃 성공',
+    };
+    return res.status(200).json(jsonResponse);
   } catch (error) {
-    console.error('Error retrieving welfares:', error);
+    console.error('Error logging out:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',

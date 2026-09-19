@@ -36,13 +36,13 @@ async function rotateRefreshToken(token, clientType) {
   return { userId: existing.userId, refreshToken };
 }
 
+async function revokeRefreshToken(token) {
+  const tokenHash = hashToken(token);
+  await RefreshToken.deleteOne({ tokenHash });
+}
+
 async function revokeAllRefreshTokens(userId) {
   await RefreshToken.deleteMany({ userId });
 }
 
-export {
-  REFRESH_TOKEN_TTL_MS,
-  issueRefreshToken,
-  rotateRefreshToken,
-  revokeAllRefreshTokens,
-};
+export { REFRESH_TOKEN_TTL_MS, issueRefreshToken, rotateRefreshToken, revokeRefreshToken, revokeAllRefreshTokens };
