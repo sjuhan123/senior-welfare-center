@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from '@emotion/react';
 
+import './index.css';
 import App from './App';
 import theme from './styles/theme';
 

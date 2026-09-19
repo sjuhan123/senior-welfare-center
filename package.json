@@ -6,12 +6,13 @@
     "packages/*"
   ],
   "resolutions": {
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "@emotion/react": "11.11.4",
-    "jotai": "2.7.1"
+    "jotai": "2.7.1",
+    "@tanstack/react-query": "5.102.8"
   },
   "scripts": {
     "lint": "eslint ./packages --ext .ts,.tsx,.js,.jsx --cache --fix",
@@ -47,7 +48,7 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.2.5",
-    "react": "19.2.3",
+    "react": "19.2.7",
     "typescript": "^5.4.3"
   }
 }
