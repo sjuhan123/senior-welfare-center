@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { NavLink, useLoaderData } from 'react-router';
-import type { MembershipData, User } from '@common/shared';
+import { NavLink } from 'react-router';
 import useLogout from '../hooks/useLogout';
+import useMyMembership from '../hooks/useMyMembership';
+import useGetUserInfo from '../hooks/api/user/useGetUserInfo';
 
 const ROLE_LABEL: Record<'admin' | 'super', string> = {
   admin: '관리자',
@@ -23,9 +24,11 @@ const NAV = [
 
 const Sidebar = () => {
   const [accountOpen, setAccountOpen] = useState(false);
-  const { user, membership } = useLoaderData<{ user: User; membership?: MembershipData }>();
+  const { data: userInfo } = useGetUserInfo();
+  const { data: membership } = useMyMembership();
   const logout = useLogout();
 
+  const userName = userInfo?.data.userName ?? '';
   const roleLabel = membership && ROLE_LABEL[membership.role as 'admin' | 'super'];
 
   return (
@@ -34,7 +37,7 @@ const Sidebar = () => {
         <Logo>복지</Logo>
         <BrandText>
           <WelfareName>{membership?.welfare.name}</WelfareName>
-          <StaffName>{user.userName}</StaffName>
+          <StaffName>{userName}</StaffName>
         </BrandText>
       </Brand>
 
@@ -57,9 +60,9 @@ const Sidebar = () => {
 
       <AccountArea>
         <AccountButton onClick={() => setAccountOpen(open => !open)}>
-          <Avatar>{user.userName.at(0)}</Avatar>
+          <Avatar>{userName.at(0)}</Avatar>
           <AccountText>
-            <StaffFullName>{user.userName}</StaffFullName>
+            <StaffFullName>{userName}</StaffFullName>
             <StaffRole>{roleLabel}</StaffRole>
           </AccountText>
           <Arrow>{accountOpen ? '▲' : '▼'}</Arrow>
