@@ -21,6 +21,10 @@ const MembershipSchema = new mongoose.Schema(
       enum: ['pending', 'approved'],
       default: 'pending',
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
     joinedVia: {
       type: String,
       enum: ['qr', 'manual'],

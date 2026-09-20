@@ -9,6 +9,7 @@ export type MembershipData = {
   welfare: WelfareData;
   role: MembershipRole;
   status: MembershipStatus;
+  active: boolean;
   joinedVia: 'qr' | 'manual';
   createdAt: string;
 };
