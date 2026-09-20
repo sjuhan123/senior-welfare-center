@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { Outlet } from 'react-router';
 
-import Sidebar from './components/Sidebar';
-import PageHeader from './components/PageHeader';
+import Sidebar from './components/layout/Sidebar';
+import PageHeader from './components/layout/PageHeader';
 
 const Layout = () => {
   return (

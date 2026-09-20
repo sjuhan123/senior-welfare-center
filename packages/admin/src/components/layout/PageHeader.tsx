@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useMatches } from 'react-router';
-import useLogout from '../hooks/useLogout';
+import useLogout from '../../hooks/useLogout';
 
 type RouteHandle = {
   title: string;

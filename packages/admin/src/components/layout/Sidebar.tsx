@@ -2,9 +2,9 @@ import { useState } from 'react';
 import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router';
-import useLogout from '../hooks/useLogout';
-import useMyMembership from '../hooks/useMyMembership';
-import useGetUserInfo from '../hooks/api/user/useGetUserInfo';
+import useLogout from '../../hooks/useLogout';
+import useMyMembership from '../../hooks/useMyMembership';
+import useGetUserInfo from '../../hooks/api/user/useGetUserInfo';
 
 const ROLE_LABEL: Record<'admin' | 'super', string> = {
   admin: '관리자',
