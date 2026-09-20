@@ -36,14 +36,19 @@ async function hasApprovedRole(userId, roles) {
   const membership = await Membership.findOne({
     userId,
     status: 'approved',
+    active: { $ne: false },
     role: { $in: roles },
   });
 
   return Boolean(membership);
 }
 
-async function deleteMembership(userId, membershipId) {
-  return await Membership.findOneAndDelete({ _id: membershipId, userId });
+async function setMembershipActive(membershipId, active) {
+  return await Membership.findByIdAndUpdate(membershipId, { active }, { new: true });
+}
+
+async function deactivateMembership(userId, membershipId) {
+  return await Membership.findOneAndUpdate({ _id: membershipId, userId }, { active: false }, { new: true });
 }
 
 async function deleteMembershipsByUserId(userId) {
@@ -57,6 +62,7 @@ export {
   approveMembership,
   getMembership,
   hasApprovedRole,
-  deleteMembership,
+  setMembershipActive,
+  deactivateMembership,
   deleteMembershipsByUserId,
 };

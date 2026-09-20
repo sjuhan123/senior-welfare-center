@@ -3,7 +3,8 @@ import {
   getMembershipsByUserId,
   getMembershipsByWelfareId,
   approveMembership,
-  deleteMembership,
+  setMembershipActive,
+  deactivateMembership,
 } from '../../models/membership.model.js';
 import { findActiveInviteCodeByCode, incrementScanCount } from '../../models/welfareInviteCode.model.js';
 
@@ -88,18 +89,26 @@ async function httpGetWelfareMemberships(req, res) {
 async function httpPatchMembership(req, res) {
   try {
     const { membershipId } = req.params;
-    const { role } = req.body;
+    const { role, active } = req.body;
 
-    const membership = await approveMembership(membershipId, role);
+    let membership;
+
+    if (role) {
+      membership = await approveMembership(membershipId, role);
+    }
+
+    if (typeof active === 'boolean') {
+      membership = await setMembershipActive(membershipId, active);
+    }
 
     const jsonResponse = {
       statusCode: 200,
-      message: '회원 승인 성공',
+      message: '회원 정보 변경 성공',
       data: membership,
     };
     return res.status(200).json(jsonResponse);
   } catch (error) {
-    console.error('Error approving membership:', error);
+    console.error('Error updating membership:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',
@@ -113,9 +122,9 @@ async function httpDeleteMembership(req, res) {
     const userId = req.user.id;
     const { membershipId } = req.params;
 
-    const deleted = await deleteMembership(userId, membershipId);
+    const deactivated = await deactivateMembership(userId, membershipId);
 
-    if (!deleted) {
+    if (!deactivated) {
       return res.status(404).json({
         statusCode: 404,
         message: '해당 멤버십을 찾을 수 없습니다',
@@ -128,7 +137,7 @@ async function httpDeleteMembership(req, res) {
     };
     return res.status(200).json(jsonResponse);
   } catch (error) {
-    console.error('Error deleting membership:', error);
+    console.error('Error deactivating membership:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',
