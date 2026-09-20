@@ -84,17 +84,11 @@ async function saveWelfare(welfare) {
 }
 
 async function getWelfareByWelfareId(welfareId) {
-  return await Welfare.findOne({ _id: welfareId }, '-__v').populate(
-    'district',
-    'name -_id',
-  );
+  return await Welfare.findOne({ _id: welfareId }, '-__v').populate('district', 'name -_id');
 }
 
 async function getWelfaresByDistrictId(districtId) {
-  return await Welfare.find({ district: districtId }, '-__v').populate(
-    'district',
-    'name -_id',
-  );
+  return await Welfare.find({ district: districtId }, '-__v').populate('district', 'name -_id');
 }
 
 async function getAllWelfares() {
@@ -105,9 +99,8 @@ async function getAllWelfares() {
     .lean();
 }
 
-export {
-  loadWelfareData,
-  getWelfareByWelfareId,
-  getWelfaresByDistrictId,
-  getAllWelfares,
-};
+async function updateWelfare(welfareId, { name, address, phone, homepage, remarks }) {
+  return await Welfare.findByIdAndUpdate(welfareId, { name, address, phone, homepage, remarks }, { new: true }).populate('district', 'name -_id');
+}
+
+export { loadWelfareData, getWelfareByWelfareId, getWelfaresByDistrictId, getAllWelfares, updateWelfare };

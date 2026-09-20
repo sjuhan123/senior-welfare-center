@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import Info from './pages/Info';
+import Info from './pages/Info/Info';
 import Notices from './pages/Notices';
 import Members from './pages/Members';
 import Courses from './pages/Courses';
