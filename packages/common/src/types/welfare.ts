@@ -17,3 +17,9 @@ export type WelfareResponse = {
   message: string;
   data: WelfareData[];
 };
+
+export type WelfareDetailResponse = {
+  statusCode: number;
+  message: string;
+  data: WelfareData;
+};

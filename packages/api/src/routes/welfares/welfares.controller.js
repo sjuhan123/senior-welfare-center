@@ -1,4 +1,4 @@
-import { getAllWelfares, getWelfaresByDistrictId } from '../../models/welfares.model.js';
+import { getAllWelfares, getWelfaresByDistrictId, getWelfareByWelfareId, updateWelfare } from '../../models/welfares.model.js';
 import { issueInviteCode, getActiveInviteCode, getInviteCodeHistory } from '../../models/welfareInviteCode.model.js';
 import { calculateDistance } from '../../utils/index.js';
 
@@ -114,4 +114,49 @@ async function httpGetWelfareInviteCode(req, res) {
   }
 }
 
-export { httpGetAllWelfares, httpGetClosestWelfare, httpPostWelfareInviteCode, httpGetWelfareInviteCode };
+async function httpGetWelfare(req, res) {
+  try {
+    const { welfareId } = req.params;
+
+    const welfare = await getWelfareByWelfareId(welfareId);
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '복지관 조회 성공',
+      data: welfare,
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error retrieving welfare:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPatchWelfare(req, res) {
+  try {
+    const { welfareId } = req.params;
+    const { name, address, phone, homepage, remarks } = req.body;
+
+    const welfare = await updateWelfare(welfareId, { name, address, phone, homepage, remarks });
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '복지관 정보 수정 성공',
+      data: welfare,
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error updating welfare:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpGetAllWelfares, httpGetClosestWelfare, httpPostWelfareInviteCode, httpGetWelfareInviteCode, httpGetWelfare, httpPatchWelfare };

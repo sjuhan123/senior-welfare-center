@@ -8,4 +8,5 @@ export const END_POINT = Object.freeze({
   KAKAO_LOGOUT: `${BASE_URL}api/user/logout`,
   MEMBERSHIPS_ME: `${BASE_URL}api/memberships/me`,
   MEMBERSHIPS: `${BASE_URL}api/memberships`,
+  WELFARES: `${BASE_URL}api/welfares`,
 });
