@@ -20,6 +20,8 @@ type Props = {
 const MemberFilterBar = ({ filter, onFilterChange, search, onSearchChange }: Props) => {
   return (
     <Bar>
+      <Title>회원 목록</Title>
+      <Divider />
       <Tabs>
         {FILTERS.map(f => {
           const Button = f.id === filter ? ActiveTabButton : TabButton;
@@ -30,6 +32,7 @@ const MemberFilterBar = ({ filter, onFilterChange, search, onSearchChange }: Pro
           );
         })}
       </Tabs>
+      <Spacer />
       <SearchInput value={search} onChange={e => onSearchChange(e.target.value)} placeholder="이름으로 검색" />
     </Bar>
   );
@@ -45,11 +48,26 @@ const Bar = styled.div(({ theme }) => ({
   borderBottom: `1px solid ${theme.semantic.divider}`,
 }));
 
+const Title = styled.span(({ theme }) => ({
+  flex: 'none',
+  fontSize: theme.fontSize.title,
+  fontWeight: theme.font.weight.bold,
+}));
+
+const Divider = styled.span(({ theme }) => ({
+  flex: 'none',
+  width: 1,
+  height: 16,
+  backgroundColor: theme.semantic.border,
+}));
+
 const Tabs = styled.div({
   display: 'flex',
   gap: 6,
-  flex: 1,
+  flex: 'none',
 });
+
+const Spacer = styled.span({ flex: 1 });
 
 const TabButton = styled.button(({ theme }) => ({
   padding: '7px 12px',

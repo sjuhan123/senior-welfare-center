@@ -115,9 +115,13 @@ const FieldInput = styled.input(({ theme }) => ({
   backgroundColor: theme.color.grey0,
   fontSize: theme.fontSize.bodyStrong,
   fontWeight: theme.font.weight.medium,
+  color: theme.semantic.textPrimary,
   '&:disabled': {
-    backgroundColor: theme.color.grey50,
-    color: theme.semantic.textMuted,
+    border: '1px solid transparent',
+    backgroundColor: 'transparent',
+    color: theme.semantic.textPrimary,
+    WebkitTextFillColor: theme.semantic.textPrimary,
+    opacity: 1,
   },
 }));
 
