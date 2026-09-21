@@ -37,6 +37,7 @@ export type WelfareMemberData = {
   active: boolean;
   joinedVia: 'qr' | 'manual';
   createdAt: string;
+  updatedAt: string;
 };
 
 export type WelfareMemberListResponse = {

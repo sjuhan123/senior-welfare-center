@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Membership from './membership.mongo.js';
+import { updateWithVersionCheck } from '../utils/versionedUpdate.js';
 
 const ROLE_MATCH_BY_FILTER = {
   staff: { role: { $in: ['admin', 'super'] } },
@@ -44,6 +45,7 @@ async function getWelfareMembershipsPage(welfareId, { filter, search, sort, page
               active: { $ifNull: ['$active', true] },
               joinedVia: 1,
               createdAt: 1,
+              updatedAt: 1,
             },
           },
         ],
@@ -60,8 +62,8 @@ async function getWelfareMembershipsPage(welfareId, { filter, search, sort, page
   };
 }
 
-async function approveMembership(membershipId, role) {
-  return await Membership.findByIdAndUpdate(membershipId, { status: 'approved', role }, { new: true });
+async function updateMembership(membershipId, expectedUpdatedAt, fields) {
+  return await updateWithVersionCheck(Membership, membershipId, expectedUpdatedAt, fields);
 }
 
 async function getMembership(userId, welfareId) {
@@ -79,10 +81,6 @@ async function hasApprovedRole(userId, roles) {
   return Boolean(membership);
 }
 
-async function setMembershipActive(membershipId, active) {
-  return await Membership.findByIdAndUpdate(membershipId, { active }, { new: true });
-}
-
 async function deactivateMembership(userId, membershipId) {
   return await Membership.findOneAndUpdate({ _id: membershipId, userId }, { active: false }, { new: true });
 }
@@ -95,10 +93,9 @@ export {
   createMembership,
   getMembershipsByUserId,
   getWelfareMembershipsPage,
-  approveMembership,
+  updateMembership,
   getMembership,
   hasApprovedRole,
-  setMembershipActive,
   deactivateMembership,
   deleteMembershipsByUserId,
 };

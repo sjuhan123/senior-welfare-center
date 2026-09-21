@@ -139,14 +139,22 @@ async function httpGetWelfare(req, res) {
 async function httpPatchWelfare(req, res) {
   try {
     const { welfareId } = req.params;
-    const { name, address, phone, homepage, remarks } = req.body;
+    const { name, address, phone, homepage, remarks, updatedAt } = req.body;
 
-    const welfare = await updateWelfare(welfareId, { name, address, phone, homepage, remarks });
+    const { result, doc } = await updateWelfare(welfareId, updatedAt, { name, address, phone, homepage, remarks });
+
+    if (result === 'not_found') {
+      return res.status(404).json({ statusCode: 404, message: '해당 복지관을 찾을 수 없습니다' });
+    }
+
+    if (result === 'conflict') {
+      return res.status(409).json({ statusCode: 409, message: '다른 관리자가 이미 수정했습니다' });
+    }
 
     const jsonResponse = {
       statusCode: 200,
       message: '복지관 정보 수정 성공',
-      data: welfare,
+      data: doc,
     };
     return res.status(200).json(jsonResponse);
   } catch (error) {
