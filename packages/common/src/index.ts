@@ -15,5 +15,14 @@ export type { Color, Semantic };
 export type { DistrictData } from './types/district';
 export type { WelfareData, WelfareResponse, WelfareDetailResponse } from './types/welfare';
 export type { User, UserResponse } from './types/user';
-export type { MembershipRole, MembershipStatus, MembershipData, MembershipListResponse, MembershipScanResponse } from './types/membership';
+export type {
+  MembershipRole,
+  MembershipStatus,
+  MembershipData,
+  MembershipListResponse,
+  MembershipScanResponse,
+  MemberFilter,
+  WelfareMemberData,
+  WelfareMemberListResponse,
+} from './types/membership';
 export type { InviteCodeData, InviteCodeResponse, InviteCodeIssueResponse } from './types/inviteCode';
