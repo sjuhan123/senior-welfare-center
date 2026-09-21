@@ -1,4 +1,12 @@
+import mongoose from 'mongoose';
 import Membership from './membership.mongo.js';
+
+const ROLE_MATCH_BY_FILTER = {
+  staff: { role: { $in: ['admin', 'super'] } },
+  teacher: { role: 'teacher' },
+  member: { role: 'member' },
+  off: { active: false },
+};
 
 async function createMembership(userId, welfareId, joinedVia) {
   const existing = await Membership.findOne({ userId, welfare: welfareId });
@@ -14,14 +22,42 @@ async function getMembershipsByUserId(userId) {
   return await Membership.find({ userId }).populate('welfare');
 }
 
-async function getMembershipsByWelfareId(welfareId, status) {
-  const filter = { welfare: welfareId };
+async function getWelfareMembershipsPage(welfareId, { filter, search, sort, page, limit }) {
+  const pipeline = [
+    { $match: { welfare: new mongoose.Types.ObjectId(welfareId), ...(ROLE_MATCH_BY_FILTER[filter] || {}) } },
+    { $lookup: { from: 'users', localField: 'userId', foreignField: 'id', as: 'user' } },
+    { $unwind: '$user' },
+    ...(search ? [{ $match: { 'user.userName': { $regex: search, $options: 'i' } } }] : []),
+    { $sort: { createdAt: sort === 'asc' ? 1 : -1 } },
+    {
+      $facet: {
+        members: [
+          { $skip: (page - 1) * limit },
+          { $limit: limit },
+          {
+            $project: {
+              _id: 1,
+              userId: 1,
+              userName: '$user.userName',
+              role: 1,
+              status: 1,
+              active: { $ifNull: ['$active', true] },
+              joinedVia: 1,
+              createdAt: 1,
+            },
+          },
+        ],
+        totalCount: [{ $count: 'count' }],
+      },
+    },
+  ];
 
-  if (status) {
-    filter.status = status;
-  }
+  const [result] = await Membership.aggregate(pipeline);
 
-  return await Membership.find(filter);
+  return {
+    members: result?.members || [],
+    total: result?.totalCount[0]?.count || 0,
+  };
 }
 
 async function approveMembership(membershipId, role) {
@@ -58,7 +94,7 @@ async function deleteMembershipsByUserId(userId) {
 export {
   createMembership,
   getMembershipsByUserId,
-  getMembershipsByWelfareId,
+  getWelfareMembershipsPage,
   approveMembership,
   getMembership,
   hasApprovedRole,

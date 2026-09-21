@@ -1,7 +1,7 @@
 import {
   createMembership,
   getMembershipsByUserId,
-  getMembershipsByWelfareId,
+  getWelfareMembershipsPage,
   approveMembership,
   setMembershipActive,
   deactivateMembership,
@@ -66,14 +66,20 @@ async function httpGetMyMemberships(req, res) {
 async function httpGetWelfareMemberships(req, res) {
   try {
     const { welfareId } = req.params;
-    const { status } = req.query;
+    const { filter = 'all', search = '', sort = 'desc', page = 1, limit = 20 } = req.query;
 
-    const memberships = await getMembershipsByWelfareId(welfareId, status);
+    const { members, total } = await getWelfareMembershipsPage(welfareId, {
+      filter,
+      search,
+      sort,
+      page: Number(page),
+      limit: Number(limit),
+    });
 
     const jsonResponse = {
       statusCode: 200,
       message: '복지관 회원 목록 조회 성공',
-      data: memberships,
+      data: { members, total },
     };
     return res.status(200).json(jsonResponse);
   } catch (error) {

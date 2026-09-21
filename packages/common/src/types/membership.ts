@@ -25,3 +25,22 @@ export type MembershipScanResponse = {
   message: string;
   data: { membership: MembershipData; welfare: WelfareData };
 };
+
+export type MemberFilter = 'all' | 'staff' | 'teacher' | 'member' | 'off';
+
+export type WelfareMemberData = {
+  _id: string;
+  userId: string;
+  userName: string;
+  role: MembershipRole;
+  status: MembershipStatus;
+  active: boolean;
+  joinedVia: 'qr' | 'manual';
+  createdAt: string;
+};
+
+export type WelfareMemberListResponse = {
+  statusCode: number;
+  message: string;
+  data: { members: WelfareMemberData[]; total: number };
+};
