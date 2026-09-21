@@ -1,23 +1,20 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { WelfareData, WelfareDetailResponse } from '@common/shared';
 import { END_POINT } from '../../../constant/endpoint';
 import { patch } from '../../../libs/api';
 import { QUERY_KEYS } from '../../../constant/queryKeys';
+import useOptimisticPatch from '../../useOptimisticPatch';
 
 export type WelfareUpdateFields = Pick<WelfareData, 'name' | 'address' | 'phone' | 'homepage' | 'remarks'>;
+type WelfareUpdateVars = WelfareUpdateFields & { updatedAt: string };
 
-export const updateWelfare = (welfareId: string, fields: WelfareUpdateFields) =>
-  patch<WelfareDetailResponse>(`${END_POINT.WELFARES}/${welfareId}`, fields);
+export const updateWelfare = (welfareId: string, vars: WelfareUpdateVars) => patch<WelfareDetailResponse>(`${END_POINT.WELFARES}/${welfareId}`, vars);
 
 const useUpdateWelfare = (welfareId: string) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (fields: WelfareUpdateFields) => updateWelfare(welfareId, fields),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.WELFARE, welfareId] });
-      void queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEMBERSHIPS] });
-    },
+  return useOptimisticPatch<WelfareDetailResponse, WelfareUpdateVars>({
+    queryKey: [QUERY_KEYS.WELFARE, welfareId],
+    patchFn: vars => updateWelfare(welfareId, vars),
+    applyOptimistic: (previous, vars) => ({ ...previous, data: { ...previous.data, ...vars } }),
+    extraInvalidateKeys: [[QUERY_KEYS.MEMBERSHIPS]],
   });
 };
 

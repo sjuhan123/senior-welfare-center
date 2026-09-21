@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import type { MemberFilter, MembershipRole, WelfareMemberData } from '@common/shared';
 import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
 import SecondaryButton from '../../components/ui/SecondaryButton';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import useGetWelfareMembers from '../../hooks/api/membership/useGetWelfareMembers';
 import useUpdateMemberRole from '../../hooks/api/membership/useUpdateMemberRole';
 import useSetMemberActive from '../../hooks/api/membership/useSetMemberActive';
+import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
 import MemberFilterBar from './MemberFilterBar';
 import MemberTable from './MemberTable';
 
 const PAGE_SIZE = 20;
 const SEARCH_DEBOUNCE_MS = 300;
+const ROLE_ERROR_DISPLAY_MS = 2000;
 
 const MembersContent = ({ welfareId }: { welfareId: string }) => {
   const [filter, setFilter] = useState<MemberFilter>('all');
@@ -21,15 +22,23 @@ const MembersContent = ({ welfareId }: { welfareId: string }) => {
   const [sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [page, setPage] = useState(1);
   const [confirmTarget, setConfirmTarget] = useState<WelfareMemberData | null>(null);
+  const [roleError, setRoleError] = useState<{ membershipId: string; message: string } | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setSearch(searchInput), SEARCH_DEBOUNCE_MS);
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const { data } = useGetWelfareMembers(welfareId, { filter, search, sort, page, limit: PAGE_SIZE });
-  const { mutate: updateRole } = useUpdateMemberRole(welfareId);
-  const { mutate: setActive, isPending, isSuccess, reset } = useSetMemberActive(welfareId);
+  useEffect(() => {
+    if (!roleError) return;
+    const timer = setTimeout(() => setRoleError(null), ROLE_ERROR_DISPLAY_MS);
+    return () => clearTimeout(timer);
+  }, [roleError]);
+
+  const params = { filter, search, sort, page, limit: PAGE_SIZE };
+  const { data } = useGetWelfareMembers(welfareId, params);
+  const { mutate: updateRole } = useUpdateMemberRole(welfareId, params);
+  const { mutate: setActive, isPending, isSuccess, error: activeError, reset } = useSetMemberActive(welfareId, params);
 
   const members = data?.data.members ?? [];
   const total = data?.data.total ?? 0;
@@ -50,8 +59,11 @@ const MembersContent = ({ welfareId }: { welfareId: string }) => {
     setPage(1);
   };
 
-  const handleRoleChange = (membershipId: string, role: MembershipRole) => {
-    updateRole({ membershipId, role });
+  const handleRoleChange = (member: WelfareMemberData, role: MembershipRole) => {
+    updateRole(
+      { membershipId: member._id, role, updatedAt: member.updatedAt },
+      { onError: err => setRoleError({ membershipId: member._id, message: getPatchErrorMessage(err) }) },
+    );
   };
 
   const handleToggleActive = (member: WelfareMemberData) => {
@@ -60,12 +72,12 @@ const MembersContent = ({ welfareId }: { welfareId: string }) => {
       return;
     }
 
-    setActive({ membershipId: member._id, active: true }, { onSuccess: () => reset() });
+    setActive({ membershipId: member._id, active: true, updatedAt: member.updatedAt }, { onSuccess: () => reset() });
   };
 
   const handleConfirm = () => {
     if (!confirmTarget) return;
-    setActive({ membershipId: confirmTarget._id, active: false });
+    setActive({ membershipId: confirmTarget._id, active: false, updatedAt: confirmTarget.updatedAt });
   };
 
   const handleDialogClose = () => {
@@ -75,7 +87,6 @@ const MembersContent = ({ welfareId }: { welfareId: string }) => {
 
   return (
     <Card>
-      <CardHeader>회원</CardHeader>
       <MemberFilterBar filter={filter} onFilterChange={handleFilterChange} search={searchInput} onSearchChange={handleSearchChange} />
       <MemberTable
         members={members}
@@ -83,6 +94,7 @@ const MembersContent = ({ welfareId }: { welfareId: string }) => {
         onSortChange={handleSortChange}
         onRoleChange={handleRoleChange}
         onToggleActive={handleToggleActive}
+        roleError={roleError}
       />
       <Footer>
         <FooterText>전체 {total}명</FooterText>
@@ -101,6 +113,7 @@ const MembersContent = ({ welfareId }: { welfareId: string }) => {
         open={confirmTarget !== null}
         title={confirmTarget ? `${confirmTarget.userName} 님을 비활성으로 두시겠습니까?` : ''}
         successMessage="처리되었습니다"
+        errorMessage={activeError ? getPatchErrorMessage(activeError) : null}
         isPending={isPending}
         isSuccess={isSuccess}
         onConfirm={handleConfirm}
