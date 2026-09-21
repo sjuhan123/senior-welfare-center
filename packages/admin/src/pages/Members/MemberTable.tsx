@@ -11,15 +11,18 @@ const ROLE_OPTIONS: { value: MembershipRole; label: string }[] = [
 
 const formatDate = (iso: string) => new Date(iso).toLocaleDateString('ko-KR');
 
+type RoleError = { membershipId: string; message: string };
+
 type Props = {
   members: WelfareMemberData[];
   sort: 'asc' | 'desc';
   onSortChange: () => void;
-  onRoleChange: (membershipId: string, role: MembershipRole) => void;
+  onRoleChange: (member: WelfareMemberData, role: MembershipRole) => void;
   onToggleActive: (member: WelfareMemberData) => void;
+  roleError: RoleError | null;
 };
 
-const MemberTable = ({ members, sort, onSortChange, onRoleChange, onToggleActive }: Props) => {
+const MemberTable = ({ members, sort, onSortChange, onRoleChange, onToggleActive, roleError }: Props) => {
   return (
     <div>
       <HeaderRow>
@@ -34,26 +37,35 @@ const MemberTable = ({ members, sort, onSortChange, onRoleChange, onToggleActive
       {members.length === 0 ? (
         <EmptyRow>이 조건에 맞는 회원이 없습니다</EmptyRow>
       ) : (
-        members.map(member => (
-          <Row key={member._id}>
-            <NameCell>{member.userName}</NameCell>
-            <RoleCell>
-              <RoleSelect value={member.role} onChange={e => onRoleChange(member._id, e.target.value as MembershipRole)}>
-                {ROLE_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </RoleSelect>
-            </RoleCell>
-            <Spacer />
-            <JoinedCell>{formatDate(member.createdAt)}</JoinedCell>
-            <StatusCell>{member.active ? <ActiveTag>활성</ActiveTag> : <InactiveTag>비활성</InactiveTag>}</StatusCell>
-            <ActionCell>
-              <ToggleButton onClick={() => onToggleActive(member)}>{member.active ? '비활성' : '활성으로'}</ToggleButton>
-            </ActionCell>
-          </Row>
-        ))
+        members.map(member => {
+          const RoleSelectByRole = ROLE_SELECT_COMPONENT[member.role];
+
+          return (
+            <Row key={member._id}>
+              <NameCell>{member.userName}</NameCell>
+              <RoleCell>
+                <RoleSelectByRole value={member.role} onChange={e => onRoleChange(member, e.target.value as MembershipRole)}>
+                  {ROLE_OPTIONS.map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </RoleSelectByRole>
+                {roleError?.membershipId === member._id && <RoleErrorText>{roleError.message}</RoleErrorText>}
+              </RoleCell>
+              <Spacer />
+              <JoinedCell>{formatDate(member.createdAt)}</JoinedCell>
+              <StatusCell>{member.active ? <ActiveTag>활성</ActiveTag> : <InactiveTag>비활성</InactiveTag>}</StatusCell>
+              <ActionCell>
+                {member.active ? (
+                  <DeactivateButton onClick={() => onToggleActive(member)}>비활성</DeactivateButton>
+                ) : (
+                  <ReactivateButton onClick={() => onToggleActive(member)}>활성으로</ReactivateButton>
+                )}
+              </ActionCell>
+            </Row>
+          );
+        })
       )}
     </div>
   );
@@ -107,6 +119,34 @@ const RoleSelect = styled.select(({ theme }) => ({
   fontWeight: theme.font.weight.semibold,
 }));
 
+const RoleSelectSuper = styled(RoleSelect)(({ theme }: { theme: Theme }) => ({
+  backgroundColor: theme.color.navySoft,
+  color: theme.color.navyDeep,
+}));
+
+const RoleSelectAdmin = styled(RoleSelect)(({ theme }: { theme: Theme }) => ({
+  backgroundColor: theme.color.navyTint,
+  color: theme.color.navyDeep,
+}));
+
+const RoleSelectTeacher = styled(RoleSelect)(({ theme }: { theme: Theme }) => ({
+  backgroundColor: theme.color.brownTint,
+  color: theme.color.brownDeep,
+}));
+
+const ROLE_SELECT_COMPONENT = {
+  member: RoleSelect,
+  teacher: RoleSelectTeacher,
+  admin: RoleSelectAdmin,
+  super: RoleSelectSuper,
+};
+
+const RoleErrorText = styled.div(({ theme }) => ({
+  marginTop: 4,
+  fontSize: theme.fontSize.caption,
+  color: theme.semantic.stateStopFg,
+}));
+
 const JoinedCell = styled.span(({ theme }) => ({
   flex: 'none',
   width: 100,
@@ -130,8 +170,8 @@ const ActiveTag = styled(Tag)(({ theme }: { theme: Theme }) => ({
 }));
 
 const InactiveTag = styled(Tag)(({ theme }: { theme: Theme }) => ({
-  backgroundColor: theme.semantic.stateStopBg,
-  color: theme.semantic.stateStopFg,
+  backgroundColor: theme.color.grey150,
+  color: theme.semantic.textMuted,
 }));
 
 const ActionCell = styled.span({ flex: 'none', width: 92, display: 'flex', justifyContent: 'flex-end' });
@@ -144,6 +184,14 @@ const ToggleButton = styled.button(({ theme }) => ({
   fontSize: theme.fontSize.body,
   fontWeight: theme.font.weight.semibold,
   cursor: 'pointer',
+}));
+
+const DeactivateButton = styled(ToggleButton)(({ theme }: { theme: Theme }) => ({
+  color: theme.color.alertText,
+}));
+
+const ReactivateButton = styled(ToggleButton)(({ theme }: { theme: Theme }) => ({
+  color: theme.color.navyDeep,
 }));
 
 const EmptyRow = styled.div(({ theme }) => ({

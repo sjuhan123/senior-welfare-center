@@ -1,19 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { WelfareMemberListResponse } from '@common/shared';
 import { END_POINT } from '../../../constant/endpoint';
 import { patch } from '../../../libs/api';
 import { QUERY_KEYS } from '../../../constant/queryKeys';
+import useOptimisticPatch from '../../useOptimisticPatch';
+import type { WelfareMembersParams } from './useGetWelfareMembers';
 
-export const setMemberActive = (welfareId: string, membershipId: string, active: boolean) =>
-  patch(`${END_POINT.WELFARES}/${welfareId}/memberships/${membershipId}`, { active });
+type SetMemberActiveVars = { membershipId: string; active: boolean; updatedAt: string };
 
-const useSetMemberActive = (welfareId: string) => {
-  const queryClient = useQueryClient();
+export const setMemberActive = (welfareId: string, vars: SetMemberActiveVars) =>
+  patch(`${END_POINT.WELFARES}/${welfareId}/memberships/${vars.membershipId}`, { active: vars.active, updatedAt: vars.updatedAt });
 
-  return useMutation({
-    mutationFn: ({ membershipId, active }: { membershipId: string; active: boolean }) => setMemberActive(welfareId, membershipId, active),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEMBERSHIPS, welfareId] });
-    },
+const useSetMemberActive = (welfareId: string, params: WelfareMembersParams) => {
+  return useOptimisticPatch<WelfareMemberListResponse, SetMemberActiveVars>({
+    queryKey: [QUERY_KEYS.MEMBERSHIPS, welfareId, params],
+    patchFn: vars => setMemberActive(welfareId, vars),
+    applyOptimistic: (previous, vars) => ({
+      ...previous,
+      data: {
+        ...previous.data,
+        members: previous.data.members.map(member => (member._id === vars.membershipId ? { ...member, active: vars.active } : member)),
+      },
+    }),
   });
 };
 

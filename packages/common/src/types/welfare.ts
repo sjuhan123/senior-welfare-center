@@ -10,6 +10,7 @@ export type WelfareData = {
   distance: number;
   remarks?: string;
   images: string[];
+  updatedAt: string;
 };
 
 export type WelfareResponse = {

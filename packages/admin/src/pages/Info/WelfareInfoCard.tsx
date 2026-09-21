@@ -7,6 +7,7 @@ import PrimaryButton from '../../components/ui/PrimaryButton';
 import SecondaryButton from '../../components/ui/SecondaryButton';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import useUpdateWelfare, { type WelfareUpdateFields } from '../../hooks/api/welfare/useUpdateWelfare';
+import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
 
 const FIELDS: { key: keyof WelfareUpdateFields; label: string }[] = [
   { key: 'name', label: '복지관명' },
@@ -28,7 +29,7 @@ const WelfareInfoCard = ({ welfareId, welfare }: { welfareId: string; welfare: W
   const [fields, setFields] = useState<WelfareUpdateFields>(() => toFields(welfare));
   const [mode, setMode] = useState<'viewing' | 'editing'>('viewing');
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const { mutate: updateWelfare, isPending, isSuccess, reset } = useUpdateWelfare(welfareId);
+  const { mutate: updateWelfare, isPending, isSuccess, error, reset } = useUpdateWelfare(welfareId);
 
   const handleChange = (key: keyof WelfareUpdateFields) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFields(prev => ({ ...prev, [key]: e.target.value }));
@@ -71,9 +72,10 @@ const WelfareInfoCard = ({ welfareId, welfare }: { welfareId: string; welfare: W
         open={confirmOpen}
         title="정말 저장하시겠습니까?"
         successMessage="저장되었습니다"
+        errorMessage={error ? getPatchErrorMessage(error) : null}
         isPending={isPending}
         isSuccess={isSuccess}
-        onConfirm={() => updateWelfare(fields)}
+        onConfirm={() => updateWelfare({ ...fields, updatedAt: welfare.updatedAt })}
         onCancel={() => setConfirmOpen(false)}
         onClose={handleDialogClose}
       />
@@ -113,9 +115,13 @@ const FieldInput = styled.input(({ theme }) => ({
   backgroundColor: theme.color.grey0,
   fontSize: theme.fontSize.bodyStrong,
   fontWeight: theme.font.weight.medium,
+  color: theme.semantic.textPrimary,
   '&:disabled': {
-    backgroundColor: theme.color.grey50,
-    color: theme.semantic.textMuted,
+    border: '1px solid transparent',
+    backgroundColor: 'transparent',
+    color: theme.semantic.textPrimary,
+    WebkitTextFillColor: theme.semantic.textPrimary,
+    opacity: 1,
   },
 }));
 

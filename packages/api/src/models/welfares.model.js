@@ -2,6 +2,7 @@ import welfaresInfo from '../../data/welfares.data.js';
 import { saveDistrict } from './districts.model.js';
 import District from './districts.mongo.js';
 import Welfare from './welfares.mongo.js';
+import { updateWithVersionCheck } from '../utils/versionedUpdate.js';
 
 async function loadWelfareData() {
   try {
@@ -99,8 +100,21 @@ async function getAllWelfares() {
     .lean();
 }
 
-async function updateWelfare(welfareId, { name, address, phone, homepage, remarks }) {
-  return await Welfare.findByIdAndUpdate(welfareId, { name, address, phone, homepage, remarks }, { new: true }).populate('district', 'name -_id');
+async function updateWelfare(welfareId, expectedUpdatedAt, { name, address, phone, homepage, remarks }) {
+  const { result, doc } = await updateWithVersionCheck(Welfare, welfareId, expectedUpdatedAt, {
+    name,
+    address,
+    phone,
+    homepage,
+    remarks,
+  });
+
+  if (result !== 'ok') {
+    return { result };
+  }
+
+  await doc.populate('district', 'name -_id');
+  return { result, doc };
 }
 
 export { loadWelfareData, getWelfareByWelfareId, getWelfaresByDistrictId, getAllWelfares, updateWelfare };

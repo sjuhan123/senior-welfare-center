@@ -2,8 +2,7 @@ import {
   createMembership,
   getMembershipsByUserId,
   getWelfareMembershipsPage,
-  approveMembership,
-  setMembershipActive,
+  updateMembership,
   deactivateMembership,
 } from '../../models/membership.model.js';
 import { findActiveInviteCodeByCode, incrementScanCount } from '../../models/welfareInviteCode.model.js';
@@ -95,22 +94,31 @@ async function httpGetWelfareMemberships(req, res) {
 async function httpPatchMembership(req, res) {
   try {
     const { membershipId } = req.params;
-    const { role, active } = req.body;
+    const { role, active, updatedAt } = req.body;
 
-    let membership;
-
+    const fields = {};
     if (role) {
-      membership = await approveMembership(membershipId, role);
+      fields.role = role;
+      fields.status = 'approved';
+    }
+    if (typeof active === 'boolean') {
+      fields.active = active;
     }
 
-    if (typeof active === 'boolean') {
-      membership = await setMembershipActive(membershipId, active);
+    const { result, doc } = await updateMembership(membershipId, updatedAt, fields);
+
+    if (result === 'not_found') {
+      return res.status(404).json({ statusCode: 404, message: '해당 멤버십을 찾을 수 없습니다' });
+    }
+
+    if (result === 'conflict') {
+      return res.status(409).json({ statusCode: 409, message: '다른 관리자가 이미 변경했습니다' });
     }
 
     const jsonResponse = {
       statusCode: 200,
       message: '회원 정보 변경 성공',
-      data: membership,
+      data: doc,
     };
     return res.status(200).json(jsonResponse);
   } catch (error) {

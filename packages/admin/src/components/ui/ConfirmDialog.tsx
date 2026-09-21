@@ -7,6 +7,7 @@ type ConfirmDialogProps = {
   open: boolean;
   title: string;
   successMessage: string;
+  errorMessage?: string | null;
   isPending: boolean;
   isSuccess: boolean;
   onConfirm: () => void;
@@ -16,7 +17,7 @@ type ConfirmDialogProps = {
 
 const SUCCESS_AUTO_CLOSE_MS = 1200;
 
-const ConfirmDialog = ({ open, title, successMessage, isPending, isSuccess, onConfirm, onCancel, onClose }: ConfirmDialogProps) => {
+const ConfirmDialog = ({ open, title, successMessage, errorMessage, isPending, isSuccess, onConfirm, onCancel, onClose }: ConfirmDialogProps) => {
   useEffect(() => {
     if (!isSuccess) return;
 
@@ -34,6 +35,7 @@ const ConfirmDialog = ({ open, title, successMessage, isPending, isSuccess, onCo
         ) : (
           <>
             <Title>{title}</Title>
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             <ButtonRow>
               <SecondaryButton onClick={onCancel} disabled={isPending}>
                 취소
@@ -86,4 +88,11 @@ const SuccessMessage = styled.div(({ theme }) => ({
   fontWeight: theme.font.weight.semibold,
   color: theme.color.navy,
   padding: '8px 0',
+}));
+
+const ErrorMessage = styled.div(({ theme }) => ({
+  fontSize: theme.fontSize.small,
+  color: theme.semantic.stateStopFg,
+  marginTop: -8,
+  marginBottom: 14,
 }));
