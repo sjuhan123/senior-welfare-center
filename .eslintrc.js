@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'import/no-duplicates': 'off',
+    'no-unused-vars': 'off',
   },
   overrides: [
     {
