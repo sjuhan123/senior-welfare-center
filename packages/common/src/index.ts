@@ -26,3 +26,4 @@ export type {
   WelfareMemberListResponse,
 } from './types/membership';
 export type { InviteCodeData, InviteCodeResponse, InviteCodeIssueResponse } from './types/inviteCode';
+export type { MealData, MealListResponse, MealDetailResponse } from './types/meal';
