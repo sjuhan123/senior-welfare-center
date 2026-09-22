@@ -3,4 +3,5 @@ export const QUERY_KEYS = Object.freeze({
   MEMBERSHIPS: 'memberships',
   WELFARE: 'welfare',
   INVITE_CODE: 'inviteCode',
+  MEALS: 'meals',
 });
