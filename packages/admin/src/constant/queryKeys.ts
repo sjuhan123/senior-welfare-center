@@ -4,4 +4,5 @@ export const QUERY_KEYS = Object.freeze({
   WELFARE: 'welfare',
   INVITE_CODE: 'inviteCode',
   MEALS: 'meals',
+  LOST_ITEMS: 'lostItems',
 });

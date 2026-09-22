@@ -1,5 +1,12 @@
+import useMyMembership from '../../hooks/useMyMembership';
+import LostContent from './LostContent';
+
 const Lost = () => {
-  return <div>분실물 관리 준비 중</div>;
+  const { data: membership } = useMyMembership();
+
+  if (!membership) return null;
+
+  return <LostContent welfareId={membership.welfare._id} />;
 };
 
 export default Lost;
