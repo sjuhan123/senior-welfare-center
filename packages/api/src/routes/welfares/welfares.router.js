@@ -10,6 +10,7 @@ import {
 } from './welfares.controller.js';
 import { httpGetWelfareMemberships, httpPatchMembership } from '../memberships/memberships.controller.js';
 import { httpGetMeals, httpPutMeal, httpDeleteMeal } from '../meals/meals.controller.js';
+import { httpGetLostItems, httpPostLostItem, httpPatchLostItem, httpDeleteLostItem } from '../lostItems/lostItems.controller.js';
 import { authenticateToken } from '../../middlewares/user.middleware.js';
 import { requireWelfareRole, requireActiveMembership } from '../../middlewares/welfare.middleware.js';
 
@@ -27,5 +28,9 @@ welfaresRouter.patch('/:welfareId/memberships/:membershipId', authenticateToken,
 welfaresRouter.get('/:welfareId/meals', authenticateToken, requireActiveMembership, httpGetMeals);
 welfaresRouter.put('/:welfareId/meals/:date', authenticateToken, requireWelfareAdmin, httpPutMeal);
 welfaresRouter.delete('/:welfareId/meals/:mealId', authenticateToken, requireWelfareAdmin, httpDeleteMeal);
+welfaresRouter.get('/:welfareId/lost-items', authenticateToken, requireActiveMembership, httpGetLostItems);
+welfaresRouter.post('/:welfareId/lost-items', authenticateToken, requireWelfareAdmin, httpPostLostItem);
+welfaresRouter.patch('/:welfareId/lost-items/:lostItemId', authenticateToken, requireWelfareAdmin, httpPatchLostItem);
+welfaresRouter.delete('/:welfareId/lost-items/:lostItemId', authenticateToken, requireWelfareAdmin, httpDeleteLostItem);
 
 export default welfaresRouter;

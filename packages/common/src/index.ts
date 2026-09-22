@@ -27,3 +27,4 @@ export type {
 } from './types/membership';
 export type { InviteCodeData, InviteCodeResponse, InviteCodeIssueResponse } from './types/inviteCode';
 export type { MealData, MealListResponse, MealDetailResponse } from './types/meal';
+export type { LostItemData, LostItemListResponse, LostItemDetailResponse } from './types/lostItem';
