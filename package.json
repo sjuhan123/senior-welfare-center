@@ -28,8 +28,7 @@
     "api:start": "yarn workspace senior-welfare-center-api start",
     "api:watch": "yarn workspace senior-welfare-center-api watch",
     "api:test": "yarn workspace senior-welfare-center-api test",
-    "api:test-watch": "yarn workspace senior-welfare-center-api test-watch",
-    "api:cluster": "yarn workspace senior-welfare-center-api cluster"
+    "api:test-watch": "yarn workspace senior-welfare-center-api test-watch"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.11.0",
