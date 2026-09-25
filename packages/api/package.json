@@ -9,8 +9,7 @@
     "test-watch": "NODE_OPTIONS=--experimental-vm-modules yarn jest --watch",
     "watch": "nodemon src/server.js",
     "start": "node src/server.js",
-    "seed:test-welfare": "node scripts/seedTestWelfare.js",
-    "cluster": "pm2 start src/server.js -i max"
+    "seed:test-welfare": "node scripts/seedTestWelfare.js"
   },
   "keywords": [],
   "author": "",
