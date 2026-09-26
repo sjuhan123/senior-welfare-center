@@ -41,4 +41,23 @@ async function countMessagesSince(roomId, since) {
   return await Message.countDocuments(filter);
 }
 
-export { getMessageById, getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage, toggleHeart, countMessagesSince };
+async function getMessageIdsByRooms(roomIds) {
+  return await Message.find({ room: { $in: roomIds } }).distinct('_id');
+}
+
+async function deleteMessagesByRooms(roomIds) {
+  await Message.deleteMany({ room: { $in: roomIds } });
+}
+
+export {
+  getMessageById,
+  getMessagesByRoom,
+  getLatestMessagesByRooms,
+  createMessage,
+  updateMessage,
+  hideMessage,
+  toggleHeart,
+  countMessagesSince,
+  getMessageIdsByRooms,
+  deleteMessagesByRooms,
+};

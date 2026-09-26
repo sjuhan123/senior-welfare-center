@@ -13,7 +13,7 @@ const EnrollmentSchema = new mongoose.Schema(
     },
     state: {
       type: String,
-      enum: ['pending', 'accepted', 'rejected'],
+      enum: ['pending', 'accepted', 'rejected', 'dropped'],
       default: 'pending',
     },
   },

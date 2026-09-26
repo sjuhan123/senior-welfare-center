@@ -17,6 +17,14 @@ const RoomSchema = new mongoose.Schema(
       enum: ['notice', 'chat', 'feed'],
       required: true,
     },
+    availableFrom: {
+      type: String,
+      default: null,
+    },
+    availableTo: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true },
 );

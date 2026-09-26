@@ -8,4 +8,12 @@ async function getRoomsByWelfare(welfareId) {
   return await Room.find({ welfare: welfareId });
 }
 
-export { getRoomById, getRoomsByWelfare };
+async function getRoomsByCourse(courseId) {
+  return await Room.find({ course: courseId });
+}
+
+async function deleteRoomsByCourse(courseId) {
+  await Room.deleteMany({ course: courseId });
+}
+
+export { getRoomById, getRoomsByWelfare, getRoomsByCourse, deleteRoomsByCourse };
