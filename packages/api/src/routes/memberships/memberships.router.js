@@ -4,7 +4,10 @@ import { httpPostMembershipScan, httpGetMyMemberships, httpDeleteMembership } fr
 
 const membershipsRouter = express.Router();
 
+/** QR 스캔 가입 */
 membershipsRouter.post('/scan', httpPostMembershipScan);
+
+/** 내 복지관 멤버십 조회/탈퇴 */
 membershipsRouter.get('/me', httpGetMyMemberships);
 membershipsRouter.delete('/:membershipId', httpDeleteMembership);
 
