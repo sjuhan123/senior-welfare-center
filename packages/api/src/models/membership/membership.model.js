@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Membership from './membership.mongo.js';
-import { updateWithVersionCheck } from '../utils/versionedUpdate.js';
+import { updateWithVersionCheck } from '../../utils/versionedUpdate.js';
 
 const ROLE_MATCH_BY_FILTER = {
   staff: { role: { $in: ['admin', 'super'] } },

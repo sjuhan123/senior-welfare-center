@@ -1,4 +1,4 @@
-import { getMembership } from '../models/membership.model.js';
+import { getMembership } from '../models/membership/membership.model.js';
 
 const requireWelfareRole = allowedRoles => async (req, res, next) => {
   const { welfareId } = req.params;

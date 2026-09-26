@@ -1,6 +1,6 @@
-import { bookmarkWelfare, unBookmarkWelfare, deleteUser } from '../../models/user.model.js';
-import { deleteMembershipsByUserId } from '../../models/membership.model.js';
-import { revokeRefreshToken, revokeAllRefreshTokens } from '../../models/refreshToken.model.js';
+import { bookmarkWelfare, unBookmarkWelfare, deleteUser } from '../../models/user/user.model.js';
+import { deleteMembershipsByUserId } from '../../models/membership/membership.model.js';
+import { revokeRefreshToken, revokeAllRefreshTokens } from '../../models/refreshToken/refreshToken.model.js';
 
 async function httpGetUserInfo(req, res) {
   try {

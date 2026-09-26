@@ -1,7 +1,7 @@
 import http from 'http';
 import app from './app.js';
 import { mongoConnect } from './server/mongo.js';
-import { loadWelfareData } from './models/welfares.model.js';
+import { loadWelfareData } from './models/welfares/welfares.model.js';
 
 const PORT = process.env.PORT || 8000;
 

@@ -1,5 +1,5 @@
 import Meal from './meal.mongo.js';
-import { upsertWithVersionCheck, deleteWithVersionCheck } from '../utils/versionedUpdate.js';
+import { upsertWithVersionCheck, deleteWithVersionCheck } from '../../utils/versionedUpdate.js';
 
 async function getMealsByMonth(welfareId, month) {
   return await Meal.find({ welfare: welfareId, date: { $regex: `^${month}` } }).sort({ date: 1 });

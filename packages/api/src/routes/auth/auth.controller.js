@@ -1,5 +1,5 @@
-import { rotateRefreshToken, revokeRefreshToken } from '../../models/refreshToken.model.js';
-import { findUserBy } from '../../models/user.model.js';
+import { rotateRefreshToken, revokeRefreshToken } from '../../models/refreshToken/refreshToken.model.js';
+import { findUserBy } from '../../models/user/user.model.js';
 import { issueAccessToken, sendAuthTokens, clearAuthCookies } from '../../services/auth.service.js';
 
 async function refresh(req, res, clientType) {

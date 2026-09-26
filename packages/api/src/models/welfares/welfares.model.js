@@ -1,8 +1,8 @@
-import welfaresInfo from '../../data/welfares.data.js';
-import { saveDistrict } from './districts.model.js';
-import District from './districts.mongo.js';
+import welfaresInfo from '../../../data/welfares.data.js';
+import { saveDistrict } from '../districts/districts.model.js';
+import District from '../districts/districts.mongo.js';
 import Welfare from './welfares.mongo.js';
-import { updateWithVersionCheck } from '../utils/versionedUpdate.js';
+import { updateWithVersionCheck } from '../../utils/versionedUpdate.js';
 
 async function loadWelfareData() {
   try {
