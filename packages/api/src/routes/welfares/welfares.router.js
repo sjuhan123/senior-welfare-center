@@ -11,8 +11,10 @@ import {
 import { httpGetWelfareMemberships, httpPatchMembership } from '../memberships/memberships.controller.js';
 import { httpGetMeals, httpPutMeal, httpDeleteMeal } from '../meals/meals.controller.js';
 import { httpGetLostItems, httpPostLostItem, httpPatchLostItem, httpDeleteLostItem } from '../lostItems/lostItems.controller.js';
+import { httpGetRooms, httpGetRoomMessages, httpPatchMessage } from '../rooms/rooms.controller.js';
 import { authenticateToken } from '../../middlewares/user.middleware.js';
 import { requireWelfareRole, requireActiveMembership } from '../../middlewares/welfare.middleware.js';
+import { requireRoomAccess } from '../../middlewares/room.middleware.js';
 
 const welfaresRouter = express.Router();
 const requireWelfareAdmin = requireWelfareRole(['admin', 'super']);
@@ -32,5 +34,8 @@ welfaresRouter.get('/:welfareId/lost-items', authenticateToken, requireActiveMem
 welfaresRouter.post('/:welfareId/lost-items', authenticateToken, requireWelfareAdmin, httpPostLostItem);
 welfaresRouter.patch('/:welfareId/lost-items/:lostItemId', authenticateToken, requireWelfareAdmin, httpPatchLostItem);
 welfaresRouter.delete('/:welfareId/lost-items/:lostItemId', authenticateToken, requireWelfareAdmin, httpDeleteLostItem);
+welfaresRouter.get('/:welfareId/rooms', authenticateToken, httpGetRooms);
+welfaresRouter.get('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpGetRoomMessages);
+welfaresRouter.patch('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpPatchMessage);
 
 export default welfaresRouter;
