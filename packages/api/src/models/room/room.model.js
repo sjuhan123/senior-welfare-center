@@ -4,6 +4,10 @@ async function getRoomById(roomId) {
   return await Room.findById(roomId);
 }
 
+async function createRoom({ welfare, course, type, availableFrom, availableTo }) {
+  return await Room.create({ welfare, course, type, availableFrom, availableTo });
+}
+
 async function getRoomsByWelfare(welfareId) {
   return await Room.find({ welfare: welfareId });
 }
@@ -16,4 +20,4 @@ async function deleteRoomsByCourse(courseId) {
   await Room.deleteMany({ course: courseId });
 }
 
-export { getRoomById, getRoomsByWelfare, getRoomsByCourse, deleteRoomsByCourse };
+export { getRoomById, createRoom, getRoomsByWelfare, getRoomsByCourse, deleteRoomsByCourse };
