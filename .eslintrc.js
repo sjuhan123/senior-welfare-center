@@ -82,6 +82,10 @@ module.exports = {
       env: { node: true, es2020: true },
       parserOptions: { sourceType: 'module' },
     },
+    {
+      files: ['packages/api/**/*.test.js', 'packages/api/src/test/**/*.js'],
+      env: { jest: true },
+    },
   ],
   settings: {
     react: {

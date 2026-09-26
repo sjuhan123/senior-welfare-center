@@ -22,11 +22,7 @@ app.use(
         'https://postcode.map.daum.net',
         'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js',
       ],
-      'img-src': [
-        "'self'",
-        'https://user-images.githubusercontent.com',
-        'https://k.kakaocdn.net',
-      ],
+      'img-src': ["'self'", 'https://user-images.githubusercontent.com', 'https://k.kakaocdn.net'],
       'frame-src': ["'self'", 'https://postcode.map.daum.net/'],
       'connect-src': ["'self'", 'https://dapi.kakao.com'],
       'manifest-src': ["'self'", 'data:'],
