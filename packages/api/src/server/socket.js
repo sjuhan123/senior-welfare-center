@@ -1,5 +1,6 @@
 import { Server } from 'socket.io';
 import { authenticateSocket } from '../middlewares/socketAuth.middleware.js';
+import { registerRoomSocketEvents } from '../sockets/room.socket.js';
 
 function initSocket(httpServer) {
   const io = new Server(httpServer, {
@@ -11,6 +12,10 @@ function initSocket(httpServer) {
   });
 
   io.use(authenticateSocket);
+
+  io.on('connection', socket => {
+    registerRoomSocketEvents(io, socket);
+  });
 
   return io;
 }

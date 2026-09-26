@@ -34,4 +34,17 @@ async function canSendToRoom(user, room) {
   return await hasAcceptedEnrollment(room.course, user.id);
 }
 
-export { canAccessRoom, canSendToRoom };
+async function canModerateRoom(user, room) {
+  const course = room.course ? await getCourseById(room.course) : null;
+  if (course?.teacher === user.id) return true;
+
+  const membership = await getMembership(user.id, room.welfare);
+  return !!membership && ['admin', 'super'].includes(membership.role) && membership.active !== false;
+}
+
+async function getSenderRole(userId, welfareId) {
+  const membership = await getMembership(userId, welfareId);
+  return membership?.role ?? 'member';
+}
+
+export { canAccessRoom, canSendToRoom, canModerateRoom, getSenderRole };

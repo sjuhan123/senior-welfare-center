@@ -1,6 +1,10 @@
 import Message from './message.mongo.js';
 import { updateWithVersionCheck } from '../../utils/versionedUpdate.js';
 
+async function getMessageById(messageId) {
+  return await Message.findById(messageId);
+}
+
 async function getMessagesByRoom(roomId, { before, limit = 30 } = {}) {
   const filter = { room: roomId, ...(before && { createdAt: { $lt: before } }) };
   return await Message.find(filter).sort({ createdAt: -1 }).limit(limit);
@@ -37,4 +41,4 @@ async function countMessagesSince(roomId, since) {
   return await Message.countDocuments(filter);
 }
 
-export { getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage, toggleHeart, countMessagesSince };
+export { getMessageById, getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage, toggleHeart, countMessagesSince };
