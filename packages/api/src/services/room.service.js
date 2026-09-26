@@ -9,6 +9,7 @@ async function canAccessRoom(user, room) {
   }
 
   const course = await getCourseById(room.course);
+  if (course.endedAt) return false;
   if (course.teacher === user.id) return true;
 
   const membership = await getMembership(user.id, room.welfare);
@@ -19,6 +20,7 @@ async function canAccessRoom(user, room) {
 
 async function canSendToRoom(user, room) {
   const course = room.course ? await getCourseById(room.course) : null;
+  if (course?.endedAt) return false;
 
   if (room.type === 'notice') {
     if (course?.teacher === user.id) return true;
@@ -36,6 +38,7 @@ async function canSendToRoom(user, room) {
 
 async function canModerateRoom(user, room) {
   const course = room.course ? await getCourseById(room.course) : null;
+  if (course?.endedAt) return false;
   if (course?.teacher === user.id) return true;
 
   const membership = await getMembership(user.id, room.welfare);

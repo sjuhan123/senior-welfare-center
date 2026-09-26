@@ -8,4 +8,8 @@ async function createComment({ message, userId, text }) {
   return await Comment.create({ message, userId, text });
 }
 
-export { getCommentsByMessage, createComment };
+async function deleteCommentsByMessages(messageIds) {
+  await Comment.deleteMany({ message: { $in: messageIds } });
+}
+
+export { getCommentsByMessage, createComment, deleteCommentsByMessages };
