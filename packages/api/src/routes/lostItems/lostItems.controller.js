@@ -1,4 +1,4 @@
-import { getLostItems, createLostItem, updateLostItem, deleteLostItem } from '../../models/lostItem.model.js';
+import { getLostItems, createLostItem, updateLostItem, deleteLostItem } from '../../models/lostItem/lostItem.model.js';
 
 async function httpGetLostItems(req, res) {
   try {

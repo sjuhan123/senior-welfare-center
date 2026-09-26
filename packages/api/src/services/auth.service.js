@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { issueRefreshToken, REFRESH_TOKEN_TTL_MS } from '../models/refreshToken.model.js';
+import { issueRefreshToken, REFRESH_TOKEN_TTL_MS } from '../models/refreshToken/refreshToken.model.js';
 
 const ACCESS_TOKEN_EXPIRES_IN = '1h';
 const ACCESS_TOKEN_MAX_AGE_MS = 60 * 60 * 1000;

@@ -1,5 +1,5 @@
 import User from './user.mongo.js';
-import { getWelfareByWelfareId } from './welfares.model.js';
+import { getWelfareByWelfareId } from '../welfares/welfares.model.js';
 
 async function saveUser(userId, kakaoAccount, kakaoAccessToken) {
   try {

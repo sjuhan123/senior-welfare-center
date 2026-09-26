@@ -1,5 +1,5 @@
-import { postAuthKakaoByAccessToken, postAuthKakaoByCode } from '../../models/authKakao.model.js';
-import { hasApprovedRole } from '../../models/membership.model.js';
+import { postAuthKakaoByAccessToken, postAuthKakaoByCode } from '../../models/authKakao/authKakao.model.js';
+import { hasApprovedRole } from '../../models/membership/membership.model.js';
 import { issueAuthTokens, sendAuthTokens } from '../../services/auth.service.js';
 
 async function httpPostAuthKakao(req, res) {

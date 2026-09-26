@@ -4,8 +4,8 @@ import {
   getWelfareMembershipsPage,
   updateMembership,
   deactivateMembership,
-} from '../../models/membership.model.js';
-import { findActiveInviteCodeByCode, incrementScanCount } from '../../models/welfareInviteCode.model.js';
+} from '../../models/membership/membership.model.js';
+import { findActiveInviteCodeByCode, incrementScanCount } from '../../models/welfareInviteCode/welfareInviteCode.model.js';
 
 async function httpPostMembershipScan(req, res) {
   try {

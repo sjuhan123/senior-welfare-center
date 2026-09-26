@@ -1,4 +1,4 @@
-import { getAllDistricts } from '../../models/districts.model.js';
+import { getAllDistricts } from '../../models/districts/districts.model.js';
 
 async function httpGetAllDistricts(req, res) {
   try {

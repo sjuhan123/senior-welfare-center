@@ -1,5 +1,5 @@
 import LostItem from './lostItem.mongo.js';
-import { updateWithVersionCheck, deleteWithVersionCheck } from '../utils/versionedUpdate.js';
+import { updateWithVersionCheck, deleteWithVersionCheck } from '../../utils/versionedUpdate.js';
 
 async function getLostItems(welfareId) {
   return await LostItem.find({ welfare: welfareId }).sort({ createdAt: -1 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { saveUser } from './user.model.js';
+import { saveUser } from '../user/user.model.js';
 
 async function getKakaoUserInfo(kakaoAccessToken) {
   const userInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {

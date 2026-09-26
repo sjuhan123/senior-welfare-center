@@ -1,4 +1,4 @@
-import { getMealsByMonth, upsertMeal, deleteMeal } from '../../models/meal.model.js';
+import { getMealsByMonth, upsertMeal, deleteMeal } from '../../models/meal/meal.model.js';
 
 async function httpGetMeals(req, res) {
   try {

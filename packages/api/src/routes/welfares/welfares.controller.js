@@ -1,5 +1,5 @@
-import { getAllWelfares, getWelfaresByDistrictId, getWelfareByWelfareId, updateWelfare } from '../../models/welfares.model.js';
-import { issueInviteCode, getActiveInviteCode, getInviteCodeHistory } from '../../models/welfareInviteCode.model.js';
+import { getAllWelfares, getWelfaresByDistrictId, getWelfareByWelfareId, updateWelfare } from '../../models/welfares/welfares.model.js';
+import { issueInviteCode, getActiveInviteCode, getInviteCodeHistory } from '../../models/welfareInviteCode/welfareInviteCode.model.js';
 import { calculateDistance } from '../../utils/index.js';
 
 async function httpGetAllWelfares(req, res) {
