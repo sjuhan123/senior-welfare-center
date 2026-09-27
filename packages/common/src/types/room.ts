@@ -22,3 +22,30 @@ export type RoomListResponse = {
   message: string;
   data: RoomListItem[];
 };
+
+export type CourseRoomsResponse = {
+  statusCode: number;
+  message: string;
+  data: RoomData[];
+};
+
+export type RoomMemberEntry = {
+  userId: string;
+  userName: string;
+};
+
+export type RoomEnrolleeEntry = RoomMemberEntry & {
+  enrollmentId: string;
+};
+
+export type RoomMembersData = {
+  teacher: RoomMemberEntry | null;
+  active: RoomEnrolleeEntry[];
+  left: RoomEnrolleeEntry[];
+};
+
+export type RoomMembersResponse = {
+  statusCode: number;
+  message: string;
+  data: RoomMembersData;
+};
