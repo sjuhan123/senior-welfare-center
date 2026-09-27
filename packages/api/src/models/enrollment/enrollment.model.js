@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 import Enrollment from './enrollment.mongo.js';
 
-async function hasAcceptedEnrollment(courseId, userId) {
+async function hasRoomAccessAsEnrollee(courseId, userId, roomType) {
   const enrollment = await Enrollment.findOne({ course: courseId, userId, state: 'accepted' });
-  return !!enrollment;
+  if (!enrollment) return false;
+  return !enrollment.leftRoomTypes.includes(roomType);
+}
+
+async function leaveRoomType(courseId, userId, roomType) {
+  await Enrollment.updateOne({ course: courseId, userId, state: 'accepted' }, { $addToSet: { leftRoomTypes: roomType } });
 }
 
 async function getEnrollmentsByCourse(courseId) {
@@ -33,7 +38,8 @@ async function deleteEnrollmentsByCourse(courseId) {
 }
 
 export {
-  hasAcceptedEnrollment,
+  hasRoomAccessAsEnrollee,
+  leaveRoomType,
   getEnrollmentsByCourse,
   updateEnrollmentState,
   updateEnrollmentsState,

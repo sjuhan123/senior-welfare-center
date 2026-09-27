@@ -1,6 +1,6 @@
 import { getMembership } from '../models/membership/membership.model.js';
 import { getCourseById } from '../models/course/course.model.js';
-import { hasAcceptedEnrollment } from '../models/enrollment/enrollment.model.js';
+import { hasRoomAccessAsEnrollee } from '../models/enrollment/enrollment.model.js';
 
 async function canAccessRoom(user, room) {
   if (!room.course) {
@@ -15,7 +15,7 @@ async function canAccessRoom(user, room) {
   const membership = await getMembership(user.id, room.welfare);
   if (membership && ['admin', 'super'].includes(membership.role) && membership.active !== false) return true;
 
-  return await hasAcceptedEnrollment(room.course, user.id);
+  return await hasRoomAccessAsEnrollee(room.course, user.id, room.type);
 }
 
 async function canSendToRoom(user, room) {
@@ -33,7 +33,7 @@ async function canSendToRoom(user, room) {
   const membership = await getMembership(user.id, room.welfare);
   if (membership && ['admin', 'super'].includes(membership.role) && membership.active !== false) return true;
 
-  return await hasAcceptedEnrollment(room.course, user.id);
+  return await hasRoomAccessAsEnrollee(room.course, user.id, room.type);
 }
 
 async function canModerateRoom(user, room) {

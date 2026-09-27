@@ -1,6 +1,7 @@
-import { getRoomsByWelfare } from '../../models/room/room.model.js';
+import { getRoomById, getRoomsByWelfare } from '../../models/room/room.model.js';
 import { getMessagesByRoom, getLatestMessagesByRooms, updateMessage } from '../../models/message/message.model.js';
 import { getUnreadCount } from '../../models/roomRead/roomRead.model.js';
+import { leaveRoomType } from '../../models/enrollment/enrollment.model.js';
 import { canAccessRoom, canSendToRoom } from '../../services/room.service.js';
 
 async function httpGetRooms(req, res) {
@@ -99,4 +100,32 @@ async function httpPatchMessage(req, res) {
   }
 }
 
-export { httpGetRooms, httpGetRoomMessages, httpPatchMessage };
+async function httpDeleteRoomMember(req, res) {
+  try {
+    const { roomId, userId } = req.params;
+
+    const room = await getRoomById(roomId);
+    if (!room) {
+      return res.status(404).json({ statusCode: 404, message: '해당 대화방을 찾을 수 없습니다' });
+    }
+    if (!room.course) {
+      return res.status(400).json({ statusCode: 400, message: '복지관 공지방은 내보내기를 지원하지 않습니다' });
+    }
+
+    await leaveRoomType(room.course, userId, room.type);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '내보내기 완료',
+    });
+  } catch (error) {
+    console.error('Error removing room member:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpGetRooms, httpGetRoomMessages, httpPatchMessage, httpDeleteRoomMember };

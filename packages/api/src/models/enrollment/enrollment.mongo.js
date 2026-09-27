@@ -16,6 +16,11 @@ const EnrollmentSchema = new mongoose.Schema(
       enum: ['pending', 'accepted', 'rejected', 'dropped'],
       default: 'pending',
     },
+    leftRoomTypes: {
+      type: [String],
+      enum: ['notice', 'chat', 'feed'],
+      default: [],
+    },
   },
   { timestamps: true },
 );

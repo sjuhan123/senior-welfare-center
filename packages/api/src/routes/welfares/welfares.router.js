@@ -11,7 +11,7 @@ import {
 import { httpGetWelfareMemberships, httpPatchMembership } from '../memberships/memberships.controller.js';
 import { httpGetMeals, httpPutMeal, httpDeleteMeal } from '../meals/meals.controller.js';
 import { httpGetLostItems, httpPostLostItem, httpPatchLostItem, httpDeleteLostItem } from '../lostItems/lostItems.controller.js';
-import { httpGetRooms, httpGetRoomMessages, httpPatchMessage } from '../rooms/rooms.controller.js';
+import { httpGetRooms, httpGetRoomMessages, httpPatchMessage, httpDeleteRoomMember } from '../rooms/rooms.controller.js';
 import {
   httpGetCourses,
   httpPostCourse,
@@ -57,6 +57,7 @@ welfaresRouter.delete('/:welfareId/lost-items/:lostItemId', authenticateToken, r
 welfaresRouter.get('/:welfareId/rooms', authenticateToken, httpGetRooms);
 welfaresRouter.get('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpGetRoomMessages);
 welfaresRouter.patch('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpPatchMessage);
+welfaresRouter.delete('/:welfareId/rooms/:roomId/members/:userId', authenticateToken, requireWelfareAdmin, httpDeleteRoomMember);
 
 /** 강좌 관리 */
 welfaresRouter.get('/:welfareId/courses', authenticateToken, requireWelfareAdmin, httpGetCourses);
