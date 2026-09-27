@@ -1,6 +1,11 @@
 import { getCoursesByWelfare, createCourse, updateCourse } from '../../models/course/course.model.js';
 import { createRoom, getRoomsByCourse } from '../../models/room/room.model.js';
-import { getEnrollmentsByCourse, updateEnrollmentState, updateEnrollmentsState } from '../../models/enrollment/enrollment.model.js';
+import {
+  getEnrollmentsByCourse,
+  getPendingEnrollmentCountsByWelfare,
+  updateEnrollmentState,
+  updateEnrollmentsState,
+} from '../../models/enrollment/enrollment.model.js';
 import { endCourse } from '../../services/courseLifecycle.service.js';
 
 const ENROLLMENT_STATES = ['accepted', 'rejected', 'dropped'];
@@ -147,6 +152,27 @@ async function httpGetCourseRooms(req, res) {
   }
 }
 
+async function httpGetPendingEnrollmentCounts(req, res) {
+  try {
+    const { welfareId } = req.params;
+
+    const counts = await getPendingEnrollmentCountsByWelfare(welfareId);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '강좌별 대기 신청 수 조회 성공',
+      data: counts,
+    });
+  } catch (error) {
+    console.error('Error retrieving pending enrollment counts:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
 async function httpGetEnrollments(req, res) {
   try {
     const { courseId } = req.params;
@@ -231,6 +257,7 @@ export {
   httpPatchCourse,
   httpDeleteCourse,
   httpGetCourseRooms,
+  httpGetPendingEnrollmentCounts,
   httpGetEnrollments,
   httpPatchEnrollment,
   httpPatchEnrollmentsBulk,

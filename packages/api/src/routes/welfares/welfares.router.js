@@ -22,13 +22,14 @@ import {
   httpGetRoomMembers,
   httpPatchRoom,
 } from '../rooms/rooms.controller.js';
-import { httpGetNotices } from '../notices/notices.controller.js';
+import { httpGetNotices, httpGetNoticeCount } from '../notices/notices.controller.js';
 import {
   httpGetCourses,
   httpPostCourse,
   httpPatchCourse,
   httpDeleteCourse,
   httpGetCourseRooms,
+  httpGetPendingEnrollmentCounts,
   httpGetEnrollments,
   httpPatchEnrollment,
   httpPatchEnrollmentsBulk,
@@ -72,6 +73,7 @@ welfaresRouter.post('/:welfareId/rooms/:roomId/messages', authenticateToken, req
 welfaresRouter.patch('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpPatchMessage);
 welfaresRouter.delete('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpDeleteMessage);
 welfaresRouter.get('/:welfareId/notices', authenticateToken, requireWelfareAdmin, httpGetNotices);
+welfaresRouter.get('/:welfareId/notices/count', authenticateToken, requireWelfareAdmin, httpGetNoticeCount);
 welfaresRouter.patch('/:welfareId/rooms/:roomId', authenticateToken, requireWelfareAdmin, httpPatchRoom);
 welfaresRouter.get('/:welfareId/rooms/:roomId/members', authenticateToken, requireWelfareAdmin, httpGetRoomMembers);
 welfaresRouter.delete('/:welfareId/rooms/:roomId/members/:userId', authenticateToken, requireWelfareAdmin, httpDeleteRoomMember);
@@ -83,6 +85,7 @@ welfaresRouter.post('/:welfareId/courses', authenticateToken, requireWelfareAdmi
 welfaresRouter.patch('/:welfareId/courses/:courseId', authenticateToken, requireWelfareAdmin, httpPatchCourse);
 welfaresRouter.delete('/:welfareId/courses/:courseId', authenticateToken, requireWelfareAdmin, httpDeleteCourse);
 welfaresRouter.get('/:welfareId/courses/:courseId/rooms', authenticateToken, requireWelfareAdmin, httpGetCourseRooms);
+welfaresRouter.get('/:welfareId/enrollments/pending-count', authenticateToken, requireWelfareAdmin, httpGetPendingEnrollmentCounts);
 
 /** 강좌 신청자 관리(수락/거절/탈퇴) */
 welfaresRouter.get('/:welfareId/courses/:courseId/enrollments', authenticateToken, requireWelfareAdmin, httpGetEnrollments);

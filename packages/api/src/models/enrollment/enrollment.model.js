@@ -25,6 +25,17 @@ async function getAcceptedEnrollmentsByCourse(courseId) {
   ]);
 }
 
+async function getPendingEnrollmentCountsByWelfare(welfareId) {
+  return await Enrollment.aggregate([
+    { $match: { state: 'pending' } },
+    { $lookup: { from: 'courses', localField: 'course', foreignField: '_id', as: 'course' } },
+    { $unwind: '$course' },
+    { $match: { 'course.welfare': new mongoose.Types.ObjectId(welfareId), 'course.endedAt': null } },
+    { $group: { _id: '$course._id', courseName: { $first: '$course.name' }, count: { $sum: 1 } } },
+    { $project: { _id: 0, courseId: '$_id', courseName: 1, count: 1 } },
+  ]);
+}
+
 async function getEnrollmentsByCourse(courseId) {
   return await Enrollment.aggregate([
     { $match: { course: new mongoose.Types.ObjectId(courseId) } },
@@ -56,6 +67,7 @@ export {
   leaveRoomType,
   rejoinRoomType,
   getAcceptedEnrollmentsByCourse,
+  getPendingEnrollmentCountsByWelfare,
   getEnrollmentsByCourse,
   updateEnrollmentState,
   updateEnrollmentsState,
