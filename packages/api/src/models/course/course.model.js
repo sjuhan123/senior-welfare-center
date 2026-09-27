@@ -9,8 +9,8 @@ async function getCoursesByWelfare(welfareId) {
   return await Course.find({ welfare: welfareId, endedAt: null }).sort({ createdAt: -1 });
 }
 
-async function createCourse(welfareId, { name, when, place, cap, from, to, teacher }) {
-  return await Course.create({ welfare: welfareId, name, when, place, cap, from, to, teacher });
+async function createCourse(welfareId, { name, schedule, place, cap, from, to, teacher }) {
+  return await Course.create({ welfare: welfareId, name, schedule, place, cap, from, to, teacher });
 }
 
 async function updateCourse(courseId, expectedUpdatedAt, fields) {
