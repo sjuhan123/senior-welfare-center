@@ -1,5 +1,5 @@
 import { getCoursesByWelfare, createCourse, updateCourse } from '../../models/course/course.model.js';
-import { createRoom } from '../../models/room/room.model.js';
+import { createRoom, getRoomsByCourse } from '../../models/room/room.model.js';
 import { getEnrollmentsByCourse, updateEnrollmentState, updateEnrollmentsState } from '../../models/enrollment/enrollment.model.js';
 import { endCourse } from '../../services/courseLifecycle.service.js';
 
@@ -126,6 +126,27 @@ async function httpDeleteCourse(req, res) {
   }
 }
 
+async function httpGetCourseRooms(req, res) {
+  try {
+    const { courseId } = req.params;
+
+    const rooms = await getRoomsByCourse(courseId);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '강좌 대화방 목록 조회 성공',
+      data: rooms,
+    });
+  } catch (error) {
+    console.error('Error retrieving course rooms:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
 async function httpGetEnrollments(req, res) {
   try {
     const { courseId } = req.params;
@@ -204,4 +225,13 @@ async function httpPatchEnrollmentsBulk(req, res) {
   }
 }
 
-export { httpGetCourses, httpPostCourse, httpPatchCourse, httpDeleteCourse, httpGetEnrollments, httpPatchEnrollment, httpPatchEnrollmentsBulk };
+export {
+  httpGetCourses,
+  httpPostCourse,
+  httpPatchCourse,
+  httpDeleteCourse,
+  httpGetCourseRooms,
+  httpGetEnrollments,
+  httpPatchEnrollment,
+  httpPatchEnrollmentsBulk,
+};

@@ -11,12 +11,21 @@ import {
 import { httpGetWelfareMemberships, httpPatchMembership } from '../memberships/memberships.controller.js';
 import { httpGetMeals, httpPutMeal, httpDeleteMeal } from '../meals/meals.controller.js';
 import { httpGetLostItems, httpPostLostItem, httpPatchLostItem, httpDeleteLostItem } from '../lostItems/lostItems.controller.js';
-import { httpGetRooms, httpGetRoomMessages, httpPatchMessage, httpDeleteRoomMember } from '../rooms/rooms.controller.js';
+import {
+  httpGetRooms,
+  httpGetRoomMessages,
+  httpPatchMessage,
+  httpDeleteRoomMember,
+  httpPostRoomMember,
+  httpGetRoomMembers,
+  httpPatchRoom,
+} from '../rooms/rooms.controller.js';
 import {
   httpGetCourses,
   httpPostCourse,
   httpPatchCourse,
   httpDeleteCourse,
+  httpGetCourseRooms,
   httpGetEnrollments,
   httpPatchEnrollment,
   httpPatchEnrollmentsBulk,
@@ -57,13 +66,17 @@ welfaresRouter.delete('/:welfareId/lost-items/:lostItemId', authenticateToken, r
 welfaresRouter.get('/:welfareId/rooms', authenticateToken, httpGetRooms);
 welfaresRouter.get('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpGetRoomMessages);
 welfaresRouter.patch('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpPatchMessage);
+welfaresRouter.patch('/:welfareId/rooms/:roomId', authenticateToken, requireWelfareAdmin, httpPatchRoom);
+welfaresRouter.get('/:welfareId/rooms/:roomId/members', authenticateToken, requireWelfareAdmin, httpGetRoomMembers);
 welfaresRouter.delete('/:welfareId/rooms/:roomId/members/:userId', authenticateToken, requireWelfareAdmin, httpDeleteRoomMember);
+welfaresRouter.post('/:welfareId/rooms/:roomId/members/:userId', authenticateToken, requireWelfareAdmin, httpPostRoomMember);
 
 /** 강좌 관리 */
 welfaresRouter.get('/:welfareId/courses', authenticateToken, requireWelfareAdmin, httpGetCourses);
 welfaresRouter.post('/:welfareId/courses', authenticateToken, requireWelfareAdmin, httpPostCourse);
 welfaresRouter.patch('/:welfareId/courses/:courseId', authenticateToken, requireWelfareAdmin, httpPatchCourse);
 welfaresRouter.delete('/:welfareId/courses/:courseId', authenticateToken, requireWelfareAdmin, httpDeleteCourse);
+welfaresRouter.get('/:welfareId/courses/:courseId/rooms', authenticateToken, requireWelfareAdmin, httpGetCourseRooms);
 
 /** 강좌 신청자 관리(수락/거절/탈퇴) */
 welfaresRouter.get('/:welfareId/courses/:courseId/enrollments', authenticateToken, requireWelfareAdmin, httpGetEnrollments);
