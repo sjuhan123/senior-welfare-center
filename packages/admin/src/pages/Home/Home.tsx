@@ -1,5 +1,12 @@
+import useMyMembership from '../../hooks/useMyMembership';
+import HomeContent from './HomeContent';
+
 const Home = () => {
-  return <div>대시보드 준비 중</div>;
+  const { data: membership } = useMyMembership();
+
+  if (!membership) return null;
+
+  return <HomeContent welfareId={membership.welfare._id} />;
 };
 
 export default Home;

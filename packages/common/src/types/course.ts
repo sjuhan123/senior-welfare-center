@@ -46,3 +46,15 @@ export type EnrollmentListResponse = {
   message: string;
   data: EnrollmentData[];
 };
+
+export type PendingEnrollmentCount = {
+  courseId: string;
+  courseName: string;
+  count: number;
+};
+
+export type PendingEnrollmentCountsResponse = {
+  statusCode: number;
+  message: string;
+  data: PendingEnrollmentCount[];
+};

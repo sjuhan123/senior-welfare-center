@@ -37,6 +37,8 @@ export type {
   EnrollmentState,
   EnrollmentData,
   EnrollmentListResponse,
+  PendingEnrollmentCount,
+  PendingEnrollmentCountsResponse,
 } from './types/course';
 export type {
   RoomType,
@@ -49,4 +51,4 @@ export type {
   RoomMembersData,
   RoomMembersResponse,
 } from './types/room';
-export type { NoticeEntry, NoticeListResponse, MessageData, MessageResponse } from './types/notice';
+export type { NoticeEntry, NoticeListResponse, NoticeCountResponse, MessageData, MessageResponse } from './types/notice';

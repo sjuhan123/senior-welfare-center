@@ -4,6 +4,7 @@ import type { MemberFilter } from '@common/shared';
 
 const FILTERS: { id: MemberFilter; label: string }[] = [
   { id: 'all', label: '전체' },
+  { id: 'pending', label: '새 가입' },
   { id: 'staff', label: '관리자' },
   { id: 'teacher', label: '선생님' },
   { id: 'member', label: '회원' },
