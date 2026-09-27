@@ -30,6 +30,9 @@ import {
   httpDeleteCourse,
   httpGetCourseRooms,
   httpGetPendingEnrollmentCounts,
+  httpGetMyEnrollments,
+  httpPostEnrollment,
+  httpDeleteMyEnrollment,
   httpGetEnrollments,
   httpPatchEnrollment,
   httpPatchEnrollmentsBulk,
@@ -80,12 +83,17 @@ welfaresRouter.delete('/:welfareId/rooms/:roomId/members/:userId', authenticateT
 welfaresRouter.post('/:welfareId/rooms/:roomId/members/:userId', authenticateToken, requireWelfareAdmin, httpPostRoomMember);
 
 /** 강좌 관리 */
-welfaresRouter.get('/:welfareId/courses', authenticateToken, requireWelfareAdmin, httpGetCourses);
+welfaresRouter.get('/:welfareId/courses', authenticateToken, requireActiveMembership, httpGetCourses);
 welfaresRouter.post('/:welfareId/courses', authenticateToken, requireWelfareAdmin, httpPostCourse);
 welfaresRouter.patch('/:welfareId/courses/:courseId', authenticateToken, requireWelfareAdmin, httpPatchCourse);
 welfaresRouter.delete('/:welfareId/courses/:courseId', authenticateToken, requireWelfareAdmin, httpDeleteCourse);
 welfaresRouter.get('/:welfareId/courses/:courseId/rooms', authenticateToken, requireWelfareAdmin, httpGetCourseRooms);
 welfaresRouter.get('/:welfareId/enrollments/pending-count', authenticateToken, requireWelfareAdmin, httpGetPendingEnrollmentCounts);
+welfaresRouter.get('/:welfareId/enrollments/mine', authenticateToken, requireActiveMembership, httpGetMyEnrollments);
+
+/** 강좌 신청(회원) */
+welfaresRouter.post('/:welfareId/courses/:courseId/enrollments', authenticateToken, requireActiveMembership, httpPostEnrollment);
+welfaresRouter.delete('/:welfareId/courses/:courseId/enrollments/mine', authenticateToken, requireActiveMembership, httpDeleteMyEnrollment);
 
 /** 강좌 신청자 관리(수락/거절/탈퇴) */
 welfaresRouter.get('/:welfareId/courses/:courseId/enrollments', authenticateToken, requireWelfareAdmin, httpGetEnrollments);
