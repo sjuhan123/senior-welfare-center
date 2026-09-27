@@ -14,12 +14,15 @@ import { httpGetLostItems, httpPostLostItem, httpPatchLostItem, httpDeleteLostIt
 import {
   httpGetRooms,
   httpGetRoomMessages,
+  httpPostMessage,
   httpPatchMessage,
+  httpDeleteMessage,
   httpDeleteRoomMember,
   httpPostRoomMember,
   httpGetRoomMembers,
   httpPatchRoom,
 } from '../rooms/rooms.controller.js';
+import { httpGetNotices } from '../notices/notices.controller.js';
 import {
   httpGetCourses,
   httpPostCourse,
@@ -65,7 +68,10 @@ welfaresRouter.delete('/:welfareId/lost-items/:lostItemId', authenticateToken, r
 /** 대화방·메시지 */
 welfaresRouter.get('/:welfareId/rooms', authenticateToken, httpGetRooms);
 welfaresRouter.get('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpGetRoomMessages);
+welfaresRouter.post('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpPostMessage);
 welfaresRouter.patch('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpPatchMessage);
+welfaresRouter.delete('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpDeleteMessage);
+welfaresRouter.get('/:welfareId/notices', authenticateToken, requireWelfareAdmin, httpGetNotices);
 welfaresRouter.patch('/:welfareId/rooms/:roomId', authenticateToken, requireWelfareAdmin, httpPatchRoom);
 welfaresRouter.get('/:welfareId/rooms/:roomId/members', authenticateToken, requireWelfareAdmin, httpGetRoomMembers);
 welfaresRouter.delete('/:welfareId/rooms/:roomId/members/:userId', authenticateToken, requireWelfareAdmin, httpDeleteRoomMember);
