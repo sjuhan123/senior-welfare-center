@@ -1,6 +1,9 @@
-import { getRoomsByWelfare } from '../../models/room/room.model.js';
+import { getRoomById, getRoomsByWelfare, updateRoom } from '../../models/room/room.model.js';
 import { getMessagesByRoom, getLatestMessagesByRooms, updateMessage } from '../../models/message/message.model.js';
 import { getUnreadCount } from '../../models/roomRead/roomRead.model.js';
+import { leaveRoomType, rejoinRoomType, getAcceptedEnrollmentsByCourse } from '../../models/enrollment/enrollment.model.js';
+import { getCourseById } from '../../models/course/course.model.js';
+import { findUserBy } from '../../models/user/user.model.js';
 import { canAccessRoom, canSendToRoom } from '../../services/room.service.js';
 
 async function httpGetRooms(req, res) {
@@ -99,4 +102,125 @@ async function httpPatchMessage(req, res) {
   }
 }
 
-export { httpGetRooms, httpGetRoomMessages, httpPatchMessage };
+async function httpDeleteRoomMember(req, res) {
+  try {
+    const { roomId, userId } = req.params;
+
+    const room = await getRoomById(roomId);
+    if (!room) {
+      return res.status(404).json({ statusCode: 404, message: '해당 대화방을 찾을 수 없습니다' });
+    }
+    if (!room.course) {
+      return res.status(400).json({ statusCode: 400, message: '복지관 공지방은 내보내기를 지원하지 않습니다' });
+    }
+
+    await leaveRoomType(room.course, userId, room.type);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '내보내기 완료',
+    });
+  } catch (error) {
+    console.error('Error removing room member:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPostRoomMember(req, res) {
+  try {
+    const { roomId, userId } = req.params;
+
+    const room = await getRoomById(roomId);
+    if (!room) {
+      return res.status(404).json({ statusCode: 404, message: '해당 대화방을 찾을 수 없습니다' });
+    }
+    if (!room.course) {
+      return res.status(400).json({ statusCode: 400, message: '복지관 공지방은 재초대를 지원하지 않습니다' });
+    }
+
+    await rejoinRoomType(room.course, userId, room.type);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '재초대 완료',
+    });
+  } catch (error) {
+    console.error('Error rejoining room member:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpGetRoomMembers(req, res) {
+  try {
+    const { roomId } = req.params;
+
+    const room = await getRoomById(roomId);
+    if (!room) {
+      return res.status(404).json({ statusCode: 404, message: '해당 대화방을 찾을 수 없습니다' });
+    }
+    if (!room.course) {
+      return res.status(400).json({ statusCode: 400, message: '복지관 공지방은 참여 회원 조회를 지원하지 않습니다' });
+    }
+
+    const course = await getCourseById(room.course);
+    const teacherUser = course.teacher ? await findUserBy(course.teacher) : null;
+    const teacher = teacherUser ? { userId: course.teacher, userName: teacherUser.userName } : null;
+
+    const enrollments = await getAcceptedEnrollmentsByCourse(room.course);
+    const active = [];
+    const left = [];
+    for (const enrollment of enrollments) {
+      const entry = { enrollmentId: enrollment._id, userId: enrollment.userId, userName: enrollment.userName };
+      if (enrollment.leftRoomTypes.includes(room.type)) left.push(entry);
+      else active.push(entry);
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '참여 회원 조회 성공',
+      data: { teacher, active, left },
+    });
+  } catch (error) {
+    console.error('Error retrieving room members:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPatchRoom(req, res) {
+  try {
+    const { roomId } = req.params;
+    const { availableFrom, availableTo } = req.body;
+
+    const room = await updateRoom(roomId, { availableFrom, availableTo });
+    if (!room) {
+      return res.status(404).json({ statusCode: 404, message: '해당 대화방을 찾을 수 없습니다' });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '이용 시간 수정 성공',
+      data: room,
+    });
+  } catch (error) {
+    console.error('Error updating room:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpGetRooms, httpGetRoomMessages, httpPatchMessage, httpDeleteRoomMember, httpPostRoomMember, httpGetRoomMembers, httpPatchRoom };

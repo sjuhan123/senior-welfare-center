@@ -38,4 +38,14 @@ export type {
   EnrollmentData,
   EnrollmentListResponse,
 } from './types/course';
-export type { RoomType, RoomData, RoomListItem, RoomListResponse } from './types/room';
+export type {
+  RoomType,
+  RoomData,
+  RoomListItem,
+  RoomListResponse,
+  CourseRoomsResponse,
+  RoomMemberEntry,
+  RoomEnrolleeEntry,
+  RoomMembersData,
+  RoomMembersResponse,
+} from './types/room';
