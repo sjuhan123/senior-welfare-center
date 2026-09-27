@@ -5,4 +5,7 @@ export const QUERY_KEYS = Object.freeze({
   INVITE_CODE: 'inviteCode',
   MEALS: 'meals',
   LOST_ITEMS: 'lostItems',
+  COURSES: 'courses',
+  ENROLLMENTS: 'enrollments',
+  ROOMS: 'rooms',
 });
