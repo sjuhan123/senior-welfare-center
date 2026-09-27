@@ -7,6 +7,7 @@ const ROLE_MATCH_BY_FILTER = {
   teacher: { role: 'teacher' },
   member: { role: 'member' },
   off: { active: false },
+  pending: { status: 'pending' },
 };
 
 async function createMembership(userId, welfareId, joinedVia) {

@@ -26,7 +26,7 @@ export type MembershipScanResponse = {
   data: { membership: MembershipData; welfare: WelfareData };
 };
 
-export type MemberFilter = 'all' | 'staff' | 'teacher' | 'member' | 'off';
+export type MemberFilter = 'all' | 'staff' | 'teacher' | 'member' | 'off' | 'pending';
 
 export type WelfareMemberData = {
   _id: string;

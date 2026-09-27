@@ -1,6 +1,34 @@
 import { getRoomsByWelfare } from '../../models/room/room.model.js';
 import { getCoursesByWelfare } from '../../models/course/course.model.js';
-import { getNoticesByRooms } from '../../models/message/message.model.js';
+import { getNoticesByRooms, countMessagesSinceByRooms } from '../../models/message/message.model.js';
+
+async function getNoticeRoomIds(welfareId) {
+  const rooms = await getRoomsByWelfare(welfareId);
+  return rooms.filter(room => room.type === 'notice').map(room => room._id);
+}
+
+async function httpGetNoticeCount(req, res) {
+  try {
+    const { welfareId } = req.params;
+    const { since } = req.query;
+
+    const roomIds = await getNoticeRoomIds(welfareId);
+    const count = await countMessagesSinceByRooms(roomIds, since ? new Date(since) : undefined);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '공지 건수 조회 성공',
+      data: { count },
+    });
+  } catch (error) {
+    console.error('Error counting notices:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
 
 async function httpGetNotices(req, res) {
   try {
@@ -49,4 +77,4 @@ async function httpGetNotices(req, res) {
   }
 }
 
-export { httpGetNotices };
+export { httpGetNotices, httpGetNoticeCount };

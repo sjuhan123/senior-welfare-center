@@ -13,6 +13,12 @@ export type NoticeListResponse = {
   data: NoticeEntry[];
 };
 
+export type NoticeCountResponse = {
+  statusCode: number;
+  message: string;
+  data: { count: number };
+};
+
 export type MessageData = {
   _id: string;
   room: string;
