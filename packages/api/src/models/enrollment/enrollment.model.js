@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Enrollment from './enrollment.mongo.js';
 
 async function hasAcceptedEnrollment(courseId, userId) {
@@ -6,7 +7,13 @@ async function hasAcceptedEnrollment(courseId, userId) {
 }
 
 async function getEnrollmentsByCourse(courseId) {
-  return await Enrollment.find({ course: courseId }).sort({ createdAt: -1 });
+  return await Enrollment.aggregate([
+    { $match: { course: new mongoose.Types.ObjectId(courseId) } },
+    { $sort: { createdAt: -1 } },
+    { $lookup: { from: 'users', localField: 'userId', foreignField: 'id', as: 'user' } },
+    { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+    { $project: { _id: 1, course: 1, userId: 1, userName: '$user.userName', state: 1, createdAt: 1, updatedAt: 1 } },
+  ]);
 }
 
 async function updateEnrollmentState(enrollmentId, state) {

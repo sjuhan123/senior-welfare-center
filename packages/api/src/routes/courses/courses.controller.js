@@ -29,7 +29,7 @@ async function httpGetCourses(req, res) {
 async function httpPostCourse(req, res) {
   try {
     const { welfareId } = req.params;
-    const { name, when, place, teacher, cap, from, to, rooms, availableFrom, availableTo } = req.body;
+    const { name, schedule, place, teacher, cap, from, to, rooms, availableFrom, availableTo } = req.body;
 
     if (!name || !name.trim()) {
       return res.status(400).json({ statusCode: 400, message: '강좌명을 입력하세요' });
@@ -38,7 +38,7 @@ async function httpPostCourse(req, res) {
       return res.status(400).json({ statusCode: 400, message: '시작일과 종료일을 입력하세요' });
     }
 
-    const course = await createCourse(welfareId, { name, when, place, cap, from, to, teacher: teacher || null });
+    const course = await createCourse(welfareId, { name, schedule, place, cap, from, to, teacher: teacher || null });
 
     await createRoom({ welfare: welfareId, course: course._id, type: 'notice' });
     if ((rooms || []).includes('chat')) {
@@ -66,11 +66,11 @@ async function httpPostCourse(req, res) {
 async function httpPatchCourse(req, res) {
   try {
     const { courseId } = req.params;
-    const { name, when, place, teacher, cap, from, to, updatedAt } = req.body;
+    const { name, schedule, place, teacher, cap, from, to, updatedAt } = req.body;
 
     const fields = {};
     if (name !== undefined) fields.name = name;
-    if (when !== undefined) fields.when = when;
+    if (schedule !== undefined) fields.schedule = schedule;
     if (place !== undefined) fields.place = place;
     if (teacher !== undefined) fields.teacher = teacher;
     if (cap !== undefined) fields.cap = cap;

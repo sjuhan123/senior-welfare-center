@@ -1,5 +1,12 @@
+import useMyMembership from '../../hooks/useMyMembership';
+import CoursesContent from './CoursesContent';
+
 const Courses = () => {
-  return <div>강좌 관리 준비 중</div>;
+  const { data: membership } = useMyMembership();
+
+  if (!membership) return null;
+
+  return <CoursesContent welfareId={membership.welfare._id} />;
 };
 
 export default Courses;

@@ -11,9 +11,26 @@ const CourseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    when: {
-      type: String,
-      default: '',
+    schedule: {
+      type: [
+        {
+          day: {
+            type: String,
+            enum: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+            required: true,
+          },
+          startTime: {
+            type: String,
+            required: true,
+          },
+          endTime: {
+            type: String,
+            required: true,
+          },
+          _id: false,
+        },
+      ],
+      default: [],
     },
     place: {
       type: String,

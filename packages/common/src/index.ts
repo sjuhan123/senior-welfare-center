@@ -28,3 +28,14 @@ export type {
 export type { InviteCodeData, InviteCodeResponse, InviteCodeIssueResponse } from './types/inviteCode';
 export type { MealData, MealListResponse, MealDetailResponse } from './types/meal';
 export type { LostItemData, LostItemListResponse, LostItemDetailResponse } from './types/lostItem';
+export type {
+  Weekday,
+  ScheduleItem,
+  CourseData,
+  CourseListResponse,
+  CourseDetailResponse,
+  EnrollmentState,
+  EnrollmentData,
+  EnrollmentListResponse,
+} from './types/course';
+export type { RoomType, RoomData, RoomListItem, RoomListResponse } from './types/room';
