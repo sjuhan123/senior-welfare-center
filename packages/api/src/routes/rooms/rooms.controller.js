@@ -1,10 +1,10 @@
 import { getRoomById, getRoomsByWelfare, updateRoom } from '../../models/room/room.model.js';
-import { getMessagesByRoom, getLatestMessagesByRooms, updateMessage } from '../../models/message/message.model.js';
+import { getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage } from '../../models/message/message.model.js';
 import { getUnreadCount } from '../../models/roomRead/roomRead.model.js';
 import { leaveRoomType, rejoinRoomType, getAcceptedEnrollmentsByCourse } from '../../models/enrollment/enrollment.model.js';
 import { getCourseById } from '../../models/course/course.model.js';
 import { findUserBy } from '../../models/user/user.model.js';
-import { canAccessRoom, canSendToRoom } from '../../services/room.service.js';
+import { canAccessRoom, canSendToRoom, canModerateRoom, getSenderRole } from '../../services/room.service.js';
 
 async function httpGetRooms(req, res) {
   try {
@@ -94,6 +94,69 @@ async function httpPatchMessage(req, res) {
     });
   } catch (error) {
     console.error('Error updating message:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPostMessage(req, res) {
+  try {
+    const { text } = req.body;
+
+    if (req.room.type !== 'notice' || !(await canSendToRoom(req.user, req.room))) {
+      return res.status(403).json({ statusCode: 403, message: '권한이 없습니다' });
+    }
+    if (!text || !text.trim()) {
+      return res.status(400).json({ statusCode: 400, message: '공지 내용을 입력하세요' });
+    }
+
+    const message = await createMessage({
+      room: req.room._id,
+      senderId: req.user.id,
+      senderName: req.user.userName,
+      senderRole: await getSenderRole(req.user.id, req.room.welfare),
+      text,
+      photos: [],
+      editable: true,
+    });
+
+    return res.status(201).json({
+      statusCode: 201,
+      message: '공지 등록 성공',
+      data: message,
+    });
+  } catch (error) {
+    console.error('Error creating message:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpDeleteMessage(req, res) {
+  try {
+    const { messageId } = req.params;
+
+    if (!(await canModerateRoom(req.user, req.room))) {
+      return res.status(403).json({ statusCode: 403, message: '권한이 없습니다' });
+    }
+
+    const message = await hideMessage(messageId);
+    if (!message) {
+      return res.status(404).json({ statusCode: 404, message: '해당 메시지를 찾을 수 없습니다' });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '삭제 완료',
+    });
+  } catch (error) {
+    console.error('Error hiding message:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',
@@ -223,4 +286,14 @@ async function httpPatchRoom(req, res) {
   }
 }
 
-export { httpGetRooms, httpGetRoomMessages, httpPatchMessage, httpDeleteRoomMember, httpPostRoomMember, httpGetRoomMembers, httpPatchRoom };
+export {
+  httpGetRooms,
+  httpGetRoomMessages,
+  httpPostMessage,
+  httpPatchMessage,
+  httpDeleteMessage,
+  httpDeleteRoomMember,
+  httpPostRoomMember,
+  httpGetRoomMembers,
+  httpPatchRoom,
+};

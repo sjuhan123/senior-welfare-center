@@ -10,4 +10,5 @@ export const QUERY_KEYS = Object.freeze({
   ROOMS: 'rooms',
   COURSE_ROOMS: 'courseRooms',
   ROOM_MEMBERS: 'roomMembers',
+  NOTICES: 'notices',
 });

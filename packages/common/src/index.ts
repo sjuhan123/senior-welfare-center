@@ -49,3 +49,4 @@ export type {
   RoomMembersData,
   RoomMembersResponse,
 } from './types/room';
+export type { NoticeEntry, NoticeListResponse, MessageData, MessageResponse } from './types/notice';
