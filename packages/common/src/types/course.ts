@@ -47,6 +47,18 @@ export type EnrollmentListResponse = {
   data: EnrollmentData[];
 };
 
+export type MyEnrollmentEntry = {
+  _id: string;
+  course: string;
+  state: EnrollmentState;
+};
+
+export type MyEnrollmentsResponse = {
+  statusCode: number;
+  message: string;
+  data: MyEnrollmentEntry[];
+};
+
 export type PendingEnrollmentCount = {
   courseId: string;
   courseName: string;
