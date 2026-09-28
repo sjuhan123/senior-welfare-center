@@ -110,8 +110,10 @@ const CenterCourseList = ({ welfareId, membership, courses, myEnrollments }: Pro
 
               {isMember && cardState === 'accepted' && (
                 <View style={styles.stateRow}>
-                  <View style={styles.mainButton}>
-                    <Text style={styles.mainButtonText}>수락 완료 · 다니고 있습니다</Text>
+                  <View style={styles.acceptedTag}>
+                    <Text style={styles.acceptedTagText} lineBreakStrategyIOS="hangul-word">
+                      수락 완료 · 다니고 있습니다
+                    </Text>
                   </View>
                   <Pressable style={styles.cancelButton} onPress={() => handleCancelAccepted(course)}>
                     <Text style={styles.cancelButtonText}>취소</Text>
@@ -303,6 +305,21 @@ const centerCourseListStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs
       fontFamily: fontFamily('bold'),
       textAlign: 'center',
       color: semantic.stateWaitFg,
+    },
+    acceptedTag: {
+      flex: 1,
+      minHeight: hit.mobileCompact,
+      paddingHorizontal: 10,
+      borderRadius: radius.mobileButton,
+      backgroundColor: semantic.actionBg,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    acceptedTagText: {
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('bold'),
+      textAlign: 'center',
+      color: semantic.actionFg,
     },
     cancelButton: {
       flex: 0,
