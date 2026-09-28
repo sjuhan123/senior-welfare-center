@@ -114,7 +114,7 @@ const CenterContent = ({ membership }: Props) => {
           </View>
         )}
 
-        <View style={styles.sectionHeaderRow}>
+        <View style={styles.sectionHeaderRowCourse}>
           <View style={styles.sectionBullet} />
           <Text style={styles.sectionTitle}>강좌 {courses.length}개</Text>
           <Text style={styles.sectionHint}>{courseHint}</Text>
@@ -127,7 +127,11 @@ const CenterContent = ({ membership }: Props) => {
           <Text style={styles.sectionHint}>{lostItems.length}건</Text>
         </View>
         <CenterLostItemList lostItems={lostItems} />
-        {lostItems.length > 0 && <Text style={styles.lostItemNote}>내 물건이 보이면 복지관에 말씀하시거나 전화하시면 됩니다.</Text>}
+        {lostItems.length > 0 && (
+          <Text style={styles.lostItemNote} lineBreakStrategyIOS="hangul-word">
+            내 물건이 보이면 복지관에 말씀하시거나 전화하시면 됩니다.
+          </Text>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -285,6 +289,17 @@ const centerContentStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
       marginHorizontal: 18,
       marginTop: 22,
       marginBottom: 10,
+      paddingBottom: 8,
+      borderBottomWidth: 2,
+      borderBottomColor: color.navy,
+    },
+    /** 강좌 목록 카드의 흰 배경이 이 헤더의 borderBottom까지 바로 이어지도록 marginBottom을 없앰 */
+    sectionHeaderRowCourse: {
+      flexDirection: 'row',
+      alignItems: 'baseline',
+      gap: 10,
+      marginHorizontal: 18,
+      marginTop: 22,
       paddingBottom: 8,
       borderBottomWidth: 2,
       borderBottomColor: color.navy,

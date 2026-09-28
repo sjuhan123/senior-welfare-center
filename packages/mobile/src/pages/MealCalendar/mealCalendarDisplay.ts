@@ -33,7 +33,7 @@ export const dateLabel = (iso: string) => {
 export const dayWeekdayLabel = (iso: string) => {
   const date = new Date(`${iso}T00:00:00`);
   const weekday = ['일', '월', '화', '수', '목', '금', '토'][date.getDay()];
-  return `${Number(iso.slice(8, 10))}일 ${weekday}요일`;
+  return `${Number(iso.slice(8, 10))}일(${weekday})`;
 };
 
 const WEEKDAY_LABEL = ['일', '월', '화', '수', '목', '금', '토'];

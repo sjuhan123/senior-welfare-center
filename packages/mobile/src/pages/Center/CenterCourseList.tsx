@@ -100,7 +100,7 @@ const CenterCourseList = ({ welfareId, membership, courses, myEnrollments }: Pro
               {isMember && cardState === 'pending' && (
                 <View style={styles.stateRow}>
                   <View style={styles.waitTag}>
-                    <Text style={styles.waitTagText}>신청함 · 복지관 확인 기다리는 중</Text>
+                    <Text style={styles.waitTagText}>신청함{'\n'}복지관 확인 기다리는 중</Text>
                   </View>
                   <Pressable style={styles.cancelButton} onPress={() => cancel(course._id)}>
                     <Text style={styles.cancelButtonText}>신청 취소</Text>
@@ -156,8 +156,7 @@ const centerCourseListStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs
       backgroundColor: semantic.bgSurface,
       borderWidth: 1,
       borderColor: semantic.border,
-      borderTopWidth: 3,
-      borderTopColor: color.navy,
+      borderTopWidth: 0,
       borderBottomLeftRadius: radius.mobileContainer,
       borderBottomRightRadius: radius.mobileContainer,
       overflow: 'hidden',
