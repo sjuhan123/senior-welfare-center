@@ -1,6 +1,8 @@
 import { rotateRefreshToken, revokeRefreshToken } from '../../models/refreshToken/refreshToken.model.js';
-import { findUserBy } from '../../models/user/user.model.js';
-import { issueAccessToken, sendAuthTokens, clearAuthCookies } from '../../services/auth.service.js';
+import { findUserBy, saveUser } from '../../models/user/user.model.js';
+import { issueAccessToken, issueAuthTokens, sendAuthTokens, clearAuthCookies } from '../../services/auth.service.js';
+
+const DEV_TEST_USER_ID = 'dev-test-user';
 
 async function refresh(req, res, clientType) {
   const refreshToken = clientType === 'admin' ? req.cookies?.refreshToken : req.body.refreshToken;
@@ -63,4 +65,25 @@ async function httpPostAdminLogout(req, res) {
   }
 }
 
-export { httpPostAdminRefresh, httpPostMobileRefresh, httpPostAdminLogout };
+/** 카카오 로그인을 우회해서 고정 테스트 유저로 로그인 토큰을 발급함. Expo Go에서 카카오 네이티브 SDK가 동작하지 않아 로그인 이후 화면을 테스트할 수 없는 문제를 위한 개발 전용 경로. 43. 개발용 테스트 로그인 참고. */
+async function httpPostDevLogin(req, res) {
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(404).end();
+  }
+
+  try {
+    const userName = '개발용 테스트 계정';
+    const userAvatar = '';
+
+    await saveUser(DEV_TEST_USER_ID, { profile: { nickname: userName, thumbnail_image_url: userAvatar } }, '');
+
+    const tokens = await issueAuthTokens({ id: DEV_TEST_USER_ID, userName, userAvatar }, 'mobile');
+
+    return sendAuthTokens(res, 'mobile', tokens);
+  } catch (error) {
+    console.error('Error issuing dev login token:', error);
+    return res.status(500).json({ statusCode: 500, message: '서버 오류', error: error.message });
+  }
+}
+
+export { httpPostAdminRefresh, httpPostMobileRefresh, httpPostAdminLogout, httpPostDevLogin };

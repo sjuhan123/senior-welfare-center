@@ -7,6 +7,7 @@ export const END_POINT = Object.freeze({
   KAKAO_LOGIN: `${BASE_URL}api/auth/kakao`,
   KAKAO_LOGOUT: `${BASE_URL}api/user/logout`,
   AUTH_MOBILE_REFRESH: `${BASE_URL}api/auth/mobile/refresh`,
+  AUTH_DEV_LOGIN: `${BASE_URL}api/auth/dev/login`,
   USER_WELFARE_BOOKMARK: `${BASE_URL}api/user/welfare`,
   WELFARES: `${BASE_URL}api/welfares`,
   MEMBERSHIPS_ME: `${BASE_URL}api/memberships/me`,
