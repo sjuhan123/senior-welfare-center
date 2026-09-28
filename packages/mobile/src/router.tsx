@@ -2,7 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Auth from './pages/Auth';
 import AccountCreated from './pages/AccountCreated';
-import Center from './pages/Center';
+import Center from './pages/Center/Center';
+import MealCalendar from './pages/MealCalendar/MealCalendar';
 import Chat from './pages/Chat';
 import Feed from './pages/Feed';
 import Me from './pages/Me';
@@ -24,6 +25,7 @@ export type RootStackParamList = {
   QrScan: undefined;
   JoinSuccess: { welfareName: string; role: MembershipRole };
   MainTabs: undefined;
+  MealCalendar: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -48,6 +50,7 @@ const Routers = () => {
       <Stack.Screen name="QrScan" component={QrScan} />
       <Stack.Screen name="JoinSuccess" component={JoinSuccess} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
+      <Stack.Screen name="MealCalendar" component={MealCalendar} />
     </Stack.Navigator>
   );
 };

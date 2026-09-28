@@ -36,6 +36,37 @@ async function getPendingEnrollmentCountsByWelfare(welfareId) {
   ]);
 }
 
+async function getMyEnrollmentsByWelfare(welfareId, userId) {
+  return await Enrollment.aggregate([
+    { $match: { userId } },
+    { $lookup: { from: 'courses', localField: 'course', foreignField: '_id', as: 'course' } },
+    { $unwind: '$course' },
+    { $match: { 'course.welfare': new mongoose.Types.ObjectId(welfareId) } },
+    { $project: { _id: 1, course: '$course._id', state: 1 } },
+  ]);
+}
+
+async function createEnrollment(courseId, userId) {
+  const existing = await Enrollment.findOne({ course: courseId, userId, state: { $in: ['pending', 'accepted'] } });
+  if (existing) return { result: 'conflict' };
+
+  const doc = await Enrollment.create({ course: courseId, userId, state: 'pending' });
+  return { result: 'ok', doc };
+}
+
+async function cancelMyEnrollment(courseId, userId) {
+  const enrollment = await Enrollment.findOne({ course: courseId, userId, state: { $in: ['pending', 'accepted'] } });
+  if (!enrollment) return { result: 'not_found' };
+
+  if (enrollment.state === 'pending') {
+    await Enrollment.deleteOne({ _id: enrollment._id });
+  } else {
+    await Enrollment.updateOne({ _id: enrollment._id }, { state: 'dropped' });
+  }
+
+  return { result: 'ok' };
+}
+
 async function getEnrollmentsByCourse(courseId) {
   return await Enrollment.aggregate([
     { $match: { course: new mongoose.Types.ObjectId(courseId) } },
@@ -68,6 +99,9 @@ export {
   rejoinRoomType,
   getAcceptedEnrollmentsByCourse,
   getPendingEnrollmentCountsByWelfare,
+  getMyEnrollmentsByWelfare,
+  createEnrollment,
+  cancelMyEnrollment,
   getEnrollmentsByCourse,
   updateEnrollmentState,
   updateEnrollmentsState,

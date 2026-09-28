@@ -37,6 +37,8 @@ export type {
   EnrollmentState,
   EnrollmentData,
   EnrollmentListResponse,
+  MyEnrollmentEntry,
+  MyEnrollmentsResponse,
   PendingEnrollmentCount,
   PendingEnrollmentCountsResponse,
 } from './types/course';

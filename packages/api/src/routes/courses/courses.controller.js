@@ -3,6 +3,9 @@ import { createRoom, getRoomsByCourse } from '../../models/room/room.model.js';
 import {
   getEnrollmentsByCourse,
   getPendingEnrollmentCountsByWelfare,
+  getMyEnrollmentsByWelfare,
+  createEnrollment,
+  cancelMyEnrollment,
   updateEnrollmentState,
   updateEnrollmentsState,
 } from '../../models/enrollment/enrollment.model.js';
@@ -152,6 +155,76 @@ async function httpGetCourseRooms(req, res) {
   }
 }
 
+async function httpGetMyEnrollments(req, res) {
+  try {
+    const { welfareId } = req.params;
+
+    const enrollments = await getMyEnrollmentsByWelfare(welfareId, req.user.id);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '내 신청 목록 조회 성공',
+      data: enrollments,
+    });
+  } catch (error) {
+    console.error('Error retrieving my enrollments:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPostEnrollment(req, res) {
+  try {
+    const { courseId } = req.params;
+
+    const { result, doc } = await createEnrollment(courseId, req.user.id);
+
+    if (result === 'conflict') {
+      return res.status(409).json({ statusCode: 409, message: '이미 신청했거나 수강 중인 강좌입니다' });
+    }
+
+    return res.status(201).json({
+      statusCode: 201,
+      message: '신청 완료',
+      data: doc,
+    });
+  } catch (error) {
+    console.error('Error creating enrollment:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpDeleteMyEnrollment(req, res) {
+  try {
+    const { courseId } = req.params;
+
+    const { result } = await cancelMyEnrollment(courseId, req.user.id);
+
+    if (result === 'not_found') {
+      return res.status(404).json({ statusCode: 404, message: '신청 내역을 찾을 수 없습니다' });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '취소 완료',
+    });
+  } catch (error) {
+    console.error('Error cancelling enrollment:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
 async function httpGetPendingEnrollmentCounts(req, res) {
   try {
     const { welfareId } = req.params;
@@ -258,6 +331,9 @@ export {
   httpDeleteCourse,
   httpGetCourseRooms,
   httpGetPendingEnrollmentCounts,
+  httpGetMyEnrollments,
+  httpPostEnrollment,
+  httpDeleteMyEnrollment,
   httpGetEnrollments,
   httpPatchEnrollment,
   httpPatchEnrollmentsBulk,
