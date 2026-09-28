@@ -39,3 +39,9 @@ export type MessageResponse = {
   message: string;
   data: MessageData;
 };
+
+export type MessageListResponse = {
+  statusCode: number;
+  message: string;
+  data: MessageData[];
+};

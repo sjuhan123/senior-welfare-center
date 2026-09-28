@@ -12,7 +12,17 @@ async function updateRoom(roomId, { availableFrom, availableTo }) {
   return await Room.findByIdAndUpdate(roomId, { availableFrom, availableTo }, { new: true });
 }
 
+/** 복지관은 공공데이터로 일괄 시딩돼서 생성 시점에 공지방을 같이 만들 훅이 없음. 대신 조회 시점에 없으면 만듦(upsert). */
+async function ensureWelfareNoticeRoom(welfareId) {
+  await Room.findOneAndUpdate(
+    { welfare: welfareId, course: null, type: 'notice' },
+    { welfare: welfareId, course: null, type: 'notice' },
+    { upsert: true },
+  );
+}
+
 async function getRoomsByWelfare(welfareId) {
+  await ensureWelfareNoticeRoom(welfareId);
   return await Room.find({ welfare: welfareId });
 }
 

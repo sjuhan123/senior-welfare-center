@@ -1,10 +1,12 @@
+import type { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Auth from './pages/Auth';
 import AccountCreated from './pages/AccountCreated';
 import Center from './pages/Center/Center';
 import MealCalendar from './pages/MealCalendar/MealCalendar';
-import Chat from './pages/Chat';
+import Chat from './pages/Chat/Chat';
+import NoticeRoom from './pages/NoticeRoom/NoticeRoom';
 import Feed from './pages/Feed';
 import Me from './pages/Me';
 import TabBar from './components/TabBar';
@@ -24,8 +26,9 @@ export type RootStackParamList = {
   AccountCreated: undefined;
   QrScan: undefined;
   JoinSuccess: { welfareName: string; role: MembershipRole };
-  MainTabs: undefined;
+  MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   MealCalendar: undefined;
+  NoticeRoom: { welfareId: string; roomId: string; courseId: string | null; roomTitle: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -51,6 +54,7 @@ const Routers = () => {
       <Stack.Screen name="JoinSuccess" component={JoinSuccess} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="MealCalendar" component={MealCalendar} />
+      <Stack.Screen name="NoticeRoom" component={NoticeRoom} />
     </Stack.Navigator>
   );
 };
