@@ -116,8 +116,8 @@ const MealCalendar = () => {
                 }}
               >
                 <Text style={[styles.weekRowDay, isSelected && styles.weekRowDaySelected]}>{dayWeekdayLabel(iso)}</Text>
-                <Text style={styles.weekRowText} numberOfLines={1} ellipsizeMode="tail">
-                  {meal ? meal.items.join(' · ') : '등록되지 않았습니다'}
+                <Text style={styles.weekRowText} lineBreakStrategyIOS="hangul-word">
+                  {meal ? meal.items.join(', ') : '등록되지 않았습니다'}
                 </Text>
               </Pressable>
             );
