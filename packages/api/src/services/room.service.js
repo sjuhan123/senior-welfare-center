@@ -5,7 +5,7 @@ import { hasRoomAccessAsEnrollee } from '../models/enrollment/enrollment.model.j
 async function canAccessRoom(user, room) {
   if (!room.course) {
     const membership = await getMembership(user.id, room.welfare);
-    return !!membership && membership.status === 'approved' && membership.active !== false;
+    return !!membership && membership.active !== false;
   }
 
   const course = await getCourseById(room.course);

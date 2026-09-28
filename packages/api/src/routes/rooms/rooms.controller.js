@@ -1,6 +1,6 @@
 import { getRoomById, getRoomsByWelfare, updateRoom } from '../../models/room/room.model.js';
 import { getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage } from '../../models/message/message.model.js';
-import { getUnreadCount } from '../../models/roomRead/roomRead.model.js';
+import { getUnreadCount, markRoomRead } from '../../models/roomRead/roomRead.model.js';
 import { leaveRoomType, rejoinRoomType, getAcceptedEnrollmentsByCourse } from '../../models/enrollment/enrollment.model.js';
 import { getCourseById } from '../../models/course/course.model.js';
 import { findUserBy } from '../../models/user/user.model.js';
@@ -52,6 +52,9 @@ async function httpGetRoomMessages(req, res) {
       before: before ? new Date(before) : undefined,
       limit: limit ? Number(limit) : undefined,
     });
+
+    /** 공지방은 소켓 join_room을 안 써서 여기가 유일한 "방에 들어감" 시점. REST 조회 자체를 읽음 처리로 취급. */
+    await markRoomRead(roomId, req.user.id);
 
     return res.status(200).json({
       statusCode: 200,

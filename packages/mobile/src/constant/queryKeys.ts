@@ -10,4 +10,6 @@ export const QUERY_KEYS = Object.freeze({
   ENROLLMENTS: 'enrollments',
   LOST_ITEMS: 'lostItems',
   MEALS: 'meals',
+  ROOMS: 'rooms',
+  MESSAGES: 'messages',
 });

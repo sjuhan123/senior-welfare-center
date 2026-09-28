@@ -1,3 +1,5 @@
+import type { MessageData } from './notice';
+
 export type RoomType = 'notice' | 'chat' | 'feed';
 
 export type RoomData = {
@@ -13,7 +15,7 @@ export type RoomData = {
 
 export type RoomListItem = {
   room: RoomData;
-  latestMessage: unknown | null;
+  latestMessage: MessageData | null;
   unreadCount: number;
 };
 
