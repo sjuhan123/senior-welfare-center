@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Routers from './router';
 import { FONT_ASSETS } from './constant/fonts';
+import { navigationRef } from './refs/navigationRef';
 
 const App = () => {
   const [fontsLoaded] = useFonts(FONT_ASSETS);
@@ -27,7 +28,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <Routers />
         </NavigationContainer>
       </QueryClientProvider>
