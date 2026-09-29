@@ -30,7 +30,7 @@ function registerRoomSocketEvents(io, socket) {
     }
   });
 
-  socket.on('send_message', async ({ roomId, text, photos }, callback) => {
+  socket.on('send_message', async ({ roomId, text, photos, clientMessageId }, callback) => {
     try {
       const room = await getRoomById(roomId);
       if (!room || !(await canSendToRoom(socket.user, room))) {
@@ -47,7 +47,8 @@ function registerRoomSocketEvents(io, socket) {
         editable: room.type === 'notice',
       });
 
-      io.to(roomId).emit('new_message', message);
+      /** clientMessageId를 ack·브로드캐스트 양쪽에 그대로 돌려줘서, 둘 중 뭐가 먼저 와도 클라이언트가 낙관적 추가한 임시 항목을 정확히 찾아 교체할 수 있게 함(도착 순서에 의존하지 않는 dedup). 45. 이야기방 실시간 채팅 참고. */
+      io.to(roomId).emit('new_message', { message, clientMessageId });
       callback?.({ ok: true, data: message });
     } catch (error) {
       callback?.({ error: '서버 오류' });

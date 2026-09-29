@@ -43,5 +43,9 @@ export type MessageResponse = {
 export type MessageListResponse = {
   statusCode: number;
   message: string;
-  data: MessageData[];
+  data: {
+    messages: MessageData[];
+    canSend: boolean;
+    canManage: boolean;
+  };
 };
