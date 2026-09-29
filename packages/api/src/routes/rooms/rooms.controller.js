@@ -11,10 +11,8 @@ async function httpGetRooms(req, res) {
     const { welfareId } = req.params;
 
     const rooms = await getRoomsByWelfare(welfareId);
-    const accessibleRooms = [];
-    for (const room of rooms) {
-      if (await canAccessRoom(req.user, room)) accessibleRooms.push(room);
-    }
+    const accessFlags = await Promise.all(rooms.map(room => canAccessRoom(req.user, room)));
+    const accessibleRooms = rooms.filter((room, index) => accessFlags[index]);
 
     const roomIds = accessibleRooms.map(room => room._id);
     const latestMessages = await getLatestMessagesByRooms(roomIds);
@@ -56,10 +54,12 @@ async function httpGetRoomMessages(req, res) {
     /** 공지방은 소켓 join_room을 안 써서 여기가 유일한 "방에 들어감" 시점. REST 조회 자체를 읽음 처리로 취급. */
     await markRoomRead(roomId, req.user.id);
 
+    const [canSend, canManage] = await Promise.all([canSendToRoom(req.user, req.room), canModerateRoom(req.user, req.room)]);
+
     return res.status(200).json({
       statusCode: 200,
       message: '메시지 목록 조회 성공',
-      data: messages,
+      data: { messages, canSend, canManage },
     });
   } catch (error) {
     console.error('Error retrieving room messages:', error);

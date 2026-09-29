@@ -9,7 +9,7 @@ import useGetRooms from '../../hooks/api/room/useGetRooms';
 import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { previewText, formatTime, roomTitle, sortRoomEntries } from './chatDisplay';
+import { previewText, formatPreviewTime, roomTitle, sortRoomEntries } from './chatDisplay';
 
 const INITIAL_LIMIT = 6;
 const STEP = 6;
@@ -51,17 +51,19 @@ const ChatContent = ({ membership }: Props) => {
   const styles = useStyles(chatContentStyleFactory);
 
   const handlePressRoom = (room: RoomData) => {
-    if (room.type !== 'notice') {
-      Alert.alert('안내', '곧 만들어질 예정입니다');
+    const title = roomTitle(room, courses, membership.welfare.name);
+
+    if (room.type === 'notice') {
+      navigation.navigate('NoticeRoom', { welfareId, roomId: room._id, roomTitle: title });
       return;
     }
 
-    navigation.navigate('NoticeRoom', {
-      welfareId,
-      roomId: room._id,
-      courseId: room.course,
-      roomTitle: roomTitle(room, courses, membership.welfare.name),
-    });
+    if (room.type === 'chat') {
+      navigation.navigate('ChatRoom', { welfareId, roomId: room._id, roomTitle: title });
+      return;
+    }
+
+    Alert.alert('안내', '곧 만들어질 예정입니다');
   };
 
   return (
@@ -105,7 +107,7 @@ const ChatContent = ({ membership }: Props) => {
                 </Text>
               </View>
               <View style={styles.rowSide}>
-                {latestMessage && <Text style={styles.rowTime}>{formatTime(latestMessage.createdAt)}</Text>}
+                {latestMessage && <Text style={styles.rowTime}>{formatPreviewTime(latestMessage.createdAt)}</Text>}
                 {unreadCount > 0 && (
                   <View style={styles.unreadBadge}>
                     <Text style={styles.unreadBadgeText}>{unreadCount}</Text>

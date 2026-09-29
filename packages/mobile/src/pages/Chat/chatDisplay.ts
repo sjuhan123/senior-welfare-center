@@ -33,24 +33,32 @@ export const previewText = (message: MessageData | null) => {
   return message.text;
 };
 
-export const formatTime = (isoDate: string) => {
+/** 항상 시각만 표시. 채팅방 안에서는 날짜 구분선이 이미 있어서 메시지마다 날짜를 또 보여줄 필요 없음 */
+export const formatMessageTime = (isoDate: string) => {
+  const date = new Date(isoDate);
+  const hours = date.getHours();
+  const period = hours < 12 ? '오전' : '오후';
+  const displayHour = hours % 12 === 0 ? 12 : hours % 12;
+  return `${period} ${displayHour}:${String(date.getMinutes()).padStart(2, '0')}`;
+};
+
+/** 오늘이면 시각, 아니면 날짜. 대화 목록의 미리보기 시각용 */
+export const formatPreviewTime = (isoDate: string) => {
   const date = new Date(isoDate);
   const now = new Date();
   const isToday = date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
 
-  if (isToday) {
-    const hours = date.getHours();
-    const period = hours < 12 ? '오전' : '오후';
-    const displayHour = hours % 12 === 0 ? 12 : hours % 12;
-    return `${period} ${displayHour}:${String(date.getMinutes()).padStart(2, '0')}`;
-  }
-
-  return `${date.getMonth() + 1}/${date.getDate()}`;
+  if (isToday) return formatMessageTime(isoDate);
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
 };
 
 const WEEKDAY_LABEL = ['일', '월', '화', '수', '목', '금', '토'];
 
-export const dayKey = (isoDate: string) => isoDate.slice(0, 10);
+/** 로컬 기준 날짜 키. UTC로 자르면 자정~오전 9시(KST) 사이 메시지가 하루 전 날짜로 묶여버림 */
+export const dayKey = (isoDate: string) => {
+  const date = new Date(isoDate);
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+};
 
 export const messageDateLabel = (isoDate: string) => {
   const date = new Date(isoDate);
