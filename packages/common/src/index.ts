@@ -60,4 +60,5 @@ export type {
   MessageData,
   MessageResponse,
   MessageListResponse,
+  PhotoPresignResponse,
 } from './types/notice';

@@ -5,6 +5,7 @@ import { leaveRoomType, rejoinRoomType, getAcceptedEnrollmentsByCourse } from '.
 import { getCourseById } from '../../models/course/course.model.js';
 import { findUserBy } from '../../models/user/user.model.js';
 import { canAccessRoom, canSendToRoom, canModerateRoom, getSenderRole } from '../../services/room.service.js';
+import { createPhotoPresignedUpload } from '../../services/upload.service.js';
 
 async function httpGetRooms(req, res) {
   try {
@@ -107,12 +108,12 @@ async function httpPatchMessage(req, res) {
 
 async function httpPostMessage(req, res) {
   try {
-    const { text } = req.body;
+    const { text, photos = [] } = req.body;
 
     if (req.room.type !== 'notice' || !(await canSendToRoom(req.user, req.room))) {
       return res.status(403).json({ statusCode: 403, message: '권한이 없습니다' });
     }
-    if (!text || !text.trim()) {
+    if (!text?.trim() && photos.length === 0) {
       return res.status(400).json({ statusCode: 400, message: '공지 내용을 입력하세요' });
     }
 
@@ -122,7 +123,7 @@ async function httpPostMessage(req, res) {
       senderName: req.user.userName,
       senderRole: await getSenderRole(req.user.id, req.room.welfare),
       text,
-      photos: [],
+      photos,
       editable: true,
     });
 
@@ -133,6 +134,34 @@ async function httpPostMessage(req, res) {
     });
   } catch (error) {
     console.error('Error creating message:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPostPhotoPresign(req, res) {
+  try {
+    const { contentType } = req.body;
+
+    if (!(await canSendToRoom(req.user, req.room))) {
+      return res.status(403).json({ statusCode: 403, message: '권한이 없습니다' });
+    }
+
+    const presigned = await createPhotoPresignedUpload(req.room._id, contentType);
+    if (!presigned) {
+      return res.status(400).json({ statusCode: 400, message: '지원하지 않는 이미지 형식입니다' });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '업로드 URL 발급 성공',
+      data: presigned,
+    });
+  } catch (error) {
+    console.error('Error creating photo presigned upload:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',
@@ -293,6 +322,7 @@ export {
   httpGetRooms,
   httpGetRoomMessages,
   httpPostMessage,
+  httpPostPhotoPresign,
   httpPatchMessage,
   httpDeleteMessage,
   httpDeleteRoomMember,

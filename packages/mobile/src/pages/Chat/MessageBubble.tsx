@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MessageData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
@@ -14,10 +15,25 @@ type Props = {
   isMine?: boolean;
   /** 메시지 메타 정보에서 시각을 가리기 버튼보다 먼저 보여줄지(공지방 전용) */
   timeFirst?: boolean;
+  /** 사진이 아직 S3 업로드 중인지(이야기방 전용, 낙관적 전송 중 로컬 미리보기 위에 스피너 표시) */
+  isUploadingPhotos?: boolean;
+  /** 사진 업로드가 실패했는지(이야기방 전용, 스피너 대신 X 표시) */
+  hasUploadFailed?: boolean;
 };
 
-const MessageBubble = ({ message, showDateDivider, hiddenLabel, canManage, onHide, isMine = false, timeFirst = false }: Props) => {
+const MessageBubble = ({
+  message,
+  showDateDivider,
+  hiddenLabel,
+  canManage,
+  onHide,
+  isMine = false,
+  timeFirst = false,
+  isUploadingPhotos = false,
+  hasUploadFailed = false,
+}: Props) => {
   const styles = useStyles(messageBubbleStyleFactory);
+  const [viewerPhotoUrl, setViewerPhotoUrl] = useState<string | null>(null);
 
   const hideButton = canManage && !message.hidden && (
     <Pressable style={styles.hideButton} onPress={() => onHide(message._id)}>
@@ -42,9 +58,31 @@ const MessageBubble = ({ message, showDateDivider, hiddenLabel, canManage, onHid
         <View style={[styles.messageMain, isMine && styles.messageMainMine]}>
           {!isMine && <Text style={styles.senderName}>{message.senderName}</Text>}
           <View style={[styles.bubble, isMine && styles.bubbleMine]}>
-            <Text style={[styles.bubbleText, isMine && styles.bubbleTextMine]} lineBreakStrategyIOS="hangul-word">
-              {message.hidden ? hiddenLabel : message.text}
-            </Text>
+            {message.hidden ? (
+              <Text style={[styles.bubbleText, isMine && styles.bubbleTextMine]}>{hiddenLabel}</Text>
+            ) : (
+              <>
+                {message.photos.length > 0 && (
+                  <View style={[styles.photoGrid, !!message.text && styles.photoGridWithText]}>
+                    {message.photos.map(photoUrl => (
+                      <Pressable key={photoUrl} style={styles.photoThumbnailWrap} onPress={() => setViewerPhotoUrl(photoUrl)}>
+                        <Image source={{ uri: photoUrl }} style={styles.photoThumbnail} />
+                        {(isUploadingPhotos || hasUploadFailed) && (
+                          <View style={styles.photoUploadingOverlay}>
+                            {hasUploadFailed ? <Text style={styles.photoFailedText}>×</Text> : <ActivityIndicator color={color.grey0} />}
+                          </View>
+                        )}
+                      </Pressable>
+                    ))}
+                  </View>
+                )}
+                {!!message.text && (
+                  <Text style={[styles.bubbleText, isMine && styles.bubbleTextMine]} lineBreakStrategyIOS="hangul-word">
+                    {message.text}
+                  </Text>
+                )}
+              </>
+            )}
           </View>
           <View style={[styles.messageMeta, isMine && styles.messageMetaMine]}>
             {timeFirst ? (
@@ -61,6 +99,12 @@ const MessageBubble = ({ message, showDateDivider, hiddenLabel, canManage, onHid
           </View>
         </View>
       </View>
+
+      <Modal visible={!!viewerPhotoUrl} transparent animationType="fade" onRequestClose={() => setViewerPhotoUrl(null)}>
+        <Pressable style={styles.viewerBackdrop} onPress={() => setViewerPhotoUrl(null)}>
+          {!!viewerPhotoUrl && <Image source={{ uri: viewerPhotoUrl }} style={styles.viewerImage} resizeMode="contain" />}
+        </Pressable>
+      </Modal>
     </View>
   );
 };
@@ -147,6 +191,50 @@ const messageBubbleStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
     },
     bubbleTextMine: {
       color: semantic.textOnDark,
+    },
+    photoGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 6,
+    },
+    photoGridWithText: {
+      marginBottom: 10,
+    },
+    photoThumbnailWrap: {
+      width: 120,
+      height: 120,
+      borderRadius: 10,
+      overflow: 'hidden',
+      backgroundColor: color.grey150,
+    },
+    photoThumbnail: {
+      width: '100%',
+      height: '100%',
+    },
+    photoUploadingOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.35)',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    photoFailedText: {
+      fontSize: fontSize('xxl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textOnDark,
+    },
+    viewerBackdrop: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.9)',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    viewerImage: {
+      width: '100%',
+      height: '100%',
     },
     messageMeta: {
       flexDirection: 'row',
