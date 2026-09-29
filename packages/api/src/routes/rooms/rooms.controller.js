@@ -11,10 +11,8 @@ async function httpGetRooms(req, res) {
     const { welfareId } = req.params;
 
     const rooms = await getRoomsByWelfare(welfareId);
-    const accessibleRooms = [];
-    for (const room of rooms) {
-      if (await canAccessRoom(req.user, room)) accessibleRooms.push(room);
-    }
+    const accessFlags = await Promise.all(rooms.map(room => canAccessRoom(req.user, room)));
+    const accessibleRooms = rooms.filter((room, index) => accessFlags[index]);
 
     const roomIds = accessibleRooms.map(room => room._id);
     const latestMessages = await getLatestMessagesByRooms(roomIds);

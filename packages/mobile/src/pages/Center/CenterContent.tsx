@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAtomValue } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useQueryClient } from '@tanstack/react-query';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MembershipData } from '@common/shared';
 import { userInfoAtom } from '../../store/user';
@@ -10,6 +12,8 @@ import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useGetMyEnrollments from '../../hooks/api/course/useGetMyEnrollments';
 import useGetLostItems from '../../hooks/api/lostItem/useGetLostItems';
 import useGetMeals from '../../hooks/api/meal/useGetMeals';
+import { getRooms } from '../../hooks/api/room/useGetRooms';
+import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
 import { toIso, formatSince, ROLE_LABEL } from './centerDisplay';
@@ -24,6 +28,12 @@ type Props = { membership: MembershipData };
 const CenterContent = ({ membership }: Props) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const welfareId = membership.welfare._id;
+
+  /** 대화 탭 방 목록을 미리 캐시에 채워둠 */
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    void queryClient.prefetchQuery({ queryKey: [QUERY_KEYS.ROOMS, welfareId], queryFn: () => getRooms(welfareId) });
+  }, [queryClient, welfareId]);
 
   const { data: coursesData } = useGetCourses(welfareId);
   const courses = coursesData?.data ?? [];
