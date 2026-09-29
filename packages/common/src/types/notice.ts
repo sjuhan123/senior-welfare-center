@@ -49,3 +49,9 @@ export type MessageListResponse = {
     canManage: boolean;
   };
 };
+
+export type PhotoPresignResponse = {
+  statusCode: number;
+  message: string;
+  data: { uploadUrl: string; publicUrl: string };
+};
