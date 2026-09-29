@@ -10,13 +10,14 @@ import type { MessageData, MessageListResponse } from '@common/shared';
 import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
 import useGetRoomMessages from '../../hooks/api/room/useGetRoomMessages';
 import useComposeBarKeyboard, { COMPOSE_BAR_HEIGHT } from '../../hooks/keyboard/useComposeBarKeyboard';
+import { presignPhotoUpload } from '../../hooks/api/room/usePresignPhotoUpload';
 import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
 import { dayKey } from '../Chat/chatDisplay';
 import MessageBubble from '../Chat/MessageBubble';
-import ComposeBar from '../Chat/ComposeBar';
+import ComposeBar, { type SelectedPhoto } from '../Chat/ComposeBar';
 
 type SendAck = { error?: string; data?: MessageData };
 type HideAck = { error?: string };
@@ -38,6 +39,11 @@ const ChatRoom = () => {
   const canManage = messagesData?.data.canManage ?? false;
 
   const [draft, setDraft] = useState('');
+  const [photos, setPhotos] = useState<SelectedPhoto[]>([]);
+  /** 사진 업로드가 아직 안 끝난 낙관적 메시지의 clientMessageId 집합(스피너 표시용) */
+  const [uploadingMessageIds, setUploadingMessageIds] = useState<Set<string>>(new Set());
+  /** 사진 업로드에 실패한 낙관적 메시지의 clientMessageId 집합(X 표시용) */
+  const [failedMessageIds, setFailedMessageIds] = useState<Set<string>>(new Set());
 
   const { insets, renderScrollComponent, onComposeBarLayout } = useComposeBarKeyboard();
 
@@ -91,14 +97,34 @@ const ChatRoom = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
+  /** 사진 하나를 presigned URL로 S3에 업로드. 46. 메시지 사진 첨부 참고. */
+  const uploadPhoto = async (photo: SelectedPhoto): Promise<string> => {
+    const presignRes = await presignPhotoUpload(welfareId, roomId, photo.contentType);
+    const { uploadUrl, publicUrl } = presignRes.data;
+    const fileBlob = await (await fetch(photo.uri)).blob();
+    const uploadRes = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': photo.contentType }, body: fileBlob });
+    if (!uploadRes.ok) {
+      const body = await uploadRes.text();
+      throw new Error(`S3 업로드 실패 (${uploadRes.status}): ${body}`);
+    }
+    return publicUrl;
+  };
+
+  /**
+   * 사진이 있으면 로컬 미리보기로 목록에 먼저 띄운 뒤(스피너 표시), 백그라운드로 업로드가 끝나야 소켓으로 전송.
+   * 업로드 중에도 입력창은 계속 쓸 수 있어서, 업로드 없는 다음 메시지가 먼저 도착할 수 있음(허용된 트레이드오프).
+   * 46. 메시지 사진 첨부 참고.
+   */
   const handleSend = () => {
     const text = draft.trim();
-    if (!text) return;
+    const sendPhotos = photos;
+    if (!text && sendPhotos.length === 0) return;
 
     const socket = getSocket();
     if (!socket) return;
 
     setDraft('');
+    setPhotos([]);
 
     const clientMessageId = `temp-${Date.now()}`;
     const optimisticMessage: MessageData = {
@@ -108,7 +134,7 @@ const ChatRoom = () => {
       senderName: '나',
       senderRole: 'member',
       text,
-      photos: [],
+      photos: sendPhotos.map(photo => photo.uri),
       editable: false,
       hidden: false,
       hearts: [],
@@ -120,21 +146,48 @@ const ChatRoom = () => {
       old ? { ...old, data: { ...old.data, messages: [optimisticMessage, ...old.data.messages] } } : old,
     );
 
-    socket.emit('send_message', { roomId, text, photos: [], clientMessageId }, (response: SendAck) => {
-      if (response.error || !response.data) {
-        queryClient.setQueryData<MessageListResponse>(queryKey, old =>
-          old ? { ...old, data: { ...old.data, messages: old.data.messages.filter(m => m._id !== clientMessageId) } } : old,
-        );
-        return;
+    if (sendPhotos.length > 0) {
+      setUploadingMessageIds(prev => new Set(prev).add(clientMessageId));
+    }
+
+    void (async () => {
+      let photoUrls: string[] = [];
+      if (sendPhotos.length > 0) {
+        try {
+          photoUrls = await Promise.all(sendPhotos.map(uploadPhoto));
+        } catch (error) {
+          console.error('사진 업로드 실패:', error);
+          setUploadingMessageIds(prev => {
+            const next = new Set(prev);
+            next.delete(clientMessageId);
+            return next;
+          });
+          setFailedMessageIds(prev => new Set(prev).add(clientMessageId));
+          return;
+        }
+        setUploadingMessageIds(prev => {
+          const next = new Set(prev);
+          next.delete(clientMessageId);
+          return next;
+        });
       }
 
-      const sentMessage = response.data;
-      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
-        if (!old) return old;
-        if (old.data.messages.some(m => m._id === sentMessage._id)) return old;
-        return { ...old, data: { ...old.data, messages: old.data.messages.map(m => (m._id === clientMessageId ? sentMessage : m)) } };
+      socket.emit('send_message', { roomId, text, photos: photoUrls, clientMessageId }, (response: SendAck) => {
+        if (response.error || !response.data) {
+          queryClient.setQueryData<MessageListResponse>(queryKey, old =>
+            old ? { ...old, data: { ...old.data, messages: old.data.messages.filter(m => m._id !== clientMessageId) } } : old,
+          );
+          return;
+        }
+
+        const sentMessage = response.data;
+        queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+          if (!old) return old;
+          if (old.data.messages.some(m => m._id === sentMessage._id)) return old;
+          return { ...old, data: { ...old.data, messages: old.data.messages.map(m => (m._id === clientMessageId ? sentMessage : m)) } };
+        });
       });
-    });
+    })();
   };
 
   const handleHide = (messageId: string) => {
@@ -168,6 +221,8 @@ const ChatRoom = () => {
         canManage={canManage}
         onHide={handleHide}
         isMine={item.senderId === myUserId}
+        isUploadingPhotos={uploadingMessageIds.has(item._id)}
+        hasUploadFailed={failedMessageIds.has(item._id)}
       />
     );
   };
@@ -204,8 +259,10 @@ const ChatRoom = () => {
           canSend={canSend}
           draft={draft}
           onChangeDraft={setDraft}
+          photos={photos}
+          onChangePhotos={setPhotos}
           onSend={handleSend}
-          sendDisabled={!draft.trim()}
+          sendDisabled={!draft.trim() && photos.length === 0}
           placeholder="여기에 쓰세요"
           disabledPlaceholder="지금은 이야기할 수 있는 시간이 아닙니다"
           nativeID="chatroom-compose-input"

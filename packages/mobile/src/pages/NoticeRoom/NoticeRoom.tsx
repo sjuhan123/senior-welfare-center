@@ -10,11 +10,12 @@ import useGetRoomMessages from '../../hooks/api/room/useGetRoomMessages';
 import useSendNotice from '../../hooks/api/room/useSendNotice';
 import useHideMessage from '../../hooks/api/room/useHideMessage';
 import useComposeBarKeyboard, { COMPOSE_BAR_HEIGHT } from '../../hooks/keyboard/useComposeBarKeyboard';
+import { presignPhotoUpload } from '../../hooks/api/room/usePresignPhotoUpload';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
 import { dayKey } from '../Chat/chatDisplay';
 import MessageBubble from '../Chat/MessageBubble';
-import ComposeBar from '../Chat/ComposeBar';
+import ComposeBar, { type SelectedPhoto } from '../Chat/ComposeBar';
 
 const NoticeRoom = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -27,14 +28,58 @@ const NoticeRoom = () => {
   const canManage = messagesData?.data.canManage ?? false;
 
   const [draft, setDraft] = useState('');
+  const [photos, setPhotos] = useState<SelectedPhoto[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
   const { mutate: send, isPending: isSending } = useSendNotice(welfareId, roomId);
   const { mutate: hide } = useHideMessage(welfareId, roomId);
 
   const { insets, renderScrollComponent, onComposeBarLayout } = useComposeBarKeyboard();
 
+  /** 사진은 presigned URL로 S3에 먼저 업로드한 뒤, 완료된 URL만 메시지에 실어 보냄. 46. 메시지 사진 첨부 참고. */
+  const uploadPhotos = async (): Promise<string[]> => {
+    return Promise.all(
+      photos.map(async photo => {
+        const presignRes = await presignPhotoUpload(welfareId, roomId, photo.contentType);
+        const { uploadUrl, publicUrl } = presignRes.data;
+        const fileBlob = await (await fetch(photo.uri)).blob();
+        const uploadRes = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': photo.contentType }, body: fileBlob });
+        if (!uploadRes.ok) {
+          const body = await uploadRes.text();
+          throw new Error(`S3 업로드 실패 (${uploadRes.status}): ${body}`);
+        }
+        return publicUrl;
+      }),
+    );
+  };
+
   const handleSend = () => {
-    if (!draft.trim()) return;
-    send(draft, { onSuccess: () => setDraft('') });
+    const text = draft.trim();
+    if (!text && photos.length === 0) return;
+    if (isUploading) return;
+
+    void (async () => {
+      setIsUploading(true);
+      let photoUrls: string[];
+      try {
+        photoUrls = await uploadPhotos();
+      } catch (error) {
+        console.error('사진 업로드 실패:', error);
+        setIsUploading(false);
+        Alert.alert('안내', `사진 업로드에 실패했습니다.\n${error instanceof Error ? error.message : ''}`);
+        return;
+      }
+      setIsUploading(false);
+
+      send(
+        { text, photos: photoUrls },
+        {
+          onSuccess: () => {
+            setDraft('');
+            setPhotos([]);
+          },
+        },
+      );
+    })();
   };
 
   const handleHide = (messageId: string) => {
@@ -95,8 +140,10 @@ const NoticeRoom = () => {
           canSend={canSend}
           draft={draft}
           onChangeDraft={setDraft}
+          photos={photos}
+          onChangePhotos={setPhotos}
           onSend={handleSend}
-          sendDisabled={isSending || !draft.trim()}
+          sendDisabled={isSending || isUploading || (!draft.trim() && photos.length === 0)}
           placeholder="공지 내용을 적으세요"
           disabledPlaceholder="이 방은 쓰기가 안 됩니다"
           nativeID="noticeroom-compose-input"
