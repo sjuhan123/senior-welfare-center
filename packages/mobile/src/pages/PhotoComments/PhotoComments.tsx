@@ -14,7 +14,7 @@ import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { formatMessageTime } from '../Chat/chatDisplay';
+import { dayKey, formatMessageTime, messageDateLabel } from '../Chat/chatDisplay';
 
 type Ack = { error?: string };
 
@@ -97,21 +97,30 @@ const PhotoComments = () => {
           {comments.length === 0 ? (
             <Text style={styles.emptyText}>아직 댓글이 없습니다</Text>
           ) : (
-            comments.map(item => {
+            comments.map((item, index) => {
               const isMine = item.userId === myUserId;
+              const previous = comments[index - 1];
+              const showDateDivider = !previous || dayKey(previous.createdAt) !== dayKey(item.createdAt);
               return (
-                <View key={item._id} style={[styles.commentRow, isMine && styles.commentRowMine]}>
-                  {!isMine && (
-                    <View style={styles.commentAvatar}>
-                      <Text style={styles.commentAvatarText}>{item.userName.charAt(0)}</Text>
+                <View key={item._id}>
+                  {showDateDivider && (
+                    <View style={styles.dateDividerWrap}>
+                      <Text style={styles.dateDivider}>{messageDateLabel(item.createdAt)}</Text>
                     </View>
                   )}
-                  <View style={[styles.commentMain, isMine && styles.commentMainMine]}>
-                    {!isMine && <Text style={styles.commentName}>{item.userName}</Text>}
-                    <View style={[styles.commentBubble, isMine && styles.commentBubbleMine]}>
-                      <Text style={[styles.commentText, isMine && styles.commentTextMine]}>{item.text}</Text>
+                  <View style={[styles.commentRow, isMine && styles.commentRowMine]}>
+                    {!isMine && (
+                      <View style={styles.commentAvatar}>
+                        <Text style={styles.commentAvatarText}>{item.userName.charAt(0)}</Text>
+                      </View>
+                    )}
+                    <View style={[styles.commentMain, isMine && styles.commentMainMine]}>
+                      {!isMine && <Text style={styles.commentName}>{item.userName}</Text>}
+                      <View style={[styles.commentBubble, isMine && styles.commentBubbleMine]}>
+                        <Text style={[styles.commentText, isMine && styles.commentTextMine]}>{item.text}</Text>
+                      </View>
+                      <Text style={[styles.commentTime, isMine && styles.commentTimeMine]}>{formatMessageTime(item.createdAt)}</Text>
                     </View>
-                    <Text style={[styles.commentTime, isMine && styles.commentTimeMine]}>{formatMessageTime(item.createdAt)}</Text>
                   </View>
                 </View>
               );
@@ -184,6 +193,19 @@ const photoCommentsStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
       fontSize: fontSize('base'),
       fontFamily: fontFamily('regular'),
       color: color.grey600,
+    },
+    dateDividerWrap: {
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    dateDivider: {
+      paddingHorizontal: 15,
+      paddingVertical: 7,
+      borderRadius: radius.label,
+      backgroundColor: color.grey150,
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('semibold'),
+      color: color.grey700,
     },
     commentRow: {
       flexDirection: 'row',
