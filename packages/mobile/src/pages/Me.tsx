@@ -1,17 +1,15 @@
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { color, semantic, radius, hit, scale } from '@common/shared';
-import { userInfoAtom, resetUserInfoAtom } from '../store/user';
+import { userInfoAtom } from '../store/user';
 import { textScaleAtom } from '../store/textScale';
-import { isUserTokenValidAtom } from '../store/auth';
+import { activeWelfareIdAtom } from '../store/activeWelfare';
 import useGetMemberships from '../hooks/api/membership/useGetMemberships';
 import { deleteMembership } from '../hooks/api/membership/useDeleteMembership';
-import { deleteAccount } from '../hooks/api/auth/useDeleteAccount';
-import { clearUserToken, clearRefreshToken } from '../utills/persistentStorage';
 import PlaceholderAvatar from '../components/PlaceholderAvatar';
 import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
 import { QUERY_KEYS } from '../constant/queryKeys';
@@ -33,11 +31,11 @@ const Me = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const queryClient = useQueryClient();
   const userInfo = useAtomValue(userInfoAtom);
-  const resetUserInfo = useSetAtom(resetUserInfoAtom);
-  const setIsUserTokenValid = useSetAtom(isUserTokenValidAtom);
   const [textScale, setTextScale] = useAtom(textScaleAtom);
+  const activeWelfareId = useAtomValue(activeWelfareIdAtom);
   const { data } = useGetMemberships();
   const memberships = data?.data ?? [];
+  const activeMembership = memberships.find(m => m.welfare._id === activeWelfareId) ?? memberships[0] ?? null;
 
   const handleLeaveMembership = (membershipId: string, welfareName: string) => {
     Alert.alert('탈퇴하기', `${welfareName}에서 탈퇴할까요?\n탈퇴하면 공지와 강좌를 볼 수 없습니다.`, [
@@ -48,24 +46,6 @@ const Me = () => {
         onPress: async () => {
           await deleteMembership(membershipId);
           void queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEMBERSHIPS] });
-        },
-      },
-    ]);
-  };
-
-  const handleDeleteAccount = () => {
-    Alert.alert('우리복지관 계정 지우기', '계정을 지우면 되돌릴 수 없습니다.\n정말 지울까요?', [
-      { text: '취소', style: 'cancel' },
-      {
-        text: '계정 지우기',
-        style: 'destructive',
-        onPress: async () => {
-          await deleteAccount();
-          await clearUserToken();
-          await clearRefreshToken();
-          setIsUserTokenValid(false);
-          resetUserInfo();
-          navigation.reset({ index: 0, routes: [{ name: 'Auth' }] });
         },
       },
     ]);
@@ -123,8 +103,8 @@ const Me = () => {
               <View style={styles.sectionBullet} />
               <Text style={styles.sectionTitle}>복지관에 전화</Text>
             </View>
-            <Text style={styles.sectionDesc}>{memberships[0].welfare.phone}</Text>
-            <Pressable style={styles.callButton} onPress={() => void Linking.openURL(`tel:${memberships[0].welfare.phone}`)}>
+            <Text style={styles.sectionDesc}>{activeMembership?.welfare.phone}</Text>
+            <Pressable style={styles.callButton} onPress={() => void Linking.openURL(`tel:${activeMembership?.welfare.phone}`)}>
               <Text style={styles.callButtonText}>전화 걸기</Text>
             </Pressable>
           </View>
@@ -159,7 +139,7 @@ const Me = () => {
             <Text style={styles.sectionTitle}>앱 그만 쓰기</Text>
           </View>
           <Text style={styles.sectionDesc}>앱만 지우면 계정은 남아 있습니다.{'\n'}아주 그만 쓰시려면 아래를 누르세요.</Text>
-          <Pressable style={styles.deleteAccountButton} onPress={handleDeleteAccount}>
+          <Pressable style={styles.deleteAccountButton} onPress={() => navigation.navigate('DeleteAccount')}>
             <Text style={styles.deleteAccountButtonText}>우리복지관 계정 지우기</Text>
           </Pressable>
         </View>

@@ -16,6 +16,7 @@ import Me from './pages/Me';
 import TabBar from './components/TabBar';
 import QrScan from './pages/QrScan';
 import JoinSuccess from './pages/JoinSuccess';
+import DeleteAccount from './pages/DeleteAccount';
 import type { MembershipRole, RoomType } from '@common/shared';
 
 export type MainTabParamList = {
@@ -30,6 +31,7 @@ export type RootStackParamList = {
   AccountCreated: undefined;
   QrScan: undefined;
   JoinSuccess: { welfareName: string; role: MembershipRole };
+  DeleteAccount: undefined;
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   MealCalendar: undefined;
   NoticeRoom: { welfareId: string; roomId: string; roomTitle: string };
@@ -68,6 +70,7 @@ const Routers = ({ initialRouteName }: RoutersProps) => {
       <Stack.Screen name="AccountCreated" component={AccountCreated} />
       <Stack.Screen name="QrScan" component={QrScan} />
       <Stack.Screen name="JoinSuccess" component={JoinSuccess} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="MealCalendar" component={MealCalendar} />
       <Stack.Screen name="NoticeRoom" component={NoticeRoom} />
