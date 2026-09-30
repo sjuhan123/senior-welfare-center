@@ -8,7 +8,7 @@ const ROOM_TYPE_LABEL: Record<RoomType, string> = {
 
 export const roomTypeLabel = (type: RoomType) => ROOM_TYPE_LABEL[type];
 
-const roomEntityName = (room: RoomData, courses: CourseData[], welfareName: string) => {
+export const roomEntityName = (room: RoomData, courses: CourseData[], welfareName: string) => {
   if (!room.course) return welfareName;
   return courses.find(course => course._id === room.course)?.name ?? '삭제된 강좌';
 };

@@ -13,4 +13,5 @@ export const QUERY_KEYS = Object.freeze({
   ROOMS: 'rooms',
   MESSAGES: 'messages',
   COMMENTS: 'comments',
+  FEED_POSTS: 'feedPosts',
 });

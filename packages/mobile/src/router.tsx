@@ -11,7 +11,7 @@ import Chat from './pages/Chat/Chat';
 import NoticeRoom from './pages/NoticeRoom/NoticeRoom';
 import ChatRoom from './pages/ChatRoom/ChatRoom';
 import PhotoComments from './pages/PhotoComments/PhotoComments';
-import Feed from './pages/Feed';
+import Feed from './pages/Feed/Feed';
 import Me from './pages/Me';
 import TabBar from './components/TabBar';
 import QrScan from './pages/QrScan';
