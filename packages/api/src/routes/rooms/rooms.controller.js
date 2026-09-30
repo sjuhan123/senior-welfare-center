@@ -1,5 +1,12 @@
 import { getRoomById, getRoomsByWelfare, updateRoom } from '../../models/room/room.model.js';
-import { getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage } from '../../models/message/message.model.js';
+import {
+  getMessagesByRoom,
+  getLatestMessagesByRooms,
+  getFeedPostsByRooms,
+  createMessage,
+  updateMessage,
+  hideMessage,
+} from '../../models/message/message.model.js';
 import { getCommentsByMessage } from '../../models/comment/comment.model.js';
 import { getUnreadCount, markRoomRead } from '../../models/roomRead/roomRead.model.js';
 import { leaveRoomType, rejoinRoomType, getAcceptedEnrollmentsByCourse } from '../../models/enrollment/enrollment.model.js';
@@ -65,6 +72,45 @@ async function httpGetRoomMessages(req, res) {
     });
   } catch (error) {
     console.error('Error retrieving room messages:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpGetFeedPosts(req, res) {
+  try {
+    const { welfareId } = req.params;
+    const { roomId, before, limit } = req.query;
+
+    const rooms = await getRoomsByWelfare(welfareId);
+    const feedRooms = rooms.filter(room => room.type === 'feed');
+    const accessFlags = await Promise.all(feedRooms.map(room => canAccessRoom(req.user, room)));
+    const accessibleFeedRooms = feedRooms.filter((room, index) => accessFlags[index]);
+
+    const targetRoomIds = roomId
+      ? accessibleFeedRooms.filter(room => room._id.toString() === roomId).map(room => room._id)
+      : accessibleFeedRooms.map(room => room._id);
+
+    const posts = await getFeedPostsByRooms(targetRoomIds, {
+      before: before ? new Date(before) : undefined,
+      limit: limit ? Number(limit) : undefined,
+    });
+
+    const manageFlagsByRoomId = new Map(
+      await Promise.all(accessibleFeedRooms.map(async room => [room._id.toString(), await canModerateRoom(req.user, room)])),
+    );
+    const data = posts.map(post => ({ ...post.toObject(), canManage: manageFlagsByRoomId.get(post.room.toString()) ?? false }));
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '사진방 게시물 조회 성공',
+      data,
+    });
+  } catch (error) {
+    console.error('Error retrieving feed posts:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',
@@ -343,6 +389,7 @@ async function httpPatchRoom(req, res) {
 export {
   httpGetRooms,
   httpGetRoomMessages,
+  httpGetFeedPosts,
   httpGetMessageComments,
   httpPostMessage,
   httpPostPhotoPresign,

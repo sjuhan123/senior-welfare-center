@@ -63,4 +63,6 @@ export type {
   PhotoPresignResponse,
   CommentData,
   CommentListResponse,
+  FeedPostEntry,
+  FeedPostListResponse,
 } from './types/notice';

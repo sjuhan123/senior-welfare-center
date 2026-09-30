@@ -72,3 +72,11 @@ export type CommentListResponse = {
   message: string;
   data: CommentData[];
 };
+
+export type FeedPostEntry = MessageData & { canManage: boolean };
+
+export type FeedPostListResponse = {
+  statusCode: number;
+  message: string;
+  data: FeedPostEntry[];
+};

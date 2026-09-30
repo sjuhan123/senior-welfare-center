@@ -15,6 +15,11 @@ async function getNoticesByRooms(roomIds, { before, limit = 20 } = {}) {
   return await Message.find(filter).sort({ createdAt: -1 }).limit(limit);
 }
 
+async function getFeedPostsByRooms(roomIds, { before, limit = 50 } = {}) {
+  const filter = { room: { $in: roomIds }, hidden: false, ...(before && { createdAt: { $lt: before } }) };
+  return await Message.find(filter).sort({ createdAt: -1 }).limit(limit);
+}
+
 async function getLatestMessagesByRooms(roomIds) {
   return await Message.aggregate([
     { $match: { room: { $in: roomIds } } },
@@ -66,6 +71,7 @@ export {
   getMessageById,
   getMessagesByRoom,
   getNoticesByRooms,
+  getFeedPostsByRooms,
   countMessagesSinceByRooms,
   getLatestMessagesByRooms,
   createMessage,
