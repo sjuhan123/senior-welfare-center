@@ -17,15 +17,18 @@ import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
 import { dayKey } from '../Chat/chatDisplay';
 import MessageBubble from '../Chat/MessageBubble';
+import PhotoPost from '../Chat/PhotoPost';
 import ComposeBar, { type SelectedPhoto } from '../Chat/ComposeBar';
 
 type SendAck = { error?: string; data?: MessageData };
 type HideAck = { error?: string };
+type ToggleHeartAck = { error?: string };
 
 const ChatRoom = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { params } = useRoute<RouteProp<RootStackParamList, 'ChatRoom'>>();
-  const { welfareId, roomId, roomTitle } = params;
+  const { welfareId, roomId, roomTitle, roomType } = params;
+  const isPhotoRoom = roomType === 'feed';
 
   const queryClient = useQueryClient();
   const queryKey = [QUERY_KEYS.MESSAGES, welfareId, roomId];
@@ -86,13 +89,25 @@ const ChatRoom = () => {
       });
     };
 
+    const handleHeartUpdated = ({ messageId, hearts }: { messageId: string; hearts: string[] }) => {
+      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: { ...old.data, messages: old.data.messages.map(m => (m._id === messageId ? { ...m, hearts } : m)) },
+        };
+      });
+    };
+
     socket.on('new_message', handleNewMessage);
     socket.on('message_hidden', handleMessageHidden);
+    socket.on('heart_updated', handleHeartUpdated);
 
     return () => {
       socket.emit('leave_room', { roomId });
       socket.off('new_message', handleNewMessage);
       socket.off('message_hidden', handleMessageHidden);
+      socket.off('heart_updated', handleHeartUpdated);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
@@ -118,7 +133,7 @@ const ChatRoom = () => {
   const handleSend = () => {
     const text = draft.trim();
     const sendPhotos = photos;
-    if (!text && sendPhotos.length === 0) return;
+    if (isPhotoRoom ? sendPhotos.length === 0 : !text && sendPhotos.length === 0) return;
 
     const socket = getSocket();
     if (!socket) return;
@@ -206,12 +221,34 @@ const ChatRoom = () => {
     ]);
   };
 
+  const handleToggleHeart = (messageId: string) => {
+    const socket = getSocket();
+    socket?.emit('toggle_heart', { messageId }, (response: ToggleHeartAck) => {
+      if (response.error) Alert.alert('안내', response.error);
+    });
+  };
+
   const styles = useStyles(chatRoomStyleFactory);
 
   /** messages는 최신순(배열 앞이 최신)이라, index+1이 시간상 더 과거인 이웃 메시지 */
   const renderMessage = ({ item, index }: { item: MessageData; index: number }) => {
     const olderNeighbor: MessageData | undefined = messages[index + 1];
     const showDateDivider = !olderNeighbor || dayKey(olderNeighbor.createdAt) !== dayKey(item.createdAt);
+
+    if (isPhotoRoom) {
+      return (
+        <PhotoPost
+          message={item}
+          showDateDivider={showDateDivider}
+          canManage={canManage}
+          onHide={handleHide}
+          onToggleHeart={handleToggleHeart}
+          myUserId={myUserId}
+          isUploadingPhotos={uploadingMessageIds.has(item._id)}
+          hasUploadFailed={failedMessageIds.has(item._id)}
+        />
+      );
+    }
 
     return (
       <MessageBubble
@@ -241,7 +278,7 @@ const ChatRoom = () => {
       <KeyboardGestureArea style={styles.wrapper} interpolator="ios" offset={COMPOSE_BAR_HEIGHT} textInputNativeID="chatroom-compose-input">
         {messages.length === 0 ? (
           <View style={styles.body}>
-            <Text style={styles.emptyText}>아직 나눈 이야기가 없습니다</Text>
+            <Text style={styles.emptyText}>{isPhotoRoom ? '아직 올라온 사진이 없습니다' : '아직 나눈 이야기가 없습니다'}</Text>
           </View>
         ) : (
           <FlatList
@@ -262,9 +299,10 @@ const ChatRoom = () => {
           photos={photos}
           onChangePhotos={setPhotos}
           onSend={handleSend}
-          sendDisabled={!draft.trim() && photos.length === 0}
-          placeholder="여기에 쓰세요"
-          disabledPlaceholder="지금은 이야기할 수 있는 시간이 아닙니다"
+          sendDisabled={isPhotoRoom ? photos.length === 0 : !draft.trim() && photos.length === 0}
+          sendLabel={isPhotoRoom ? '올리기' : '보내기'}
+          placeholder={isPhotoRoom ? '한마디 적어 주세요' : '여기에 쓰세요'}
+          disabledPlaceholder={isPhotoRoom ? '지금은 사진을 올릴 수 있는 시간이 아닙니다' : '지금은 이야기할 수 있는 시간이 아닙니다'}
           nativeID="chatroom-compose-input"
           offset={{ opened: insets.bottom }}
           onLayout={onComposeBarLayout}

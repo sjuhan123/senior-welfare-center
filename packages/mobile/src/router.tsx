@@ -15,7 +15,7 @@ import Me from './pages/Me';
 import TabBar from './components/TabBar';
 import QrScan from './pages/QrScan';
 import JoinSuccess from './pages/JoinSuccess';
-import type { MembershipRole } from '@common/shared';
+import type { MembershipRole, RoomType } from '@common/shared';
 
 export type MainTabParamList = {
   Center: undefined;
@@ -32,7 +32,7 @@ export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   MealCalendar: undefined;
   NoticeRoom: { welfareId: string; roomId: string; roomTitle: string };
-  ChatRoom: { welfareId: string; roomId: string; roomTitle: string };
+  ChatRoom: { welfareId: string; roomId: string; roomTitle: string; roomType: RoomType };
 };
 
 export type InitialRouteName = 'Auth' | 'AccountCreated' | 'MainTabs';

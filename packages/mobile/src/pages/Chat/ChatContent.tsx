@@ -58,8 +58,8 @@ const ChatContent = ({ membership }: Props) => {
       return;
     }
 
-    if (room.type === 'chat') {
-      navigation.navigate('ChatRoom', { welfareId, roomId: room._id, roomTitle: title });
+    if (room.type === 'chat' || room.type === 'feed') {
+      navigation.navigate('ChatRoom', { welfareId, roomId: room._id, roomTitle: title, roomType: room.type });
       return;
     }
 

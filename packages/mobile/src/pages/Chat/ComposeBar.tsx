@@ -16,6 +16,7 @@ type Props = {
   onChangePhotos: (photos: SelectedPhoto[]) => void;
   onSend: () => void;
   sendDisabled: boolean;
+  sendLabel?: string;
   placeholder: string;
   disabledPlaceholder: string;
   nativeID: string;
@@ -31,6 +32,7 @@ const ComposeBar = ({
   onChangePhotos,
   onSend,
   sendDisabled,
+  sendLabel = '보내기',
   placeholder,
   disabledPlaceholder,
   nativeID,
@@ -85,7 +87,7 @@ const ComposeBar = ({
               nativeID={nativeID}
             />
             <Pressable style={styles.sendButton} onPress={onSend} disabled={sendDisabled}>
-              <Text style={styles.sendButtonText}>보내기</Text>
+              <Text style={styles.sendButtonText}>{sendLabel}</Text>
             </Pressable>
           </View>
         </View>
@@ -99,7 +101,7 @@ const ComposeBar = ({
             multiline
           />
           <View style={[styles.sendButton, styles.sendButtonDisabled]}>
-            <Text style={styles.sendButtonTextDisabled}>보내기</Text>
+            <Text style={styles.sendButtonTextDisabled}>{sendLabel}</Text>
           </View>
         </View>
       )}
