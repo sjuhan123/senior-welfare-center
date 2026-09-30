@@ -1,21 +1,9 @@
-import { useState } from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  type LayoutChangeEvent,
-  type NativeScrollEvent,
-  type NativeSyntheticEvent,
-} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MessageData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import { messageDateLabel, formatMessageTime } from './chatDisplay';
+import PhotoCarousel from './PhotoCarousel';
 
 type Props = {
   message: MessageData;
@@ -23,6 +11,7 @@ type Props = {
   canManage: boolean;
   onHide: (messageId: string) => void;
   onToggleHeart: (messageId: string) => void;
+  onPressComments: () => void;
   myUserId: string;
   /** 사진이 아직 S3 업로드 중인지(낙관적 전송 중 로컬 미리보기 위에 스피너 표시) */
   isUploadingPhotos?: boolean;
@@ -36,24 +25,13 @@ const PhotoPost = ({
   canManage,
   onHide,
   onToggleHeart,
+  onPressComments,
   myUserId,
   isUploadingPhotos = false,
   hasUploadFailed = false,
 }: Props) => {
   const styles = useStyles(photoPostStyleFactory);
-  const [viewerPhotoUrl, setViewerPhotoUrl] = useState<string | null>(null);
-  const [cardWidth, setCardWidth] = useState(0);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const hasHearted = message.hearts.includes(myUserId);
-
-  const handleCardLayout = (e: LayoutChangeEvent) => {
-    setCardWidth(e.nativeEvent.layout.width);
-  };
-
-  const handleCarouselScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    if (cardWidth === 0) return;
-    setCurrentPhotoIndex(Math.round(e.nativeEvent.contentOffset.x / cardWidth));
-  };
 
   return (
     <View>
@@ -69,40 +47,12 @@ const PhotoPost = ({
         <View style={styles.postMain}>
           <Text style={styles.senderName}>{message.senderName}</Text>
           <View style={styles.card}>
-            <View style={styles.cardInner} onLayout={handleCardLayout}>
+            <View style={styles.cardInner}>
               {message.hidden ? (
                 <Text style={styles.hiddenText}>가려진 사진입니다</Text>
               ) : (
                 <>
-                  {message.photos.length > 0 && cardWidth > 0 && (
-                    <View style={styles.carouselWrap}>
-                      <ScrollView
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        onMomentumScrollEnd={handleCarouselScrollEnd}
-                        style={styles.carousel}
-                      >
-                        {message.photos.map(photoUrl => (
-                          <Pressable key={photoUrl} style={[styles.carouselItem, { width: cardWidth }]} onPress={() => setViewerPhotoUrl(photoUrl)}>
-                            <Image source={{ uri: photoUrl }} style={styles.carouselImage} />
-                            {(isUploadingPhotos || hasUploadFailed) && (
-                              <View style={styles.uploadingOverlay}>
-                                {hasUploadFailed ? <Text style={styles.failedText}>×</Text> : <ActivityIndicator color={color.grey0} />}
-                              </View>
-                            )}
-                          </Pressable>
-                        ))}
-                      </ScrollView>
-                      {message.photos.length > 1 && (
-                        <View style={styles.photoCounter}>
-                          <Text style={styles.photoCounterText}>
-                            {currentPhotoIndex + 1} / {message.photos.length}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  )}
+                  <PhotoCarousel photos={message.photos} isUploadingPhotos={isUploadingPhotos} hasUploadFailed={hasUploadFailed} />
                   {!!message.text && <Text style={styles.caption}>{message.text}</Text>}
                   {canManage && (
                     <View style={styles.manageRow}>
@@ -115,6 +65,9 @@ const PhotoPost = ({
                     <Pressable style={[styles.heartButton, hasHearted && styles.heartButtonActive]} onPress={() => onToggleHeart(message._id)}>
                       <Text style={[styles.heartButtonText, hasHearted && styles.heartButtonTextActive]}>좋아요 {message.hearts.length}</Text>
                     </Pressable>
+                    <Pressable style={styles.commentButton} onPress={onPressComments}>
+                      <Text style={styles.commentButtonText}>댓글 {message.commentCount}</Text>
+                    </Pressable>
                   </View>
                 </>
               )}
@@ -123,12 +76,6 @@ const PhotoPost = ({
           <Text style={styles.time}>{formatMessageTime(message.createdAt)}</Text>
         </View>
       </View>
-
-      <Modal visible={!!viewerPhotoUrl} transparent animationType="fade" onRequestClose={() => setViewerPhotoUrl(null)}>
-        <Pressable style={styles.viewerBackdrop} onPress={() => setViewerPhotoUrl(null)}>
-          {!!viewerPhotoUrl && <Image source={{ uri: viewerPhotoUrl }} style={styles.viewerImage} resizeMode="contain" />}
-        </Pressable>
-      </Modal>
     </View>
   );
 };
@@ -204,49 +151,6 @@ const photoPostStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontFamily: fontFamily('regular'),
       color: semantic.textPrimary,
     },
-    carouselWrap: {
-      position: 'relative',
-    },
-    carousel: {
-      height: 220,
-    },
-    carouselItem: {
-      height: 220,
-    },
-    carouselImage: {
-      width: '100%',
-      height: '100%',
-      backgroundColor: color.grey150,
-    },
-    photoCounter: {
-      position: 'absolute',
-      top: 10,
-      right: 10,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      borderRadius: radius.label,
-      backgroundColor: 'rgba(0, 0, 0, 0.55)',
-    },
-    photoCounterText: {
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textOnDark,
-    },
-    uploadingOverlay: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.35)',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    failedText: {
-      fontSize: fontSize('xxl'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textOnDark,
-    },
     caption: {
       padding: 16,
       fontSize: fontSize('lg'),
@@ -297,20 +201,23 @@ const photoPostStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
     heartButtonTextActive: {
       color: color.navyDeep,
     },
+    commentButton: {
+      flex: 1,
+      minHeight: hit.mobileLarge,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderLeftWidth: 1,
+      borderLeftColor: semantic.divider,
+    },
+    commentButtonText: {
+      fontSize: fontSize('base'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
     time: {
       marginTop: 6,
       paddingHorizontal: 4,
       fontSize: fontSize('caption'),
       color: color.grey500,
-    },
-    viewerBackdrop: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    viewerImage: {
-      width: '100%',
-      height: '100%',
     },
   });

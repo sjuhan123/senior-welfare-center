@@ -10,6 +10,7 @@ import MealCalendar from './pages/MealCalendar/MealCalendar';
 import Chat from './pages/Chat/Chat';
 import NoticeRoom from './pages/NoticeRoom/NoticeRoom';
 import ChatRoom from './pages/ChatRoom/ChatRoom';
+import PhotoComments from './pages/PhotoComments/PhotoComments';
 import Feed from './pages/Feed';
 import Me from './pages/Me';
 import TabBar from './components/TabBar';
@@ -33,6 +34,7 @@ export type RootStackParamList = {
   MealCalendar: undefined;
   NoticeRoom: { welfareId: string; roomId: string; roomTitle: string };
   ChatRoom: { welfareId: string; roomId: string; roomTitle: string; roomType: RoomType };
+  PhotoComments: { welfareId: string; roomId: string; messageId: string };
 };
 
 export type InitialRouteName = 'Auth' | 'AccountCreated' | 'MainTabs';
@@ -70,6 +72,7 @@ const Routers = ({ initialRouteName }: RoutersProps) => {
       <Stack.Screen name="MealCalendar" component={MealCalendar} />
       <Stack.Screen name="NoticeRoom" component={NoticeRoom} />
       <Stack.Screen name="ChatRoom" component={ChatRoom} />
+      <Stack.Screen name="PhotoComments" component={PhotoComments} />
     </Stack.Navigator>
   );
 };

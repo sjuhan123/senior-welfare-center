@@ -99,15 +99,28 @@ const ChatRoom = () => {
       });
     };
 
+    /** 댓글 화면이 열려 있지 않아도 카드의 "댓글 N개" 배지가 실시간으로 갱신되도록 commentCount만 반영 */
+    const handleNewComment = ({ comment, commentCount }: { comment: { message: string }; commentCount: number }) => {
+      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+        if (!old) return old;
+        return {
+          ...old,
+          data: { ...old.data, messages: old.data.messages.map(m => (m._id === comment.message ? { ...m, commentCount } : m)) },
+        };
+      });
+    };
+
     socket.on('new_message', handleNewMessage);
     socket.on('message_hidden', handleMessageHidden);
     socket.on('heart_updated', handleHeartUpdated);
+    socket.on('new_comment', handleNewComment);
 
     return () => {
       socket.emit('leave_room', { roomId });
       socket.off('new_message', handleNewMessage);
       socket.off('message_hidden', handleMessageHidden);
       socket.off('heart_updated', handleHeartUpdated);
+      socket.off('new_comment', handleNewComment);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
@@ -133,7 +146,11 @@ const ChatRoom = () => {
   const handleSend = () => {
     const text = draft.trim();
     const sendPhotos = photos;
-    if (isPhotoRoom ? sendPhotos.length === 0 : !text && sendPhotos.length === 0) return;
+    if (!text && sendPhotos.length === 0) return;
+    if (isPhotoRoom && sendPhotos.length === 0) {
+      Alert.alert('안내', '사진을 먼저 선택해 주세요');
+      return;
+    }
 
     const socket = getSocket();
     if (!socket) return;
@@ -153,6 +170,7 @@ const ChatRoom = () => {
       editable: false,
       hidden: false,
       hearts: [],
+      commentCount: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -228,6 +246,10 @@ const ChatRoom = () => {
     });
   };
 
+  const handlePressComments = (messageId: string) => {
+    navigation.navigate('PhotoComments', { welfareId, roomId, messageId });
+  };
+
   const styles = useStyles(chatRoomStyleFactory);
 
   /** messages는 최신순(배열 앞이 최신)이라, index+1이 시간상 더 과거인 이웃 메시지 */
@@ -243,6 +265,7 @@ const ChatRoom = () => {
           canManage={canManage}
           onHide={handleHide}
           onToggleHeart={handleToggleHeart}
+          onPressComments={() => handlePressComments(item._id)}
           myUserId={myUserId}
           isUploadingPhotos={uploadingMessageIds.has(item._id)}
           hasUploadFailed={failedMessageIds.has(item._id)}
@@ -299,7 +322,7 @@ const ChatRoom = () => {
           photos={photos}
           onChangePhotos={setPhotos}
           onSend={handleSend}
-          sendDisabled={isPhotoRoom ? photos.length === 0 : !draft.trim() && photos.length === 0}
+          sendDisabled={!draft.trim() && photos.length === 0}
           sendLabel={isPhotoRoom ? '올리기' : '보내기'}
           placeholder={isPhotoRoom ? '한마디 적어 주세요' : '여기에 쓰세요'}
           disabledPlaceholder={isPhotoRoom ? '지금은 사진을 올릴 수 있는 시간이 아닙니다' : '지금은 이야기할 수 있는 시간이 아닙니다'}
