@@ -61,4 +61,6 @@ export type {
   MessageResponse,
   MessageListResponse,
   PhotoPresignResponse,
+  CommentData,
+  CommentListResponse,
 } from './types/notice';

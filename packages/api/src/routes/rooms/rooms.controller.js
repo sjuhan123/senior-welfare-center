@@ -1,5 +1,6 @@
 import { getRoomById, getRoomsByWelfare, updateRoom } from '../../models/room/room.model.js';
 import { getMessagesByRoom, getLatestMessagesByRooms, createMessage, updateMessage, hideMessage } from '../../models/message/message.model.js';
+import { getCommentsByMessage } from '../../models/comment/comment.model.js';
 import { getUnreadCount, markRoomRead } from '../../models/roomRead/roomRead.model.js';
 import { leaveRoomType, rejoinRoomType, getAcceptedEnrollmentsByCourse } from '../../models/enrollment/enrollment.model.js';
 import { getCourseById } from '../../models/course/course.model.js';
@@ -64,6 +65,27 @@ async function httpGetRoomMessages(req, res) {
     });
   } catch (error) {
     console.error('Error retrieving room messages:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpGetMessageComments(req, res) {
+  try {
+    const { messageId } = req.params;
+
+    const comments = await getCommentsByMessage(messageId);
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: '댓글 목록 조회 성공',
+      data: comments,
+    });
+  } catch (error) {
+    console.error('Error retrieving comments:', error);
     return res.status(500).json({
       statusCode: 500,
       message: '서버 오류',
@@ -321,6 +343,7 @@ async function httpPatchRoom(req, res) {
 export {
   httpGetRooms,
   httpGetRoomMessages,
+  httpGetMessageComments,
   httpPostMessage,
   httpPostPhotoPresign,
   httpPatchMessage,

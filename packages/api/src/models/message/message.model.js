@@ -41,6 +41,10 @@ async function toggleHeart(messageId, userId) {
   return await Message.findByIdAndUpdate(messageId, update, { new: true });
 }
 
+async function incrementCommentCount(messageId) {
+  return await Message.findByIdAndUpdate(messageId, { $inc: { commentCount: 1 } }, { new: true });
+}
+
 async function countMessagesSince(roomId, since) {
   const filter = { room: roomId, ...(since && { createdAt: { $gt: since } }) };
   return await Message.countDocuments(filter);
@@ -68,6 +72,7 @@ export {
   updateMessage,
   hideMessage,
   toggleHeart,
+  incrementCommentCount,
   countMessagesSince,
   getMessageIdsByRooms,
   deleteMessagesByRooms,

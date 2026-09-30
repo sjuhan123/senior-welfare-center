@@ -1,5 +1,5 @@
 import { getRoomById } from '../models/room/room.model.js';
-import { getMessageById, createMessage, hideMessage, toggleHeart } from '../models/message/message.model.js';
+import { getMessageById, createMessage, hideMessage, toggleHeart, incrementCommentCount } from '../models/message/message.model.js';
 import { createComment } from '../models/comment/comment.model.js';
 import { markRoomRead } from '../models/roomRead/roomRead.model.js';
 import { canAccessRoom, canSendToRoom, canModerateRoom, getSenderRole } from '../services/room.service.js';
@@ -101,8 +101,9 @@ function registerRoomSocketEvents(io, socket) {
         return callback?.({ error: '권한이 없습니다' });
       }
 
-      const comment = await createComment({ message: messageId, userId: socket.user.id, text });
-      io.to(room._id.toString()).emit('new_comment', comment);
+      const comment = await createComment({ message: messageId, userId: socket.user.id, userName: socket.user.userName, text });
+      const updatedMessage = await incrementCommentCount(messageId);
+      io.to(room._id.toString()).emit('new_comment', { comment, commentCount: updatedMessage.commentCount });
       callback?.({ ok: true, data: comment });
     } catch (error) {
       callback?.({ error: '서버 오류' });

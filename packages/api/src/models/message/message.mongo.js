@@ -39,6 +39,10 @@ const MessageSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true },
 );

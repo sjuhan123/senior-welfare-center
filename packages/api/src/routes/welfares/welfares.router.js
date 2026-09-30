@@ -14,6 +14,7 @@ import { httpGetLostItems, httpPostLostItem, httpPatchLostItem, httpDeleteLostIt
 import {
   httpGetRooms,
   httpGetRoomMessages,
+  httpGetMessageComments,
   httpPostMessage,
   httpPostPhotoPresign,
   httpPatchMessage,
@@ -75,6 +76,7 @@ welfaresRouter.get('/:welfareId/rooms', authenticateToken, httpGetRooms);
 welfaresRouter.get('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpGetRoomMessages);
 welfaresRouter.post('/:welfareId/rooms/:roomId/messages', authenticateToken, requireRoomAccess, httpPostMessage);
 welfaresRouter.post('/:welfareId/rooms/:roomId/photos/presign-upload', authenticateToken, requireRoomAccess, httpPostPhotoPresign);
+welfaresRouter.get('/:welfareId/rooms/:roomId/messages/:messageId/comments', authenticateToken, requireRoomAccess, httpGetMessageComments);
 welfaresRouter.patch('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpPatchMessage);
 welfaresRouter.delete('/:welfareId/rooms/:roomId/messages/:messageId', authenticateToken, requireRoomAccess, httpDeleteMessage);
 welfaresRouter.get('/:welfareId/notices', authenticateToken, requireWelfareAdmin, httpGetNotices);
