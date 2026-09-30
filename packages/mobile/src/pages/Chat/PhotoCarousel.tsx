@@ -22,10 +22,12 @@ type Props = {
   isUploadingPhotos?: boolean;
   /** 사진 업로드가 실패했는지(스피너 대신 X 표시) */
   hasUploadFailed?: boolean;
+  /** 현재 캐러셀에 보이는 사진이 바뀔 때마다 알려줌(공유 버튼이 "지금 보고 있는 사진"을 알아야 해서) */
+  onIndexChange?: (index: number) => void;
 };
 
 /** 사진방 게시물의 가로 스크롤 캐러셀. 컨테이너 실측 폭에 맞춰 사진이 폭을 꽉 채우고, 2장 이상이면 우측 상단에 장수 표시. 탭하면 전체화면 보기. */
-const PhotoCarousel = ({ photos, height = 220, isUploadingPhotos = false, hasUploadFailed = false }: Props) => {
+const PhotoCarousel = ({ photos, height = 220, isUploadingPhotos = false, hasUploadFailed = false, onIndexChange }: Props) => {
   const styles = useStyles(photoCarouselStyleFactory);
   const [viewerPhotoUrl, setViewerPhotoUrl] = useState<string | null>(null);
   const [width, setWidth] = useState(0);
@@ -37,7 +39,9 @@ const PhotoCarousel = ({ photos, height = 220, isUploadingPhotos = false, hasUpl
 
   const handleScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (width === 0) return;
-    setCurrentIndex(Math.round(e.nativeEvent.contentOffset.x / width));
+    const index = Math.round(e.nativeEvent.contentOffset.x / width);
+    setCurrentIndex(index);
+    onIndexChange?.(index);
   };
 
   if (photos.length === 0) return null;

@@ -1,4 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Directory, File, Paths } from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MessageData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
@@ -32,6 +35,21 @@ const PhotoPost = ({
 }: Props) => {
   const styles = useStyles(photoPostStyleFactory);
   const hasHearted = message.hearts.includes(myUserId);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+
+  /** 캐러셀에서 지금 보고 있는 사진 한 장만 로컬로 내려받아 OS 공유 시트로 내보냄 */
+  const handleShare = async () => {
+    const photoUrl = message.photos[currentPhotoIndex];
+    if (!photoUrl) return;
+
+    try {
+      const downloaded = await File.downloadFileAsync(photoUrl, new Directory(Paths.cache), { idempotent: true });
+      await Sharing.shareAsync(downloaded.uri);
+    } catch (error) {
+      console.error('사진 공유 실패:', error);
+      Alert.alert('안내', '사진을 공유하지 못했습니다');
+    }
+  };
 
   return (
     <View>
@@ -52,7 +70,12 @@ const PhotoPost = ({
                 <Text style={styles.hiddenText}>가려진 사진입니다</Text>
               ) : (
                 <>
-                  <PhotoCarousel photos={message.photos} isUploadingPhotos={isUploadingPhotos} hasUploadFailed={hasUploadFailed} />
+                  <PhotoCarousel
+                    photos={message.photos}
+                    isUploadingPhotos={isUploadingPhotos}
+                    hasUploadFailed={hasUploadFailed}
+                    onIndexChange={setCurrentPhotoIndex}
+                  />
                   {!!message.text && <Text style={styles.caption}>{message.text}</Text>}
                   {canManage && (
                     <View style={styles.manageRow}>
@@ -67,6 +90,9 @@ const PhotoPost = ({
                     </Pressable>
                     <Pressable style={styles.commentButton} onPress={onPressComments}>
                       <Text style={styles.commentButtonText}>댓글 {message.commentCount}</Text>
+                    </Pressable>
+                    <Pressable style={styles.shareButton} onPress={() => void handleShare()}>
+                      <Text style={styles.shareButtonText}>보내기</Text>
                     </Pressable>
                   </View>
                 </>
@@ -210,6 +236,19 @@ const photoPostStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       borderLeftColor: semantic.divider,
     },
     commentButtonText: {
+      fontSize: fontSize('base'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+    shareButton: {
+      minWidth: 92,
+      minHeight: hit.mobileLarge,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderLeftWidth: 1,
+      borderLeftColor: semantic.divider,
+    },
+    shareButtonText: {
       fontSize: fontSize('base'),
       fontFamily: fontFamily('bold'),
       color: semantic.textPrimary,
