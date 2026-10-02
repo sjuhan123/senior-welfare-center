@@ -9,12 +9,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { CommentData, CommentListResponse } from '@common/shared';
 import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
+import useGetUserAvatars from '../../hooks/api/auth/useGetUserAvatars';
 import useGetComments from '../../hooks/api/room/useGetComments';
 import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
 import { dayKey, formatMessageTime, messageDateLabel } from '../Chat/chatDisplay';
+import ChatAvatar from '../Chat/ChatAvatar';
 
 type Ack = { error?: string };
 
@@ -30,6 +32,8 @@ const PhotoComments = () => {
 
   const { data: commentsData } = useGetComments(welfareId, roomId, messageId);
   const comments = commentsData?.data ?? [];
+
+  const { data: avatarByUserId } = useGetUserAvatars(comments.map(c => c.userId));
 
   const [draft, setDraft] = useState('');
   const insets = useSafeAreaInsets();
@@ -110,9 +114,7 @@ const PhotoComments = () => {
                   )}
                   <View style={[styles.commentRow, isMine && styles.commentRowMine]}>
                     {!isMine && (
-                      <View style={styles.commentAvatar}>
-                        <Text style={styles.commentAvatarText}>{item.userName.charAt(0)}</Text>
-                      </View>
+                      <ChatAvatar size={52} borderRadius={15} initial={item.userName.charAt(0)} photoUrl={avatarByUserId?.get(item.userId)} />
                     )}
                     <View style={[styles.commentMain, isMine && styles.commentMainMine]}>
                       {!isMine && <Text style={styles.commentName}>{item.userName}</Text>}
@@ -214,22 +216,6 @@ const photoCommentsStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
     },
     commentRowMine: {
       justifyContent: 'flex-end',
-    },
-    commentAvatar: {
-      flexShrink: 0,
-      width: 52,
-      height: 52,
-      borderRadius: 15,
-      backgroundColor: color.grey150,
-      borderWidth: 1,
-      borderColor: color.grey300,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    commentAvatarText: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey600,
     },
     commentMain: {
       flex: 1,

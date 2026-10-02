@@ -3,4 +3,5 @@
 export type UserKakaoInfo = {
   userName: string;
   userAvatar: string;
+  customAvatar: string;
 };

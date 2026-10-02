@@ -46,7 +46,11 @@ const App = () => {
         const membershipsRes = await queryClient.fetchQuery({ queryKey: [QUERY_KEYS.MEMBERSHIPS], queryFn: getMemberships });
 
         setIsUserTokenValid(true);
-        setUserInfo({ userName: userInfoRes.data.userName, userAvatar: userInfoRes.data.userAvatar });
+        setUserInfo({
+          userName: userInfoRes.data.userName,
+          userAvatar: userInfoRes.data.userAvatar,
+          customAvatar: userInfoRes.data.customAvatar,
+        });
         setInitialRouteName(membershipsRes.data.length > 0 ? 'MainTabs' : 'AccountCreated');
       } catch {
         setInitialRouteName('Auth');

@@ -7,6 +7,7 @@ import type { MessageData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import { messageDateLabel, formatMessageTime } from './chatDisplay';
 import PhotoCarousel from './PhotoCarousel';
+import ChatAvatar from './ChatAvatar';
 
 type Props = {
   message: MessageData;
@@ -20,6 +21,8 @@ type Props = {
   isUploadingPhotos?: boolean;
   /** 사진 업로드가 실패했는지(스피너 대신 X 표시) */
   hasUploadFailed?: boolean;
+  /** 보낸 사람이 직접 설정한 프로필 사진(없으면 이니셜 표시) */
+  avatarUrl?: string;
 };
 
 const PhotoPost = ({
@@ -32,6 +35,7 @@ const PhotoPost = ({
   myUserId,
   isUploadingPhotos = false,
   hasUploadFailed = false,
+  avatarUrl,
 }: Props) => {
   const styles = useStyles(photoPostStyleFactory);
   const hasHearted = message.hearts.includes(myUserId);
@@ -59,9 +63,7 @@ const PhotoPost = ({
         </View>
       )}
       <View style={styles.postRow}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{message.senderName.charAt(0)}</Text>
-        </View>
+        <ChatAvatar size={52} borderRadius={15} initial={message.senderName.charAt(0)} photoUrl={avatarUrl} />
         <View style={styles.postMain}>
           <Text style={styles.senderName}>{message.senderName}</Text>
           <View style={styles.card}>
@@ -127,22 +129,6 @@ const photoPostStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       flexDirection: 'row',
       gap: 10,
       alignItems: 'flex-start',
-    },
-    avatar: {
-      flexShrink: 0,
-      width: 52,
-      height: 52,
-      borderRadius: 15,
-      backgroundColor: color.grey150,
-      borderWidth: 1,
-      borderColor: color.grey300,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    avatarText: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey600,
     },
     postMain: {
       flex: 1,

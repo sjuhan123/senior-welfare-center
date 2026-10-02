@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MessageData, MessageListResponse } from '@common/shared';
 import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
+import useGetUserAvatars from '../../hooks/api/auth/useGetUserAvatars';
 import useGetRoomMessages from '../../hooks/api/room/useGetRoomMessages';
 import useComposeBarKeyboard, { COMPOSE_BAR_HEIGHT } from '../../hooks/keyboard/useComposeBarKeyboard';
 import { presignPhotoUpload } from '../../hooks/api/room/usePresignPhotoUpload';
@@ -40,6 +41,8 @@ const ChatRoom = () => {
   const messages = messagesData?.data.messages ?? [];
   const canSend = messagesData?.data.canSend ?? false;
   const canManage = messagesData?.data.canManage ?? false;
+
+  const { data: avatarByUserId } = useGetUserAvatars(messages.map(m => m.senderId));
 
   const [draft, setDraft] = useState('');
   const [photos, setPhotos] = useState<SelectedPhoto[]>([]);
@@ -267,6 +270,7 @@ const ChatRoom = () => {
           onToggleHeart={handleToggleHeart}
           onPressComments={() => handlePressComments(item._id)}
           myUserId={myUserId}
+          avatarUrl={avatarByUserId?.get(item.senderId)}
           isUploadingPhotos={uploadingMessageIds.has(item._id)}
           hasUploadFailed={failedMessageIds.has(item._id)}
         />
@@ -281,6 +285,7 @@ const ChatRoom = () => {
         canManage={canManage}
         onHide={handleHide}
         isMine={item.senderId === myUserId}
+        avatarUrl={avatarByUserId?.get(item.senderId)}
         isUploadingPhotos={uploadingMessageIds.has(item._id)}
         hasUploadFailed={failedMessageIds.has(item._id)}
       />

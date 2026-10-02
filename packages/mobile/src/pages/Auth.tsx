@@ -46,6 +46,7 @@ const Auth = () => {
     setUserInfo({
       userName: userInfoRes.data.userName,
       userAvatar: userInfoRes.data.userAvatar,
+      customAvatar: userInfoRes.data.customAvatar,
     });
 
     const membershipsRes = await getMemberships();

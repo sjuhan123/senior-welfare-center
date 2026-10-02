@@ -9,6 +9,7 @@ import type { FeedPostListResponse, MembershipData } from '@common/shared';
 import useGetRooms from '../../hooks/api/room/useGetRooms';
 import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useGetFeedPosts from '../../hooks/api/room/useGetFeedPosts';
+import useGetUserAvatars from '../../hooks/api/auth/useGetUserAvatars';
 import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
@@ -41,6 +42,8 @@ const FeedContent = ({ membership }: Props) => {
   const queryKey = [QUERY_KEYS.FEED_POSTS, welfareId, selectedRoomId];
   const { data: postsData, refetch: refetchPosts } = useGetFeedPosts(welfareId, selectedRoomId);
   const posts = postsData?.data ?? [];
+
+  const { data: avatarByUserId } = useGetUserAvatars(posts.map(post => post.senderId));
 
   useFocusEffect(
     useCallback(() => {
@@ -164,6 +167,7 @@ const FeedContent = ({ membership }: Props) => {
                 onHide={handleHide}
                 onToggleHeart={handleToggleHeart}
                 onPressComments={handlePressComments}
+                avatarUrl={avatarByUserId?.get(post.senderId)}
               />
             );
           })

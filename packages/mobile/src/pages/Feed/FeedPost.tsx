@@ -7,6 +7,7 @@ import type { FeedPostEntry } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import { formatMessageTime } from '../Chat/chatDisplay';
 import PhotoCarousel from '../Chat/PhotoCarousel';
+import ChatAvatar from '../Chat/ChatAvatar';
 
 type Props = {
   post: FeedPostEntry;
@@ -15,10 +16,12 @@ type Props = {
   onHide: (messageId: string) => void;
   onToggleHeart: (messageId: string) => void;
   onPressComments: (messageId: string, roomId: string) => void;
+  /** 보낸 사람이 직접 설정한 프로필 사진(없으면 이니셜 표시) */
+  avatarUrl?: string;
 };
 
 /** 사진방 탭(여러 방 모아보기) 전용 게시물 카드. 개별 방 화면의 PhotoPost와 달리 모서리가 균일하고, 카드 위에 방 이름을 보여줌(프로토타입 "14 사진방 탭" 기준). */
-const FeedPost = ({ post, roomName, myUserId, onHide, onToggleHeart, onPressComments }: Props) => {
+const FeedPost = ({ post, roomName, myUserId, onHide, onToggleHeart, onPressComments, avatarUrl }: Props) => {
   const styles = useStyles(feedPostStyleFactory);
   const hasHearted = post.hearts.includes(myUserId);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -40,9 +43,7 @@ const FeedPost = ({ post, roomName, myUserId, onHide, onToggleHeart, onPressComm
     <View style={styles.card}>
       <Text style={styles.roomName}>{roomName}</Text>
       <View style={styles.headerRow}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{post.senderName.charAt(0)}</Text>
-        </View>
+        <ChatAvatar size={54} borderRadius={16} initial={post.senderName.charAt(0)} photoUrl={avatarUrl} />
         <View style={styles.headerInfo}>
           <Text style={styles.senderName}>{post.senderName}</Text>
           <Text style={styles.time}>{formatMessageTime(post.createdAt)}</Text>
@@ -103,22 +104,6 @@ const feedPostStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       gap: 12,
       padding: 12,
       paddingHorizontal: 18,
-    },
-    avatar: {
-      flexShrink: 0,
-      width: 54,
-      height: 54,
-      borderRadius: 16,
-      backgroundColor: color.grey150,
-      borderWidth: 1,
-      borderColor: color.grey300,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    avatarText: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey600,
     },
     headerInfo: {
       flex: 1,
