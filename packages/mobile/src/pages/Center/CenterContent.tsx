@@ -1,13 +1,15 @@
-import { useEffect } from 'react';
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MembershipData } from '@common/shared';
 import { userInfoAtom } from '../../store/user';
+import { activeWelfareIdAtom } from '../../store/activeWelfare';
+import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
 import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useGetMyEnrollments from '../../hooks/api/course/useGetMyEnrollments';
 import useGetLostItems from '../../hooks/api/lostItem/useGetLostItems';
@@ -63,6 +65,16 @@ const CenterContent = ({ membership }: Props) => {
   const nameSuffix = isTeacher ? '선생님' : isAdmin ? '담당자' : '님';
   const displayName = `${userInfo.userName} ${nameSuffix}`;
 
+  const setActiveWelfareId = useSetAtom(activeWelfareIdAtom);
+  const { data: membershipsData } = useGetMemberships();
+  const memberships = membershipsData?.data ?? [];
+  const [isSwitcherOpen, setIsSwitcherOpen] = useState(false);
+
+  const handleSwitchWelfare = (targetWelfareId: string) => {
+    setActiveWelfareId(targetWelfareId);
+    setIsSwitcherOpen(false);
+  };
+
   const styles = useStyles(centerContentStyleFactory);
 
   return isCenterOff ? (
@@ -87,6 +99,12 @@ const CenterContent = ({ membership }: Props) => {
               <View style={styles.staffTag}>
                 <Text style={styles.staffTagText}>{ROLE_LABEL[membership.role]}</Text>
               </View>
+            )}
+            {memberships.length > 1 && (
+              <Pressable style={styles.switchButton} onPress={() => setIsSwitcherOpen(true)}>
+                <Text style={styles.switchButtonIcon}>⇅</Text>
+                <Text style={styles.switchButtonText}>바꾸기</Text>
+              </Pressable>
             )}
           </View>
           <View style={styles.badgeRow}>
@@ -143,6 +161,39 @@ const CenterContent = ({ membership }: Props) => {
           </Text>
         )}
       </ScrollView>
+
+      <Modal visible={isSwitcherOpen} transparent animationType="fade" onRequestClose={() => setIsSwitcherOpen(false)}>
+        <Pressable style={styles.sheetBackdrop} onPress={() => setIsSwitcherOpen(false)}>
+          <View style={styles.sheet}>
+            <View style={styles.sheetHeader}>
+              <Text style={styles.sheetTitle}>가입한 복지관</Text>
+              <Pressable style={styles.sheetCloseButton} onPress={() => setIsSwitcherOpen(false)}>
+                <Text style={styles.sheetCloseButtonText}>닫기</Text>
+              </Pressable>
+            </View>
+            <ScrollView>
+              {memberships.map(m => {
+                const isActive = m.welfare._id === welfareId;
+                return (
+                  <Pressable
+                    key={m._id}
+                    style={[styles.sheetItem, isActive && styles.sheetItemActive]}
+                    onPress={() => handleSwitchWelfare(m.welfare._id)}
+                  >
+                    <View style={styles.sheetItemTextWrap}>
+                      <Text style={styles.sheetItemName}>{m.welfare.name}</Text>
+                      <Text style={styles.sheetItemMeta}>
+                        {ROLE_LABEL[m.role]} · {formatSince(m.createdAt)}
+                      </Text>
+                    </View>
+                    {isActive && <Text style={styles.sheetItemMark}>선택됨</Text>}
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -161,6 +212,100 @@ const centerContentStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
       paddingTop: 20,
       borderBottomWidth: 1,
       borderBottomColor: semantic.border,
+    },
+    switchButton: {
+      flexShrink: 0,
+      minHeight: hit.mobileCompact,
+      paddingHorizontal: 12,
+      borderWidth: 1.5,
+      borderColor: color.grey400,
+      borderRadius: radius.mobileContainer,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    switchButtonIcon: {
+      fontSize: fontSize('lg'),
+      color: color.grey700,
+    },
+    switchButtonText: {
+      fontSize: fontSize('caption'),
+      fontFamily: fontFamily('bold'),
+      color: color.grey700,
+    },
+    sheetBackdrop: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      backgroundColor: 'rgba(0, 0, 0, 0.42)',
+    },
+    sheet: {
+      maxHeight: '72%',
+      backgroundColor: semantic.bgSurface,
+      borderTopWidth: 2,
+      borderTopColor: color.navy,
+      borderTopLeftRadius: radius.sheet,
+      borderTopRightRadius: radius.sheet,
+    },
+    sheetHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      padding: 18,
+    },
+    sheetTitle: {
+      flex: 1,
+      fontSize: fontSize('xl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+    sheetCloseButton: {
+      minHeight: hit.mobileCompact,
+      paddingHorizontal: 16,
+      borderWidth: 1.5,
+      borderColor: color.grey400,
+      borderRadius: radius.mobileContainer,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    sheetCloseButtonText: {
+      fontSize: fontSize('base'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+    sheetItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      marginHorizontal: 16,
+      marginBottom: 12,
+      borderWidth: 1.5,
+      borderColor: semantic.border,
+      borderRadius: radius.mobileContainer,
+      padding: 16,
+    },
+    sheetItemActive: {
+      borderColor: color.navy,
+      backgroundColor: color.navySoft,
+    },
+    sheetItemTextWrap: {
+      flex: 1,
+      minWidth: 0,
+    },
+    sheetItemName: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+    sheetItemMeta: {
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('regular'),
+      marginTop: 4,
+      color: color.grey600,
+    },
+    sheetItemMark: {
+      flexShrink: 0,
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('bold'),
+      color: color.navyDeep,
     },
     headerTopRow: {
       flexDirection: 'row',

@@ -15,6 +15,11 @@ async function getNoticesByRooms(roomIds, { before, limit = 20 } = {}) {
   return await Message.find(filter).sort({ createdAt: -1 }).limit(limit);
 }
 
+async function getFeedPostsByRooms(roomIds, { before, limit = 50 } = {}) {
+  const filter = { room: { $in: roomIds }, hidden: false, ...(before && { createdAt: { $lt: before } }) };
+  return await Message.find(filter).sort({ createdAt: -1 }).limit(limit);
+}
+
 async function getLatestMessagesByRooms(roomIds) {
   return await Message.aggregate([
     { $match: { room: { $in: roomIds } } },
@@ -41,6 +46,10 @@ async function toggleHeart(messageId, userId) {
   return await Message.findByIdAndUpdate(messageId, update, { new: true });
 }
 
+async function incrementCommentCount(messageId) {
+  return await Message.findByIdAndUpdate(messageId, { $inc: { commentCount: 1 } }, { new: true });
+}
+
 async function countMessagesSince(roomId, since) {
   const filter = { room: roomId, ...(since && { createdAt: { $gt: since } }) };
   return await Message.countDocuments(filter);
@@ -62,12 +71,14 @@ export {
   getMessageById,
   getMessagesByRoom,
   getNoticesByRooms,
+  getFeedPostsByRooms,
   countMessagesSinceByRooms,
   getLatestMessagesByRooms,
   createMessage,
   updateMessage,
   hideMessage,
   toggleHeart,
+  incrementCommentCount,
   countMessagesSince,
   getMessageIdsByRooms,
   deleteMessagesByRooms,

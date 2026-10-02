@@ -14,7 +14,7 @@ export type { Color, Semantic };
 
 export type { DistrictData } from './types/district';
 export type { WelfareData, WelfareResponse, WelfareDetailResponse } from './types/welfare';
-export type { User, UserResponse } from './types/user';
+export type { User, UserResponse, UpdateAvatarResponse, UserAvatarEntry, UserAvatarsResponse } from './types/user';
 export type {
   MembershipRole,
   MembershipStatus,
@@ -61,4 +61,8 @@ export type {
   MessageResponse,
   MessageListResponse,
   PhotoPresignResponse,
+  CommentData,
+  CommentListResponse,
+  FeedPostEntry,
+  FeedPostListResponse,
 } from './types/notice';

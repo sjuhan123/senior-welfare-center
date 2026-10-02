@@ -30,6 +30,7 @@ export type MessageData = {
   editable: boolean;
   hidden: boolean;
   hearts: string[];
+  commentCount: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -54,4 +55,28 @@ export type PhotoPresignResponse = {
   statusCode: number;
   message: string;
   data: { uploadUrl: string; publicUrl: string };
+};
+
+export type CommentData = {
+  _id: string;
+  message: string;
+  userId: string;
+  userName: string;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CommentListResponse = {
+  statusCode: number;
+  message: string;
+  data: CommentData[];
+};
+
+export type FeedPostEntry = MessageData & { canManage: boolean };
+
+export type FeedPostListResponse = {
+  statusCode: number;
+  message: string;
+  data: FeedPostEntry[];
 };

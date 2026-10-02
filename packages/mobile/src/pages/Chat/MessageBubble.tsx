@@ -4,6 +4,7 @@ import { color, semantic, radius, hit } from '@common/shared';
 import type { MessageData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import { messageDateLabel, formatMessageTime } from './chatDisplay';
+import ChatAvatar from './ChatAvatar';
 
 type Props = {
   message: MessageData;
@@ -19,6 +20,8 @@ type Props = {
   isUploadingPhotos?: boolean;
   /** 사진 업로드가 실패했는지(이야기방 전용, 스피너 대신 X 표시) */
   hasUploadFailed?: boolean;
+  /** 보낸 사람이 직접 설정한 프로필 사진(없으면 이니셜 표시) */
+  avatarUrl?: string;
 };
 
 const MessageBubble = ({
@@ -31,6 +34,7 @@ const MessageBubble = ({
   timeFirst = false,
   isUploadingPhotos = false,
   hasUploadFailed = false,
+  avatarUrl,
 }: Props) => {
   const styles = useStyles(messageBubbleStyleFactory);
   const [viewerPhotoUrl, setViewerPhotoUrl] = useState<string | null>(null);
@@ -50,11 +54,7 @@ const MessageBubble = ({
         </View>
       )}
       <View style={[styles.messageRow, isMine && styles.messageRowMine]}>
-        {!isMine && (
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{message.senderName.charAt(0)}</Text>
-          </View>
-        )}
+        {!isMine && <ChatAvatar size={52} borderRadius={15} initial={message.senderName.charAt(0)} photoUrl={avatarUrl} />}
         <View style={[styles.messageMain, isMine && styles.messageMainMine]}>
           {!isMine && <Text style={styles.senderName}>{message.senderName}</Text>}
           <View style={[styles.bubble, isMine && styles.bubbleMine]}>
@@ -133,22 +133,6 @@ const messageBubbleStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
     },
     messageRowMine: {
       justifyContent: 'flex-end',
-    },
-    avatar: {
-      flexShrink: 0,
-      width: 52,
-      height: 52,
-      borderRadius: 15,
-      backgroundColor: color.grey150,
-      borderWidth: 1,
-      borderColor: color.grey300,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    avatarText: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey600,
     },
     messageMain: {
       flex: 1,

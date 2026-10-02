@@ -10,12 +10,14 @@ import MealCalendar from './pages/MealCalendar/MealCalendar';
 import Chat from './pages/Chat/Chat';
 import NoticeRoom from './pages/NoticeRoom/NoticeRoom';
 import ChatRoom from './pages/ChatRoom/ChatRoom';
-import Feed from './pages/Feed';
+import PhotoComments from './pages/PhotoComments/PhotoComments';
+import Feed from './pages/Feed/Feed';
 import Me from './pages/Me';
 import TabBar from './components/TabBar';
 import QrScan from './pages/QrScan';
 import JoinSuccess from './pages/JoinSuccess';
-import type { MembershipRole } from '@common/shared';
+import DeleteAccount from './pages/DeleteAccount';
+import type { MembershipRole, RoomType } from '@common/shared';
 
 export type MainTabParamList = {
   Center: undefined;
@@ -29,10 +31,12 @@ export type RootStackParamList = {
   AccountCreated: undefined;
   QrScan: undefined;
   JoinSuccess: { welfareName: string; role: MembershipRole };
+  DeleteAccount: undefined;
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   MealCalendar: undefined;
   NoticeRoom: { welfareId: string; roomId: string; roomTitle: string };
-  ChatRoom: { welfareId: string; roomId: string; roomTitle: string };
+  ChatRoom: { welfareId: string; roomId: string; roomTitle: string; roomType: RoomType };
+  PhotoComments: { welfareId: string; roomId: string; messageId: string };
 };
 
 export type InitialRouteName = 'Auth' | 'AccountCreated' | 'MainTabs';
@@ -66,10 +70,12 @@ const Routers = ({ initialRouteName }: RoutersProps) => {
       <Stack.Screen name="AccountCreated" component={AccountCreated} />
       <Stack.Screen name="QrScan" component={QrScan} />
       <Stack.Screen name="JoinSuccess" component={JoinSuccess} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="MealCalendar" component={MealCalendar} />
       <Stack.Screen name="NoticeRoom" component={NoticeRoom} />
       <Stack.Screen name="ChatRoom" component={ChatRoom} />
+      <Stack.Screen name="PhotoComments" component={PhotoComments} />
     </Stack.Navigator>
   );
 };

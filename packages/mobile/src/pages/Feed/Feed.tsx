@@ -1,30 +1,37 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAtomValue } from 'jotai';
 import { color, semantic } from '@common/shared';
-import useGetMemberships from '../hooks/api/membership/useGetMemberships';
-import EmptyWelfareState from '../components/EmptyWelfareState';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
+import { activeWelfareIdAtom } from '../../store/activeWelfare';
+import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
+import EmptyWelfareState from '../../components/EmptyWelfareState';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import FeedContent from './FeedContent';
 
 const Feed = () => {
+  const activeWelfareId = useAtomValue(activeWelfareIdAtom);
   const { data } = useGetMemberships();
   const memberships = data?.data ?? [];
+  const activeMembership = memberships.find(m => m.welfare._id === activeWelfareId) ?? memberships[0] ?? null;
 
   const styles = useStyles(feedStyleFactory);
 
-  return (
+  return activeMembership ? (
+    <FeedContent membership={activeMembership} />
+  ) : (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>사진방</Text>
       </View>
-      {memberships.length === 0 && (
-        <EmptyWelfareState
-          heading={'아직 올라온\n사진이 없습니다'}
-          description={'복지관 강좌에 가입하시면\n같은 반 어르신들의 사진을\n보고 댓글도 다실 수 있습니다.'}
-        />
-      )}
+      <EmptyWelfareState
+        heading={'아직 올라온\n사진이 없습니다'}
+        description={'복지관 강좌에 가입하시면\n같은 반 어르신들의 사진을\n보고 댓글도 다실 수 있습니다.'}
+      />
     </SafeAreaView>
   );
 };
+
+export default Feed;
 
 const feedStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
   StyleSheet.create({
@@ -45,5 +52,3 @@ const feedStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       color: semantic.textPrimary,
     },
   });
-
-export default Feed;
