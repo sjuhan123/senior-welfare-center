@@ -9,6 +9,7 @@ export type MembershipData = {
   welfare: WelfareData;
   role: MembershipRole;
   status: MembershipStatus;
+  active: boolean;
   joinedVia: 'qr' | 'manual';
   createdAt: string;
 };
@@ -23,4 +24,24 @@ export type MembershipScanResponse = {
   statusCode: number;
   message: string;
   data: { membership: MembershipData; welfare: WelfareData };
+};
+
+export type MemberFilter = 'all' | 'staff' | 'teacher' | 'member' | 'off' | 'pending';
+
+export type WelfareMemberData = {
+  _id: string;
+  userId: string;
+  userName: string;
+  role: MembershipRole;
+  status: MembershipStatus;
+  active: boolean;
+  joinedVia: 'qr' | 'manual';
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type WelfareMemberListResponse = {
+  statusCode: number;
+  message: string;
+  data: { members: WelfareMemberData[]; total: number };
 };

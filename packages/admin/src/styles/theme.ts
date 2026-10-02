@@ -1,13 +1,4 @@
-import {
-  color,
-  semantic,
-  font,
-  scale,
-  space,
-  radius,
-  border,
-  hit,
-} from '@common/shared';
+import { color, semantic, font, scale, space, radius, border, hit } from '@common/shared';
 
 const theme = {
   color,

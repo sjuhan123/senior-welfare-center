@@ -1,0 +1,51 @@
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAtomValue } from 'jotai';
+import { color, semantic } from '@common/shared';
+import { activeWelfareIdAtom } from '../../store/activeWelfare';
+import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
+import EmptyWelfareState from '../../components/EmptyWelfareState';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import ChatContent from './ChatContent';
+
+const Chat = () => {
+  const activeWelfareId = useAtomValue(activeWelfareIdAtom);
+  const { data } = useGetMemberships();
+  const memberships = data?.data ?? [];
+  const activeMembership = memberships.find(m => m.welfare._id === activeWelfareId) ?? memberships[0] ?? null;
+
+  const styles = useStyles(chatStyleFactory);
+
+  return activeMembership ? (
+    <ChatContent membership={activeMembership} />
+  ) : (
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.header}>
+        <Text style={styles.title}>대화</Text>
+      </View>
+      <EmptyWelfareState heading={'아직 대화방이\n없습니다'} description={'복지관에 가입하시면\n공지방과 이야기방이\n여기에 생깁니다.'} />
+    </SafeAreaView>
+  );
+};
+
+export default Chat;
+
+const chatStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: color.grey0,
+    },
+    header: {
+      paddingHorizontal: 18,
+      paddingTop: 18,
+      paddingBottom: 14,
+      borderBottomWidth: 1.5,
+      borderBottomColor: semantic.border,
+    },
+    title: {
+      fontSize: fontSize('xl'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.textPrimary,
+    },
+  });

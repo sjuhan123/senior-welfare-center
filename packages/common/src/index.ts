@@ -13,6 +13,56 @@ export type { Color, Semantic };
  */
 
 export type { DistrictData } from './types/district';
-export type { WelfareData, WelfareResponse } from './types/welfare';
-export type { User, UserResponse } from './types/user';
-export type { MembershipRole, MembershipStatus, MembershipData, MembershipListResponse, MembershipScanResponse } from './types/membership';
+export type { WelfareData, WelfareResponse, WelfareDetailResponse } from './types/welfare';
+export type { User, UserResponse, UpdateAvatarResponse, UserAvatarEntry, UserAvatarsResponse } from './types/user';
+export type {
+  MembershipRole,
+  MembershipStatus,
+  MembershipData,
+  MembershipListResponse,
+  MembershipScanResponse,
+  MemberFilter,
+  WelfareMemberData,
+  WelfareMemberListResponse,
+} from './types/membership';
+export type { InviteCodeData, InviteCodeResponse, InviteCodeIssueResponse } from './types/inviteCode';
+export type { MealData, MealListResponse, MealDetailResponse } from './types/meal';
+export type { LostItemData, LostItemListResponse, LostItemDetailResponse } from './types/lostItem';
+export type {
+  Weekday,
+  ScheduleItem,
+  CourseData,
+  CourseListResponse,
+  CourseDetailResponse,
+  EnrollmentState,
+  EnrollmentData,
+  EnrollmentListResponse,
+  MyEnrollmentEntry,
+  MyEnrollmentsResponse,
+  PendingEnrollmentCount,
+  PendingEnrollmentCountsResponse,
+} from './types/course';
+export type {
+  RoomType,
+  RoomData,
+  RoomListItem,
+  RoomListResponse,
+  CourseRoomsResponse,
+  RoomMemberEntry,
+  RoomEnrolleeEntry,
+  RoomMembersData,
+  RoomMembersResponse,
+} from './types/room';
+export type {
+  NoticeEntry,
+  NoticeListResponse,
+  NoticeCountResponse,
+  MessageData,
+  MessageResponse,
+  MessageListResponse,
+  PhotoPresignResponse,
+  CommentData,
+  CommentListResponse,
+  FeedPostEntry,
+  FeedPostListResponse,
+} from './types/notice';

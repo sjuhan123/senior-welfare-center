@@ -8,6 +8,7 @@ import { color, semantic, radius, hit } from '@common/shared';
 import appIcon from '../../assets/icon.png';
 import useKakaoLogin from '../hooks/auth/useKakaoLogin';
 import { postAuthKakao } from '../hooks/api/auth/usePostAuthKakao';
+import { postAuthDevLogin } from '../hooks/api/auth/usePostAuthDevLogin';
 import { getUserInfo } from '../hooks/api/auth/useGetUserInfo';
 import { getMemberships } from '../hooks/api/membership/useGetMemberships';
 import { setUserToken, setRefreshToken } from '../utills/persistentStorage';
@@ -36,6 +37,24 @@ const Auth = () => {
   const setUserInfo = useSetAtom(userInfoAtom);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
 
+  const finishLogin = async (tokens: { accessToken: string; refreshToken: string }) => {
+    await setUserToken(tokens.accessToken);
+    await setRefreshToken(tokens.refreshToken);
+    setIsUserTokenValid(true);
+
+    const userInfoRes = await getUserInfo();
+    setUserInfo({
+      userName: userInfoRes.data.userName,
+      userAvatar: userInfoRes.data.userAvatar,
+      customAvatar: userInfoRes.data.customAvatar,
+    });
+
+    const membershipsRes = await getMemberships();
+    const hasMembership = membershipsRes.data.length > 0;
+
+    navigation.replace(hasMembership ? 'MainTabs' : 'AccountCreated');
+  };
+
   const handlePressButton = async () => {
     setStatus('loading');
 
@@ -47,22 +66,22 @@ const Auth = () => {
 
     try {
       const tokenRes = await postAuthKakao(kakaoAccessToken);
-      await setUserToken(tokenRes.data.accessToken);
-      await setRefreshToken(tokenRes.data.refreshToken);
-      setIsUserTokenValid(true);
-
-      const userInfoRes = await getUserInfo();
-      setUserInfo({
-        userName: userInfoRes.data.userName,
-        userAvatar: userInfoRes.data.userAvatar,
-      });
-
-      const membershipsRes = await getMemberships();
-      const hasMembership = membershipsRes.data.length > 0;
-
-      navigation.replace(hasMembership ? 'MainTabs' : 'AccountCreated');
+      await finishLogin(tokenRes.data);
     } catch (error) {
       console.error('로그인 처리 실패', error);
+      setStatus('error');
+    }
+  };
+
+  /** Expo Go에선 카카오 네이티브 SDK가 동작하지 않아 로그인 이후 화면을 테스트할 수 없어서 만든 개발 전용 우회 경로. 43. 개발용 테스트 로그인 참고. */
+  const handlePressDevLoginButton = async () => {
+    setStatus('loading');
+
+    try {
+      const tokenRes = await postAuthDevLogin();
+      await finishLogin(tokenRes.data);
+    } catch (error) {
+      console.error('개발용 로그인 처리 실패', error);
       setStatus('error');
     }
   };
@@ -87,6 +106,11 @@ const Auth = () => {
         <Pressable style={styles.primaryButton} onPress={handlePressButton} disabled={status === 'loading'}>
           <Text style={styles.primaryButtonText}>{status === 'loading' ? '로그인 중...' : '카카오 계정으로 시작하기'}</Text>
         </Pressable>
+        {__DEV__ && (
+          <Pressable style={styles.devButton} onPress={handlePressDevLoginButton} disabled={status === 'loading'}>
+            <Text style={styles.devButtonText}>테스트 계정으로 로그인 (개발용)</Text>
+          </Pressable>
+        )}
         {status === 'error' && <Text style={styles.errorText}>로그인에 실패했습니다</Text>}
       </View>
     </SafeAreaView>
@@ -156,6 +180,19 @@ const authStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontSize: fontSize('xxl'),
       fontFamily: fontFamily('bold'),
       color: KAKAO_TEXT,
+    },
+    devButton: {
+      minHeight: hit.mobileLarge,
+      borderRadius: radius.mobileButton,
+      borderWidth: 1,
+      borderColor: semantic.border,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    devButtonText: {
+      fontSize: fontSize('md'),
+      fontFamily: fontFamily('semibold'),
+      color: semantic.textSecondary,
     },
     errorText: {
       fontSize: fontSize('sm'),

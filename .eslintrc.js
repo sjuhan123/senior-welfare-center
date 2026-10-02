@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'import/no-duplicates': 'off',
+    'no-unused-vars': 'off',
   },
   overrides: [
     {
@@ -80,6 +81,10 @@ module.exports = {
       files: ['packages/api/**/*.js'],
       env: { node: true, es2020: true },
       parserOptions: { sourceType: 'module' },
+    },
+    {
+      files: ['packages/api/**/*.test.js', 'packages/api/src/test/**/*.js'],
+      env: { jest: true },
     },
   ],
   settings: {

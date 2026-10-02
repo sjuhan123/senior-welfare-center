@@ -1,9 +1,9 @@
 // 개발용 테스트 복지관 + 관리자 Membership을 만들어두는 스크립트. 실제 서비스 데이터가 아님.
 // 사용법: node scripts/seedTestWelfare.js <카카오userId> [role=admin]
 import { mongoConnect, mongoDisconnect } from '../src/server/mongo.js';
-import District from '../src/models/districts.mongo.js';
-import Welfare from '../src/models/welfares.mongo.js';
-import Membership from '../src/models/membership.mongo.js';
+import District from '../src/models/districts/districts.mongo.js';
+import Welfare from '../src/models/welfares/welfares.mongo.js';
+import Membership from '../src/models/membership/membership.mongo.js';
 
 const TEST_DISTRICT_NAME = '테스트';
 const TEST_WELFARE_NAME = '태강복지관';

@@ -1,5 +1,5 @@
-import { getAllWelfares, getWelfaresByDistrictId } from '../../models/welfares.model.js';
-import { issueInviteCode, getActiveInviteCode, getInviteCodeHistory } from '../../models/welfareInviteCode.model.js';
+import { getAllWelfares, getWelfaresByDistrictId, getWelfareByWelfareId, updateWelfare } from '../../models/welfares/welfares.model.js';
+import { issueInviteCode, getActiveInviteCode, getInviteCodeHistory } from '../../models/welfareInviteCode/welfareInviteCode.model.js';
 import { calculateDistance } from '../../utils/index.js';
 
 async function httpGetAllWelfares(req, res) {
@@ -114,4 +114,57 @@ async function httpGetWelfareInviteCode(req, res) {
   }
 }
 
-export { httpGetAllWelfares, httpGetClosestWelfare, httpPostWelfareInviteCode, httpGetWelfareInviteCode };
+async function httpGetWelfare(req, res) {
+  try {
+    const { welfareId } = req.params;
+
+    const welfare = await getWelfareByWelfareId(welfareId);
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '복지관 조회 성공',
+      data: welfare,
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error retrieving welfare:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+async function httpPatchWelfare(req, res) {
+  try {
+    const { welfareId } = req.params;
+    const { name, address, phone, homepage, remarks, updatedAt } = req.body;
+
+    const { result, doc } = await updateWelfare(welfareId, updatedAt, { name, address, phone, homepage, remarks });
+
+    if (result === 'not_found') {
+      return res.status(404).json({ statusCode: 404, message: '해당 복지관을 찾을 수 없습니다' });
+    }
+
+    if (result === 'conflict') {
+      return res.status(409).json({ statusCode: 409, message: '다른 관리자가 이미 수정했습니다' });
+    }
+
+    const jsonResponse = {
+      statusCode: 200,
+      message: '복지관 정보 수정 성공',
+      data: doc,
+    };
+    return res.status(200).json(jsonResponse);
+  } catch (error) {
+    console.error('Error updating welfare:', error);
+    return res.status(500).json({
+      statusCode: 500,
+      message: '서버 오류',
+      error: error.message,
+    });
+  }
+}
+
+export { httpGetAllWelfares, httpGetClosestWelfare, httpPostWelfareInviteCode, httpGetWelfareInviteCode, httpGetWelfare, httpPatchWelfare };

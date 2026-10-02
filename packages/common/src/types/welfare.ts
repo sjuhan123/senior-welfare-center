@@ -10,10 +10,17 @@ export type WelfareData = {
   distance: number;
   remarks?: string;
   images: string[];
+  updatedAt: string;
 };
 
 export type WelfareResponse = {
   statusCode: number;
   message: string;
   data: WelfareData[];
+};
+
+export type WelfareDetailResponse = {
+  statusCode: number;
+  message: string;
+  data: WelfareData;
 };

@@ -4,10 +4,11 @@ import { get } from '../../libs/api';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   try {
-    const user = await get(END_POINT.USER);
-    return user;
+    await get(END_POINT.USER);
   } catch {
     const redirectTo = new URL(request.url).pathname;
     return redirect(`/login?redirectTo=${encodeURIComponent(redirectTo)}`);
   }
+
+  return null;
 }
