@@ -105,4 +105,12 @@ async function deleteUser(userId) {
   await User.deleteOne({ id: userId });
 }
 
-export { saveUser, findUserBy, bookmarkWelfare, unBookmarkWelfare, deleteUser };
+async function updateUserCustomAvatar(userId, customAvatar) {
+  await User.findOneAndUpdate({ id: userId }, { customAvatar });
+}
+
+async function getUserAvatarsByIds(userIds) {
+  return await User.find({ id: { $in: userIds } }, { _id: 0, id: 1, customAvatar: 1 });
+}
+
+export { saveUser, findUserBy, bookmarkWelfare, unBookmarkWelfare, deleteUser, updateUserCustomAvatar, getUserAvatarsByIds };

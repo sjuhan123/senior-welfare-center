@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  customAvatar: {
+    type: String,
+    default: '',
+  },
   kakaoAccessToken: {
     type: String,
     default: '',
