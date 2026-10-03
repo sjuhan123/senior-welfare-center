@@ -68,6 +68,6 @@ sudo systemctl reload nginx
 echo "$NEW_PORT" | sudo tee "$STATE_FILE" > /dev/null
 
 docker rm -f "${CONTAINER_PREFIX}-${ACTIVE_PORT}" 2>/dev/null || true
-docker image prune -f
+docker image prune -af
 
 echo "배포 완료. 활성 포트: $NEW_PORT"
