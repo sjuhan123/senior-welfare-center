@@ -1,0 +1,96 @@
+name: Deploy Development
+
+on:
+  pull_request:
+    paths:
+      - 'packages/admin/**'
+      - 'packages/api/**'
+      - 'packages/common/**'
+    types:
+      - closed
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build admin
+        run: yarn workspace senior-welfare-center-admin build
+
+      - name: Package admin build
+        run: tar -czf admin-dist.tar.gz -C packages/admin/dist .
+
+      - name: Upload admin build to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
+          source: 'admin-dist.tar.gz'
+          target: '/tmp'
+
+      - name: Extract admin build on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            sudo mkdir -p /var/www/dev/admin
+            sudo rm -rf /var/www/dev/admin/*
+            sudo tar -xzf /tmp/admin-dist.tar.gz -C /var/www/dev/admin
+            rm /tmp/admin-dist.tar.gz
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.api
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}:dev-${{ github.sha }}
+
+      - name: Upload deploy script to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
+          source: 'scripts/deploy-api.sh'
+          target: '/tmp'
+          strip_components: 1
+
+      - name: Run blue-green deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_KEY }}
+          envs: MONGODB_URL,JWT_SECRET_KEY,KAKAO_REST_API_KEY,KAKAO_REDIRECT_URI
+          script: |
+            chmod +x /tmp/deploy-api.sh
+            /tmp/deploy-api.sh dev ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}:dev-${{ github.sha }} 8010 8011
+        env:
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}

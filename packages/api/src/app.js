@@ -29,6 +29,9 @@ app.use(morgan('combined'));
 app.use(express.json());
 app.use(cookieParser());
 
+/** 블루그린 배포 스크립트가 새 컨테이너의 준비 여부를 확인하는 용도 */
+app.get('/health', (req, res) => res.status(200).send('ok'));
+
 app.use('/api', api);
 
 export default app;
