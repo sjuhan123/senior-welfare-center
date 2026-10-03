@@ -53,7 +53,9 @@ for i in $(seq 1 30); do
 done
 
 if [ "$HEALTHY" -ne 1 ]; then
-  echo "헬스체크 실패, 새 컨테이너 정리하고 중단"
+  echo "헬스체크 실패, 컨테이너 로그:"
+  docker logs "${CONTAINER_PREFIX}-${NEW_PORT}"
+  echo "새 컨테이너 정리하고 중단"
   docker rm -f "${CONTAINER_PREFIX}-${NEW_PORT}"
   exit 1
 fi
