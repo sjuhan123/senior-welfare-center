@@ -91,7 +91,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
-          envs: MONGODB_URL,JWT_SECRET_KEY,KAKAO_REST_API_KEY,KAKAO_REDIRECT_URI
+          envs: MONGODB_URL,JWT_SECRET_KEY,KAKAO_REST_API_KEY,KAKAO_REDIRECT_URI,KAKAO_CLIENT_SECRET
           script: |
             chmod +x /tmp/deploy-api.sh
             /tmp/deploy-api.sh prod ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}:prod-${{ github.sha }} 8000 8001
@@ -100,3 +100,4 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
