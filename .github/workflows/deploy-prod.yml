@@ -6,6 +6,8 @@ on:
       - 'packages/admin/**'
       - 'packages/api/**'
       - 'packages/common/**'
+      - 'Dockerfile.api'
+      - 'scripts/deploy-api.sh'
     types:
       - closed
     branches:
