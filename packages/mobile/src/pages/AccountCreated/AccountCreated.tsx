@@ -4,10 +4,10 @@ import { useAtomValue } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit } from '@common/shared';
-import { userInfoAtom } from '../store/user';
-import PlaceholderAvatar from '../components/PlaceholderAvatar';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
-import type { RootStackParamList } from '../router';
+import { userInfoAtom } from '../../store/user';
+import PlaceholderAvatar from '../../components/PlaceholderAvatar';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import type { RootStackParamList } from '../../router';
 
 const AccountCreated = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

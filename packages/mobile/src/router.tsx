@@ -3,8 +3,8 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { connectSocket, disconnectSocket } from './libs/socket';
-import Auth from './pages/Auth';
-import AccountCreated from './pages/AccountCreated';
+import Auth from './pages/Auth/Auth';
+import AccountCreated from './pages/AccountCreated/AccountCreated';
 import Center from './pages/Center/Center';
 import MealCalendar from './pages/MealCalendar/MealCalendar';
 import Chat from './pages/Chat/Chat';
@@ -12,11 +12,11 @@ import NoticeRoom from './pages/NoticeRoom/NoticeRoom';
 import ChatRoom from './pages/ChatRoom/ChatRoom';
 import PhotoComments from './pages/PhotoComments/PhotoComments';
 import Feed from './pages/Feed/Feed';
-import Me from './pages/Me';
+import Me from './pages/Me/Me';
 import TabBar from './components/TabBar';
-import QrScan from './pages/QrScan';
-import JoinSuccess from './pages/JoinSuccess';
-import DeleteAccount from './pages/DeleteAccount';
+import QrScan from './pages/QrScan/QrScan';
+import JoinSuccess from './pages/JoinSuccess/JoinSuccess';
+import DeleteAccount from './pages/DeleteAccount/DeleteAccount';
 import type { MembershipRole, RoomType } from '@common/shared';
 
 export type MainTabParamList = {
