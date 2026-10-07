@@ -33,9 +33,16 @@ docker pull "$IMAGE"
 
 docker rm -f "${CONTAINER_PREFIX}-${NEW_PORT}" 2>/dev/null || true
 
+if [ "$ENV" == "prod" ]; then
+  NODE_ENV_VALUE="production"
+else
+  NODE_ENV_VALUE="development"
+fi
+
 docker run -d \
   --name "${CONTAINER_PREFIX}-${NEW_PORT}" \
   -p "${NEW_PORT}:8000" \
+  -e NODE_ENV="$NODE_ENV_VALUE" \
   -e MONGODB_URL="$MONGODB_URL" \
   -e JWT_SECRET_KEY="$JWT_SECRET_KEY" \
   -e KAKAO_REST_API_KEY="$KAKAO_REST_API_KEY" \
