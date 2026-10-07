@@ -3,8 +3,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit, type MembershipRole } from '@common/shared';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
-import type { RootStackParamList } from '../router';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import type { RootStackParamList } from '../../router';
 
 const ROLE_LABEL: Record<MembershipRole, string> = {
   member: '회원',

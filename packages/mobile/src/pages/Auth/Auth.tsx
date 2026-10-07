@@ -5,17 +5,17 @@ import { useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit } from '@common/shared';
-import appIcon from '../../assets/icon.png';
-import useKakaoLogin from '../hooks/auth/useKakaoLogin';
-import { postAuthKakao } from '../hooks/api/auth/usePostAuthKakao';
-import { postAuthDevLogin } from '../hooks/api/auth/usePostAuthDevLogin';
-import { getUserInfo } from '../hooks/api/auth/useGetUserInfo';
-import { getMemberships } from '../hooks/api/membership/useGetMemberships';
-import { setUserToken, setRefreshToken } from '../utills/persistentStorage';
-import { isUserTokenValidAtom } from '../store/auth';
-import { userInfoAtom } from '../store/user';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
-import type { RootStackParamList } from '../router';
+import appIcon from '../../../assets/icon.png';
+import useKakaoLogin from '../../hooks/auth/useKakaoLogin';
+import { postAuthKakao } from '../../hooks/api/auth/usePostAuthKakao';
+import { postAuthDevLogin } from '../../hooks/api/auth/usePostAuthDevLogin';
+import { getUserInfo } from '../../hooks/api/auth/useGetUserInfo';
+import { getMemberships } from '../../hooks/api/membership/useGetMemberships';
+import { setUserToken, setRefreshToken } from '../../utills/persistentStorage';
+import { isUserTokenValidAtom } from '../../store/auth';
+import { userInfoAtom } from '../../store/user';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import type { RootStackParamList } from '../../router';
 
 // 카카오 로그인 버튼의 공식 브랜드 색상(우리 디자인 토큰과는 무관, 카카오 자체 규정값)
 const KAKAO_YELLOW = '#FEE500';
