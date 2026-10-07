@@ -5,12 +5,12 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit } from '@common/shared';
-import { userInfoAtom, resetUserInfoAtom } from '../store/user';
-import { isUserTokenValidAtom } from '../store/auth';
-import { deleteAccount } from '../hooks/api/auth/useDeleteAccount';
-import { clearUserToken, clearRefreshToken } from '../utills/persistentStorage';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
-import type { RootStackParamList } from '../router';
+import { userInfoAtom, resetUserInfoAtom } from '../../store/user';
+import { isUserTokenValidAtom } from '../../store/auth';
+import { deleteAccount } from '../../hooks/api/auth/useDeleteAccount';
+import { clearUserToken, clearRefreshToken } from '../../utills/persistentStorage';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import type { RootStackParamList } from '../../router';
 
 const DeleteAccount = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

@@ -6,10 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { radius, hit } from '@common/shared';
-import { postMembershipScan } from '../hooks/api/membership/usePostMembershipScan';
-import { QUERY_KEYS } from '../constant/queryKeys';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
-import type { RootStackParamList } from '../router';
+import { postMembershipScan } from '../../hooks/api/membership/usePostMembershipScan';
+import { QUERY_KEYS } from '../../constant/queryKeys';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import type { RootStackParamList } from '../../router';
 
 const SCAN_BG = '#15171a';
 const FRAME_BG = '#232629';

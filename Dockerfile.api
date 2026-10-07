@@ -6,8 +6,11 @@ FROM node:lts-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy yarn.lock file from root
-COPY package.json yarn.lock ./
+# Copies everything over to Docker environment. Yarn 워크스페이스는 모든 패키지의
+# package.json이 있어야 의존성 해석이 정확해서, 루트 package.json/yarn.lock만
+# 먼저 복사하는 방식은 안 씀(그러면 yarn install --immutable이 "lockfile이
+# 바뀌어야 한다"며 실패함)
+COPY . ./
 
 # Install Corepack and enable it (package.json의 packageManager 필드를 보고
 # corepack이 알아서 정확한 yarn 버전을 받아 씀. 별도로 yarn을 npm install하면
@@ -16,12 +19,6 @@ RUN npm install -g corepack \
     && corepack enable
 
 # Install project dependencies
-RUN yarn install --immutable --immutable-cache --check-cache
-
-# Copies everything over to Docker environment
-COPY . ./
-
-# Build the application
 RUN yarn install --immutable
 
 # Expose port

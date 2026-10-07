@@ -51,12 +51,10 @@
 
 - **Socket.IO**: 대화방 실시간 메시지, 좋아요, 댓글
 - **S3**: presigned URL 방식으로 메시지 사진, 프로필 사진 업로드
-- **AWS EC2 + Docker + GitHub Actions**: `main` 브랜치에 PR이 머지되면 Docker 이미지를 빌드해서 EC2에 배포
+- **AWS EC2 + Docker + GitHub Actions + 블루그린 무중단 배포**: `dev`/`main` 브랜치에 PR이 머지되면 각각 개발계/운영계로 자동 배포. 배포마다 비활성 포트에 새 컨테이너를 띄워 헬스체크 통과 후 nginx가 전환하는 방식이라 다운타임 없음
+- **MongoDB 개발계/운영계 DB 분리**: 같은 Atlas 클러스터 안에서 환경별로 별도 DB 사용
+- **도메인 + HTTPS**: `uri-bokji.com`/`dev.uri-bokji.com`, Let's Encrypt 인증서 적용
 
 예정인 것
 
-- **블루그린 무중단 배포**: 지금은 배포할 때 컨테이너를 내렸다가 새로 띄우는 방식이라 짧은 다운타임이 있음. Nginx가 활성 포트로 트래픽을 라우팅하고, 배포 시 비활성 포트에 새 컨테이너를 띄워 헬스체크 후 전환하는 방식으로 개선 예정
-- **MongoDB 개발계/운영계 DB 분리**
 - **Expo Push Service**: 공지방 등 푸시 알림
-- **`dev` 브랜치 자동 배포**: 지금은 `main` 머지 시에만 자동 배포됨
-- **도메인 + HTTPS**: Let's Encrypt 적용

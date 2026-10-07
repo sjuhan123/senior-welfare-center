@@ -7,17 +7,17 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
 import { color, semantic, radius, hit, scale } from '@common/shared';
-import { userInfoAtom } from '../store/user';
-import { textScaleAtom } from '../store/textScale';
-import { activeWelfareIdAtom } from '../store/activeWelfare';
-import useGetMemberships from '../hooks/api/membership/useGetMemberships';
-import { deleteMembership } from '../hooks/api/membership/useDeleteMembership';
-import { presignAvatarUpload } from '../hooks/api/auth/usePresignAvatarUpload';
-import { updateAvatar } from '../hooks/api/auth/useUpdateAvatar';
-import PlaceholderAvatar from '../components/PlaceholderAvatar';
-import useStyles, { type StyleFactoryArgs } from '../hooks/styles/useStyles';
-import { QUERY_KEYS } from '../constant/queryKeys';
-import type { RootStackParamList } from '../router';
+import { userInfoAtom } from '../../store/user';
+import { textScaleAtom } from '../../store/textScale';
+import { activeWelfareIdAtom } from '../../store/activeWelfare';
+import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
+import { deleteMembership } from '../../hooks/api/membership/useDeleteMembership';
+import { presignAvatarUpload } from '../../hooks/api/auth/usePresignAvatarUpload';
+import { updateAvatar } from '../../hooks/api/auth/useUpdateAvatar';
+import PlaceholderAvatar from '../../components/PlaceholderAvatar';
+import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import { QUERY_KEYS } from '../../constant/queryKeys';
+import type { RootStackParamList } from '../../router';
 
 const SCALE_LABELS = ['보통', '크게', '더 크게'] as const;
 
