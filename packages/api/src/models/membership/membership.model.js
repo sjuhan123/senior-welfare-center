@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Membership from './membership.mongo.js';
 import { updateWithVersionCheck } from '../../utils/versionedUpdate.js';
+import { escapeRegex } from '../../utils/escapeRegex.js';
 
 const ROLE_MATCH_BY_FILTER = {
   staff: { role: { $in: ['admin', 'super'] } },
@@ -29,7 +30,7 @@ async function getWelfareMembershipsPage(welfareId, { filter, search, sort, page
     { $match: { welfare: new mongoose.Types.ObjectId(welfareId), ...(ROLE_MATCH_BY_FILTER[filter] || {}) } },
     { $lookup: { from: 'users', localField: 'userId', foreignField: 'id', as: 'user' } },
     { $unwind: '$user' },
-    ...(search ? [{ $match: { 'user.userName': { $regex: search, $options: 'i' } } }] : []),
+    ...(search ? [{ $match: { 'user.userName': { $regex: escapeRegex(search), $options: 'i' } } }] : []),
     { $sort: { createdAt: sort === 'asc' ? 1 : -1 } },
     {
       $facet: {
