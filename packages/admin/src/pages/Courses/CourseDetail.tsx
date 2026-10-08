@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
-import type { CourseData, RoomType, Weekday } from '@common/shared';
+import type { CourseData, RoomType } from '@common/shared';
 import Card from '../../components/ui/Card';
 import CardHeader from '../../components/ui/CardHeader';
 import SecondaryButton from '../../components/ui/SecondaryButton';
@@ -19,12 +19,8 @@ type Props = {
   welfareId: string;
   course: CourseData;
   isEditing: boolean;
-  editValues: CourseFieldValues;
-  onFieldChange: (key: Exclude<keyof CourseFieldValues, 'schedule'>, value: string) => void;
-  onToggleDay: (day: Weekday) => void;
-  onScheduleTimeChange: (day: Weekday, field: 'startTime' | 'endTime', time: string) => void;
   onEditToggle: () => void;
-  onSave: () => void;
+  onSave: (values: CourseFieldValues) => void;
   onCancelEdit: () => void;
   isSaving: boolean;
   errorMessage: string | null;
@@ -38,10 +34,6 @@ const CourseDetail = ({
   welfareId,
   course,
   isEditing,
-  editValues,
-  onFieldChange,
-  onToggleDay,
-  onScheduleTimeChange,
   onEditToggle,
   onSave,
   onCancelEdit,
@@ -78,10 +70,7 @@ const CourseDetail = ({
 
       {isEditing && (
         <CourseEditForm
-          values={editValues}
-          onFieldChange={onFieldChange}
-          onToggleDay={onToggleDay}
-          onScheduleTimeChange={onScheduleTimeChange}
+          course={course}
           teacherOptions={teacherOptions}
           onSave={onSave}
           onCancel={onCancelEdit}
