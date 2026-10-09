@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   ActivityIndicator,
   Image,
-  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -14,6 +13,7 @@ import {
 } from 'react-native';
 import { color, semantic, radius } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import PhotoViewerModal from './PhotoViewerModal';
 
 type Props = {
   photos: string[];
@@ -70,11 +70,7 @@ const PhotoCarousel = ({ photos, height = 220, isUploadingPhotos = false, hasUpl
         </View>
       )}
 
-      <Modal visible={!!viewerPhotoUrl} transparent animationType="fade" onRequestClose={() => setViewerPhotoUrl(null)}>
-        <Pressable style={styles.viewerBackdrop} onPress={() => setViewerPhotoUrl(null)}>
-          {!!viewerPhotoUrl && <Image source={{ uri: viewerPhotoUrl }} style={styles.viewerImage} resizeMode="contain" />}
-        </Pressable>
-      </Modal>
+      <PhotoViewerModal photoUrl={viewerPhotoUrl} onClose={() => setViewerPhotoUrl(null)} />
     </View>
   );
 };
@@ -119,15 +115,5 @@ const photoCarouselStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
       fontSize: fontSize('sm'),
       fontFamily: fontFamily('bold'),
       color: semantic.textOnDark,
-    },
-    viewerBackdrop: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    viewerImage: {
-      width: '100%',
-      height: '100%',
     },
   });
