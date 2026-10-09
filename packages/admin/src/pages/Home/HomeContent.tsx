@@ -8,10 +8,10 @@ import useGetNotices from '../../hooks/api/notice/useGetNotices';
 import useGetNoticeCount from '../../hooks/api/notice/useGetNoticeCount';
 import useGetMeals from '../../hooks/api/meal/useGetMeals';
 import useGetInviteCode from '../../hooks/api/welfare/useGetInviteCode';
-import { toIso, weekOf } from '../Meals/mealDate';
-import HomeStats from './HomeStats';
-import HomeTodoList, { type Todo } from './HomeTodoList';
-import HomeTodaySidebar from './HomeTodaySidebar';
+import { toIso, weekOf } from '../../utils/date';
+import HomeStats from './components/HomeStats';
+import HomeTodoList, { type Todo } from './components/HomeTodoList';
+import HomeTodaySidebar from './components/HomeTodaySidebar';
 
 const ROOM_TYPE_LABEL: Record<RoomType, string> = { notice: '공지방', chat: '이야기방', feed: '사진방' };
 

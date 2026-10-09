@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { NoticeEntry } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
-import PrimaryButton from '../../components/ui/PrimaryButton';
-import SecondaryButton from '../../components/ui/SecondaryButton';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
 import useGetCourses from '../../hooks/api/course/useGetCourses';
@@ -13,14 +9,15 @@ import useGetNotices from '../../hooks/api/notice/useGetNotices';
 import useCreateNotice from '../../hooks/api/notice/useCreateNotice';
 import useUpdateNotice from '../../hooks/api/notice/useUpdateNotice';
 import useDeleteNotice from '../../hooks/api/notice/useDeleteNotice';
-import NoticeList from './NoticeList';
+import NoticeForm from './components/NoticeForm';
+import NoticeList from './components/NoticeList';
 
-type EditingNotice = { roomId: string; messageId: string; updatedAt: string };
+type EditingNotice = { roomId: string; messageId: string; updatedAt: string; text: string };
 
 const NoticesContent = ({ welfareId }: { welfareId: string }) => {
   const [selectedRoomId, setSelectedRoomId] = useState('');
-  const [noticeText, setNoticeText] = useState('');
   const [editing, setEditing] = useState<EditingNotice | null>(null);
+  const [resetKey, setResetKey] = useState(0);
   const [deleteTarget, setDeleteTarget] = useState<NoticeEntry | null>(null);
 
   const { data: coursesData } = useGetCourses(welfareId);
@@ -53,34 +50,25 @@ const NoticesContent = ({ welfareId }: { welfareId: string }) => {
   const isSaving = isEditing ? isUpdating : isCreating;
   const formError = isEditing ? updateError : createError;
 
-  const handleSubmit = () => {
-    if (!noticeText.trim()) return;
-
+  const handleSubmit = (text: string) => {
     if (editing) {
       updateNotice(
-        { roomId: editing.roomId, messageId: editing.messageId, text: noticeText, updatedAt: editing.updatedAt },
-        {
-          onSuccess: () => {
-            setEditing(null);
-            setNoticeText('');
-          },
-        },
+        { roomId: editing.roomId, messageId: editing.messageId, text, updatedAt: editing.updatedAt },
+        { onSuccess: () => setEditing(null) },
       );
       return;
     }
 
     if (!targetRoomId) return;
-    createNotice({ roomId: targetRoomId, text: noticeText }, { onSuccess: () => setNoticeText('') });
+    createNotice({ roomId: targetRoomId, text }, { onSuccess: () => setResetKey(prev => prev + 1) });
   };
 
   const handleEdit = (notice: NoticeEntry) => {
-    setEditing({ roomId: notice.room, messageId: notice._id, updatedAt: notice.updatedAt });
-    setNoticeText(notice.text);
+    setEditing({ roomId: notice.room, messageId: notice._id, updatedAt: notice.updatedAt, text: notice.text });
   };
 
   const handleCancelEdit = () => {
     setEditing(null);
-    setNoticeText('');
   };
 
   const handleConfirmDelete = () => {
@@ -94,24 +82,18 @@ const NoticesContent = ({ welfareId }: { welfareId: string }) => {
         <Title>공지 관리</Title>
       </TopRow>
 
-      <Card>
-        <CardHeader>{isEditing ? '공지 수정' : '공지 등록'}</CardHeader>
-        <Form>
-          <Select value={targetRoomId} onChange={e => setSelectedRoomId(e.target.value)} disabled={isEditing}>
-            {targets.map(target => (
-              <option key={target.id} value={target.id}>
-                {target.label}
-              </option>
-            ))}
-          </Select>
-          <Textarea value={noticeText} onChange={e => setNoticeText(e.target.value)} placeholder="공지 내용" />
-          <PrimaryButton onClick={handleSubmit} disabled={isSaving || !noticeText.trim() || !targetRoomId}>
-            {isSaving ? '저장 중...' : isEditing ? '수정 저장' : '등록하고 발송'}
-          </PrimaryButton>
-          {isEditing && <SecondaryButton onClick={handleCancelEdit}>수정 취소</SecondaryButton>}
-        </Form>
-        {formError && <ErrorText>{getPatchErrorMessage(formError)}</ErrorText>}
-      </Card>
+      <NoticeForm
+        key={editing ? editing.messageId : `new-${resetKey}`}
+        isEditing={isEditing}
+        initialText={editing ? editing.text : ''}
+        targetRoomId={targetRoomId}
+        targets={targets}
+        onSelectRoom={setSelectedRoomId}
+        onSubmit={handleSubmit}
+        onCancel={handleCancelEdit}
+        isSaving={isSaving}
+        errorMessage={formError ? getPatchErrorMessage(formError) : null}
+      />
 
       <ListWrapper>
         <NoticeList
@@ -155,45 +137,6 @@ const Title = styled.span(({ theme }) => ({
   flex: 1,
   fontSize: theme.fontSize.title,
   fontWeight: theme.font.weight.bold,
-}));
-
-const Form = styled.div({
-  display: 'flex',
-  gap: 10,
-  alignItems: 'flex-start',
-  padding: '15px 18px',
-});
-
-const Select = styled.select(({ theme }) => ({
-  flex: 'none',
-  width: 186,
-  height: 40,
-  padding: '0 10px',
-  border: `1px solid ${theme.semantic.border}`,
-  borderRadius: theme.radius.input,
-  backgroundColor: theme.color.grey0,
-  fontSize: theme.fontSize.body,
-  fontWeight: theme.font.weight.medium,
-  '&:disabled': { opacity: 0.6 },
-}));
-
-const Textarea = styled.textarea(({ theme }) => ({
-  flex: 1,
-  minWidth: 0,
-  height: 76,
-  padding: '10px 12px',
-  border: `1px solid ${theme.semantic.border}`,
-  borderRadius: theme.radius.input,
-  backgroundColor: theme.color.grey0,
-  fontSize: theme.fontSize.body,
-  fontWeight: theme.font.weight.medium,
-  resize: 'vertical' as const,
-}));
-
-const ErrorText = styled.div(({ theme }) => ({
-  padding: '0 18px 15px',
-  fontSize: theme.fontSize.small,
-  color: theme.color.alertText,
 }));
 
 const ListWrapper = styled.div({

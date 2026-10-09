@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import useGetWelfare from '../../hooks/api/welfare/useGetWelfare';
 import useGetInviteCode from '../../hooks/api/welfare/useGetInviteCode';
-import WelfareInfoCard from './WelfareInfoCard';
-import InviteCodeCard from './InviteCodeCard';
+import WelfareInfoCard from './components/WelfareInfoCard';
+import InviteCodeCard from './components/InviteCodeCard';
 
 const InfoContent = ({ welfareId }: { welfareId: string }) => {
   const { data: welfareRes } = useGetWelfare(welfareId);

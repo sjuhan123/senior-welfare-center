@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { color } from '@common/shared';
 import type { MealData } from '@common/shared';
-import { calendarDays, monthLabel } from './mealDate';
+import { calendarDays, monthLabel } from '../mealDate';
 
 const WEEKDAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'];
 

@@ -2,15 +2,15 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { Weekday } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
-import PrimaryButton from '../../components/ui/PrimaryButton';
-import SecondaryButton from '../../components/ui/SecondaryButton';
-import type { TeacherOption } from '../../hooks/useTeacherOptions';
-import type { CreateCourseFields } from '../../hooks/api/course/useCreateCourse';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
+import PrimaryButton from '../../../components/ui/PrimaryButton';
+import SecondaryButton from '../../../components/ui/SecondaryButton';
+import type { TeacherOption } from '../../../hooks/useTeacherOptions';
+import type { CreateCourseFields } from '../../../hooks/api/course/useCreateCourse';
 import CourseFields, { type CourseFieldValues } from './CourseFields';
-import TimeSelect from './TimeSelect';
-import { isScheduleValid } from './courseDisplay';
+import TimeSelect from '../../../components/ui/TimeSelect';
+import { isScheduleValid } from '../courseDisplay';
 
 const EMPTY_FIELDS: CourseFieldValues = { name: '', schedule: [], place: '', teacher: '', cap: '', from: '', to: '' };
 

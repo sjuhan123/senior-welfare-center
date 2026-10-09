@@ -2,9 +2,9 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { LostItemData } from '@common/shared';
-import PrimaryButton from '../../components/ui/PrimaryButton';
-import SecondaryButton from '../../components/ui/SecondaryButton';
-import type { LostItemFields } from '../../hooks/api/lostItem/useCreateLostItem';
+import PrimaryButton from '../../../components/ui/PrimaryButton';
+import SecondaryButton from '../../../components/ui/SecondaryButton';
+import type { LostItemFields } from '../../../hooks/api/lostItem/useCreateLostItem';
 
 const EMPTY_FIELDS: LostItemFields = { item: '', where: '', when: '', keep: '', notifyNotice: false };
 
