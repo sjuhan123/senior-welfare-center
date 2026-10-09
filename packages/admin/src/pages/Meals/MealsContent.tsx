@@ -9,8 +9,8 @@ import { getMeals } from '../../hooks/api/meal/useGetMeals';
 import { upsertMeal } from '../../hooks/api/meal/useUpsertMeal';
 import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
 import { QUERY_KEYS } from '../../constant/queryKeys';
-import MealCalendar from './MealCalendar';
-import MealDetailPanel from './MealDetailPanel';
+import MealCalendar from './components/MealCalendar';
+import MealDetailPanel from './components/MealDetailPanel';
 import { shiftDate, toIso, weekOf } from '../../utils/date';
 
 const TODAY_ISO = toIso(new Date());
