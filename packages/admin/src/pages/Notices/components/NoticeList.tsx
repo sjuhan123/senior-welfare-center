@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { NoticeEntry } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
 
 type Props = {
   notices: NoticeEntry[];
