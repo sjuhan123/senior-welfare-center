@@ -1,7 +1,25 @@
 import styled from '@emotion/styled';
-import { MINUTE_OPTIONS, buildTime, parseTime, type Period } from './courseDisplay';
+
+type Period = '오전' | '오후';
 
 const HOUR_OPTIONS = Array.from({ length: 12 }, (_, i) => i + 1);
+const MINUTE_OPTIONS = [0, 10, 20, 30, 40, 50];
+
+const parseTime = (time: string): { period: Period; hour: number; minute: number } => {
+  if (!time) return { period: '오전', hour: 9, minute: 0 };
+
+  const [hourStr, minuteStr] = time.split(':');
+  const hour24 = Number(hourStr);
+  const period: Period = hour24 < 12 ? '오전' : '오후';
+  const hour = hour24 % 12 === 0 ? 12 : hour24 % 12;
+
+  return { period, hour, minute: Number(minuteStr) };
+};
+
+const buildTime = (period: Period, hour: number, minute: number) => {
+  const hour24 = period === '오후' ? (hour % 12) + 12 : hour % 12;
+  return `${String(hour24).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+};
 
 type Props = {
   value: string;

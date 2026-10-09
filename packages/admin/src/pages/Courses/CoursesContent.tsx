@@ -9,10 +9,10 @@ import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useCreateCourse from '../../hooks/api/course/useCreateCourse';
 import useUpdateCourse from '../../hooks/api/course/useUpdateCourse';
 import useDeleteCourse from '../../hooks/api/course/useDeleteCourse';
-import CourseList from './CourseList';
-import CourseDetail from './CourseDetail';
-import CourseRegisterForm from './CourseRegisterForm';
-import type { CourseFieldValues } from './CourseFields';
+import CourseList from './components/CourseList/CourseList';
+import CourseDetail from './components/CourseDetail';
+import CourseRegisterForm from './components/CourseRegisterForm';
+import type { CourseFieldValues } from './components/CourseFields';
 
 const CoursesContent = ({ welfareId }: { welfareId: string }) => {
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);

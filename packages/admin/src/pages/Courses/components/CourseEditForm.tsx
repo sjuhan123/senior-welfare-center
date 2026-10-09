@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { CourseData, Weekday } from '@common/shared';
-import PrimaryButton from '../../components/ui/PrimaryButton';
-import SecondaryButton from '../../components/ui/SecondaryButton';
-import type { TeacherOption } from '../../hooks/useTeacherOptions';
+import PrimaryButton from '../../../components/ui/PrimaryButton';
+import SecondaryButton from '../../../components/ui/SecondaryButton';
+import type { TeacherOption } from '../../../hooks/useTeacherOptions';
 import CourseFields, { type CourseFieldValues } from './CourseFields';
-import { isScheduleValid, formatDate } from './courseDisplay';
+import { isScheduleValid, formatDate } from '../courseDisplay';
 
 type Props = {
   course: CourseData;

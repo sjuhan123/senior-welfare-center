@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import type { ScheduleItem, Weekday } from '@common/shared';
-import type { TeacherOption } from '../../hooks/useTeacherOptions';
-import { WEEKDAY_ORDER, WEEKDAY_LABEL } from './courseDisplay';
-import TimeSelect from './TimeSelect';
+import type { TeacherOption } from '../../../hooks/useTeacherOptions';
+import { WEEKDAY_ORDER, WEEKDAY_LABEL } from '../courseDisplay';
+import TimeSelect from '../../../components/ui/TimeSelect';
 
 export type CourseFieldValues = {
   name: string;

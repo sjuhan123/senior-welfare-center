@@ -2,16 +2,16 @@ import { Link } from 'react-router';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { CourseData, RoomType } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
-import SecondaryButton from '../../components/ui/SecondaryButton';
-import type { TeacherOption, TeacherStatus } from '../../hooks/useTeacherOptions';
-import useGetRooms from '../../hooks/api/room/useGetRooms';
-import useGetEnrollments from '../../hooks/api/course/useGetEnrollments';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
+import SecondaryButton from '../../../components/ui/SecondaryButton';
+import type { TeacherOption, TeacherStatus } from '../../../hooks/useTeacherOptions';
+import useGetRooms from '../../../hooks/api/room/useGetRooms';
+import useGetEnrollments from '../../../hooks/api/course/useGetEnrollments';
 import CourseEditForm from './CourseEditForm';
 import EnrollmentList from './EnrollmentList';
 import type { CourseFieldValues } from './CourseFields';
-import { formatDate } from './courseDisplay';
+import { formatDate } from '../courseDisplay';
 
 const ROOM_TYPE_LABEL: Record<RoomType, string> = { notice: '공지방', chat: '이야기방', feed: '사진방' };
 

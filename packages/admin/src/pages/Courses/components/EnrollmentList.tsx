@@ -2,9 +2,9 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { EnrollmentState } from '@common/shared';
-import useGetEnrollments from '../../hooks/api/course/useGetEnrollments';
-import useUpdateEnrollment from '../../hooks/api/course/useUpdateEnrollment';
-import useBulkUpdateEnrollments from '../../hooks/api/course/useBulkUpdateEnrollments';
+import useGetEnrollments from '../../../hooks/api/course/useGetEnrollments';
+import useUpdateEnrollment from '../../../hooks/api/course/useUpdateEnrollment';
+import useBulkUpdateEnrollments from '../../../hooks/api/course/useBulkUpdateEnrollments';
 
 const STATE_LABEL: Record<EnrollmentState, string> = {
   pending: '신청함',

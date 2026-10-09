@@ -5,7 +5,7 @@ import Card from '../../components/ui/Card';
 import CardHeader from '../../components/ui/CardHeader';
 import PrimaryButton from '../../components/ui/PrimaryButton';
 import useUpdateRoom from '../../hooks/api/room/useUpdateRoom';
-import TimeSelect from '../Courses/TimeSelect';
+import TimeSelect from '../../components/ui/TimeSelect';
 import RoomMemberList from './RoomMemberList';
 
 const ROOM_TYPE_LABEL: Record<RoomType, string> = { notice: '공지방', chat: '이야기방', feed: '사진방' };
