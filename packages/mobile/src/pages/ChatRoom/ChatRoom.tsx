@@ -11,8 +11,9 @@ import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
 import useGetUserAvatars from '../../hooks/api/auth/useGetUserAvatars';
 import useGetRoomMessages from '../../hooks/api/room/useGetRoomMessages';
 import useComposeBarKeyboard, { COMPOSE_BAR_HEIGHT } from '../../hooks/keyboard/useComposeBarKeyboard';
-import { presignPhotoUpload } from '../../hooks/api/room/usePresignPhotoUpload';
+import { uploadPhotoToRoom } from '../../hooks/api/room/usePresignPhotoUpload';
 import { getSocket } from '../../libs/socket';
+import useSocketEvents from '../../hooks/socket/useSocketEvents';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
@@ -53,7 +54,7 @@ const ChatRoom = () => {
 
   const { insets, renderScrollComponent, onComposeBarLayout } = useComposeBarKeyboard();
 
-  /** 소켓 join_room/leave_room, 신규 메시지·가리기 브로드캐스트 수신. 45. 이야기방 실시간 채팅 참고. */
+  /** 방 입장/퇴장 알림(presence). 45. 이야기방 실시간 채팅 참고. */
   useEffect(() => {
     const socket = getSocket();
     if (!socket) return;
@@ -65,81 +66,62 @@ const ChatRoom = () => {
       }
     });
 
-    /**
-     * clientMessageId로 도착 순서와 무관하게 dedup(ack가 먼저 올 수도, 이 브로드캐스트가 먼저 올 수도 있음).
-     * 45. 이야기방 실시간 채팅 참고.
-     */
-    const handleNewMessage = ({ message, clientMessageId }: { message: MessageData; clientMessageId: string | null }) => {
-      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
-        if (!old) return old;
-        if (old.data.messages.some(m => m._id === message._id)) return old;
-
-        if (clientMessageId && old.data.messages.some(m => m._id === clientMessageId)) {
-          return { ...old, data: { ...old.data, messages: old.data.messages.map(m => (m._id === clientMessageId ? message : m)) } };
-        }
-
-        return { ...old, data: { ...old.data, messages: [message, ...old.data.messages] } };
-      });
-    };
-
-    const handleMessageHidden = ({ messageId }: { messageId: string }) => {
-      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: { ...old.data, messages: old.data.messages.map(m => (m._id === messageId ? { ...m, hidden: true } : m)) },
-        };
-      });
-    };
-
-    const handleHeartUpdated = ({ messageId, hearts }: { messageId: string; hearts: string[] }) => {
-      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: { ...old.data, messages: old.data.messages.map(m => (m._id === messageId ? { ...m, hearts } : m)) },
-        };
-      });
-    };
-
-    /** 댓글 화면이 열려 있지 않아도 카드의 "댓글 N개" 배지가 실시간으로 갱신되도록 commentCount만 반영 */
-    const handleNewComment = ({ comment, commentCount }: { comment: { message: string }; commentCount: number }) => {
-      queryClient.setQueryData<MessageListResponse>(queryKey, old => {
-        if (!old) return old;
-        return {
-          ...old,
-          data: { ...old.data, messages: old.data.messages.map(m => (m._id === comment.message ? { ...m, commentCount } : m)) },
-        };
-      });
-    };
-
-    socket.on('new_message', handleNewMessage);
-    socket.on('message_hidden', handleMessageHidden);
-    socket.on('heart_updated', handleHeartUpdated);
-    socket.on('new_comment', handleNewComment);
-
     return () => {
       socket.emit('leave_room', { roomId });
-      socket.off('new_message', handleNewMessage);
-      socket.off('message_hidden', handleMessageHidden);
-      socket.off('heart_updated', handleHeartUpdated);
-      socket.off('new_comment', handleNewComment);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
-  /** 사진 하나를 presigned URL로 S3에 업로드. 46. 메시지 사진 첨부 참고. */
-  const uploadPhoto = async (photo: SelectedPhoto): Promise<string> => {
-    const presignRes = await presignPhotoUpload(welfareId, roomId, photo.contentType);
-    const { uploadUrl, publicUrl } = presignRes.data;
-    const fileBlob = await (await fetch(photo.uri)).blob();
-    const uploadRes = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': photo.contentType }, body: fileBlob });
-    if (!uploadRes.ok) {
-      const body = await uploadRes.text();
-      throw new Error(`S3 업로드 실패 (${uploadRes.status}): ${body}`);
-    }
-    return publicUrl;
-  };
+  /** 신규 메시지·가리기·좋아요·댓글수 브로드캐스트 수신. 45. 이야기방 실시간 채팅 참고. */
+  useSocketEvents(
+    () => ({
+      /**
+       * clientMessageId로 도착 순서와 무관하게 dedup(ack가 먼저 올 수도, 이 브로드캐스트가 먼저 올 수도 있음).
+       * 45. 이야기방 실시간 채팅 참고.
+       */
+      new_message: ({ message, clientMessageId }: { message: MessageData; clientMessageId: string | null }) => {
+        queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+          if (!old) return old;
+          if (old.data.messages.some(m => m._id === message._id)) return old;
+
+          if (clientMessageId && old.data.messages.some(m => m._id === clientMessageId)) {
+            return { ...old, data: { ...old.data, messages: old.data.messages.map(m => (m._id === clientMessageId ? message : m)) } };
+          }
+
+          return { ...old, data: { ...old.data, messages: [message, ...old.data.messages] } };
+        });
+      },
+      message_hidden: ({ messageId }: { messageId: string }) => {
+        queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: { ...old.data, messages: old.data.messages.map(m => (m._id === messageId ? { ...m, hidden: true } : m)) },
+          };
+        });
+      },
+      heart_updated: ({ messageId, hearts }: { messageId: string; hearts: string[] }) => {
+        queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: { ...old.data, messages: old.data.messages.map(m => (m._id === messageId ? { ...m, hearts } : m)) },
+          };
+        });
+      },
+      /** 댓글 화면이 열려 있지 않아도 카드의 "댓글 N개" 배지가 실시간으로 갱신되도록 commentCount만 반영 */
+      new_comment: ({ comment, commentCount }: { comment: { message: string }; commentCount: number }) => {
+        queryClient.setQueryData<MessageListResponse>(queryKey, old => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: { ...old.data, messages: old.data.messages.map(m => (m._id === comment.message ? { ...m, commentCount } : m)) },
+          };
+        });
+      },
+    }),
+    [roomId],
+  );
 
   /**
    * 사진이 있으면 로컬 미리보기로 목록에 먼저 띄운 뒤(스피너 표시), 백그라운드로 업로드가 끝나야 소켓으로 전송.
@@ -190,7 +172,7 @@ const ChatRoom = () => {
       let photoUrls: string[] = [];
       if (sendPhotos.length > 0) {
         try {
-          photoUrls = await Promise.all(sendPhotos.map(uploadPhoto));
+          photoUrls = await Promise.all(sendPhotos.map(photo => uploadPhotoToRoom(welfareId, roomId, photo)));
         } catch (error) {
           console.error('사진 업로드 실패:', error);
           setUploadingMessageIds(prev => {
@@ -256,41 +238,42 @@ const ChatRoom = () => {
   const styles = useStyles(chatRoomStyleFactory);
 
   /** messages는 최신순(배열 앞이 최신)이라, index+1이 시간상 더 과거인 이웃 메시지 */
-  const renderMessage = ({ item, index }: { item: MessageData; index: number }) => {
+  const getShowDateDivider = (item: MessageData, index: number) => {
     const olderNeighbor: MessageData | undefined = messages[index + 1];
-    const showDateDivider = !olderNeighbor || dayKey(olderNeighbor.createdAt) !== dayKey(item.createdAt);
-
-    if (isPhotoRoom) {
-      return (
-        <PhotoPost
-          message={item}
-          showDateDivider={showDateDivider}
-          canManage={canManage}
-          onHide={handleHide}
-          onToggleHeart={handleToggleHeart}
-          onPressComments={() => handlePressComments(item._id)}
-          myUserId={myUserId}
-          avatarUrl={avatarByUserId?.get(item.senderId)}
-          isUploadingPhotos={uploadingMessageIds.has(item._id)}
-          hasUploadFailed={failedMessageIds.has(item._id)}
-        />
-      );
-    }
-
-    return (
-      <MessageBubble
-        message={item}
-        showDateDivider={showDateDivider}
-        hiddenLabel="가려진 메시지입니다"
-        canManage={canManage}
-        onHide={handleHide}
-        isMine={item.senderId === myUserId}
-        avatarUrl={avatarByUserId?.get(item.senderId)}
-        isUploadingPhotos={uploadingMessageIds.has(item._id)}
-        hasUploadFailed={failedMessageIds.has(item._id)}
-      />
-    );
+    return !olderNeighbor || dayKey(olderNeighbor.createdAt) !== dayKey(item.createdAt);
   };
+
+  const renderPhotoPost = ({ item, index }: { item: MessageData; index: number }) => (
+    <PhotoPost
+      message={item}
+      showDateDivider={getShowDateDivider(item, index)}
+      canManage={canManage}
+      onHide={handleHide}
+      onToggleHeart={handleToggleHeart}
+      onPressComments={() => handlePressComments(item._id)}
+      myUserId={myUserId}
+      avatarUrl={avatarByUserId?.get(item.senderId)}
+      isUploadingPhotos={uploadingMessageIds.has(item._id)}
+      hasUploadFailed={failedMessageIds.has(item._id)}
+    />
+  );
+
+  const renderMessageBubble = ({ item, index }: { item: MessageData; index: number }) => (
+    <MessageBubble
+      message={item}
+      showDateDivider={getShowDateDivider(item, index)}
+      hiddenLabel="가려진 메시지입니다"
+      canManage={canManage}
+      onHide={handleHide}
+      isMine={item.senderId === myUserId}
+      avatarUrl={avatarByUserId?.get(item.senderId)}
+      isUploadingPhotos={uploadingMessageIds.has(item._id)}
+      hasUploadFailed={failedMessageIds.has(item._id)}
+    />
+  );
+
+  /** isPhotoRoom은 방 하나에 고정된 값이라, 아이템마다 분기하지 않고 렌더 함수 자체를 한 번만 고른다 */
+  const renderMessage = isPhotoRoom ? renderPhotoPost : renderMessageBubble;
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>

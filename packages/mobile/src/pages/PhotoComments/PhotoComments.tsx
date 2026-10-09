@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardStickyView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller';
 import Animated, { scrollTo, useAnimatedReaction, useAnimatedRef, useAnimatedStyle } from 'react-native-reanimated';
@@ -12,6 +12,7 @@ import useGetMemberships from '../../hooks/api/membership/useGetMemberships';
 import useGetUserAvatars from '../../hooks/api/auth/useGetUserAvatars';
 import useGetComments from '../../hooks/api/room/useGetComments';
 import { getSocket } from '../../libs/socket';
+import useSocketEvents from '../../hooks/socket/useSocketEvents';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
@@ -52,25 +53,19 @@ const PhotoComments = () => {
     },
   );
 
-  useEffect(() => {
-    const socket = getSocket();
-    if (!socket) return;
-
-    const handleNewComment = ({ comment }: { comment: CommentData; commentCount: number }) => {
-      if (comment.message !== messageId) return;
-      queryClient.setQueryData<CommentListResponse>(commentsQueryKey, old => {
-        if (!old) return old;
-        if (old.data.some(c => c._id === comment._id)) return old;
-        return { ...old, data: [...old.data, comment] };
-      });
-    };
-
-    socket.on('new_comment', handleNewComment);
-    return () => {
-      socket.off('new_comment', handleNewComment);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageId]);
+  useSocketEvents(
+    () => ({
+      new_comment: ({ comment }: { comment: CommentData; commentCount: number }) => {
+        if (comment.message !== messageId) return;
+        queryClient.setQueryData<CommentListResponse>(commentsQueryKey, old => {
+          if (!old) return old;
+          if (old.data.some(c => c._id === comment._id)) return old;
+          return { ...old, data: [...old.data, comment] };
+        });
+      },
+    }),
+    [messageId],
+  );
 
   const handleSend = () => {
     const text = draft.trim();
