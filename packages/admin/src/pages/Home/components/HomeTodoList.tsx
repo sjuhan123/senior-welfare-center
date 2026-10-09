@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
 
 export type TodoTag = '신청' | '회원' | '식단' | '대화방';
 

@@ -11,7 +11,7 @@ import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import MealCalendar from './MealCalendar';
 import MealDetailPanel from './MealDetailPanel';
-import { shiftDate, toIso, weekOf } from './mealDate';
+import { shiftDate, toIso, weekOf } from '../../utils/date';
 
 const TODAY_ISO = toIso(new Date());
 const TODAY_MONTH = TODAY_ISO.slice(0, 7);

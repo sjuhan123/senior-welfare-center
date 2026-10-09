@@ -2,8 +2,8 @@ import { Link } from 'react-router';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { InviteCodeData } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
 
 type Props = {
   todayMealText: string;

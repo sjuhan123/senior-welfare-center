@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { MealData } from '@common/shared';
-import { dateLabel, weekOf } from './mealDate';
+import { dateLabel } from './mealDate';
+import { weekOf } from '../../utils/date';
 
 type Props = {
   selectedDate: string;
