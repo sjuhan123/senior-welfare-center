@@ -33,9 +33,3 @@ export const formatSchedule = (schedule: CourseData['schedule']) => {
     .map(item => `${WEEKDAY_LABEL[item.day]} ${formatTime(item.startTime)}~${formatTime(item.endTime)}`)
     .join(' · ');
 };
-
-export const formatSince = (isoDate: string) => {
-  const date = new Date(isoDate);
-  if (Number.isNaN(date.getTime())) return '가입일 확인 중';
-  return `${date.getFullYear()}년 ${date.getMonth() + 1}월부터`;
-};

@@ -2,7 +2,8 @@ import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { color, hit, radius, semantic } from '@common/shared';
 import type { MembershipData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../../hooks/styles/useStyles';
-import { ROLE_LABEL, formatSince } from '../centerDisplay';
+import { ROLE_LABEL } from '../centerDisplay';
+import { formatSince } from '../../../utills/formatSince';
 
 type Props = {
   visible: boolean;
