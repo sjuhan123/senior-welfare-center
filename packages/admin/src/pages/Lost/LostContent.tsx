@@ -7,8 +7,8 @@ import useCreateLostItem, { type LostItemFields } from '../../hooks/api/lostItem
 import useUpdateLostItem from '../../hooks/api/lostItem/useUpdateLostItem';
 import useDeleteLostItem from '../../hooks/api/lostItem/useDeleteLostItem';
 import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
-import LostList from './LostList';
-import LostForm from './LostForm';
+import LostList from './components/LostList';
+import LostForm from './components/LostForm';
 
 const LostContent = ({ welfareId }: { welfareId: string }) => {
   const [editingItem, setEditingItem] = useState<LostItemData | null>(null);
