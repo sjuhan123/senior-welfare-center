@@ -2,11 +2,11 @@ import type { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { QRCodeSVG } from 'qrcode.react';
 import type { InviteCodeData } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
-import PrimaryButton from '../../components/ui/PrimaryButton';
-import SecondaryButton from '../../components/ui/SecondaryButton';
-import useReissueInviteCode from '../../hooks/api/welfare/useReissueInviteCode';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
+import PrimaryButton from '../../../components/ui/PrimaryButton';
+import SecondaryButton from '../../../components/ui/SecondaryButton';
+import useReissueInviteCode from '../../../hooks/api/welfare/useReissueInviteCode';
 
 const InviteCodeCard = ({ welfareId, active, history }: { welfareId: string; active: InviteCodeData | null; history: InviteCodeData[] }) => {
   const { mutate: reissue, isPending } = useReissueInviteCode(welfareId);

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { WelfareData } from '@common/shared';
-import Card from '../../components/ui/Card';
-import CardHeader from '../../components/ui/CardHeader';
-import PrimaryButton from '../../components/ui/PrimaryButton';
-import SecondaryButton from '../../components/ui/SecondaryButton';
-import ConfirmDialog from '../../components/ui/ConfirmDialog';
-import useUpdateWelfare, { type WelfareUpdateFields } from '../../hooks/api/welfare/useUpdateWelfare';
-import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
+import Card from '../../../components/ui/Card';
+import CardHeader from '../../../components/ui/CardHeader';
+import PrimaryButton from '../../../components/ui/PrimaryButton';
+import SecondaryButton from '../../../components/ui/SecondaryButton';
+import ConfirmDialog from '../../../components/ui/ConfirmDialog';
+import useUpdateWelfare, { type WelfareUpdateFields } from '../../../hooks/api/welfare/useUpdateWelfare';
+import { getPatchErrorMessage } from '../../../hooks/useOptimisticPatch';
 
 const FIELDS: { key: keyof WelfareUpdateFields; label: string }[] = [
   { key: 'name', label: '복지관명' },
