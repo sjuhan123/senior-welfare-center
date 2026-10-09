@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import type { RoomData } from '@common/shared';
-import useGetRoomMembers from '../../hooks/api/room/useGetRoomMembers';
-import useLeaveRoomMember from '../../hooks/api/room/useLeaveRoomMember';
-import useRejoinRoomMember from '../../hooks/api/room/useRejoinRoomMember';
+import useGetRoomMembers from '../../../hooks/api/room/useGetRoomMembers';
+import useLeaveRoomMember from '../../../hooks/api/room/useLeaveRoomMember';
+import useRejoinRoomMember from '../../../hooks/api/room/useRejoinRoomMember';
 
 type Props = { welfareId: string; room: RoomData };
 

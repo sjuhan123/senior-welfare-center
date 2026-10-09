@@ -2,8 +2,8 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useGetCourseRooms from '../../hooks/api/room/useGetCourseRooms';
-import RoomList from './RoomList';
-import RoomDetail from './RoomDetail';
+import RoomList from './components/RoomList';
+import RoomDetail from './components/RoomDetail';
 
 const RoomsContent = ({ welfareId }: { welfareId: string }) => {
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
