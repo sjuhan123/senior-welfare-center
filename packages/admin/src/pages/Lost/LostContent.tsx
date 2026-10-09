@@ -10,11 +10,9 @@ import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
 import LostList from './LostList';
 import LostForm from './LostForm';
 
-const EMPTY_FIELDS: LostItemFields = { item: '', where: '', when: '', keep: '', notifyNotice: false };
-
 const LostContent = ({ welfareId }: { welfareId: string }) => {
   const [editingItem, setEditingItem] = useState<LostItemData | null>(null);
-  const [fields, setFields] = useState<LostItemFields>(EMPTY_FIELDS);
+  const [formResetKey, setFormResetKey] = useState(0);
   const [deleteTarget, setDeleteTarget] = useState<LostItemData | null>(null);
 
   const { data } = useGetLostItems(welfareId);
@@ -32,27 +30,20 @@ const LostContent = ({ welfareId }: { welfareId: string }) => {
 
   const handleSelectItem = (item: LostItemData) => {
     setEditingItem(item);
-    setFields({ item: item.item, where: item.where, when: item.when, keep: item.keep, notifyNotice: item.notifyNotice });
-  };
-
-  const handleFieldChange = (key: keyof LostItemFields, value: string | boolean) => {
-    setFields(prev => ({ ...prev, [key]: value }));
   };
 
   const handleCancel = () => {
     setEditingItem(null);
-    setFields(EMPTY_FIELDS);
+    setFormResetKey(prev => prev + 1);
   };
 
-  const handleSave = () => {
-    if (!fields.item.trim()) return;
-
+  const handleSave = (fields: LostItemFields) => {
     if (editingItem) {
       updateMutate({ lostItemId: editingItem._id, updatedAt: editingItem.updatedAt, ...fields }, { onSuccess: () => handleCancel() });
       return;
     }
 
-    createMutate(fields, { onSuccess: () => setFields(EMPTY_FIELDS) });
+    createMutate(fields, { onSuccess: () => setFormResetKey(prev => prev + 1) });
   };
 
   const handleToggleClaimed = (item: LostItemData) => {
@@ -82,9 +73,8 @@ const LostContent = ({ welfareId }: { welfareId: string }) => {
         onDelete={setDeleteTarget}
       />
       <LostForm
-        isEditing={!!editingItem}
-        fields={fields}
-        onFieldChange={handleFieldChange}
+        key={editingItem ? editingItem._id : `new-${formResetKey}`}
+        item={editingItem}
         onSave={handleSave}
         onCancel={handleCancel}
         isSaving={isCreating || isUpdating}

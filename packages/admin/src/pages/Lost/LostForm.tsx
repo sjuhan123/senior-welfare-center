@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
+import type { LostItemData } from '@common/shared';
 import PrimaryButton from '../../components/ui/PrimaryButton';
 import SecondaryButton from '../../components/ui/SecondaryButton';
 import type { LostItemFields } from '../../hooks/api/lostItem/useCreateLostItem';
+
+const EMPTY_FIELDS: LostItemFields = { item: '', where: '', when: '', keep: '', notifyNotice: false };
 
 const FIELDS: { key: keyof Omit<LostItemFields, 'notifyNotice'>; label: string; hint: string }[] = [
   { key: 'item', label: '물건', hint: '검정색 우산' },
@@ -12,16 +16,23 @@ const FIELDS: { key: keyof Omit<LostItemFields, 'notifyNotice'>; label: string; 
 ];
 
 type Props = {
-  isEditing: boolean;
-  fields: LostItemFields;
-  onFieldChange: (key: keyof LostItemFields, value: string | boolean) => void;
-  onSave: () => void;
+  item: LostItemData | null;
+  onSave: (fields: LostItemFields) => void;
   onCancel: () => void;
   isSaving: boolean;
   errorMessage: string | null;
 };
 
-const LostForm = ({ isEditing, fields, onFieldChange, onSave, onCancel, isSaving, errorMessage }: Props) => {
+const LostForm = ({ item, onSave, onCancel, isSaving, errorMessage }: Props) => {
+  const isEditing = item !== null;
+  const [fields, setFields] = useState<LostItemFields>(
+    item ? { item: item.item, where: item.where, when: item.when, keep: item.keep, notifyNotice: item.notifyNotice } : EMPTY_FIELDS,
+  );
+
+  const handleFieldChange = (key: keyof LostItemFields, value: string | boolean) => {
+    setFields(prev => ({ ...prev, [key]: value }));
+  };
+
   const canSave = fields.item.trim().length > 0;
 
   return (
@@ -31,11 +42,11 @@ const LostForm = ({ isEditing, fields, onFieldChange, onSave, onCancel, isSaving
         {FIELDS.map(field => (
           <FieldRow key={field.key}>
             <FieldLabel>{field.label}</FieldLabel>
-            <FieldInput value={fields[field.key]} onChange={e => onFieldChange(field.key, e.target.value)} placeholder={field.hint} />
+            <FieldInput value={fields[field.key]} onChange={e => handleFieldChange(field.key, e.target.value)} placeholder={field.hint} />
           </FieldRow>
         ))}
 
-        <CheckRow onClick={() => onFieldChange('notifyNotice', !fields.notifyNotice)}>
+        <CheckRow onClick={() => handleFieldChange('notifyNotice', !fields.notifyNotice)}>
           {fields.notifyNotice ? <CheckboxChecked>✓</CheckboxChecked> : <CheckboxEmpty />}
           <span>복지관 공지방에도 알리기</span>
         </CheckRow>
@@ -49,7 +60,7 @@ const LostForm = ({ isEditing, fields, onFieldChange, onSave, onCancel, isSaving
         {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
         <ButtonRow>
-          <PrimaryButton disabled={!canSave || isSaving} onClick={onSave}>
+          <PrimaryButton disabled={!canSave || isSaving} onClick={() => onSave(fields)}>
             {isSaving ? '저장 중...' : isEditing ? '수정 저장' : '등록'}
           </PrimaryButton>
           {isEditing && <SecondaryButton onClick={onCancel}>취소</SecondaryButton>}

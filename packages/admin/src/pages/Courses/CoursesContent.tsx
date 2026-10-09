@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
-import type { CourseData, Weekday } from '@common/shared';
+import type { CourseData } from '@common/shared';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import PrimaryButton from '../../components/ui/PrimaryButton';
 import useTeacherOptions from '../../hooks/useTeacherOptions';
@@ -13,15 +13,11 @@ import CourseList from './CourseList';
 import CourseDetail from './CourseDetail';
 import CourseRegisterForm from './CourseRegisterForm';
 import type { CourseFieldValues } from './CourseFields';
-import { formatDate as toDateInput } from './courseDisplay';
-
-const EMPTY_EDIT_VALUES: CourseFieldValues = { name: '', schedule: [], place: '', teacher: '', cap: '', from: '', to: '' };
 
 const CoursesContent = ({ welfareId }: { welfareId: string }) => {
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
-  const [editValues, setEditValues] = useState<CourseFieldValues | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<CourseData | null>(null);
 
   const { data } = useGetCourses(welfareId);
@@ -47,59 +43,23 @@ const CoursesContent = ({ welfareId }: { welfareId: string }) => {
 
   const handleEditToggle = () => {
     if (!selectedCourse) return;
-
-    if (editingCourseId === selectedCourse._id) {
-      setEditingCourseId(null);
-      return;
-    }
-
-    setEditingCourseId(selectedCourse._id);
-    setEditValues({
-      name: selectedCourse.name,
-      schedule: selectedCourse.schedule,
-      place: selectedCourse.place,
-      teacher: selectedCourse.teacher ?? '',
-      cap: String(selectedCourse.cap),
-      from: toDateInput(selectedCourse.from),
-      to: toDateInput(selectedCourse.to),
-    });
+    setEditingCourseId(prev => (prev === selectedCourse._id ? null : selectedCourse._id));
   };
 
-  const handleEditFieldChange = (key: Exclude<keyof CourseFieldValues, 'schedule'>, value: string) => {
-    setEditValues(prev => (prev ? { ...prev, [key]: value } : prev));
-  };
-
-  const handleEditToggleDay = (day: Weekday) => {
-    setEditValues(prev =>
-      prev
-        ? {
-            ...prev,
-            schedule: prev.schedule.some(s => s.day === day)
-              ? prev.schedule.filter(s => s.day !== day)
-              : [...prev.schedule, { day, startTime: '09:00', endTime: '10:00' }],
-          }
-        : prev,
-    );
-  };
-
-  const handleEditScheduleTimeChange = (day: Weekday, field: 'startTime' | 'endTime', time: string) => {
-    setEditValues(prev => (prev ? { ...prev, schedule: prev.schedule.map(s => (s.day === day ? { ...s, [field]: time } : s)) } : prev));
-  };
-
-  const handleSaveEdit = () => {
-    if (!selectedCourse || !editValues) return;
+  const handleSaveEdit = (values: CourseFieldValues) => {
+    if (!selectedCourse) return;
 
     updateMutate(
       {
         courseId: selectedCourse._id,
         updatedAt: selectedCourse.updatedAt,
-        name: editValues.name,
-        schedule: editValues.schedule,
-        place: editValues.place,
-        teacher: editValues.teacher || null,
-        cap: Number(editValues.cap) || selectedCourse.cap,
-        from: editValues.from,
-        to: editValues.to,
+        name: values.name,
+        schedule: values.schedule,
+        place: values.place,
+        teacher: values.teacher || null,
+        cap: Number(values.cap) || selectedCourse.cap,
+        from: values.from,
+        to: values.to,
       },
       { onSuccess: () => setEditingCourseId(null) },
     );
@@ -153,11 +113,7 @@ const CoursesContent = ({ welfareId }: { welfareId: string }) => {
           <CourseDetail
             welfareId={welfareId}
             course={selectedCourse}
-            isEditing={editingCourseId === selectedCourse._id && editValues !== null}
-            editValues={editingCourseId === selectedCourse._id && editValues ? editValues : EMPTY_EDIT_VALUES}
-            onFieldChange={handleEditFieldChange}
-            onToggleDay={handleEditToggleDay}
-            onScheduleTimeChange={handleEditScheduleTimeChange}
+            isEditing={editingCourseId === selectedCourse._id}
             onEditToggle={handleEditToggle}
             onSave={handleSaveEdit}
             onCancelEdit={() => setEditingCourseId(null)}

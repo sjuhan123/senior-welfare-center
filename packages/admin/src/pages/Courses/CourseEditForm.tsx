@@ -1,36 +1,49 @@
+import { useState } from 'react';
 import styled from '@emotion/styled';
-import type { Weekday } from '@common/shared';
+import type { CourseData, Weekday } from '@common/shared';
 import PrimaryButton from '../../components/ui/PrimaryButton';
 import SecondaryButton from '../../components/ui/SecondaryButton';
 import type { TeacherOption } from '../../hooks/useTeacherOptions';
 import CourseFields, { type CourseFieldValues } from './CourseFields';
-import { isScheduleValid } from './courseDisplay';
-
-type FieldKey = Exclude<keyof CourseFieldValues, 'schedule'>;
+import { isScheduleValid, formatDate } from './courseDisplay';
 
 type Props = {
-  values: CourseFieldValues;
-  onFieldChange: (key: FieldKey, value: string) => void;
-  onToggleDay: (day: Weekday) => void;
-  onScheduleTimeChange: (day: Weekday, field: 'startTime' | 'endTime', time: string) => void;
+  course: CourseData;
   teacherOptions: TeacherOption[];
-  onSave: () => void;
+  onSave: (values: CourseFieldValues) => void;
   onCancel: () => void;
   isSaving: boolean;
   errorMessage: string | null;
 };
 
-const CourseEditForm = ({
-  values,
-  onFieldChange,
-  onToggleDay,
-  onScheduleTimeChange,
-  teacherOptions,
-  onSave,
-  onCancel,
-  isSaving,
-  errorMessage,
-}: Props) => {
+const CourseEditForm = ({ course, teacherOptions, onSave, onCancel, isSaving, errorMessage }: Props) => {
+  const [values, setValues] = useState<CourseFieldValues>({
+    name: course.name,
+    schedule: course.schedule,
+    place: course.place,
+    teacher: course.teacher ?? '',
+    cap: String(course.cap),
+    from: formatDate(course.from),
+    to: formatDate(course.to),
+  });
+
+  const handleFieldChange = (key: Exclude<keyof CourseFieldValues, 'schedule'>, value: string) => {
+    setValues(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleToggleDay = (day: Weekday) => {
+    setValues(prev => ({
+      ...prev,
+      schedule: prev.schedule.some(s => s.day === day)
+        ? prev.schedule.filter(s => s.day !== day)
+        : [...prev.schedule, { day, startTime: '09:00', endTime: '10:00' }],
+    }));
+  };
+
+  const handleScheduleTimeChange = (day: Weekday, field: 'startTime' | 'endTime', time: string) => {
+    setValues(prev => ({ ...prev, schedule: prev.schedule.map(s => (s.day === day ? { ...s, [field]: time } : s)) }));
+  };
+
   const periodValid = !values.from || !values.to || values.to >= values.from;
   const canSave = values.name.trim().length > 0 && periodValid && isScheduleValid(values.schedule);
 
@@ -38,9 +51,9 @@ const CourseEditForm = ({
     <Wrapper>
       <CourseFields
         values={values}
-        onChange={onFieldChange}
-        onToggleDay={onToggleDay}
-        onScheduleTimeChange={onScheduleTimeChange}
+        onChange={handleFieldChange}
+        onToggleDay={handleToggleDay}
+        onScheduleTimeChange={handleScheduleTimeChange}
         teacherOptions={teacherOptions}
       />
 
@@ -52,7 +65,7 @@ const CourseEditForm = ({
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
       <ButtonRow>
-        <PrimaryButton disabled={!canSave || isSaving} onClick={onSave}>
+        <PrimaryButton disabled={!canSave || isSaving} onClick={() => onSave(values)}>
           {isSaving ? '저장 중...' : '수정 저장'}
         </PrimaryButton>
         <SecondaryButton onClick={onCancel}>취소</SecondaryButton>
