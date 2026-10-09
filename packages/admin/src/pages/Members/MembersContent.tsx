@@ -8,8 +8,8 @@ import useGetWelfareMembers from '../../hooks/api/membership/useGetWelfareMember
 import useUpdateMemberRole from '../../hooks/api/membership/useUpdateMemberRole';
 import useSetMemberActive from '../../hooks/api/membership/useSetMemberActive';
 import { getPatchErrorMessage } from '../../hooks/useOptimisticPatch';
-import MemberFilterBar from './MemberFilterBar';
-import MemberTable from './MemberTable';
+import MemberFilterBar from './components/MemberFilterBar';
+import MemberTable from './components/MemberTable';
 
 const PAGE_SIZE = 20;
 const SEARCH_DEBOUNCE_MS = 300;
