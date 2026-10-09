@@ -12,9 +12,6 @@ export const getCourseCardState = (state: EnrollmentState | undefined): CourseCa
   return 'none';
 };
 
-export const toIso = (date: Date) =>
-  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-
 const WEEKDAY_ORDER: Weekday[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 const WEEKDAY_LABEL: Record<Weekday, string> = { sun: '일', mon: '월', tue: '화', wed: '수', thu: '목', fri: '금', sat: '토' };
 
@@ -32,10 +29,4 @@ export const formatSchedule = (schedule: CourseData['schedule']) => {
     .sort((a, b) => WEEKDAY_ORDER.indexOf(a.day) - WEEKDAY_ORDER.indexOf(b.day))
     .map(item => `${WEEKDAY_LABEL[item.day]} ${formatTime(item.startTime)}~${formatTime(item.endTime)}`)
     .join(' · ');
-};
-
-export const formatSince = (isoDate: string) => {
-  const date = new Date(isoDate);
-  if (Number.isNaN(date.getTime())) return '가입일 확인 중';
-  return `${date.getFullYear()}년 ${date.getMonth() + 1}월부터`;
 };

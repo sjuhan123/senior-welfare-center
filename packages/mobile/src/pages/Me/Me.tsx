@@ -18,18 +18,9 @@ import PlaceholderAvatar from '../../components/PlaceholderAvatar';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import type { RootStackParamList } from '../../router';
+import { formatSince } from '../../utills/formatSince';
 
 const SCALE_LABELS = ['보통', '크게', '더 크게'] as const;
-
-const formatSince = (isoDate: string) => {
-  const date = new Date(isoDate);
-
-  if (Number.isNaN(date.getTime())) {
-    return '가입일 확인 중';
-  }
-
-  return `${date.getFullYear()}년 ${date.getMonth() + 1}월부터`;
-};
 
 const Me = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

@@ -1,7 +1,5 @@
 import type { MealData } from '@common/shared';
-
-export const toIso = (date: Date) =>
-  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+import { toIso } from '../../utills/toIso';
 
 export const shiftDate = (iso: string, days: number) => {
   const date = new Date(`${iso}T00:00:00`);

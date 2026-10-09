@@ -9,7 +9,9 @@ import useGetRooms from '../../hooks/api/room/useGetRooms';
 import useGetCourses from '../../hooks/api/course/useGetCourses';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { previewText, formatPreviewTime, roomTitle, sortRoomEntries } from './chatDisplay';
+import { previewText, formatPreviewTime, roomTitle, sortRoomEntries } from '../../features/chat/chatDisplay';
+import ChatPausedNotice from './components/ChatPausedNotice';
+import ChatRoomRow from './components/ChatRoomRow';
 
 const INITIAL_LIMIT = 6;
 const STEP = 6;
@@ -77,44 +79,20 @@ const ChatContent = ({ membership }: Props) => {
 
       <ScrollView refreshControl={<RefreshControl refreshing={isManualRefreshing} onRefresh={() => void handleManualRefresh()} />}>
         {isCenterOff && (
-          <View style={styles.pausedCard}>
-            <Text style={styles.pausedTitle}>{membership.welfare.name} 대화방은 지금 보이지 않습니다</Text>
-            <Text style={styles.pausedBody}>
-              이용이 멈춰 있는 동안에는 그곳의 공지방과 이야기방이 잠깁니다. 다시 열리면 예전 글까지 그대로 보입니다.
-            </Text>
-            <Pressable style={styles.pausedButton} onPress={() => navigation.navigate('MainTabs', { screen: 'Center' })}>
-              <Text style={styles.pausedButtonText}>까닭 보기</Text>
-            </Pressable>
-          </View>
+          <ChatPausedNotice welfareName={membership.welfare.name} onPressWhy={() => navigation.navigate('MainTabs', { screen: 'Center' })} />
         )}
 
         <View style={styles.list}>
           {visibleEntries.map(({ room, latestMessage, unreadCount }) => (
-            <Pressable key={room._id} style={styles.row} onPress={() => handlePressRoom(room)}>
-              <View style={styles.rowMain}>
-                <View style={styles.rowNameLine}>
-                  <Text style={styles.rowName} numberOfLines={1} ellipsizeMode="tail">
-                    {roomTitle(room, courses, membership.welfare.name)}
-                  </Text>
-                  {room.type === 'notice' && (
-                    <View style={styles.noticeBadge}>
-                      <Text style={styles.noticeBadgeText}>공지</Text>
-                    </View>
-                  )}
-                </View>
-                <Text style={styles.rowPreview} numberOfLines={1} ellipsizeMode="tail">
-                  {previewText(latestMessage)}
-                </Text>
-              </View>
-              <View style={styles.rowSide}>
-                {latestMessage && <Text style={styles.rowTime}>{formatPreviewTime(latestMessage.createdAt)}</Text>}
-                {unreadCount > 0 && (
-                  <View style={styles.unreadBadge}>
-                    <Text style={styles.unreadBadgeText}>{unreadCount}</Text>
-                  </View>
-                )}
-              </View>
-            </Pressable>
+            <ChatRoomRow
+              key={room._id}
+              title={roomTitle(room, courses, membership.welfare.name)}
+              isNotice={room.type === 'notice'}
+              previewLabel={previewText(latestMessage)}
+              timeLabel={latestMessage ? formatPreviewTime(latestMessage.createdAt) : null}
+              unreadCount={unreadCount}
+              onPress={() => handlePressRoom(room)}
+            />
           ))}
 
           {showMore && (
@@ -176,109 +154,8 @@ const chatContentStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontFamily: fontFamily('semibold'),
       color: semantic.textPrimary,
     },
-    pausedCard: {
-      margin: 14,
-      borderWidth: 1.5,
-      borderColor: color.alertLine,
-      borderLeftWidth: 7,
-      borderRadius: radius.label,
-      backgroundColor: color.alertTint,
-      padding: 16,
-    },
-    pausedTitle: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      lineHeight: fontSize('lg') * 1.45,
-      color: color.alertText,
-    },
-    pausedBody: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('regular'),
-      lineHeight: fontSize('base') * 1.7,
-      marginTop: 7,
-      color: color.grey700,
-    },
-    pausedButton: {
-      marginTop: 13,
-      minHeight: hit.mobileLarge,
-      borderRadius: radius.mobileButton,
-      backgroundColor: color.alertText,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    pausedButtonText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textOnDark,
-    },
     list: {
       backgroundColor: semantic.bgSurface,
-    },
-    row: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      gap: 14,
-      paddingHorizontal: 18,
-      paddingVertical: 16,
-      borderBottomWidth: 1,
-      borderBottomColor: semantic.divider,
-    },
-    rowMain: {
-      flex: 1,
-      minWidth: 0,
-    },
-    rowNameLine: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 8,
-      minWidth: 0,
-    },
-    rowName: {
-      flexShrink: 1,
-      fontSize: fontSize('xl'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    noticeBadge: {
-      flexShrink: 0,
-      paddingHorizontal: 9,
-      paddingVertical: 4,
-      borderRadius: 8,
-      backgroundColor: color.navySoft,
-    },
-    noticeBadgeText: {
-      fontSize: fontSize('caption'),
-      fontFamily: fontFamily('bold'),
-      color: color.navyDeep,
-    },
-    rowPreview: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('regular'),
-      marginTop: 4,
-      color: color.grey700,
-    },
-    rowSide: {
-      flexShrink: 0,
-      alignItems: 'flex-end',
-      gap: 8,
-    },
-    rowTime: {
-      fontSize: fontSize('caption'),
-      color: color.grey500,
-    },
-    unreadBadge: {
-      minWidth: 36,
-      height: 36,
-      paddingHorizontal: 10,
-      borderRadius: 18,
-      backgroundColor: color.brown,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    unreadBadgeText: {
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey0,
     },
     moreButton: {
       flexDirection: 'row',

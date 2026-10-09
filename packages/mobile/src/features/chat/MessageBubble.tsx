@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { ActivityIndicator, Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { MessageData } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import { messageDateLabel, formatMessageTime } from './chatDisplay';
 import ChatAvatar from './ChatAvatar';
+import PhotoViewerModal from './PhotoViewerModal';
 
 type Props = {
   message: MessageData;
@@ -100,11 +101,7 @@ const MessageBubble = ({
         </View>
       </View>
 
-      <Modal visible={!!viewerPhotoUrl} transparent animationType="fade" onRequestClose={() => setViewerPhotoUrl(null)}>
-        <Pressable style={styles.viewerBackdrop} onPress={() => setViewerPhotoUrl(null)}>
-          {!!viewerPhotoUrl && <Image source={{ uri: viewerPhotoUrl }} style={styles.viewerImage} resizeMode="contain" />}
-        </Pressable>
-      </Modal>
+      <PhotoViewerModal photoUrl={viewerPhotoUrl} onClose={() => setViewerPhotoUrl(null)} />
     </View>
   );
 };
@@ -209,16 +206,6 @@ const messageBubbleStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
       fontSize: fontSize('xxl'),
       fontFamily: fontFamily('bold'),
       color: semantic.textOnDark,
-    },
-    viewerBackdrop: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    viewerImage: {
-      width: '100%',
-      height: '100%',
     },
     messageMeta: {
       flexDirection: 'row',

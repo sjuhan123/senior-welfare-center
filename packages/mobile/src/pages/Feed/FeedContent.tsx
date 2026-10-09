@@ -14,8 +14,9 @@ import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { roomEntityName, roomTitle } from '../Chat/chatDisplay';
-import FeedPost from './FeedPost';
+import { roomEntityName, roomTitle } from '../../features/chat/chatDisplay';
+import FeedPost from './components/FeedPost';
+import FeedRoomFilter from './components/FeedRoomFilter';
 
 const INITIAL_LIMIT = 6;
 const STEP = 6;
@@ -127,24 +128,11 @@ const FeedContent = ({ membership }: Props) => {
       </View>
 
       {feedRooms.length > 0 && (
-        <View style={styles.filterRowWrap}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterRow} contentContainerStyle={styles.filterRowContent}>
-            <Pressable style={[styles.filterChip, selectedRoomId === null && styles.filterChipActive]} onPress={() => setSelectedRoomId(null)}>
-              <Text style={[styles.filterChipText, selectedRoomId === null && styles.filterChipTextActive]}>전체</Text>
-            </Pressable>
-            {feedRooms.map(room => (
-              <Pressable
-                key={room._id}
-                style={[styles.filterChip, selectedRoomId === room._id && styles.filterChipActive]}
-                onPress={() => setSelectedRoomId(room._id)}
-              >
-                <Text style={[styles.filterChipText, selectedRoomId === room._id && styles.filterChipTextActive]}>
-                  {roomEntityName(room, courses, membership.welfare.name)}
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
+        <FeedRoomFilter
+          options={feedRooms.map(room => ({ id: room._id, label: roomEntityName(room, courses, membership.welfare.name) }))}
+          selectedRoomId={selectedRoomId}
+          onSelectRoom={setSelectedRoomId}
+        />
       )}
 
       <ScrollView
@@ -214,44 +202,6 @@ const feedContentStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       fontSize: fontSize('xxl'),
       fontFamily: fontFamily('bold'),
       color: semantic.textPrimary,
-    },
-    /** ScrollView 자체에 height를 줘도 안 먹는 경우가 있어서, 높이 고정된 View로 감싸고 ScrollView는 그 안을 꽉 채움 */
-    filterRowWrap: {
-      height: hit.mobileCompact + 28,
-      backgroundColor: semantic.bgSurface,
-      borderBottomWidth: 1.5,
-      borderBottomColor: semantic.border,
-    },
-    filterRow: {
-      flex: 1,
-    },
-    filterRowContent: {
-      alignItems: 'center',
-      gap: 8,
-      padding: 14,
-    },
-    filterChip: {
-      flexShrink: 0,
-      minHeight: hit.mobileCompact,
-      paddingHorizontal: 18,
-      borderWidth: 1.5,
-      borderColor: color.grey400,
-      borderRadius: radius.mobileContainer,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: semantic.bgSurface,
-    },
-    filterChipActive: {
-      backgroundColor: color.navy,
-      borderColor: color.navy,
-    },
-    filterChipText: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    filterChipTextActive: {
-      color: semantic.textOnDark,
     },
     body: {
       flex: 1,
