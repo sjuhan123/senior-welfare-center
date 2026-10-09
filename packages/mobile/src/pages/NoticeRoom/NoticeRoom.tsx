@@ -13,9 +13,9 @@ import useComposeBarKeyboard, { COMPOSE_BAR_HEIGHT } from '../../hooks/keyboard/
 import { presignPhotoUpload } from '../../hooks/api/room/usePresignPhotoUpload';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { dayKey } from '../Chat/chatDisplay';
-import MessageBubble from '../Chat/MessageBubble';
-import ComposeBar, { type SelectedPhoto } from '../Chat/ComposeBar';
+import { dayKey } from '../../features/chat/chatDisplay';
+import MessageBubble from '../../features/chat/MessageBubble';
+import ComposeBar, { type SelectedPhoto } from '../../features/chat/ComposeBar';
 
 const NoticeRoom = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

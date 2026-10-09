@@ -5,9 +5,9 @@ import * as Sharing from 'expo-sharing';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { FeedPostEntry } from '@common/shared';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
-import { formatMessageTime } from '../Chat/chatDisplay';
-import PhotoCarousel from '../Chat/PhotoCarousel';
-import ChatAvatar from '../Chat/ChatAvatar';
+import { formatMessageTime } from '../../features/chat/chatDisplay';
+import PhotoCarousel from '../../features/chat/PhotoCarousel';
+import ChatAvatar from '../../features/chat/ChatAvatar';
 
 type Props = {
   post: FeedPostEntry;

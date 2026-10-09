@@ -14,7 +14,7 @@ import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { roomEntityName, roomTitle } from '../Chat/chatDisplay';
+import { roomEntityName, roomTitle } from '../../features/chat/chatDisplay';
 import FeedPost from './FeedPost';
 
 const INITIAL_LIMIT = 6;

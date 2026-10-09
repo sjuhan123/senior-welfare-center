@@ -15,8 +15,8 @@ import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { dayKey, formatMessageTime, messageDateLabel } from '../Chat/chatDisplay';
-import ChatAvatar from '../Chat/ChatAvatar';
+import { dayKey, formatMessageTime, messageDateLabel } from '../../features/chat/chatDisplay';
+import ChatAvatar from '../../features/chat/ChatAvatar';
 
 type Ack = { error?: string };
 

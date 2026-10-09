@@ -16,10 +16,10 @@ import { getSocket } from '../../libs/socket';
 import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { dayKey } from '../Chat/chatDisplay';
-import MessageBubble from '../Chat/MessageBubble';
-import PhotoPost from '../Chat/PhotoPost';
-import ComposeBar, { type SelectedPhoto } from '../Chat/ComposeBar';
+import { dayKey } from '../../features/chat/chatDisplay';
+import MessageBubble from '../../features/chat/MessageBubble';
+import PhotoPost from '../../features/chat/PhotoPost';
+import ComposeBar, { type SelectedPhoto } from '../../features/chat/ComposeBar';
 
 type SendAck = { error?: string; data?: MessageData };
 type HideAck = { error?: string };
