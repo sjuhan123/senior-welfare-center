@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import type { Theme } from '@emotion/react';
 import type { MealData } from '@common/shared';
@@ -6,21 +7,45 @@ import { dateLabel, weekOf } from './mealDate';
 type Props = {
   selectedDate: string;
   meals: MealData[];
-  draftItems: string;
-  onDraftItemsChange: (value: string) => void;
-  onSave: () => void;
+  onSave: (items: string[]) => void;
   onDelete: () => void;
   onSelectDate: (date: string) => void;
   isSaving: boolean;
   errorMessage: string | null;
 };
 
-const MealDetailPanel = ({ selectedDate, meals, draftItems, onDraftItemsChange, onSave, onDelete, onSelectDate, isSaving, errorMessage }: Props) => {
+const MealDetailPanel = ({ selectedDate, meals, onSave, onDelete, onSelectDate, isSaving, errorMessage }: Props) => {
   const mealsByDate = new Map(meals.map(meal => [meal.date, meal]));
   const selectedMeal = mealsByDate.get(selectedDate);
   const hasMeal = !!selectedMeal;
-  const hasDraft = draftItems.trim().length > 0;
   const week = weekOf(selectedDate);
+
+  const [draftItems, setDraftItems] = useState('');
+  const [isDirty, setIsDirty] = useState(false);
+
+  useEffect(() => {
+    if (isDirty) return;
+    setDraftItems(selectedMeal ? selectedMeal.items.join('\n') : '');
+  }, [selectedDate, selectedMeal, isDirty]);
+
+  const handleDraftItemsChange = (value: string) => {
+    setDraftItems(value);
+    setIsDirty(true);
+  };
+
+  const hasDraft = draftItems.trim().length > 0;
+
+  const handleSave = () => {
+    const items = draftItems
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    if (items.length === 0) return;
+
+    setIsDirty(false);
+    onSave(items);
+  };
 
   return (
     <Card>
@@ -31,11 +56,11 @@ const MealDetailPanel = ({ selectedDate, meals, draftItems, onDraftItemsChange, 
 
       <Body>
         <FieldLabel>식단 (한 줄에 하나)</FieldLabel>
-        <Textarea value={draftItems} onChange={e => onDraftItemsChange(e.target.value)} placeholder={'쌀밥\n소고기 미역국\n고등어구이'} />
+        <Textarea value={draftItems} onChange={e => handleDraftItemsChange(e.target.value)} placeholder={'쌀밥\n소고기 미역국\n고등어구이'} />
         {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
         <ButtonRow>
-          <SaveButton disabled={!hasDraft || isSaving} onClick={onSave}>
+          <SaveButton disabled={!hasDraft || isSaving} onClick={handleSave}>
             {isSaving ? '저장 중...' : hasMeal ? '수정 저장' : '이 날짜에 등록'}
           </SaveButton>
           {hasMeal && <DeleteButton onClick={onDelete}>삭제</DeleteButton>}

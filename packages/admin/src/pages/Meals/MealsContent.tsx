@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import { useQueryClient } from '@tanstack/react-query';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
@@ -27,8 +27,6 @@ const MealsContent = ({ welfareId }: { welfareId: string }) => {
   const queryClient = useQueryClient();
   const [month, setMonth] = useState(TODAY_MONTH);
   const [selectedDate, setSelectedDate] = useState(TODAY_ISO);
-  const [draftItems, setDraftItems] = useState('');
-  const [isDirty, setIsDirty] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const { data } = useGetMeals(welfareId, month);
@@ -44,30 +42,8 @@ const MealsContent = ({ welfareId }: { welfareId: string }) => {
     reset: resetDelete,
   } = useDeleteMeal(welfareId, month);
 
-  useEffect(() => {
-    if (isDirty) return;
-    setDraftItems(selectedMeal ? selectedMeal.items.join('\n') : '');
-  }, [selectedDate, selectedMeal, isDirty]);
-
-  const handleSelectDate = (date: string) => {
-    setSelectedDate(date);
-    setIsDirty(false);
-  };
-
-  const handleDraftItemsChange = (value: string) => {
-    setDraftItems(value);
-    setIsDirty(true);
-  };
-
-  const handleSave = () => {
-    const items = draftItems
-      .split('\n')
-      .map(line => line.trim())
-      .filter(Boolean);
-
-    if (items.length === 0) return;
-
-    upsertMutate({ date: selectedDate, items, updatedAt: selectedMeal?.updatedAt }, { onSuccess: () => setIsDirty(false) });
+  const handleSave = (items: string[]) => {
+    upsertMutate({ date: selectedDate, items, updatedAt: selectedMeal?.updatedAt });
   };
 
   const handleConfirmDelete = () => {
@@ -78,7 +54,6 @@ const MealsContent = ({ welfareId }: { welfareId: string }) => {
   const handleDeleteDialogClose = () => {
     setConfirmDeleteOpen(false);
     resetDelete();
-    setIsDirty(false);
   };
 
   const handleCopyLastWeek = async () => {
@@ -105,7 +80,6 @@ const MealsContent = ({ welfareId }: { welfareId: string }) => {
     );
 
     void queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEALS, welfareId] });
-    setIsDirty(false);
   };
 
   return (
@@ -119,19 +93,17 @@ const MealsContent = ({ welfareId }: { welfareId: string }) => {
         onNextMonth={() => setMonth(prev => shiftMonth(prev, 1))}
         onThisMonth={() => {
           setMonth(TODAY_MONTH);
-          handleSelectDate(TODAY_ISO);
+          setSelectedDate(TODAY_ISO);
         }}
-        onSelectDate={handleSelectDate}
+        onSelectDate={setSelectedDate}
         onCopyLastWeek={handleCopyLastWeek}
       />
       <MealDetailPanel
         selectedDate={selectedDate}
         meals={meals}
-        draftItems={draftItems}
-        onDraftItemsChange={handleDraftItemsChange}
         onSave={handleSave}
         onDelete={() => setConfirmDeleteOpen(true)}
-        onSelectDate={handleSelectDate}
+        onSelectDate={setSelectedDate}
         isSaving={isSaving}
         errorMessage={saveError ? getPatchErrorMessage(saveError) : null}
       />
