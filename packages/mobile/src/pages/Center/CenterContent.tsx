@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Linking, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useQueryClient } from '@tanstack/react-query';
-import { color, semantic, radius, hit } from '@common/shared';
+import { color, semantic } from '@common/shared';
 import type { MembershipData } from '@common/shared';
 import { userInfoAtom } from '../../store/user';
 import { activeWelfareIdAtom } from '../../store/activeWelfare';
@@ -19,8 +19,13 @@ import { QUERY_KEYS } from '../../constant/queryKeys';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
 import { toIso, formatSince, ROLE_LABEL } from './centerDisplay';
-import CenterCourseList from './CenterCourseList';
-import CenterLostItemList from './CenterLostItemList';
+import CenterPausedNotice from './components/CenterPausedNotice';
+import CenterHeaderCard from './components/CenterHeaderCard';
+import MealBanner from './components/MealBanner';
+import JoinMoreBanner from './components/JoinMoreBanner';
+import WelfareSwitcherSheet from './components/WelfareSwitcherSheet';
+import CenterCourseList from './components/CenterCourseList';
+import CenterLostItemList from './components/CenterLostItemList/CenterLostItemList';
 
 const TODAY_ISO = toIso(new Date());
 const TODAY_MONTH = TODAY_ISO.slice(0, 7);
@@ -77,123 +82,61 @@ const CenterContent = ({ membership }: Props) => {
 
   const styles = useStyles(centerContentStyleFactory);
 
-  return isCenterOff ? (
+  return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.pausedCard}>
-        <Text style={styles.pausedTitle}>이 복지관은 지금{'\n'}이용이 멈춰 있습니다</Text>
-        <Text style={styles.pausedBody}>
-          {membership.welfare.name}에서 회원 자격을 잠시 멈추어 두었습니다. 이곳의 강좌와 대화방은 보이지 않습니다.
-        </Text>
-      </View>
-      <Pressable style={styles.pausedCallButton} onPress={() => void Linking.openURL(`tel:${membership.welfare.phone}`)}>
-        <Text style={styles.pausedCallButtonText}>{membership.welfare.name}에 전화하기</Text>
-      </Pressable>
-    </SafeAreaView>
-  ) : (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView>
-        <View style={styles.headerCard}>
-          <View style={styles.headerTopRow}>
-            <Text style={styles.welfareName}>{membership.welfare.name}</Text>
-            {isStaff && (
-              <View style={styles.staffTag}>
-                <Text style={styles.staffTagText}>{ROLE_LABEL[membership.role]}</Text>
-              </View>
-            )}
-            {memberships.length > 1 && (
-              <Pressable style={styles.switchButton} onPress={() => setIsSwitcherOpen(true)}>
-                <Text style={styles.switchButtonIcon}>⇅</Text>
-                <Text style={styles.switchButtonText}>바꾸기</Text>
-              </Pressable>
-            )}
-          </View>
-          <View style={styles.badgeRow}>
-            <View style={styles.confirmedTag}>
-              <Text style={styles.confirmedTagText}>회원 확인됨</Text>
+      {isCenterOff ? (
+        <CenterPausedNotice welfareName={membership.welfare.name} welfarePhone={membership.welfare.phone} />
+      ) : (
+        <>
+          <ScrollView>
+            <CenterHeaderCard
+              welfareName={membership.welfare.name}
+              isStaff={isStaff}
+              roleLabel={ROLE_LABEL[membership.role]}
+              displayName={displayName}
+              statLabel={statLabel}
+              statValue={statValue}
+              sinceLabel={formatSince(membership.createdAt)}
+              showSwitchButton={memberships.length > 1}
+              onPressSwitch={() => setIsSwitcherOpen(true)}
+            />
+
+            <MealBanner
+              todayMealText={todayMeal ? todayMeal.items.join(' · ') : '등록되지 않았습니다'}
+              onPress={() => navigation.navigate('MealCalendar')}
+            />
+
+            {membership.role === 'member' && <JoinMoreBanner onPress={() => navigation.navigate('QrScan')} />}
+
+            <View style={styles.sectionHeaderRowCourse}>
+              <View style={styles.sectionBullet} />
+              <Text style={styles.sectionTitle}>강좌 {courses.length}개</Text>
+              <Text style={styles.sectionHint}>{courseHint}</Text>
             </View>
-            <Text style={styles.roleName}>{displayName}</Text>
-          </View>
-          <View style={styles.statRow}>
-            <Text style={styles.statText}>
-              {statLabel} <Text style={styles.statValue}>{statValue}개</Text>
-            </Text>
-            <View style={styles.statDivider} />
-            <Text style={styles.statText}>{formatSince(membership.createdAt)}</Text>
-          </View>
-        </View>
+            <CenterCourseList welfareId={welfareId} membership={membership} courses={visibleCourses} myEnrollments={myEnrollments} />
 
-        <Pressable style={styles.mealBanner} onPress={() => navigation.navigate('MealCalendar')}>
-          <Text style={styles.mealBannerLabel}>오늘의 밥</Text>
-          <Text style={styles.mealBannerValue} numberOfLines={1} ellipsizeMode="tail">
-            {todayMeal ? todayMeal.items.join(' · ') : '등록되지 않았습니다'}
-          </Text>
-          <Text style={styles.mealBannerChevron}>›</Text>
-        </Pressable>
-
-        {membership.role === 'member' && (
-          <View style={styles.joinMoreWrap}>
-            <Pressable style={styles.joinMoreButton} onPress={() => navigation.navigate('QrScan')}>
-              <View style={styles.joinMoreTextWrap}>
-                <Text style={styles.joinMoreTitle}>다른 복지관 가입하기</Text>
-                <Text style={styles.joinMoreDesc}>복지관에서 제공하는 QR을 찍으면 됩니다</Text>
-              </View>
-              <Text style={styles.joinMoreChevron}>›</Text>
-            </Pressable>
-          </View>
-        )}
-
-        <View style={styles.sectionHeaderRowCourse}>
-          <View style={styles.sectionBullet} />
-          <Text style={styles.sectionTitle}>강좌 {courses.length}개</Text>
-          <Text style={styles.sectionHint}>{courseHint}</Text>
-        </View>
-        <CenterCourseList welfareId={welfareId} membership={membership} courses={visibleCourses} myEnrollments={myEnrollments} />
-
-        <View style={styles.sectionHeaderRow}>
-          <View style={styles.sectionBullet} />
-          <Text style={styles.sectionTitle}>잃어버린 물건</Text>
-          <Text style={styles.sectionHint}>{lostItems.length}건</Text>
-        </View>
-        <CenterLostItemList lostItems={lostItems} />
-        {lostItems.length > 0 && (
-          <Text style={styles.lostItemNote} lineBreakStrategyIOS="hangul-word">
-            내 물건이 보이면 복지관에 말씀하시거나 전화하시면 됩니다.
-          </Text>
-        )}
-      </ScrollView>
-
-      <Modal visible={isSwitcherOpen} transparent animationType="fade" onRequestClose={() => setIsSwitcherOpen(false)}>
-        <Pressable style={styles.sheetBackdrop} onPress={() => setIsSwitcherOpen(false)}>
-          <View style={styles.sheet}>
-            <View style={styles.sheetHeader}>
-              <Text style={styles.sheetTitle}>가입한 복지관</Text>
-              <Pressable style={styles.sheetCloseButton} onPress={() => setIsSwitcherOpen(false)}>
-                <Text style={styles.sheetCloseButtonText}>닫기</Text>
-              </Pressable>
+            <View style={styles.sectionHeaderRow}>
+              <View style={styles.sectionBullet} />
+              <Text style={styles.sectionTitle}>잃어버린 물건</Text>
+              <Text style={styles.sectionHint}>{lostItems.length}건</Text>
             </View>
-            <ScrollView>
-              {memberships.map(m => {
-                const isActive = m.welfare._id === welfareId;
-                return (
-                  <Pressable
-                    key={m._id}
-                    style={[styles.sheetItem, isActive && styles.sheetItemActive]}
-                    onPress={() => handleSwitchWelfare(m.welfare._id)}
-                  >
-                    <View style={styles.sheetItemTextWrap}>
-                      <Text style={styles.sheetItemName}>{m.welfare.name}</Text>
-                      <Text style={styles.sheetItemMeta}>
-                        {ROLE_LABEL[m.role]} · {formatSince(m.createdAt)}
-                      </Text>
-                    </View>
-                    {isActive && <Text style={styles.sheetItemMark}>선택됨</Text>}
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          </View>
-        </Pressable>
-      </Modal>
+            <CenterLostItemList lostItems={lostItems} />
+            {lostItems.length > 0 && (
+              <Text style={styles.lostItemNote} lineBreakStrategyIOS="hangul-word">
+                내 물건이 보이면 복지관에 말씀하시거나 전화하시면 됩니다.
+              </Text>
+            )}
+          </ScrollView>
+
+          <WelfareSwitcherSheet
+            visible={isSwitcherOpen}
+            memberships={memberships}
+            activeWelfareId={welfareId}
+            onClose={() => setIsSwitcherOpen(false)}
+            onSwitch={handleSwitchWelfare}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };
@@ -205,237 +148,6 @@ const centerContentStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
     container: {
       flex: 1,
       backgroundColor: semantic.bgPage,
-    },
-    headerCard: {
-      backgroundColor: semantic.bgSurface,
-      paddingHorizontal: 18,
-      paddingTop: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: semantic.border,
-    },
-    switchButton: {
-      flexShrink: 0,
-      minHeight: hit.mobileCompact,
-      paddingHorizontal: 12,
-      borderWidth: 1.5,
-      borderColor: color.grey400,
-      borderRadius: radius.mobileContainer,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    switchButtonIcon: {
-      fontSize: fontSize('lg'),
-      color: color.grey700,
-    },
-    switchButtonText: {
-      fontSize: fontSize('caption'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey700,
-    },
-    sheetBackdrop: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      backgroundColor: 'rgba(0, 0, 0, 0.42)',
-    },
-    sheet: {
-      maxHeight: '72%',
-      backgroundColor: semantic.bgSurface,
-      borderTopWidth: 2,
-      borderTopColor: color.navy,
-      borderTopLeftRadius: radius.sheet,
-      borderTopRightRadius: radius.sheet,
-    },
-    sheetHeader: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-      padding: 18,
-    },
-    sheetTitle: {
-      flex: 1,
-      fontSize: fontSize('xl'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    sheetCloseButton: {
-      minHeight: hit.mobileCompact,
-      paddingHorizontal: 16,
-      borderWidth: 1.5,
-      borderColor: color.grey400,
-      borderRadius: radius.mobileContainer,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    sheetCloseButtonText: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    sheetItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-      marginHorizontal: 16,
-      marginBottom: 12,
-      borderWidth: 1.5,
-      borderColor: semantic.border,
-      borderRadius: radius.mobileContainer,
-      padding: 16,
-    },
-    sheetItemActive: {
-      borderColor: color.navy,
-      backgroundColor: color.navySoft,
-    },
-    sheetItemTextWrap: {
-      flex: 1,
-      minWidth: 0,
-    },
-    sheetItemName: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    sheetItemMeta: {
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('regular'),
-      marginTop: 4,
-      color: color.grey600,
-    },
-    sheetItemMark: {
-      flexShrink: 0,
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('bold'),
-      color: color.navyDeep,
-    },
-    headerTopRow: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      gap: 10,
-    },
-    welfareName: {
-      flex: 1,
-      fontSize: fontSize('xxl'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    staffTag: {
-      paddingHorizontal: 10,
-      paddingVertical: 6,
-      borderRadius: radius.label,
-      backgroundColor: color.navy,
-    },
-    staffTagText: {
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey0,
-    },
-    badgeRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 9,
-      marginTop: 10,
-    },
-    confirmedTag: {
-      paddingHorizontal: 9,
-      paddingVertical: 4,
-      borderRadius: radius.label,
-      backgroundColor: semantic.stateOkBg,
-    },
-    confirmedTagText: {
-      fontSize: fontSize('caption'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.stateOkFg,
-    },
-    roleName: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('semibold'),
-      color: color.grey700,
-    },
-    statRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-      marginTop: 18,
-      marginHorizontal: -18,
-      paddingHorizontal: 18,
-      paddingVertical: 14,
-      borderTopWidth: 1,
-      borderTopColor: semantic.divider,
-    },
-    statText: {
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('semibold'),
-      color: color.grey700,
-    },
-    statValue: {
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    statDivider: {
-      width: 1,
-      height: 14,
-      backgroundColor: color.grey300,
-    },
-    mealBanner: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-      paddingHorizontal: 18,
-      paddingVertical: 16,
-      backgroundColor: color.brown,
-    },
-    mealBannerLabel: {
-      flexShrink: 0,
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('bold'),
-      color: 'rgba(255,255,255,0.82)',
-    },
-    mealBannerValue: {
-      flexShrink: 1,
-      flexGrow: 1,
-      minWidth: 0,
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: color.grey0,
-    },
-    mealBannerChevron: {
-      flexShrink: 0,
-      fontSize: fontSize('xxl'),
-      color: color.grey0,
-    },
-    joinMoreWrap: {
-      paddingHorizontal: 16,
-      paddingTop: 16,
-      paddingBottom: 6,
-    },
-    joinMoreButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 14,
-      minHeight: hit.mobileLarge,
-      paddingHorizontal: 18,
-      backgroundColor: semantic.bgSurface,
-      borderWidth: 1.5,
-      borderColor: semantic.border,
-      borderRadius: radius.mobileContainer,
-    },
-    joinMoreTextWrap: {
-      flex: 1,
-    },
-    joinMoreTitle: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textPrimary,
-    },
-    joinMoreDesc: {
-      fontSize: fontSize('sm'),
-      fontFamily: fontFamily('regular'),
-      marginTop: 3,
-      color: color.grey600,
-    },
-    joinMoreChevron: {
-      fontSize: fontSize('xxl'),
-      color: color.grey500,
     },
     sectionHeaderRow: {
       flexDirection: 'row',
@@ -482,40 +194,5 @@ const centerContentStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =
       fontFamily: fontFamily('regular'),
       lineHeight: fontSize('sm') * 1.7,
       color: color.grey600,
-    },
-    pausedCard: {
-      margin: 18,
-      padding: 20,
-      borderWidth: 1.5,
-      borderColor: color.alertLine,
-      borderTopWidth: 7,
-      borderRadius: radius.mobileContainer,
-      backgroundColor: color.alertTint,
-    },
-    pausedTitle: {
-      fontSize: fontSize('xl'),
-      fontFamily: fontFamily('bold'),
-      lineHeight: fontSize('xl') * 1.4,
-      color: color.alertText,
-    },
-    pausedBody: {
-      fontSize: fontSize('base'),
-      fontFamily: fontFamily('regular'),
-      lineHeight: fontSize('base') * 1.7,
-      marginTop: 12,
-      color: color.grey700,
-    },
-    pausedCallButton: {
-      marginHorizontal: 18,
-      minHeight: hit.mobileLarge,
-      borderRadius: radius.mobileButton,
-      backgroundColor: semantic.urgent,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    pausedCallButtonText: {
-      fontSize: fontSize('lg'),
-      fontFamily: fontFamily('bold'),
-      color: semantic.textOnDark,
     },
   });

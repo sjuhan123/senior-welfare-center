@@ -1,19 +1,11 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, { Line } from 'react-native-svg';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { LostItemData } from '@common/shared';
-import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
+import useStyles, { type StyleFactoryArgs } from '../../../../hooks/styles/useStyles';
+import DashedDivider from './DashedDivider';
 
 const STEP = 3;
-
-// RN의 borderStyle:'dashed'는 한쪽 변만 줄 때(borderBottomWidth) iOS에서 아예 안 그려지는
-// 경우가 있어서, 점선 구분선은 SVG로 직접 그린다.
-const DashedDivider = () => (
-  <Svg height={1} width="100%">
-    <Line x1="0" y1="0.5" x2="100%" y2="0.5" stroke={color.grey400} strokeWidth={1} strokeDasharray="5,5" />
-  </Svg>
-);
 
 const CenterLostItemList = ({ lostItems }: { lostItems: LostItemData[] }) => {
   const [limit, setLimit] = useState(STEP);

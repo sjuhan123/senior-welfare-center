@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Alert, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { color, semantic, radius, hit } from '@common/shared';
 import type { CourseData, MembershipData, MyEnrollmentEntry } from '@common/shared';
-import useApplyEnrollment from '../../hooks/api/course/useApplyEnrollment';
-import useCancelEnrollment from '../../hooks/api/course/useCancelEnrollment';
-import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
-import { formatSchedule, getCourseCardState, type CourseCardState } from './centerDisplay';
+import useApplyEnrollment from '../../../hooks/api/course/useApplyEnrollment';
+import useCancelEnrollment from '../../../hooks/api/course/useCancelEnrollment';
+import useStyles, { type StyleFactoryArgs } from '../../../hooks/styles/useStyles';
+import { formatSchedule, getCourseCardState, type CourseCardState } from '../centerDisplay';
 
 const INITIAL_LIMIT = 4;
 const STEP = 5;
