@@ -10,12 +10,12 @@ import useGetRoomMessages from '../../hooks/api/room/useGetRoomMessages';
 import useSendNotice from '../../hooks/api/room/useSendNotice';
 import useHideMessage from '../../hooks/api/room/useHideMessage';
 import useComposeBarKeyboard, { COMPOSE_BAR_HEIGHT } from '../../hooks/keyboard/useComposeBarKeyboard';
-import { presignPhotoUpload } from '../../hooks/api/room/usePresignPhotoUpload';
+import { uploadPhotoToRoom } from '../../hooks/api/room/usePresignPhotoUpload';
 import useStyles, { type StyleFactoryArgs } from '../../hooks/styles/useStyles';
 import type { RootStackParamList } from '../../router';
-import { dayKey } from '../Chat/chatDisplay';
-import MessageBubble from '../Chat/MessageBubble';
-import ComposeBar, { type SelectedPhoto } from '../Chat/ComposeBar';
+import { dayKey } from '../../features/chat/chatDisplay';
+import MessageBubble from '../../features/chat/MessageBubble';
+import ComposeBar, { type SelectedPhoto } from '../../features/chat/ComposeBar';
 
 const NoticeRoom = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -37,19 +37,7 @@ const NoticeRoom = () => {
 
   /** 사진은 presigned URL로 S3에 먼저 업로드한 뒤, 완료된 URL만 메시지에 실어 보냄. 46. 메시지 사진 첨부 참고. */
   const uploadPhotos = async (): Promise<string[]> => {
-    return Promise.all(
-      photos.map(async photo => {
-        const presignRes = await presignPhotoUpload(welfareId, roomId, photo.contentType);
-        const { uploadUrl, publicUrl } = presignRes.data;
-        const fileBlob = await (await fetch(photo.uri)).blob();
-        const uploadRes = await fetch(uploadUrl, { method: 'PUT', headers: { 'Content-Type': photo.contentType }, body: fileBlob });
-        if (!uploadRes.ok) {
-          const body = await uploadRes.text();
-          throw new Error(`S3 업로드 실패 (${uploadRes.status}): ${body}`);
-        }
-        return publicUrl;
-      }),
-    );
+    return Promise.all(photos.map(photo => uploadPhotoToRoom(welfareId, roomId, photo)));
   };
 
   const handleSend = () => {

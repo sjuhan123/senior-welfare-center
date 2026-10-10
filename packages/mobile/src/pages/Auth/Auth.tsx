@@ -5,7 +5,9 @@ import { useSetAtom } from 'jotai';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { color, semantic, radius, hit } from '@common/shared';
-import appIcon from '../../../assets/icon.png';
+import startIllust from '../../../assets/start-illust.png';
+import kakaoSymbol from '../../../assets/kakao-symbol.png';
+import AuthLogo from './components/AuthLogo';
 import useKakaoLogin from '../../hooks/auth/useKakaoLogin';
 import { postAuthKakao } from '../../hooks/api/auth/usePostAuthKakao';
 import { postAuthDevLogin } from '../../hooks/api/auth/usePostAuthDevLogin';
@@ -19,7 +21,7 @@ import type { RootStackParamList } from '../../router';
 
 // 카카오 로그인 버튼의 공식 브랜드 색상(우리 디자인 토큰과는 무관, 카카오 자체 규정값)
 const KAKAO_YELLOW = '#FEE500';
-const KAKAO_TEXT = '#191919';
+const KAKAO_TEXT = '#272403';
 
 /**
  * 버튼 onPress
@@ -90,22 +92,22 @@ const Auth = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <AuthLogo size={30} />
+        <Text style={styles.headerWordmark}>우리 복지관</Text>
+      </View>
       <View style={styles.content}>
-        <Image source={appIcon} style={styles.logo} />
-        <Text style={styles.title}>우리복지관</Text>
-        <Text style={styles.subtitle}>복지관 소식과 강좌 신청을{'\n'}한곳에서 보실 수 있습니다.</Text>
-        <View style={styles.infoBox}>
-          <Text style={styles.infoBoxText}>
-            쓰시던 카카오 계정으로 시작합니다.{'\n'}
-            <Text style={styles.infoBoxBold}>이름은 카카오에 있는 이름을 그대로 씁니다.</Text>
-            {'\n'}따로 적으실 것은 없습니다.
-          </Text>
-        </View>
+        <Image source={startIllust} style={styles.illust} resizeMode="contain" />
+        <Text style={styles.tagline}>매일 가까이, 든든하게</Text>
+        <Text style={styles.title}>우리 복지관에{'\n'}오신 걸 환영해요</Text>
+        <Text style={styles.subtitle}>복지관 소식과 프로그램을{'\n'}쉽고 편하게 만나보세요.</Text>
       </View>
       <View style={styles.buttonGroup}>
         <Pressable style={styles.primaryButton} onPress={handlePressButton} disabled={status === 'loading'}>
-          <Text style={styles.primaryButtonText}>{status === 'loading' ? '로그인 중...' : '카카오 계정으로 시작하기'}</Text>
+          {status !== 'loading' && <Image source={kakaoSymbol} style={styles.primaryButtonIcon} resizeMode="contain" />}
+          <Text style={styles.primaryButtonText}>{status === 'loading' ? '로그인 중...' : '카카오로 시작하기'}</Text>
         </Pressable>
+        <Text style={styles.caption}>카카오 계정으로 간편하게 시작할 수 있어요</Text>
         {__DEV__ && (
           <Pressable style={styles.devButton} onPress={handlePressDevLoginButton} disabled={status === 'loading'}>
             <Text style={styles.devButtonText}>테스트 계정으로 로그인 (개발용)</Text>
@@ -121,48 +123,51 @@ const authStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: color.grey0,
+      backgroundColor: color.brownTint,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      paddingHorizontal: 24,
+      paddingTop: 12,
+    },
+    headerWordmark: {
+      fontSize: fontSize('lg'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.actionBg,
     },
     content: {
       flex: 1,
+      alignItems: 'center',
       justifyContent: 'center',
       paddingHorizontal: 24,
-      paddingVertical: 32,
     },
-    logo: {
-      width: 82,
-      height: 82,
-      borderRadius: 8,
+    illust: {
+      width: 240,
+      height: 208,
+    },
+    tagline: {
+      fontSize: fontSize('md'),
+      fontFamily: fontFamily('bold'),
+      color: semantic.urgent,
+      marginTop: 22,
     },
     title: {
       fontSize: fontSize('display'),
       fontFamily: fontFamily('bold'),
-      marginTop: 24,
+      lineHeight: fontSize('display') * 1.3,
+      textAlign: 'center',
+      marginTop: 8,
       color: semantic.textPrimary,
     },
     subtitle: {
       fontSize: fontSize('lg'),
       fontFamily: fontFamily('semibold'),
       lineHeight: fontSize('lg') * 1.6,
-      marginTop: 12,
+      textAlign: 'center',
+      marginTop: 14,
       color: semantic.textSecondary,
-    },
-    infoBox: {
-      marginTop: 26,
-      padding: 18,
-      backgroundColor: color.grey50,
-      borderWidth: 1,
-      borderColor: semantic.border,
-      borderRadius: radius.mobileContainer,
-    },
-    infoBoxText: {
-      fontSize: fontSize('md'),
-      fontFamily: fontFamily('regular'),
-      lineHeight: fontSize('md') * 1.7,
-      color: semantic.textSecondary,
-    },
-    infoBoxBold: {
-      fontFamily: fontFamily('bold'),
     },
     buttonGroup: {
       paddingHorizontal: 20,
@@ -170,16 +175,33 @@ const authStyleFactory = ({ fontSize, fontFamily }: StyleFactoryArgs) =>
       gap: 12,
     },
     primaryButton: {
-      minHeight: hit.mobileLarge,
-      borderRadius: radius.mobileButton,
+      flexDirection: 'row',
+      gap: 12,
+      minHeight: 80,
+      borderRadius: 20,
       backgroundColor: KAKAO_YELLOW,
       alignItems: 'center',
       justifyContent: 'center',
+      shadowColor: '#c9a821',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.16,
+      shadowRadius: 18,
+      elevation: 4,
+    },
+    primaryButtonIcon: {
+      width: 26,
+      height: 28,
     },
     primaryButtonText: {
       fontSize: fontSize('xxl'),
       fontFamily: fontFamily('bold'),
       color: KAKAO_TEXT,
+    },
+    caption: {
+      fontSize: fontSize('sm'),
+      fontFamily: fontFamily('semibold'),
+      color: semantic.textSecondary,
+      textAlign: 'center',
     },
     devButton: {
       minHeight: hit.mobileLarge,
