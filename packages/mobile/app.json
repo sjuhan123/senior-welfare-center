@@ -16,7 +16,7 @@
       "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#2d3d5a"
+        "backgroundColor": "#F9F4EC"
       }
     },
     "web": {
