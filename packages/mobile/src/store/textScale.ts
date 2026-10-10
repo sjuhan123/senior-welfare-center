@@ -4,8 +4,4 @@ import { scale } from '@common/shared';
 
 const storage = createJSONStorage<number>(() => AsyncStorage);
 
-export const textScaleAtom = atomWithStorage<number>(
-  'textScale',
-  scale.mobile.userScale[0],
-  storage,
-);
+export const textScaleAtom = atomWithStorage<number>('textScale', scale.mobile.userScale[0], storage);
