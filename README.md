@@ -1,4 +1,4 @@
-# 노인복지관 프로젝트
+# 우리복지관 프로젝트
 
 > v1(2023.11 ~ 2024.02, 서울 노인복지관 정보 제공 웹앱) 리드미는 [`v1-final` 태그](https://github.com/sjuhan123/senior-welfare-center/blob/v1-final/README.md)에서 볼 수 있습니다.
 
