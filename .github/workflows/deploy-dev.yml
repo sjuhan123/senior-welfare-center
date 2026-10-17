@@ -35,6 +35,8 @@ jobs:
         env:
           VITE_KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           VITE_KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN_ADMIN }}
+          VITE_SENTRY_ENVIRONMENT: development
 
       - name: Package admin build
         run: tar -czf admin-dist.tar.gz -C packages/admin/dist .
@@ -91,7 +93,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_KEY }}
-          envs: MONGODB_URL,JWT_SECRET_KEY,KAKAO_REST_API_KEY,KAKAO_REDIRECT_URI,KAKAO_CLIENT_SECRET
+          envs: MONGODB_URL,JWT_SECRET_KEY,KAKAO_REST_API_KEY,KAKAO_REDIRECT_URI,KAKAO_CLIENT_SECRET,SENTRY_DSN
           script: |
             chmod +x /tmp/deploy-api.sh
             /tmp/deploy-api.sh dev ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}:dev-${{ github.sha }} 8010 8011
@@ -101,3 +103,4 @@ jobs:
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
           KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_API }}

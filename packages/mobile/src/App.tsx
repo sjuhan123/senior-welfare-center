@@ -14,6 +14,22 @@ import { getMemberships } from './hooks/api/membership/useGetMemberships';
 import { isUserTokenValidAtom } from './store/auth';
 import { userInfoAtom } from './store/user';
 import { QUERY_KEYS } from './constant/queryKeys';
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || '',
+  enabled: !__DEV__,
+  environment: __DEV__ ? 'development' : 'production',
+
+  // Enable Logs
+  enableLogs: true,
+
+  integrations: [Sentry.feedbackIntegration()],
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
 
 const App = () => {
   const [fontsLoaded] = useFonts(FONT_ASSETS);
@@ -75,4 +91,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Sentry.wrap(App);

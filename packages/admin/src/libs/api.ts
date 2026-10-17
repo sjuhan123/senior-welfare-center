@@ -1,4 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import * as Sentry from '@sentry/react';
 
 import { ApiException } from '../exceptions/apiException';
 import { END_POINT } from '../constant/endpoint';
@@ -59,6 +60,7 @@ const interceptorResponseRejected = async (error: AxiosError<{ message?: string 
   const message = error.response?.data?.message ?? error.message;
 
   if (status !== 401 || !originalRequest) {
+    Sentry.captureException(error);
     return Promise.reject(new ApiException(message, status));
   }
 
@@ -74,6 +76,8 @@ const interceptorResponseRejected = async (error: AxiosError<{ message?: string 
   } catch (refreshError) {
     if (isAuthFailure(refreshError)) {
       forceLogout();
+    } else {
+      Sentry.captureException(refreshError);
     }
     return Promise.reject(new ApiException(message, status));
   }

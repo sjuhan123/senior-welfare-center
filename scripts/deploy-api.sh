@@ -48,6 +48,7 @@ docker run -d \
   -e KAKAO_REST_API_KEY="$KAKAO_REST_API_KEY" \
   -e KAKAO_REDIRECT_URI="$KAKAO_REDIRECT_URI" \
   -e KAKAO_CLIENT_SECRET="$KAKAO_CLIENT_SECRET" \
+  -e SENTRY_DSN="$SENTRY_DSN" \
   "$IMAGE"
 
 echo "헬스체크 대기 중..."
