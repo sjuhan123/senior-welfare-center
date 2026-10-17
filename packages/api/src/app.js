@@ -4,6 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import mongoSanitize from 'express-mongo-sanitize';
+import * as Sentry from '@sentry/node';
 
 import api from './routes/api.js';
 
@@ -35,5 +36,12 @@ app.use(mongoSanitize());
 app.get('/health', (req, res) => res.status(200).send('ok'));
 
 app.use('/api', api);
+
+Sentry.setupExpressErrorHandler(app);
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ message: err.message || '서버 오류가 발생했습니다' });
+});
 
 export default app;
