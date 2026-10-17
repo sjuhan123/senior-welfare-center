@@ -13,6 +13,7 @@
     "@common/shared": "workspace:^",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@sentry/react": "^11.8.0",
     "@tanstack/react-query": "^5.102.8",
     "axios": "^1.20.0",
     "qrcode.react": "^4.2.0",
