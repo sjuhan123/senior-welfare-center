@@ -18,6 +18,7 @@
     "lint": "eslint ./packages --ext .ts,.tsx,.js,.jsx --cache --fix",
     "mobile:start": "yarn workspace senior-welfare-center-mobile start",
     "mobile:android": "yarn workspace senior-welfare-center-mobile android",
+    "mobile:android:usb": "yarn workspace senior-welfare-center-mobile android:usb",
     "mobile:ios": "yarn workspace senior-welfare-center-mobile ios",
     "mobile:web": "yarn workspace senior-welfare-center-mobile web",
     "admin:dev": "yarn workspace senior-welfare-center-admin dev",
