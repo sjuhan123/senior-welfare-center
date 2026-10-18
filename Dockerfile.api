@@ -1,14 +1,13 @@
 # Dockerfile for api project
 
-# Base image
-FROM node:lts-alpine AS builder
+# ---- 의존성 설치 단계 ----
+FROM node:lts-alpine AS deps
 
-# Set working directory
 WORKDIR /app
 
 # Copies everything over to Docker environment. Yarn 워크스페이스는 모든 패키지의
 # package.json이 있어야 의존성 해석이 정확해서, 루트 package.json/yarn.lock만
-# 먼저 복사하는 방식은 안 씀(그러면 yarn install --immutable이 "lockfile이
+# 먼저 복사하는 방식은 안 씀(그러면 yarn install이 "lockfile이
 # 바뀌어야 한다"며 실패함)
 COPY . ./
 
@@ -18,11 +17,25 @@ COPY . ./
 RUN npm install -g corepack \
     && corepack enable
 
-# Install project dependencies
-RUN yarn install --immutable
+# api 워크스페이스가 실제로 필요로 하는 프로덕션 의존성만 설치. mobile(Expo/RN)·
+# admin(Vite)의 무거운 의존성까지 전부 설치되던 게 블루그린 배포 중 EC2 디스크
+# 부족으로 이어져서, api만 focus 설치하도록 변경
+RUN yarn workspaces focus senior-welfare-center-api --production
+
+# ---- 실행 단계 ----
+FROM node:lts-alpine AS runner
+
+WORKDIR /app
+
+# deps 단계에서 설치된 node_modules와 api 소스만 가져옴. mobile/admin 소스와
+# 그 의존성은 최종 이미지에 들어가지 않음
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/packages/api ./packages/api
 
 # Expose port
 EXPOSE 8000
 
-# Command to start the server when the container starts
-CMD ["yarn", "api:start"]
+# Command to start the server when the container starts. yarn/corepack 없이
+# node로 직접 실행(최종 이미지에 yarn 툴체인이 필요 없음)
+CMD ["node", "packages/api/src/server.js"]
