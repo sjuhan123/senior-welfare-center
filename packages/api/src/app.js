@@ -7,6 +7,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import * as Sentry from '@sentry/node';
 
 import api from './routes/api.js';
+import { CORS_ORIGINS } from './utils/corsOrigins.js';
 
 const app = express();
 
@@ -15,12 +16,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'http://100.79.188.45:5173', // 아이패드(Tailscale) 원격 개발용 맥 Tailscale IP
-      'https://dev.uri-bokji.com',
-      'https://uri-bokji.com',
-    ],
+    origin: CORS_ORIGINS,
     credentials: true,
   }),
 );
